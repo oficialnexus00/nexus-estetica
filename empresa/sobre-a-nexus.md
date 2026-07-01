@@ -6,19 +6,21 @@
 |---|---|
 | Razão social | NEXUS INTELIGÊNCIA ARTIFICIAL LTDA |
 | CNPJ | 59.468.222/0001-86 |
-| Sede | Balneário Camboriú/SC *(confirmar — ver pendências)* |
+| Sede | Balneário Camboriú/SC |
 | Operação | 100% remota |
 | Atendimento | Nacional (Brasil) |
 | Segmento | Healthtech B2B — automação com IA |
 | Nicho | Clínicas de saúde e estética |
-| Ano de fundação | *Pendente de confirmação do Kaian* |
+| Fundação | 1º de julho de 2025 |
+| Fundador | Kaian Silva Motta |
 
 ## O que a NEXUS é
 
-Uma **healthtech B2B brasileira** que usa inteligência artificial para tirar o dono
-da clínica do operacional de **atendimento e vendas**. Em vez de o gestor viver
-respondendo WhatsApp e correndo atrás de lead, a NEXUS coloca um agente de IA e uma
-automação completa pra rodar isso no lugar dele.
+Uma **healthtech B2B brasileira**, fundada em **1º de julho de 2025** por **Kaian
+Silva Motta**, que usa inteligência artificial para tirar o dono da clínica do
+operacional de **atendimento e vendas**. Em vez de o gestor viver respondendo
+WhatsApp e correndo atrás de lead, a NEXUS coloca um agente de IA e uma automação
+completa pra rodar isso no lugar dele.
 
 ## O que a NEXUS entrega
 

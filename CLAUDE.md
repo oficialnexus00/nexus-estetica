@@ -10,6 +10,7 @@
 ## Quem é a empresa
 
 **NEXUS INTELIGÊNCIA ARTIFICIAL LTDA** — CNPJ 59.468.222/0001-86.
+Fundada em **1º de julho de 2025** por Kaian Silva Motta.
 Healthtech B2B brasileira de **automação com IA para clínicas de saúde e estética**.
 Sede em Balneário Camboriú/SC. Operação 100% remota, atendimento nacional.
 Hoje atende **50+ clínicas**.
@@ -69,7 +70,7 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 
 ## Pendências que dependem do Kaian
 
-- [ ] Ano de fundação da NEXUS
-- [ ] Arquivo do logo
-- [ ] Aprovar missão/visão/valores (rascunho em `empresa/missao-visao-valores.md`)
-- [ ] Confirmar sede: contrato diz Balneário Camboriú/SC (memória antiga = Videira/SC)
+- [ ] Arquivo do logo (Kaian vai entregar)
+- [x] ~~Ano de fundação da NEXUS~~ → **1º de julho de 2025**
+- [x] ~~Aprovar missão/visão/valores~~ → **aprovado** (`empresa/missao-visao-valores.md`)
+- [x] ~~Confirmar sede~~ → **Balneário Camboriú/SC** (contrato confirmado)

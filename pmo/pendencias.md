@@ -5,16 +5,19 @@ atualize o arquivo de detalhamento correspondente + o `CLAUDE.md`.
 
 ## Aberto
 
-- [ ] **Ano de fundação da NEXUS**
-  → atualizar `empresa/sobre-a-nexus.md` e `CLAUDE.md`.
 - [ ] **Arquivo do logo**
-  → adicionar ao repo e referenciar em `empresa/identidade-visual.md`.
-- [ ] **Aprovar missão/visão/valores**
-  → rascunho em `empresa/missao-visao-valores.md`. Revisar, ajustar tom, remover aviso
-  de rascunho.
-- [ ] **Confirmar sede**
-  → contrato diz **Balneário Camboriú/SC**; memória antiga = **Videira/SC**. Confirmar
-  o correto e ajustar `empresa/sobre-a-nexus.md` e `CLAUDE.md`.
+  → adicionar ao repo e referenciar em `empresa/identidade-visual.md`. Kaian vai
+  entregar (está na pasta Nexus > Nexus > logo).
+
+## Resolvido
+
+- [x] **Ano de fundação da NEXUS** → **1º de julho de 2025**. Atualizado em
+  `empresa/sobre-a-nexus.md` e `CLAUDE.md`.
+- [x] **Aprovar missão/visão/valores** → **aprovado** em 01/07/2025.
+  `empresa/missao-visao-valores.md` agora é oficial.
+- [x] **Confirmar sede** → **Balneário Camboriú/SC** (contrato confirmado; a memória
+  de Videira/SC estava desatualizada). Atualizado em `empresa/sobre-a-nexus.md` e
+  `CLAUDE.md`.
 
 ## Complementares (levantadas na estruturação)
 

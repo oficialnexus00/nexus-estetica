@@ -1,8 +1,7 @@
-# Missão, Visão e Valores — RASCUNHO
+# Missão, Visão e Valores
 
-> ⚠️ **RASCUNHO — aguarda aprovação do Kaian.**
-> Construído a partir do contexto do negócio (`CLAUDE.md`). Ajustar tom e conteúdo
-> antes de tornar oficial.
+> ✅ **Aprovado pelo Kaian em 1º de julho de 2025.**
+> Oficial. Alterações exigem nova aprovação do Kaian.
 
 ## Missão
 
@@ -28,10 +27,3 @@ mercado quando uma clínica decide profissionalizar seu atendimento e suas venda
 5. **Cliente ativado, não só vendido.** Sucesso é a clínica usando e colhendo
    resultado — a porta de entrada é ativação assistida, nunca desconto.
 
----
-
-### Como aprovar
-
-Kaian: revise, corte o que não é a cara da NEXUS e ajuste o tom. Quando aprovar,
-remova o aviso de rascunho do topo e marque o item correspondente em
-[`pmo/pendencias.md`](../pmo/pendencias.md).

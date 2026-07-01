@@ -1,0 +1,75 @@
+# CLAUDE.md — Contexto-mestre da NEXUS
+
+> Este arquivo é o cérebro do repositório. Ele é lido pelo Claude Code no início de
+> cada sessão e concentra tudo que a IA precisa saber pra agir como sócio do Kaian.
+> Os arquivos das pastas (`empresa/`, `produto/`, `comercial/`, `stack/`, `pmo/`)
+> são o detalhamento. Quando algo mudar, atualize aqui primeiro.
+
+---
+
+## Quem é a empresa
+
+**NEXUS INTELIGÊNCIA ARTIFICIAL LTDA** — CNPJ 59.468.222/0001-86.
+Healthtech B2B brasileira de **automação com IA para clínicas de saúde e estética**.
+Sede em Balneário Camboriú/SC. Operação 100% remota, atendimento nacional.
+Hoje atende **50+ clínicas**.
+
+O que a NEXUS entrega: agente comercial de IA, automação de WhatsApp, CRM próprio
+(`app.nexushealth.com.br`) e gestão de tráfego pago — o pacote que tira o dono da
+clínica do operacional de atendimento e vendas.
+
+## Quem é o fundador
+
+**Kaian Silva Motta** — CEO e fundador. Chamar de **Kaian**.
+No digital desde 2018 (tráfego pago + funis). Direto, rápido, hands-on.
+Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
+
+## Equipe (4 pessoas)
+
+- **Kaian** — CEO, estratégia, ads, vendas de linha de frente
+- **Jennifer** — outbound / qualificação / financeiro
+- **Cayan** — demos / fechamento
+- **Marco** — backend / infraestrutura / Supabase
+
+## Stack técnico
+
+- **Frontend/CRM:** Lovable.dev → `app.nexushealth.com.br`
+- **Backend:** Supabase (Edge Functions, Postgres)
+- **Agentes de IA:** GPTMaker (Bia = comercial, Aurora = canal cliente)
+- **Automação:** n8n (conta do Kaian), Apify (scraping Meta Ad Library)
+- **Voz:** ElevenLabs (tier Creator, modelos Flash/Turbo)
+- **Ads:** Meta Ads Manager (objetivo Click-to-WhatsApp)
+- **Gestão:** ClickUp
+- **Pagamento:** PagTrust
+- **Linguagem:** React/TypeScript, Supabase Edge Functions
+
+## Identidade visual
+
+- Cor principal: **#00BFA5** (teal)
+- Tipografia: **Inter**
+- Estética: minimalista, dark-mode (estilo Apple/Linear)
+
+## Como o Claude deve trabalhar
+
+- Extrair estrutura de ideias faladas soltas e devolver entregável pronto pra colar,
+  não orientação conceitual.
+- Português do Brasil, tom direto.
+- PMO: prioridade P0–P3, dono nomeado, KPI.
+- Lovable: Kaian manda print → Claude devolve **um prompt preciso** pro Lovable.
+- ClickUp: escrita exige aprovar o "Permitir" na UI — avisar **antes** de responder.
+
+## Princípios de negócio já validados
+
+- Porta de entrada é **"ativação assistida"**, nunca "desconto".
+- Agente de IA fica **fora** do trial de 7 dias (risco operacional).
+- Criativo humanizado/coloquial > locução engessada.
+- Depoimento real de cliente > narração do fundador.
+- Preço só a partir da 4ª mensagem no fluxo da Bia; sem perguntas empilhadas; ✅ no
+  lugar de bullet no WhatsApp.
+
+## Pendências que dependem do Kaian
+
+- [ ] Ano de fundação da NEXUS
+- [ ] Arquivo do logo
+- [ ] Aprovar missão/visão/valores (rascunho em `empresa/missao-visao-valores.md`)
+- [ ] Confirmar sede: contrato diz Balneário Camboriú/SC (memória antiga = Videira/SC)

@@ -70,7 +70,8 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 
 ## Pendências que dependem do Kaian
 
-- [ ] Arquivo do logo (Kaian vai entregar)
+- [x] ~~Arquivo do logo~~ → recriado em vetor em `empresa/logo/` (falta só o
+  arquivo-fonte oficial, se houver)
 - [x] ~~Ano de fundação da NEXUS~~ → **1º de julho de 2025**
 - [x] ~~Aprovar missão/visão/valores~~ → **aprovado** (`empresa/missao-visao-valores.md`)
 - [x] ~~Confirmar sede~~ → **Balneário Camboriú/SC** (contrato confirmado)

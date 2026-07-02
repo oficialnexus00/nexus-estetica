@@ -5,11 +5,14 @@ atualize o arquivo de detalhamento correspondente + o `CLAUDE.md`.
 
 ## Aberto
 
-- [ ] **Arquivo do logo**
-  → adicionar ao repo e referenciar em `empresa/identidade-visual.md`. Kaian vai
-  entregar (está na pasta Nexus > Nexus > logo).
+- [ ] Paleta de cores de apoio (neutros dark-mode, estados de UI).
+- [ ] Pesos da tipografia Inter em uso.
 
 ## Resolvido
+
+- [x] **Arquivo do logo** → recriado em vetor (SVG) + PNG em `empresa/logo/`, a partir
+  do logo enviado pelo Kaian. Referenciado em `empresa/identidade-visual.md`.
+  *(Adicionar arquivo-fonte oficial quando disponível.)*
 
 - [x] **Ano de fundação da NEXUS** → **1º de julho de 2025**. Atualizado em
   `empresa/sobre-a-nexus.md` e `CLAUDE.md`.
@@ -18,11 +21,6 @@ atualize o arquivo de detalhamento correspondente + o `CLAUDE.md`.
 - [x] **Confirmar sede** → **Balneário Camboriú/SC** (contrato confirmado; a memória
   de Videira/SC estava desatualizada). Atualizado em `empresa/sobre-a-nexus.md` e
   `CLAUDE.md`.
-
-## Complementares (levantadas na estruturação)
-
-- [ ] Paleta de cores de apoio (neutros dark-mode, estados de UI).
-- [ ] Pesos da tipografia Inter em uso.
 
 ---
 

@@ -15,6 +15,24 @@ parado**: os líderes são sistemas de gestão competentes, mas nenhum tem
 **IA comercial de verdade operando WhatsApp** — que é exatamente o músculo da
 NEXUS (Bia + automação + tráfego + 50+ clínicas de carteira).
 
+### A motivação de origem (Kaian)
+
+> **Os players atuais não liberam API aberta.** A NEXUS sente isso na operação:
+> não dá pra integrar a Bia, o n8n e as automações com o sistema que a clínica
+> já usa — os dados do paciente, da agenda e do orçamento ficam presos.
+> O software fechado é a estratégia de lock-in deles — e o teto de crescimento
+> da NEXUS.
+
+Duas consequências diretas:
+
+1. **Construir o próprio sistema remove o teto**: com a gestão dentro de casa,
+   a Bia deixa de ser "chatbot do lado de fora" e passa a operar com dado
+   completo (agenda real, orçamento real, histórico real).
+2. **API-first vira pilar de produto**: o sistema NEXUS nasce com API pública e
+   webhooks desde o MVP — exatamente o que os concorrentes se recusam a dar.
+   Vira diferencial de venda pra clínica moderna e pra todo o ecossistema
+   (integradores, agências, automações).
+
 **Posicionamento:** não vender "mais um sistema de gestão", e sim
 **"o sistema odontológico que enche e mantém a agenda cheia sozinho"** —
 gestão completa + motor comercial de IA embutido.
@@ -95,7 +113,9 @@ nativo. A NEXUS faz isso **hoje**, antes mesmo de ter o sistema.
   recepção, financeiro)
 - **LGPD para dado sensível de saúde** (desde o dia 1: criptografia,
   auditoria, consentimento, termos)
-- API pública e integrações (fase 3)
+- **API pública + webhooks desde o MVP** (pilar de produto — é a razão de
+  origem do sistema; ver seção 1). Bia, n8n e integrações de terceiros
+  consomem a mesma API.
 
 ## 5. Roadmap em fases
 

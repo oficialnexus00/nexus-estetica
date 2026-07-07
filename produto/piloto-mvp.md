@@ -28,23 +28,34 @@ como meio de financiamento e rodar a gestão no NEXUS.
 - Quando houver migração real de dados, ela é feita COM a clínica, com termo,
   direto pro ambiente de produção dela no NEXUS.
 
-## Escopo do piloto (o que ELE precisa pra largar a Capim no dia a dia)
+## Escopo do piloto — núcleo operacional (definido pelo Kaian)
 
-Baseado nas telas da Capim que ele usa:
+> Direção do Kaian: **"é só o operacional mesmo — agenda, financeiro, um dash,
+> paciente, essas coisas. BNPL esquece, não é da nossa alçada."**
+
+### v1 — o que entra (núcleo)
 
 1. **Agenda** por dentista/cadeira + confirmação automática via Bia (WhatsApp)
-2. **Pacientes** — cadastro, ficha clínica, anamnese com alertas de saúde
-3. **Odontograma** (permanente + decídua) com procedimentos por dente
-4. **Orçamentos** — plano de tratamento, aprovação, **follow-up automático da
-   Bia no orçamento não aprovado** (a killer feature, desde o dia 1)
-5. **Financeiro básico** — recebimentos, link de pagamento (PagTrust), repasse
-   simples por dentista
-6. **Relatórios** — produção, no-show, taxa de aprovação de orçamento
-7. **Importador** de pacientes/agenda (CSV) pra migração assistida
-8. **API + webhooks** desde o início (pilar NEXUS)
+2. **Pacientes** — cadastro, ficha do paciente, anamnese simples com alertas
+3. **Financeiro básico** — recebimentos, contas, link de pagamento (PagTrust),
+   repasse simples por dentista
+4. **Dashboard** — produção por dentista, no-show, agenda ocupada, recebido
+   no mês, origem do paciente
+5. **Orçamentos simples** + **follow-up automático da Bia no orçamento não
+   aprovado** (é operacional E é a killer feature — barato de incluir, paga o
+   piloto sozinho)
+6. **Importador CSV** de pacientes/agenda (migração assistida da Capim)
+7. **API + webhooks** desde o início (pilar NEXUS)
 
-Fora do piloto: BNPL/financiamento, convênios/TISS, estoque, multi-unidade,
-app do paciente.
+### v1.1 — logo depois (se os dentistas pedirem)
+
+- Odontograma (permanente + decídua)
+- Evolução clínica assinada / documentos
+
+### Fora do jogo (não é da nossa alçada)
+
+- ❌ **BNPL/financiamento** — a clínica mantém a Capim SÓ pra isso se quiser
+- ❌ Convênios/TISS, estoque, multi-unidade, app do paciente
 
 ## Custo de construir o piloto
 

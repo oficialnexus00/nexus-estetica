@@ -76,6 +76,28 @@ pra mais cara:
 **Regra de bolso:** 1 dentista → Ninsaúde. 2+ dentistas → Clinicorp (preço por
 clínica trava o custo e a API dá conta de paciente + agenda + agendamento).
 
+### ⚠️ Descoberta de campo: a "taxa de API" do Clinicorp
+
+Caso real (clínica da carteira, **6 profissionais**, jul/2026): o Clinicorp
+cobra **+R$ 100/mês para liberar o acesso à API**. A conta comparada:
+
+| Opção | Total/mês (6 profissionais) |
+|---|---|
+| Feegow (6 × R$ 129) | ~R$ 774 |
+| Clínica nas Nuvens (3 inclusos + extras) | R$ 600+ |
+| Ninsaúde (6 × ~R$ 79) | ~R$ 474 |
+| **Clinicorp + R$ 100 de API** | **~R$ 250–350 ← ainda o mais barato** |
+
+Conclusões:
+
+1. **Mesmo com o pedágio, Clinicorp segue sendo a ponte mais barata** pra
+   clínica com vários dentistas que precisa de API hoje.
+2. **"API como item de menu pago" é o retrato do mercado**: até quem "abre"
+   a API cobra pra abrir. Confirma a tese NEXUS — no nosso sistema, **API
+   inclusa em todos os planos** vira arma de posicionamento.
+3. Frase pronta pro pitch: *"Os outros cobram até pra deixar você acessar o
+   SEU próprio dado. No NEXUS, a API é sua, de graça, em qualquer plano."*
+
 ⚠️ E a leitura estratégica: se a clínica acha CARO pagar R$ 129–499/mês por
 gestão, ela é exatamente o ICP do sistema NEXUS — candidata a **beta fundadora**
 em vez de empurrá-la pra um concorrente.

@@ -60,6 +60,26 @@
 - Nenhuma documentação pública de API encontrada.
 - Automação limitada ao que eles mesmos oferecem (msg cobrada por envio).
 
+## Custo dos sistemas com API aberta (pra quem o Feegow pesa)
+
+Caso real: clínica da carteira achou o Feegow caro (R$ 129/**profissional**/mês
+— cresce a cada dentista). Alternativas com API documentada, da mais barata
+pra mais cara:
+
+| Sistema | Preço | Modelo | Observação |
+|---|---|---|---|
+| **Ninsaúde Apolo** | ~R$ 79/profissional/mês (referência 2019 — confirmar valor atual) | por profissional | Mais barato que Feegow no mesmo modelo; API OAuth2 |
+| **Clinicorp** | a partir de R$ 149,90/mês | **por clínica** | Com 2+ dentistas já fica mais barato que Feegow; api-docs público |
+| **Feegow** | R$ 129/profissional/mês | por profissional | Melhor API (200+ endpoints), mas caro pra clínica com vários dentistas |
+| **Clínica nas Nuvens** | ~R$ 499/mês (até 3 profissionais; extra por profissional adicional) | por clínica | Caro pra clínica pequena — só faz sentido pra estruturada |
+
+**Regra de bolso:** 1 dentista → Ninsaúde. 2+ dentistas → Clinicorp (preço por
+clínica trava o custo e a API dá conta de paciente + agenda + agendamento).
+
+⚠️ E a leitura estratégica: se a clínica acha CARO pagar R$ 129–499/mês por
+gestão, ela é exatamente o ICP do sistema NEXUS — candidata a **beta fundadora**
+em vez de empurrá-la pra um concorrente.
+
 ## O que isso significa pra estratégia
 
 1. **Curto prazo (antes do sistema próprio):** dá pra vender integração

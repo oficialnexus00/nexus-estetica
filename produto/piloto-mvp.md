@@ -85,15 +85,32 @@ n8n + PagTrust.
 - R$ 60–150 mil+. **Não recomendado**: o conhecimento do domínio (o ativo
   real) fica fora de casa.
 
-## Modelo com o design partner (não fazer de graça)
+## Modelo com o design partner (acordo desenhado — jul/2026)
 
-- Cliente fundador paga **preço de fundador travado** (ex: R$ 197–297/mês)
-  desde o beta — pagante valida de verdade; grátis só gera opinião educada.
-- Em troca: prioridade de feature, canal direto, condição vitalícia.
-- Com 6 profissionais, ele economiza vs qualquer alternativa (Feegow ~R$ 774,
-  Clinicorp + API ~R$ 250–350) e ganha a Bia dentro.
-- Piloto validado → replicar nas outras 4 clínicas do teste → **KPI Fase 1:
-  10 clínicas pagantes.**
+**Fato novo: Rodrigo tem DUAS clínicas** (a dele + a da esposa) → multi-tenant
+desde o dia 1, e a âncora de preço dobra a favor da NEXUS (Clinicorp com API
+nas 2 = ~R$ 500/mês).
+
+Estrutura proposta:
+
+1. **Proposta verbal agora** → confirmação do Rodrigo.
+2. **Semanas 1–2:** casca navegável no Lovable (agenda, paciente, dash com
+   dados fake). Custo R$ 0 (Supabase free).
+3. **Rodrigo vê a casca e confirma** → começa a pagar **R$ 140/mês** (cobre a
+   infra do beta — Kaian não desembolsa nada) e usa nas 2 clínicas.
+4. **Pós-validação:** mensalidade trava em **R$ 297/mês pelas 2 clínicas**,
+   preço de fundador vitalício (vs ~R$ 500 no mercado).
+
+Regras: ele nunca paga sem ver; a NEXUS nunca constrói pesado sem compromisso.
+Piloto validado → replicar nas outras 4 clínicas do teste → **KPI Fase 1: 10
+clínicas pagantes.**
+
+## Repositório do produto
+
+O sistema vive em repo próprio: **`nexus-odonto`** (Kaian cria no GitHub +
+sessão dedicada do Claude Code). Kit de kickoff pronto em
+[`kickoff-repo-sistema.md`](./kickoff-repo-sistema.md). Decisões de NEGÓCIO
+continuam registradas aqui; o código e docs técnicas vivem lá.
 
 ## Riscos específicos do piloto
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { clinics, db } from './data'
+import { supabase, MODO_DEMO } from './lib/supabase'
 import Dashboard from './views/Dashboard'
 import Agenda from './views/Agenda'
 import Pacientes from './views/Pacientes'
@@ -85,7 +86,12 @@ export default function App() {
             <span className="font-semibold text-ink">Patrícia ativa</span> — atendendo o WhatsApp
           </div>
         </div>
-        <div className="mt-3 text-[11px] text-ink-3">Piloto · dados fictícios</div>
+        <div className="mt-3 flex items-center justify-between">
+          <span className="text-[11px] text-ink-3">{MODO_DEMO ? 'Piloto · dados fictícios' : 'Sistema ativo'}</span>
+          {!MODO_DEMO && supabase && (
+            <button onClick={() => supabase?.auth.signOut()} className="text-[11px] text-ink-3 hover:text-ink">Sair</button>
+          )}
+        </div>
       </div>
     </div>
   )

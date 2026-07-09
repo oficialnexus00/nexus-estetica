@@ -99,8 +99,8 @@ export default function Dashboard({ data }: { data: Data }) {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
         <Tile label="Recebido no mês" value={fmt(k.recebidoMes)} hint="▲ 12% vs mês anterior" tone="ok" />
         <Tile label="Consultas hoje" value={String(k.consultasHoje)} hint="agenda 84% ocupada" />
-        <Tile label="No-show (30 dias)" value={`${k.noShow30d}%`} hint="▼ caiu 3,1 pts com a Bia" tone="ok" />
-        <Tile label="Orçamentos em aberto" value={fmt(k.orcAberto)} hint={`${k.orcAbertoQtd} propostas — Bia acompanhando`} tone="warn" />
+        <Tile label="No-show (30 dias)" value={`${k.noShow30d}%`} hint="▼ caiu 3,1 pts com a Patrícia" tone="ok" />
+        <Tile label="Orçamentos em aberto" value={fmt(k.orcAberto)} hint={`${k.orcAbertoQtd} propostas — Patrícia acompanhando`} tone="warn" />
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
@@ -113,11 +113,11 @@ export default function Dashboard({ data }: { data: Data }) {
           <LinhaRecebimentos serie={data.recebimentos} />
         </div>
 
-        {/* Bia feed */}
+        {/* Patrícia feed */}
         <div className="rounded-xl border border-line bg-surface-1 p-5 lg:col-span-2">
           <div className="mb-4 flex items-center gap-2">
             <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-brand" />
-            <h2 className="text-[14px] font-semibold">Bia em ação agora</h2>
+            <h2 className="text-[14px] font-semibold">Patrícia em ação agora</h2>
           </div>
           <div className="space-y-3">
             {data.biaFeed.map((f, i) => (
@@ -149,7 +149,7 @@ export default function Dashboard({ data }: { data: Data }) {
             <div className="h-full rounded-full bg-s1" style={{ width: `${data.kpis.taxaAprovacao}%` }} />
           </div>
           <div className="mt-4 rounded-lg border border-brand/25 bg-brand/8 px-3.5 py-3 text-[12.5px] leading-relaxed text-ink-2">
-            💡 A Bia recuperou <span className="font-semibold text-brand">{fmt(4800)}</span> em orçamentos parados nos últimos 30 dias.
+            💡 A Patrícia recuperou <span className="font-semibold text-brand">{fmt(4800)}</span> em orçamentos parados nos últimos 30 dias.
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ const CONVERSAS: Conversa[] = [
     id: 'c1', nome: 'Carlos Lima', ini: 'CL', tag: 'Follow-up orçamento',
     tagCls: 'bg-brand/15 text-brand', previa: 'Fechado! Pode marcar pra terça 👍',
     msgs: [
-      { de: 'bia', hora: '18:40', texto: 'Oi Carlos, tudo bem? 😊 Aqui é a Bia, da Clínica Rodrigo Odonto. Passando pra saber se você conseguiu pensar no seu tratamento de canal + coroa que o Dr. Felipe passou.' },
+      { de: 'bia', hora: '18:40', texto: 'Oi Carlos, tudo bem? 😊 Aqui é a Patrícia, do Instituto Rodrigo Couto. Passando pra saber se você conseguiu pensar no seu tratamento de canal + coroa que o Dr. Felipe passou.' },
       { de: 'paciente', hora: '19:02', texto: 'oi, tava sim mas achei o valor um pouco puxado' },
       { de: 'bia', hora: '19:03', texto: 'Entendo perfeitamente! O valor total é R$ 2.350, mas a gente parcela em até 10x no cartão — daria R$ 235/mês. E olha, adiar canal costuma sair mais caro lá na frente, viu? 🦷' },
       { de: 'bia', hora: '19:03', texto: 'Quer que eu já deixe reservado um horário essa semana pra você conversar sem compromisso?' },
@@ -35,7 +35,7 @@ const CONVERSAS: Conversa[] = [
     tagCls: 'bg-s2/20 text-s2', previa: 'Perfeito, sexta 14h então!',
     msgs: [
       { de: 'paciente', hora: '09:50', texto: 'oi vi o anuncio de vcs sobre implante, queria saber o valor' },
-      { de: 'bia', hora: '09:50', texto: 'Oii! Que ótimo que você chegou até a gente 😊 Sou a Bia, da Clínica Rodrigo Odonto. O valor do implante depende de uma avaliação do seu caso — cada boca é única. A boa notícia: a avaliação com o Dr. Rodrigo é gratuita 🎉' },
+      { de: 'bia', hora: '09:50', texto: 'Oii! Que ótimo que você chegou até a gente 😊 Sou a Patrícia, do Instituto Rodrigo Couto. O valor do implante depende de uma avaliação do seu caso — cada boca é única. A boa notícia: a avaliação com o Dr. Rodrigo é gratuita 🎉' },
       { de: 'bia', hora: '09:51', texto: 'Me conta rapidinho: é pra repor 1 dente só ou mais de um?' },
       { de: 'paciente', hora: '09:58', texto: 'é 1 dente da frente que perdi' },
       { de: 'bia', hora: '09:58', texto: 'Entendi! Dente da frente a gente resolve muito bem, inclusive com estética. Você prefere manhã ou tarde pra avaliação? Tenho sexta às 14h ou sábado às 10h 🗓️' },
@@ -52,7 +52,7 @@ export default function Bia() {
   return (
     <div className="space-y-4">
       <div className="rounded-lg border border-brand/25 bg-brand/8 px-4 py-3 text-[13px] text-ink-2">
-        🤖 <span className="font-semibold text-brand">Estas conversas são reais do fluxo da Bia</span> — ela atende, qualifica,
+        🤖 <span className="font-semibold text-brand">Estas conversas são reais do fluxo da Patrícia</span> — ela atende, qualifica,
         confirma e faz follow-up sozinha no WhatsApp. Tudo isso já roda hoje na NEXUS.
       </div>
 
@@ -81,7 +81,7 @@ export default function Bia() {
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand/15 text-[12px] font-semibold text-brand">{ativa.ini}</div>
             <div>
               <div className="text-[13.5px] font-semibold">{ativa.nome}</div>
-              <div className="text-[11.5px] text-ok">● online — atendido pela Bia</div>
+              <div className="text-[11.5px] text-ok">● online — atendido pela Patrícia</div>
             </div>
           </div>
 
@@ -102,7 +102,7 @@ export default function Bia() {
 
           <div className="flex items-center gap-2 border-t border-line px-4 py-3">
             <div className="flex-1 rounded-full border border-line bg-surface-2 px-4 py-2 text-[13px] text-ink-3">
-              A Bia responde automaticamente…
+              A Patrícia responde automaticamente…
             </div>
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand text-surface-0">➤</div>
           </div>

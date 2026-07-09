@@ -13,7 +13,7 @@ const NAV = [
   { id: 'pacientes', label: 'Pacientes', icon: '◉' },
   { id: 'orcamentos', label: 'Orçamentos', icon: '▥' },
   { id: 'financeiro', label: 'Financeiro', icon: '◈' },
-  { id: 'bia', label: 'Bia (IA)', icon: '✦' },
+  { id: 'bia', label: 'Patrícia (IA)', icon: '✦' },
 ] as const
 
 type View = (typeof NAV)[number]['id']
@@ -82,7 +82,7 @@ export default function App() {
         <div className="flex items-center gap-2.5">
           <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-brand" />
           <div className="text-[12px] leading-tight text-ink-2">
-            <span className="font-semibold text-ink">Bia ativa</span> — atendendo o WhatsApp
+            <span className="font-semibold text-ink">Patrícia ativa</span> — atendendo o WhatsApp
           </div>
         </div>
         <div className="mt-3 text-[11px] text-ink-3">Piloto · dados fictícios</div>

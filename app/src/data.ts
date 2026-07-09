@@ -21,7 +21,7 @@ export type Lancamento = {
 }
 
 export const clinics: Clinic[] = [
-  { id: 'c1', nome: 'Clínica Rodrigo Odonto', cidade: 'Recife/PE' },
+  { id: 'c1', nome: 'Instituto Rodrigo Couto', cidade: 'Recife/PE' },
   { id: 'c2', nome: 'Clínica Sorriso & Cia', cidade: 'Recife/PE' },
 ]
 
@@ -56,7 +56,7 @@ const consultasC1: Consulta[] = [
 const consultasC2: Consulta[] = [
   { id: 'b1', hora: '08:30', dur: 60, paciente: 'Carla Menezes', procedimento: 'Botox terapêutico', dentistaId: 'd7', status: 'atendida' },
   { id: 'b2', hora: '09:30', dur: 60, paciente: 'Renato Dias', procedimento: 'Limpeza', dentistaId: 'd8', status: 'confirmada' },
-  { id: 'b3', hora: '10:30', dur: 45, paciente: 'Patrícia Melo', procedimento: 'Clareamento — sessão 1', dentistaId: 'd7', status: 'confirmada' },
+  { id: 'b3', hora: '10:30', dur: 45, paciente: 'Priscila Melo', procedimento: 'Clareamento — sessão 1', dentistaId: 'd7', status: 'confirmada' },
   { id: 'b4', hora: '11:00', dur: 30, paciente: 'Igor Fontes', procedimento: 'Manutenção orto', dentistaId: 'd9', status: 'pendente' },
   { id: 'b5', hora: '14:00', dur: 60, paciente: 'Aline Barros', procedimento: 'Avaliação lentes', dentistaId: 'd7', status: 'confirmada' },
   { id: 'b6', hora: '15:00', dur: 30, paciente: 'Diego Martins', procedimento: 'Restauração', dentistaId: 'd8', status: 'confirmada' },
@@ -75,22 +75,22 @@ const pacientesC1: Paciente[] = [
 const pacientesC2: Paciente[] = [
   { id: 'q1', nome: 'Carla Menezes', telefone: '(81) 99xxx-4321', nasc: '03/06/1988', ultimaVisita: '02/07/2026', proxima: '02/10/2026', origem: 'Instagram Ads', saldo: 0 },
   { id: 'q2', nome: 'Renato Dias', telefone: '(81) 98xxx-8765', nasc: '17/04/1993', ultimaVisita: '02/01/2026', proxima: '02/07/2026', origem: 'Indicação', saldo: 0 },
-  { id: 'q3', nome: 'Patrícia Melo', telefone: '(81) 97xxx-2109', nasc: '28/10/1982', ultimaVisita: '18/06/2026', proxima: '02/07/2026', origem: 'Instagram Ads', saldo: -600 },
+  { id: 'q3', nome: 'Priscila Melo', telefone: '(81) 97xxx-2109', nasc: '28/10/1982', ultimaVisita: '18/06/2026', proxima: '02/07/2026', origem: 'Instagram Ads', saldo: -600 },
   { id: 'q4', nome: 'Aline Barros', telefone: '(81) 96xxx-6543', nasc: '05/07/1996', alerta: 'Gestante — 2º trimestre', ultimaVisita: '—', proxima: '02/07/2026', origem: 'Instagram Ads', saldo: 0 },
 ]
 
 const orcamentosC1: Orcamento[] = [
-  { id: 'o1', paciente: 'Roberta Nunes', procedimento: 'Implante unitário + coroa', valor: 4800, criado: '20/05/2026', status: 'aprovado', followUps: 1, ultimaAcao: 'Aprovado após 1 follow-up da Bia' },
-  { id: 'o2', paciente: 'Carlos Lima', procedimento: 'Tratamento de canal + coroa', valor: 2350, criado: '25/06/2026', status: 'follow-up', followUps: 2, ultimaAcao: 'Bia enviou 2º follow-up ontem 18:40' },
-  { id: 'o3', paciente: 'Sofia Andrade', procedimento: 'Extração + enxerto ósseo', valor: 3200, criado: '28/06/2026', status: 'aguardando', followUps: 0, ultimaAcao: 'Follow-up da Bia agendado p/ hoje 19h' },
+  { id: 'o1', paciente: 'Roberta Nunes', procedimento: 'Implante unitário + coroa', valor: 4800, criado: '20/05/2026', status: 'aprovado', followUps: 1, ultimaAcao: 'Aprovado após 1 follow-up da Patrícia' },
+  { id: 'o2', paciente: 'Carlos Lima', procedimento: 'Tratamento de canal + coroa', valor: 2350, criado: '25/06/2026', status: 'follow-up', followUps: 2, ultimaAcao: 'Patrícia enviou 2º follow-up ontem 18:40' },
+  { id: 'o3', paciente: 'Sofia Andrade', procedimento: 'Extração + enxerto ósseo', valor: 3200, criado: '28/06/2026', status: 'aguardando', followUps: 0, ultimaAcao: 'Follow-up da Patrícia agendado p/ hoje 19h' },
   { id: 'o4', paciente: 'Bruna Melo', procedimento: 'Faceta resina (4 dentes)', valor: 1900, criado: '15/06/2026', status: 'follow-up', followUps: 1, ultimaAcao: 'Paciente pediu parcelamento — Cayan notificado' },
   { id: 'o5', paciente: 'Felipe Costa', procedimento: 'Contenção + clareamento', valor: 950, criado: '10/06/2026', status: 'recusado', followUps: 3, ultimaAcao: 'Recusou após 3 follow-ups — motivo: preço' },
   { id: 'o6', paciente: 'Otávio Ramos', procedimento: 'Prótese parcial removível', valor: 2750, criado: '30/06/2026', status: 'aguardando', followUps: 0, ultimaAcao: 'Orçamento entregue na consulta' },
 ]
 const orcamentosC2: Orcamento[] = [
-  { id: 'u1', paciente: 'Patrícia Melo', procedimento: 'Clareamento + 6 lentes', valor: 7200, criado: '18/06/2026', status: 'follow-up', followUps: 1, ultimaAcao: 'Bia reenviou simulação ontem' },
+  { id: 'u1', paciente: 'Priscila Melo', procedimento: 'Clareamento + 6 lentes', valor: 7200, criado: '18/06/2026', status: 'follow-up', followUps: 1, ultimaAcao: 'Patrícia reenviou simulação ontem' },
   { id: 'u2', paciente: 'Carla Menezes', procedimento: 'Protocolo HOF completo', valor: 2900, criado: '02/07/2026', status: 'aprovado', followUps: 0, ultimaAcao: 'Aprovado na hora' },
-  { id: 'u3', paciente: 'Aline Barros', procedimento: 'Lentes de contato (10)', valor: 11000, criado: '01/07/2026', status: 'aguardando', followUps: 0, ultimaAcao: 'Follow-up da Bia agendado' },
+  { id: 'u3', paciente: 'Aline Barros', procedimento: 'Lentes de contato (10)', valor: 11000, criado: '01/07/2026', status: 'aguardando', followUps: 0, ultimaAcao: 'Follow-up da Patrícia agendado' },
 ]
 
 const financeiroC1: Lancamento[] = [
@@ -105,7 +105,7 @@ const financeiroC1: Lancamento[] = [
 ]
 const financeiroC2: Lancamento[] = [
   { id: 'g1', data: '02/07', desc: 'Carla Menezes — HOF (1/2)', categoria: 'Estética', valor: 1450, tipo: 'entrada', forma: 'Cartão' },
-  { id: 'g2', data: '01/07', desc: 'Patrícia Melo — clareamento (1/2)', categoria: 'Estética', valor: 600, tipo: 'entrada', forma: 'Pix' },
+  { id: 'g2', data: '01/07', desc: 'Priscila Melo — clareamento (1/2)', categoria: 'Estética', valor: 600, tipo: 'entrada', forma: 'Pix' },
   { id: 'g3', data: '30/06', desc: 'Aluguel da sala', categoria: 'Fixo', valor: 3200, tipo: 'saida', forma: 'Transferência' },
   { id: 'g4', data: '30/06', desc: 'Renato Dias — limpeza', categoria: 'Prevenção', valor: 230, tipo: 'entrada', forma: 'Pix' },
 ]
@@ -130,10 +130,10 @@ const biaFeedC1 = [
   { hora: '10:15', texto: 'Follow-up de orçamento: Carlos Lima respondeu "vou fechar essa semana"' },
   { hora: '09:58', texto: 'Novo lead do Instagram qualificado → avaliação agendada p/ sexta 14h' },
   { hora: '09:30', texto: 'Reativação: paciente sumido há 8 meses (Marcos T.) agendou limpeza' },
-  { hora: '08:45', texto: 'Felipe Costa faltou — Bia já ofereceu 3 horários de reencaixe' },
+  { hora: '08:45', texto: 'Felipe Costa faltou — Patrícia já ofereceu 3 horários de reencaixe' },
 ]
 const biaFeedC2 = [
-  { hora: '10:20', texto: 'Follow-up: Patrícia Melo pediu pra falar com a Dra. Fernanda — Cayan avisado' },
+  { hora: '10:20', texto: 'Follow-up: Priscila Melo pediu pra falar com a Dra. Fernanda — Cayan avisado' },
   { hora: '09:40', texto: 'Novo lead (lentes) qualificado → avaliação sábado 10h ✅' },
   { hora: '08:55', texto: 'Confirmou 100% da agenda de amanhã (6 consultas)' },
 ]

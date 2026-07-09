@@ -82,7 +82,7 @@ export default function Agenda({ data }: { data: Data }) {
       </div>
 
       <div className="rounded-lg border border-brand/25 bg-brand/8 px-4 py-3 text-[13px] text-ink-2">
-        🤖 <span className="font-semibold text-brand">Bia:</span> confirmei 8 de 12 consultas de amanhã. 2 aguardando resposta, 2 sem WhatsApp válido (recepção notificada).
+        🤖 <span className="font-semibold text-brand">Patrícia:</span> confirmei 8 de 12 consultas de amanhã. 2 aguardando resposta, 2 sem WhatsApp válido (recepção notificada).
       </div>
     </div>
   )

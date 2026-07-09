@@ -5,7 +5,7 @@ type Data = (typeof db)['c1'] | (typeof db)['c2']
 const STATUS = {
   aprovado: { label: 'Aprovado', cls: 'bg-ok/12 text-ok' },
   aguardando: { label: 'Aguardando', cls: 'bg-surface-3 text-ink-2' },
-  'follow-up': { label: 'Bia em follow-up', cls: 'bg-brand/12 text-brand' },
+  'follow-up': { label: 'Patrícia em follow-up', cls: 'bg-brand/12 text-brand' },
   recusado: { label: 'Recusado', cls: 'bg-bad/12 text-bad' },
 } as const
 
@@ -27,7 +27,7 @@ export default function Orcamentos({ data }: { data: Data }) {
           <div className="mt-1 text-[12px] text-ok">▲ subiu 9 pts com follow-up automático</div>
         </div>
         <div className="rounded-xl border border-line bg-surface-1 p-5">
-          <div className="text-[12px] font-medium text-ink-2">Recuperado pela Bia (30d)</div>
+          <div className="text-[12px] font-medium text-ink-2">Recuperado pela Patrícia (30d)</div>
           <div className="mt-1.5 text-[26px] font-semibold tracking-tight text-brand">{fmt(4800)}</div>
           <div className="mt-1 text-[12px] text-ink-3">orçamentos que voltaram após follow-up</div>
         </div>
@@ -68,7 +68,7 @@ export default function Orcamentos({ data }: { data: Data }) {
 
       <div className="rounded-lg border border-brand/25 bg-brand/8 px-4 py-3 text-[13px] text-ink-2">
         🤖 <span className="font-semibold text-brand">Como funciona:</span> orçamento sem resposta em 48h entra automaticamente
-        no fluxo de follow-up da Bia — ela retoma a conversa no WhatsApp, responde objeções e avisa o time quando o paciente esquenta.
+        no fluxo de follow-up da Patrícia — ela retoma a conversa no WhatsApp, responde objeções e avisa o time quando o paciente esquenta.
       </div>
     </div>
   )

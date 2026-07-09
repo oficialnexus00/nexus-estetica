@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import { db, fmt, type Paciente } from '../data'
+import FichaClinica from './FichaClinica'
 
 type Data = (typeof db)['c1'] | (typeof db)['c2']
 
 export default function Pacientes({ data }: { data: Data }) {
   const [busca, setBusca] = useState('')
   const [sel, setSel] = useState<Paciente | null>(null)
+  const [ficha, setFicha] = useState<Paciente | null>(null)
   const lista = data.pacientes.filter(p => p.nome.toLowerCase().includes(busca.toLowerCase()))
+
+  if (ficha) return <FichaClinica paciente={ficha} onClose={() => setFicha(null)} />
 
   return (
     <div className="flex flex-col gap-5 lg:flex-row">
@@ -93,15 +97,21 @@ export default function Pacientes({ data }: { data: Data }) {
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-2">
-            <button className="rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 hover:bg-brand-dim">Agendar</button>
+          <button
+            onClick={() => setFicha(sel)}
+            className="mt-5 w-full rounded-lg bg-brand px-3 py-2.5 text-[13px] font-semibold text-surface-0 hover:bg-brand-dim">
+            Abrir ficha clínica →
+          </button>
+
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <button className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px] font-medium text-ink-2 hover:text-ink">Agendar</button>
             <button className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px] font-medium text-ink-2 hover:text-ink">💬 WhatsApp</button>
           </div>
 
           <div className="mt-5 border-t border-line pt-4">
-            <div className="text-[11.5px] font-medium uppercase tracking-wider text-ink-3">Ficha (v1.1)</div>
+            <div className="text-[11.5px] font-medium uppercase tracking-wider text-ink-3">Ficha clínica</div>
             <div className="mt-2 text-[12.5px] leading-relaxed text-ink-3">
-              Anamnese, odontograma e evolução clínica entram na próxima versão.
+              Odontograma, anamnese, orçamentos e histórico — tudo do paciente num lugar só.
             </div>
           </div>
         </aside>

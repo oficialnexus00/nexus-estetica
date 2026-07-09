@@ -35,8 +35,11 @@ export default function Odontograma({ estados }: { estados: Record<number, Estad
 
   return (
     <div className="rounded-xl border border-line bg-surface-1 p-5">
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-[14px] font-semibold">Odontograma</h3>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-3">
+          <h3 className="text-[14px] font-semibold">Odontograma</h3>
+          <button className="rounded-lg bg-brand px-3 py-1.5 text-[12px] font-semibold text-surface-0 hover:bg-brand-dim">+ Novo procedimento</button>
+        </div>
         <div className="flex rounded-lg border border-line bg-surface-2 p-0.5 text-[12px]">
           {(['permanente', 'decidua'] as const).map(a => (
             <button key={a} onClick={() => setArcada(a)}

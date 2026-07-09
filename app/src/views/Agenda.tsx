@@ -10,15 +10,22 @@ const STATUS = {
 } as const
 
 const HORAS = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00']
+const AGORA = '14:20'
 
 export default function Agenda({ data }: { data: Data }) {
   const toMin = (h: string) => parseInt(h.slice(0, 2)) * 60 + parseInt(h.slice(3))
   const start = toMin('08:00')
   const pxPorMin = 1.35
+  const alturaGrid = 600 * pxPorMin * 0.833
+  const agoraTop = (toMin(AGORA) - start) * pxPorMin
+
+  const total = data.consultas.length
+  const confirmadas = data.consultas.filter(c => c.status === 'confirmada').length
+  const faltas = data.consultas.filter(c => c.status === 'falta').length
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <button className="rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[13px] text-ink-2 hover:text-ink">←</button>
           <span className="text-[14px] font-semibold">Quinta, 2 de julho</span>
@@ -35,16 +42,35 @@ export default function Agenda({ data }: { data: Data }) {
         </div>
       </div>
 
+      {/* Resumo do dia */}
+      <div className="flex flex-wrap gap-3">
+        {[
+          ['Consultas hoje', String(total), 'text-ink'],
+          ['Confirmadas', `${confirmadas}/${total}`, 'text-ok'],
+          ['Faltas', String(faltas), faltas ? 'text-bad' : 'text-ink'],
+          ['Ocupação', '84%', 'text-brand'],
+        ].map(([l, v, c]) => (
+          <div key={l} className="flex-1 rounded-lg border border-line bg-surface-1 px-4 py-2.5">
+            <div className="text-[11.5px] text-ink-3">{l}</div>
+            <div className={`text-[18px] font-semibold tabular-nums ${c}`}>{v}</div>
+          </div>
+        ))}
+      </div>
+
       <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
         <div className="flex min-w-[900px]">
           {/* Réguas de hora */}
           <div className="w-16 shrink-0 border-r border-line">
             <div className="h-11 border-b border-line" />
-            <div className="relative" style={{ height: 600 * pxPorMin * 0.833 }}>
+            <div className="relative" style={{ height: alturaGrid }}>
               {HORAS.map(h => (
                 <div key={h} className="absolute w-full pr-2 text-right text-[11px] tabular-nums text-ink-3"
                   style={{ top: (toMin(h) - start) * pxPorMin - 6 }}>{h}</div>
               ))}
+              {/* marcador do agora */}
+              <div className="absolute right-1 flex items-center gap-1" style={{ top: agoraTop - 7 }}>
+                <span className="rounded bg-bad px-1 py-0.5 text-[9.5px] font-bold text-white tabular-nums">{AGORA}</span>
+              </div>
             </div>
           </div>
 
@@ -57,11 +83,15 @@ export default function Agenda({ data }: { data: Data }) {
                   <div className="truncate text-[12.5px] font-semibold">{d.nome}</div>
                   <div className="truncate text-[10.5px] text-ink-3">{d.especialidade}</div>
                 </div>
-                <div className="relative" style={{ height: 600 * pxPorMin * 0.833 }}>
+                <div className="relative" style={{ height: alturaGrid }}>
                   {HORAS.map(h => (
                     <div key={h} className="absolute w-full border-t border-line/50"
                       style={{ top: (toMin(h) - start) * pxPorMin }} />
                   ))}
+                  {/* linha do agora */}
+                  <div className="pointer-events-none absolute inset-x-0 z-10 border-t-2 border-bad" style={{ top: agoraTop }}>
+                    <span className="absolute -left-0.5 -top-[3px] h-1.5 w-1.5 rounded-full bg-bad" />
+                  </div>
                   {consultas.map(c => {
                     const s = STATUS[c.status]
                     return (

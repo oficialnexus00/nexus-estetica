@@ -9,7 +9,7 @@ export default function Pacientes({ data }: { data: Data }) {
   const lista = data.pacientes.filter(p => p.nome.toLowerCase().includes(busca.toLowerCase()))
 
   return (
-    <div className="flex gap-5">
+    <div className="flex flex-col gap-5 lg:flex-row">
       <div className="min-w-0 flex-1 space-y-4">
         <div className="flex items-center justify-between gap-4">
           <input
@@ -23,8 +23,8 @@ export default function Pacientes({ data }: { data: Data }) {
           </button>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-line bg-surface-1">
-          <table className="w-full text-[13px]">
+        <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
+          <table className="w-full min-w-[640px] text-[13px]">
             <thead>
               <tr className="border-b border-line text-left text-[11.5px] uppercase tracking-wider text-ink-3">
                 <th className="px-4 py-3 font-medium">Paciente</th>
@@ -63,7 +63,7 @@ export default function Pacientes({ data }: { data: Data }) {
 
       {/* Ficha lateral */}
       {sel && (
-        <aside className="w-80 shrink-0 self-start rounded-xl border border-line bg-surface-1 p-5">
+        <aside className="shrink-0 self-start rounded-xl border border-line bg-surface-1 p-5 lg:w-80">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-brand/15 text-[16px] font-semibold text-brand">

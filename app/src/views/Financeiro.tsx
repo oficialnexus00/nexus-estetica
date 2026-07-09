@@ -8,7 +8,7 @@ export default function Financeiro({ data }: { data: Data }) {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
         <div className="rounded-xl border border-line bg-surface-1 p-5">
           <div className="text-[12px] font-medium text-ink-2">Entradas (últimos 7 dias)</div>
           <div className="mt-1.5 text-[26px] font-semibold tracking-tight text-ok">{fmt(entradas)}</div>
@@ -39,8 +39,8 @@ export default function Financeiro({ data }: { data: Data }) {
         </button>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-line bg-surface-1">
-        <table className="w-full text-[13px]">
+      <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
+        <table className="w-full min-w-[640px] text-[13px]">
           <thead>
             <tr className="border-b border-line text-left text-[11.5px] uppercase tracking-wider text-ink-3">
               <th className="px-4 py-3 font-medium">Data</th>

@@ -15,7 +15,7 @@ export default function Orcamentos({ data }: { data: Data }) {
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
         <div className="rounded-xl border border-line bg-surface-1 p-5">
           <div className="text-[12px] font-medium text-ink-2">Dinheiro na mesa (em aberto)</div>
           <div className="mt-1.5 text-[26px] font-semibold tracking-tight text-warn">{fmt(totalAberto)}</div>
@@ -33,8 +33,8 @@ export default function Orcamentos({ data }: { data: Data }) {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-line bg-surface-1">
-        <table className="w-full text-[13px]">
+      <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
+        <table className="w-full min-w-[720px] text-[13px]">
           <thead>
             <tr className="border-b border-line text-left text-[11.5px] uppercase tracking-wider text-ink-3">
               <th className="px-4 py-3 font-medium">Paciente</th>

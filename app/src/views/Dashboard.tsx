@@ -96,16 +96,16 @@ export default function Dashboard({ data }: { data: Data }) {
   return (
     <div className="space-y-6">
       {/* KPIs */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
         <Tile label="Recebido no mês" value={fmt(k.recebidoMes)} hint="▲ 12% vs mês anterior" tone="ok" />
         <Tile label="Consultas hoje" value={String(k.consultasHoje)} hint="agenda 84% ocupada" />
         <Tile label="No-show (30 dias)" value={`${k.noShow30d}%`} hint="▼ caiu 3,1 pts com a Bia" tone="ok" />
         <Tile label="Orçamentos em aberto" value={fmt(k.orcAberto)} hint={`${k.orcAbertoQtd} propostas — Bia acompanhando`} tone="warn" />
       </div>
 
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
         {/* Recebimentos */}
-        <div className="col-span-3 rounded-xl border border-line bg-surface-1 p-5">
+        <div className="rounded-xl border border-line bg-surface-1 p-5 lg:col-span-3">
           <div className="mb-4 flex items-baseline justify-between">
             <h2 className="text-[14px] font-semibold">Recebimentos por semana</h2>
             <span className="text-[12px] text-ink-3">últimas 8 semanas</span>
@@ -114,7 +114,7 @@ export default function Dashboard({ data }: { data: Data }) {
         </div>
 
         {/* Bia feed */}
-        <div className="col-span-2 rounded-xl border border-line bg-surface-1 p-5">
+        <div className="rounded-xl border border-line bg-surface-1 p-5 lg:col-span-2">
           <div className="mb-4 flex items-center gap-2">
             <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-brand" />
             <h2 className="text-[14px] font-semibold">Bia em ação agora</h2>
@@ -130,9 +130,9 @@ export default function Dashboard({ data }: { data: Data }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
         {/* Produção */}
-        <div className="col-span-3 rounded-xl border border-line bg-surface-1 p-5">
+        <div className="rounded-xl border border-line bg-surface-1 p-5 lg:col-span-3">
           <div className="mb-4 flex items-baseline justify-between">
             <h2 className="text-[14px] font-semibold">Produção do mês por dentista</h2>
             <span className="text-[12px] text-ink-3">R$ mil</span>
@@ -141,7 +141,7 @@ export default function Dashboard({ data }: { data: Data }) {
         </div>
 
         {/* Taxa de aprovação */}
-        <div className="col-span-2 rounded-xl border border-line bg-surface-1 p-5">
+        <div className="rounded-xl border border-line bg-surface-1 p-5 lg:col-span-2">
           <h2 className="text-[14px] font-semibold">Aprovação de orçamentos</h2>
           <div className="mt-4 text-[40px] font-semibold tracking-tight text-s1">{data.kpis.taxaAprovacao}%</div>
           <div className="mt-1 text-[12px] text-ink-3">dos orçamentos dos últimos 90 dias</div>

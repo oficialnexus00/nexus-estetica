@@ -57,11 +57,18 @@ As 3 primeiras partes justificam o ticket; a última é o que nos entrega o lead
 - Aula 6.2 — Precificação e montagem de pacote (sessão única x protocolo fechado)
 - Aula 6.3 — Como apresentar e fechar o orçamento sem dar desconto
 
-### Módulo 7 — "E agora, como encho a agenda?" (a ponte pra NEXUS)
+### Módulo 7 — "E agora, como encho a agenda?" (teaser + handoff)
+Curto de propósito. O conteúdo profundo de captação virou **order bump pago** ("Máquina de
+Captação de Paciente") — ver arquitetura de oferta em `comercial/curso-miotto-lp-e-trafego.md`.
+Aqui a gente só abre a ferida e faz a ponte:
 - Aula 7.1 — O erro clássico: dominar a técnica e continuar com a agenda vazia
-- Aula 7.2 — Fundamentos de aquisição de paciente para o procedimento de glúteo
-- Aula 7.3 — **Handoff nativo:** como a NEXUS enche a agenda de quem já domina a técnica
+- Aula 7.2 — **Handoff nativo:** como a NEXUS enche a agenda de quem já domina a técnica
   → CTA pro fluxo da Bia (WhatsApp). *É aqui que o aluno vira lead pré-qualificado.*
+
+> **Escada de valor (order bumps):** o "como captar paciente", o "criativo campeão" e a
+> "secretária de IA própria" viram ofertas no checkout — cada uma é a versão DIY de um
+> produto NEXUS, com teto que empurra pro done-for-you. Detalhe em
+> `comercial/curso-miotto-lp-e-trafego.md`.
 
 ### Bônus (aumenta valor percebido, justifica o ticket)
 - Termo de consentimento modelo

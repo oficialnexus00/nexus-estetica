@@ -96,6 +96,40 @@
 
 ---
 
+## PARTE 1.5 — Arquitetura de oferta e order bumps (a escada de valor)
+
+O curso é o front-end. Os **order bumps** no checkout fazem três coisas ao mesmo tempo:
+sobem o AOV, **qualificam o lead pra NEXUS** (quem marca o bump se auto-identifica) e dão
+uma **prévia "faça você mesmo"** de um produto NEXUS — cada um com um teto que empurra pro
+done-for-you.
+
+### Front-end
+**Curso Protocolo de Bioestimulador de Glúteo — R$ 497** (técnica + precificação/centro de lucro).
+
+### Order bumps (checkbox no checkout)
+
+| # | Bump | O que é (versão lite) | Preço sugerido | Ponte NEXUS | Teto que empurra pra NEXUS |
+|---|---|---|---|---|---|
+| 1 | **Máquina de Captação de Paciente** | Mini-treino: como atrair paciente pro procedimento (oferta + fundamento de tráfego) | R$ 97 | Gestão de tráfego NEXUS | "saber o conceito ≠ ter tempo e mão pra rodar campanha todo dia" |
+| 2 | **Criativo Campeão** | Swipe file + templates dos criativos que convertem no nicho estética/glúteo | R$ 67 | Criativo + tráfego NEXUS | "template ajuda, mas testar e escalar é operação diária" |
+| 3 | **Sua Secretária de IA** | Passo a passo pra montar um agente de WhatsApp que atende (versão lite/DIY) | R$ 127 | Bia/Aurora + CRM nexushealth (done-for-you) | "montar a base dá; manter, integrar CRM e nunca perder um lead é o que a NEXUS entrega pronto" |
+
+### Regras da escada
+
+- **Qualificação por temperatura:** quem marca o bump 1 ou 3 é lead **quentíssimo** pra NEXUS
+  — sinalizar no CRM/Bia e priorizar no follow-up. É o coração do CAC negativo.
+- **⚠️ Guard-rail do bump 3 (Secretária de IA):** mantê-lo **de propósito lite**. Ensina o
+  conceito + base funcional, mas **expõe** o trabalho de manter/integrar/não furar lead.
+  Ele **vende o teto** (por isso puxa pra NEXUS), não substitui o produto. Sem isso, canibaliza
+  o core. Decisão do Kaian: onde exatamente cortar a profundidade.
+- **Sequência:** bumps 1 e 2 são checkbox de baixo ticket no próprio checkout (baixa fricção).
+  O bump 3 pode render mais como **upsell pós-compra (OTO)** por ser conceito maior — testar
+  as duas posições.
+- **AOV alvo:** front R$ 497 + take-rate de bump → ticket médio ~R$ 600–700, com o tráfego
+  ainda pago só pela venda do curso.
+
+---
+
 ## PARTE 2 — Plano de tráfego (pôr no ar)
 
 Espelha a disciplina do BumSculp: **ABO + objetivo Vendas/Conversão**, criativos nomeados

@@ -1,164 +1,185 @@
-# Plano de ação — Curso gravado da Dra. Jenniffer Miotto
+# Plano de ação — Curso B2B da Jennifer (protocolo glúteo) como TOFU da NEXUS
 
-> **O que é:** plano de execução pra produzir um **curso gravado (on-demand)** com a
-> **Dra. Jenniffer Miotto** — do roteiro à publicação. Estruturado no método PMO da
-> NEXUS: **prioridade P0–P3 + dono + KPI** em cada bloco.
+> **Fonte:** task ClickUp [86ajff7un](https://app.clickup.com/t/86ajff7un) — *"Curso B2B da
+> Jennifer — protocolo glúteo como TOFU da NEXUS"* (Radar de SaaS › 🔍 Em Análise, prioridade High).
+> Este plano **executa** a tese registrada lá. Método PMO: **P0–P3 + dono + KPI**.
 >
-> **Status:** rascunho de execução. Depende das decisões do Kaian marcadas na seção
-> [Decisões que dependem do Kaian](#decisões-que-dependem-do-kaian) — o resto já pode
-> andar em paralelo.
+> **Especialista/rosto:** Jennifer (sócia, biomédica esteta) — *Dra. Jenniffer Miotto*.
+> **Kaian entra com:** tráfego, criativo e vendas.
 
 ---
 
-## Premissas (assumidas — confirmar com o Kaian)
+## A tese (o que este projeto realmente é)
 
-Montei o plano com estas premissas pra não travar. Onde eu chutei, está marcado 🔶.
+**O curso não é o produto. É o topo de funil da NEXUS.**
 
-- 🔶 **Formato:** curso 100% gravado (vídeo-aula on-demand), não ao vivo.
-- 🔶 **Objetivo do curso:** ativo de autoridade + geração de lead qualificado pra
-  NEXUS (a Dra. é rosto/especialista; o curso aquece o público antes da oferta).
-  *Alternativa:* produto pago próprio. **Isso muda preço, plataforma e funil — decidir cedo.**
-- 🔶 **Público-alvo:** donos de clínica de estética / profissionais da área (mesmo ICP
-  da NEXUS).
-- 🔶 **Escopo:** ~1 módulo piloto (3–5 aulas curtas de 8–15 min) pra validar antes de
-  gravar o curso inteiro. Segue o princípio NEXUS: **valida num canal antes de escalar.**
-- 🔶 **Gravação:** remota (Dra. grava a própria câmera/áudio com roteiro) ou 1 diária
-  presencial concentrada. Operação NEXUS é remota — priorizar remoto assistido.
+Quem compra curso de técnica é profissional de estética. Quem acabou de aprender uma
+técnica nova tem exatamente um problema: **não tem paciente pra aplicar**. A NEXUS vende
+aquisição de paciente. Cada aluno é um **lead pré-qualificado que já pagou, já confia na
+Jennifer** e acabou de descobrir que tem técnica e agenda vazia → **CAC negativo** para o
+produto principal (NEXUS).
 
-## Objetivo e KPI-mãe
+**Consequência de pricing:** o preço **não deve ser baixo**. R$ 197 atrai estudante sem
+clínica e sem verba; **R$ 497+ filtra profissional com capital**. O low ticket aqui é um
+**filtro de ICP**, não um tripwire de volume.
 
-**Publicar o módulo piloto validado do curso da Dra. Miotto em até 4 semanas**, pronto
-pra rodar como isca/aquecimento.
-
-| KPI-mãe | Meta piloto |
+| Ângulo | Score (do Kaian) |
 |---|---|
-| Módulo piloto publicado e assistível | 1 módulo (3–5 aulas) em ≤ 4 semanas |
-| Taxa de conclusão do piloto (quem começa → termina) | ≥ 50% na amostra de validação |
-| Leads/contatos qualificados gerados pelo piloto | definir baseline com o Kaian |
+| Oportunidade estratégica | 72 / 100 |
+| Como linha de receita isolada | 45 / 100 |
+| **Como máquina de leads pro core business** | **85 / 100** ← é por isso que vale |
 
 ---
 
-## Fase 0 — Definição e roteiro (semana 1)  ·  P0
+## ⚠️ Regra de sequência: 3 gates bloqueantes ANTES de produzir/anunciar
 
-Nada grava sem roteiro fechado. Aqui mora 80% da qualidade.
+**Nada de gravar aula ou subir campanha antes de fechar os 3 gates.** Ordem inegociável.
+
+### 🔴 Gate 1 — Compliance (bloqueante · P0)
+Curso de injetável glúteo ministrado por biomédica esteta. Três frentes:
+
+1. **Escopo da própria Jennifer** sob a **resolução vigente do CFBM** — verificar qual
+   está em vigor hoje (tema litigado, muda).
+2. **Quem pode ser aluno** (filtro mais concreto e mais ignorado do mercado):
+   - Biomédicos estetas → provável ok
+   - Médicos → ok
+   - Enfermeiros → **verificar COFEN**
+   - **Dentistas → NÃO** (CFO restringe à região orofacial; glúteo está fora). Vender
+     curso de glúteo pra dentista é vender algo que ele não pode aplicar legalmente.
+3. **O que a LP pode prometer** — antes/depois, promessa de capacitação, uso de marca de
+   produto (Radiesse, Sculptra). Regras Meta **+** conselho.
+
+> **Sem isso resolvido, não sobe campanha.**
+
+### 🔴 Gate 2 — Autoridade entre pares (bloqueante · P0)
+B2C perdoa expert desconhecido. **B2B de saúde não perdoa** — profissional só compra
+técnica de quem reconhece como referência. O BumSculp roda há 64 dias, presumivelmente
+com prova acumulada. **Pré-requisito:** volume de caso documentado + presença entre
+profissionais **antes** de qualquer verba.
+
+### 🔴 Gate 3 — Mismatch de ICP (bloqueante · P0)
+Comprador de curso de técnica costuma estar no **começo** da jornada; a NEXUS vende pra
+quem **já tem clínica rodando**. Pode não haver ponte.
+**Mitigação (posicionamento):** não é *"como injetar"* — é ***"como transformar protocolo
+de glúteo em centro de lucro da clínica"***: técnica + protocolo + precificação + prévia
+de aquisição de paciente. Aí a ponte pra NEXUS é **orgânica, não enxertada**.
+
+---
+
+## Fase 0 — Destravar os gates + inteligência de mercado (semana 1–2) · P0
 
 | # | Tarefa | Dono | Prioridade | KPI / entregável |
 |---|---|---|---|---|
-| 0.1 | Fechar objetivo (autoridade vs. produto pago), público e promessa do curso | Kaian | **P0** | 1 frase de promessa + ICP escrito |
-| 0.2 | Definir a grade: módulos → aulas, com 1 resultado por aula | Kaian + Dra. Miotto | **P0** | Grade em tabela (aula, objetivo, duração) |
-| 0.3 | Escrever roteiro do **módulo piloto** (fala + bullets de tela por aula) | Claude (a partir de tópicos da Dra.) | **P0** | Roteiro por aula, pronto pra teleprompter |
-| 0.4 | Definir CTA de cada aula e o CTA final (pra onde manda o lead) | Kaian | **P1** | CTA mapeado → WhatsApp/Bia ou form |
-| 0.5 | Aprovar roteiro com a Dra. (voz dela, sem engessar) | Dra. Miotto | **P0** | Roteiro aprovado |
+| 0.1 | Levantar **resolução CFBM vigente** + escopo de aluno por conselho (COFEN etc.) | Jennifer + Claude | **P0** | 1 pág.: quem pode ensinar, quem pode ser aluno, o que a LP pode dizer |
+| 0.2 | Auditar **autoridade da Jennifer entre pares** (casos, seguidores profissionais, prova) | Kaian + Jennifer | **P0** | Inventário de prova social B2B + gap a cobrir |
+| 0.3 | **Comprar o BumSculp (R$ 497)** e dissecar entrega, upsell e funil pós-compra | Kaian | **P0** | Teardown do funil concorrente |
+| 0.4 | Mapear a **biblioteca de anúncios do BumSculp** (ângulos de dor, nomeados) | Kaian (Apify/Meta Ad Library) | **P1** | Lista de ângulos de dor testados |
+| 0.5 | **Fechar posicionamento:** técnica pura vs. técnica + centro de lucro | Kaian | **P0** | 1 frase de promessa + ICP escrito |
+| 0.6 | **Modelar a economia:** CPA alvo, conversão curso→NEXUS, LTV combinado | Kaian | **P1** | Planilha: preço, CPA, % conversão pra NEXUS, LTV |
 
-> **Princípio NEXUS aplicado:** criativo humanizado/coloquial > locução engessada. O
-> roteiro é guia de fala, não texto pra decorar palavra por palavra.
+> **Go/no-go após a Fase 0.** Se Gate 1 barra (escopo/aluno) ou Gate 2 mostra autoridade
+> insuficiente → não produz ainda; entra plano de autoridade primeiro.
 
 ---
 
-## Fase 1 — Pré-produção (semana 1–2)  ·  P1
+## Fase 1 — Currículo e roteiro (semana 2–3) · P1
+*(só começa com posicionamento 0.5 fechado e gates verdes)*
 
 | # | Tarefa | Dono | Prioridade | KPI / entregável |
 |---|---|---|---|---|
-| 1.1 | Kit de gravação: câmera/celular, microfone de lapela, luz, fundo | Kaian | **P1** | Checklist de setup validado num teste de 1 min |
-| 1.2 | Teste técnico com a Dra. (enquadramento, áudio, luz) antes da diária | Cayan/Kaian | **P1** | Vídeo-teste de 60s aprovado |
-| 1.3 | Slides/telas de apoio no padrão visual NEXUS (#00BFA5, Inter, dark) | Claude (Canva/Gamma) | **P2** | Template de slide + capa das aulas |
-| 1.4 | Identidade do curso: nome, capa, thumb, abertura/encerramento (vinheta) | Kaian + Claude | **P2** | Nome fechado + kit visual |
-| 1.5 | Roteiro de gravação (ordem das aulas, o que gravar de uma vez) | Claude | **P2** | Ordem de gravação (call sheet) |
+| 1.1 | Grade do curso no posicionamento "centro de lucro" (técnica + protocolo + precificação + aquisição) | Kaian + Jennifer | **P1** | Grade: módulo → aula → resultado |
+| 1.2 | Roteiro do **módulo piloto** (fala + telas), voz da Jennifer, sem engessar | Claude (a partir dos tópicos dela) | **P1** | Roteiro pronto pra teleprompter |
+| 1.3 | **Módulo-ponte pra NEXUS**: "agora você tem técnica — e paciente?" (handoff nativo, não enxertado) | Kaian + Claude | **P1** | Aula/CTA que joga o aluno no fluxo da Bia |
+| 1.4 | Aprovar roteiro com a Jennifer | Jennifer | **P1** | Roteiro aprovado |
 
 ---
 
-## Fase 2 — Gravação (semana 2)  ·  P1
+## Fase 2 — Produção (semana 3–4) · P1
 
 | # | Tarefa | Dono | Prioridade | KPI / entregável |
 |---|---|---|---|---|
-| 2.1 | Gravar as aulas do piloto (teleprompter com o roteiro 0.3) | Dra. Miotto | **P1** | Bruto de todas as aulas do piloto |
-| 2.2 | Conferir no set: áudio limpo, sem corte, luz ok (revisar antes de encerrar) | Cayan/Kaian | **P1** | Checklist de captação por aula |
-| 2.3 | Gravar aberturas/CTAs curtos reutilizáveis | Dra. Miotto | **P2** | Clipes de abertura + CTA |
-
-> **Regra de set:** só encerra a diária depois de conferir o áudio de cada aula. Refação
-> remota custa caro.
+| 2.1 | Kit de gravação + teste técnico (áudio/luz/enquadramento) | Kaian/Cayan | **P1** | Vídeo-teste 60s aprovado |
+| 2.2 | Gravar aulas do piloto (teleprompter) | Jennifer | **P1** | Bruto de todas as aulas |
+| 2.3 | Conferir áudio/corte no set antes de encerrar | Cayan/Kaian | **P1** | Checklist de captação por aula |
+| 2.4 | Slides/telas no padrão NEXUS (#00BFA5, Inter, dark) | Claude (Canva/Gamma) | **P2** | Template + capas |
 
 ---
 
-## Fase 3 — Pós-produção (semana 2–3)  ·  P1
-
+## Fase 3 — Pós-produção (semana 4) · P1
 Edição via **Descript** (edição por texto: remove muleta/silêncio, legenda automática).
 
 | # | Tarefa | Dono | Prioridade | KPI / entregável |
 |---|---|---|---|---|
-| 3.1 | Importar brutos e transcrever no Descript | Claude/Marco | **P1** | Projeto Descript com transcrição |
-| 3.2 | Cortar muletas/silêncios, limpar ritmo | Claude (Descript agent) | **P1** | Corte fino por aula |
-| 3.3 | Inserir slides/telas de apoio, abertura e vinheta | Claude | **P2** | Aula montada |
-| 3.4 | Legendas (acessibilidade + retenção) no padrão visual | Claude (Descript) | **P2** | Legendas revisadas |
-| 3.5 | Revisão da Dra. + Kaian antes de publicar | Dra. Miotto + Kaian | **P1** | Aprovação final por aula |
-| 3.6 | Exportar masters (1080p) + versão para redes (cortes verticais) | Claude | **P2** | Arquivos finais + 3–5 cortes por aula |
+| 3.1 | Importar brutos + transcrever no Descript | Claude/Marco | **P1** | Projeto com transcrição |
+| 3.2 | Corte fino (muletas/silêncios/ritmo) | Claude (Descript) | **P1** | Corte por aula |
+| 3.3 | Slides, abertura, legendas | Claude | **P2** | Aula montada + legendada |
+| 3.4 | Revisão final Jennifer + Kaian | Jennifer + Kaian | **P1** | Aprovação por aula |
+| 3.5 | Exportar masters 1080p + cortes verticais pra ads | Claude | **P2** | Finais + 3–5 cortes/aula |
 
 ---
 
-## Fase 4 — Publicação e distribuição (semana 3–4)  ·  P1
+## Fase 4 — Funil, oferta e tráfego (semana 4–5) · P1
 
 | # | Tarefa | Dono | Prioridade | KPI / entregável |
 |---|---|---|---|---|
-| 4.1 | Escolher plataforma de hospedagem (ver decisão pendente) | Kaian | **P0** | Plataforma definida |
-| 4.2 | Subir as aulas, montar a área do aluno / página de acesso | Marco/Kaian | **P1** | Curso acessível por link |
-| 4.3 | Página de captura/inscrição integrada ao funil (WhatsApp/Bia) | Marco + Claude | **P1** | Landing publicada + lead cai no CRM |
-| 4.4 | Sequência de nutrição/entrega (e-mail/WhatsApp) da liberação das aulas | Claude (n8n) | **P2** | Automação ativa |
-| 4.5 | Rodar o piloto com 1 canal/lista pequena (validação) | Kaian | **P1** | ≥ amostra definida assistindo |
+| 4.1 | Definir plataforma de entrega (área de membros) | Kaian/Marco | **P0** | Plataforma definida |
+| 4.2 | LP de vendas **compliance-safe** (limites do Gate 1) — ticket R$ 497+ | Kaian + Claude | **P1** | LP publicada, revisada por conselho |
+| 4.3 | Checkout (PagTrust) + entrega automática (n8n) | Marco | **P1** | Compra → acesso automático |
+| 4.4 | **Handoff aluno → NEXUS**: aluno cai como lead qualificado no CRM/Bia | Marco + Claude | **P1** | Aluno vira lead rastreável no pipeline |
+| 4.5 | Criativos por **ângulo de dor** (modelo BumSculp) — nomear por dor, não por versão | Kaian | **P1** | 3–5 ângulos no ar (ABO/Vendas) |
+| 4.6 | Rodar em **1 canal/lista pequena** antes de escalar | Kaian | **P1** | Validação: CPA e conversão dentro do modelo 0.6 |
 
-> **Princípio NEXUS aplicado:** valida com **um canal** antes de escalar pra todos.
-> O CTA final joga o lead no fluxo da **Bia** (WhatsApp) — não reinventar funil.
+> **Princípios NEXUS aplicados:** valida com **um canal** antes de escalar; CTA joga no
+> fluxo da **Bia**; criativo humanizado > locução engessada.
 
 ---
 
-## Fase 5 — Medir e decidir escala (semana 4+)  ·  P2
+## Fase 5 — Medir a máquina de leads (semana 5+) · P2
+
+O KPI que importa **não é receita do curso** — é **lead qualificado gerado pra NEXUS**.
 
 | # | Tarefa | Dono | Prioridade | KPI / entregável |
 |---|---|---|---|---|
-| 5.1 | Medir conclusão, retenção por aula e leads gerados | Kaian | **P2** | Painel simples de métricas |
-| 5.2 | Coletar feedback da amostra | Jennifer | **P2** | 5–10 respostas qualitativas |
-| 5.3 | Decisão: gravar curso completo / ajustar / matar | Kaian | **P2** | Go/no-go documentado |
+| 5.1 | Medir vendas do curso, CPA e % de alunos que viram lead NEXUS | Kaian | **P2** | Painel: curso → NEXUS |
+| 5.2 | Validar a economia real vs. modelo 0.6 (CAC negativo?) | Kaian | **P2** | Go/no-go de escala documentado |
+| 5.3 | Feedback qualitativo dos primeiros alunos | Jennifer | **P3** | 5–10 respostas |
 
 ---
 
 ## Mapa de ferramentas (stack NEXUS)
 
-| Etapa | Ferramenta | Já temos? |
+| Etapa | Ferramenta | Temos? |
 |---|---|---|
-| Roteiro / textos | Claude Code | ✅ |
-| Slides / capa / thumb | Canva ou Gamma | ✅ (conectados) |
-| Edição de vídeo por texto + legenda | **Descript** | ✅ (conectado) |
-| Voz/narração extra (se precisar) | ElevenLabs (Flash/Turbo) | ✅ |
-| Automação de entrega/nutrição | n8n | ✅ |
-| Captura de lead → pipeline | CRM nexushealth + Bia | ✅ |
-| Gestão de tarefas do projeto | ClickUp | ✅ |
-| Pagamento (se for curso pago) | PagTrust | ✅ |
+| Inteligência de anúncios do concorrente | Apify + Meta Ad Library | ✅ |
+| Roteiro / textos / LP | Claude Code | ✅ |
+| Slides / capa / thumb | Canva ou Gamma | ✅ |
+| Edição de vídeo por texto + legenda | **Descript** | ✅ |
+| Voz extra (se precisar) | ElevenLabs | ✅ |
+| Entrega / automação | n8n | ✅ |
+| Checkout | PagTrust | ✅ |
+| Lead → pipeline | CRM nexushealth + Bia | ✅ |
+| Gestão | ClickUp (task 86ajff7un) | ✅ |
 
-> **ClickUp:** posso jogar este plano como tarefas no ClickUp, mas a escrita pede
-> aprovar o **"Permitir"** na UI — **aviso antes** de disparar.
-
----
-
-## Decisões que dependem do Kaian
-
-Sem estas, o piloto anda pela metade. São P0 porque destravam tudo.
-
-- [ ] **P0** — **Objetivo do curso:** autoridade/isca (grátis) **ou** produto pago?
-  *(Muda plataforma, preço, funil e página.)*
-- [ ] **P0** — **Tema e promessa** do curso da Dra. Miotto (qual transformação ele entrega).
-- [ ] **P0** — **Plataforma de hospedagem** (ex.: área de membros própria no
-  nexushealth, Hotmart/Kiwify, YouTube não-listado, Notion/pasta). Definir na 4.1.
-- [ ] **P1** — **Modelo de gravação:** remoto assistido (Dra. grava sozinha com roteiro)
-  vs. 1 diária presencial. Afeta prazo e custo.
-- [ ] **P1** — **Baseline de KPI:** quantos leads/inscritos contam como "piloto validado".
-- [ ] **P2** — **Nome do curso** e uso da marca da Dra. vs. co-branding NEXUS.
+> **ClickUp:** posso rebater este plano como subtarefas na task 86ajff7un — a escrita pede
+> aprovar o **"Permitir"** na UI; **aviso antes** de disparar.
 
 ---
+
+## Decisões que dependem do Kaian (P0 — destravam tudo)
+
+- [ ] **Gate 1** — resolução CFBM vigente + quem pode ser aluno + o que a LP pode prometer.
+- [ ] **Gate 2** — a autoridade da Jennifer entre pares hoje é suficiente pra tráfego frio,
+  ou entra plano de autoridade antes?
+- [ ] **Posicionamento (Gate 3)** — técnica pura **ou** "técnica + centro de lucro"
+  (recomendado, é o que cria a ponte pra NEXUS).
+- [ ] **Preço** — confirmar faixa **R$ 497+** (filtro de ICP).
+- [ ] **Plataforma** de entrega (área de membros).
 
 ## Próximo passo imediato
 
-1. Kaian responde os 3 primeiros P0 acima (objetivo, tema/promessa, plataforma).
-2. Com isso, o Claude fecha a **grade + roteiro do módulo piloto** (Fase 0) na hora.
-3. Em paralelo, monta o **kit visual do curso** (nome, capa, template de slide).
+1. Comprar e dissecar o **BumSculp** (0.3) + mapear os ângulos de dor dele (0.4).
+2. Fechar **Gate 1** com a Jennifer (o que pode ensinar / quem pode comprar / o que a LP diz).
+3. Com posicionamento definido, o Claude fecha **grade + roteiro do piloto** na hora.
 
-> Assim que os P0 estiverem respondidos, este arquivo vira o board de execução — e eu
-> transformo em tarefas no ClickUp se você quiser (aviso do "Permitir" antes).
+> Fonte de verdade da decisão continua na task **86ajff7un**; este arquivo é o board de
+> execução. Quer que eu jogue as subtarefas no ClickUp? (aviso do "Permitir" antes).

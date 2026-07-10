@@ -35,7 +35,14 @@ clínica e sem verba; **R$ 497+ filtra profissional com capital**. O low ticket 
 
 **Nada de gravar aula ou subir campanha antes de fechar os 3 gates.** Ordem inegociável.
 
-### 🔴 Gate 1 — Compliance (bloqueante · P0)
+### 🟢 Gate 1 — Compliance (escopo da Jennifer RESOLVIDO)
+**CRBM confirmou o escopo da Jennifer — ela pode ministrar; tem autorização de paciente
+pros casos.** Sobra só o que é sobre terceiros/copy, já embutido na LP:
+- **Quem pode ser aluno** → filtro escrito na LP (biomédico/médico/enfermeiro habilitado;
+  **dentista não**).
+- **O que a LP pode prometer** → copy em formato compliance-safe (capacitação técnica).
+
+Detalhe original (mantido pra histórico):
 Curso de injetável glúteo ministrado por biomédica esteta. Três frentes:
 
 1. **Escopo da própria Jennifer** sob a **resolução vigente do CFBM** — verificar qual

@@ -183,9 +183,20 @@
     background:var(--espresso); border:1px solid var(--copper); color:var(--cream-text); padding:7px 12px; border-radius:20px}
 
   /* embedded portrait */
-  .portrait{background-image:var(--jenniffer); background-size:cover; background-position:50% 12%; background-repeat:no-repeat}
-  .portrait::before{content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(244,238,228,0) 60%,rgba(244,238,228,.12) 100%)}
+  .portrait{background-image:var(--jenniffer); background-size:cover; background-position:50% 10%; background-repeat:no-repeat}
   .portrait .ph{display:none}
+  /* hero: recorte que sangra e derrete na página (sem moldura) */
+  .portrait--bleed{
+    border:none; border-radius:0; background-color:transparent; overflow:visible;
+    aspect-ratio:auto; align-self:stretch; min-height:560px; background-position:50% 6%;
+    filter:saturate(1.06) brightness(1.03) sepia(.07) contrast(1.02);
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%),linear-gradient(180deg,transparent 0,#000 9%,#000 66%,transparent 99%),linear-gradient(270deg,transparent 0,#000 6%);
+    -webkit-mask-composite:source-in;
+    mask-image:linear-gradient(90deg,transparent 0,#000 12%),linear-gradient(180deg,transparent 0,#000 9%,#000 66%,transparent 99%),linear-gradient(270deg,transparent 0,#000 6%);
+    mask-composite:intersect;
+  }
+  .portrait--bleed::before,.portrait--bleed::after{display:none}
+  @media(max-width:919px){.portrait--bleed{min-height:440px; background-position:50% 8%}}
 </style>
 
 <nav class="nav">
@@ -212,7 +223,7 @@
       </div>
     </div>
     <div>
-      <div class="portrait"><span class="ph">[ foto da Dra. Jenniffer ]</span></div>
+      <div class="portrait portrait--bleed"><span class="ph">[ foto da Dra. Jenniffer ]</span></div>
     </div>
   </div>
 </header>

@@ -337,6 +337,35 @@ header.nav.scrolled{border-color:var(--line)}
   background:radial-gradient(circle,rgba(0,191,165,.14),transparent 70%);opacity:0;transition:opacity .3s}
 .why:hover::after{opacity:1}
 
+/* ============ PLANOS ============ */
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;align-items:stretch}
+@media(max-width:880px){.plans-grid{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}}
+.plan{position:relative;display:flex;flex-direction:column;background:var(--s1);border:1px solid var(--line);
+  border-radius:18px;padding:30px 24px;transition:border-color .25s,transform .25s}
+.plan:hover{border-color:var(--line-2);transform:translateY(-3px)}
+.plan.featured{border-color:rgba(0,191,165,.5);background:linear-gradient(180deg,rgba(0,191,165,.07),var(--s1) 40%);
+  box-shadow:0 30px 70px -38px rgba(0,191,165,.55)}
+.plan.featured:hover{border-color:var(--brand)}
+.plan-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--s0);
+  background:var(--grad);padding:5px 14px;border-radius:999px;box-shadow:0 6px 16px -6px rgba(0,191,165,.7)}
+.plan-h{padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.plan-name{font-size:20px;font-weight:700;letter-spacing:-.01em}
+.plan-desc{margin-top:8px;font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:11px;flex:1}
+.plan-feats li{display:flex;gap:10px;font-size:13.5px;color:var(--ink);line-height:1.45}
+.plan-feats li::before{content:"";width:16px;height:16px;flex:0 0 16px;margin-top:2px;border-radius:5px;background:var(--brand);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") center/12px no-repeat;
+        mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") center/12px no-repeat}
+.plan-feats li.muted{color:var(--ink-2)}
+.plan-cta{margin-top:26px;display:block;text-align:center;padding:13px 16px;border-radius:11px;font-size:14px;font-weight:600;
+  transition:transform .2s,background .2s,border-color .2s,color .2s;border:1px solid transparent}
+.plan-cta.solid{background:var(--brand);color:var(--s0);box-shadow:0 10px 26px -10px rgba(0,191,165,.6)}
+.plan-cta.solid:hover{background:var(--brand-lime);transform:translateY(-2px)}
+.plan-cta.ghost{background:var(--s2);border-color:var(--line);color:var(--ink)}
+.plan-cta.ghost:hover{border-color:var(--brand);color:var(--brand);transform:translateY(-2px)}
+.plans-foot{margin-top:30px;text-align:center;font-size:13px;color:var(--ink-3);max-width:620px;margin-left:auto;margin-right:auto;line-height:1.6}
+
 /* ============ CTA / CONTACT ============ */
 .cta{position:relative;overflow:hidden}
 .cta-glow{position:absolute;left:50%;bottom:-140px;transform:translateX(-50%);width:min(700px,120vw);height:420px;z-index:-1;
@@ -408,6 +437,7 @@ footer .fbrand{color:var(--ink-2);font-weight:600}
       <a href="#sistema">O sistema</a>
       <a href="#servicos">Serviços</a>
       <a href="#porque">Por que Nexus</a>
+      <a href="#planos">Planos</a>
       <a href="#contato" class="nav-cta">Falar agora</a>
     </nav>
     <button class="burger" id="burger" aria-label="Menu">☰</button>
@@ -423,6 +453,7 @@ footer .fbrand{color:var(--ink-2);font-weight:600}
     <a href="#sistema" data-close>O sistema por dentro</a>
     <a href="#servicos" data-close>Serviços</a>
     <a href="#porque" data-close>Por que Nexus</a>
+    <a href="#planos" data-close>Planos</a>
     <a href="#contato" data-close>Falar agora</a>
   </div>
 </div>
@@ -738,6 +769,73 @@ footer .fbrand{color:var(--ink-2);font-weight:600}
       <div class="why reveal"><div class="num">03</div><h3>Trabalha sozinho</h3><p>A IA atende 24/7, o funil anda no automático e a base se reativa sozinha. O dono sai do operacional e volta a cuidar da clínica.</p></div>
       <div class="why reveal"><div class="num">04</div><h3>Parceria, não só software</h3><p>A Nexus entra junto: ativa, configura, acompanha os números e ajusta com a clínica. Você não fica sozinho com um login.</p></div>
     </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ PLANOS ============ -->
+<section id="planos">
+  <div class="wrap">
+    <div style="text-align:center;max-width:640px;margin:0 auto">
+      <span class="eyebrow reveal" style="justify-content:center;display:inline-flex">Planos</span>
+      <h2 class="section-title reveal" style="margin-top:14px">Escolha por onde começar.</h2>
+      <p class="section-sub reveal" style="margin-left:auto;margin-right:auto">Três níveis de parceria. O valor é montado junto com a sua clínica — fale com o Rodrigo e ele desenha o plano ideal pra sua realidade.</p>
+    </div>
+
+    <div class="plans-grid">
+      <!-- Essencial -->
+      <div class="plan reveal">
+        <div class="plan-h">
+          <div class="plan-name">Essencial</div>
+          <p class="plan-desc">O sistema e a IA atendendo sozinhos.</p>
+        </div>
+        <ul class="plan-feats">
+          <li>Sistema Nexus completo — CRM, agenda, pipeline e base</li>
+          <li>Central de Atendimento IA no WhatsApp, 24/7</li>
+          <li>Automações de follow-up e triagem</li>
+          <li>Onboarding e ativação assistida</li>
+          <li>Suporte contínuo</li>
+        </ul>
+        <a class="plan-cta ghost" href="https://wa.me/5548991904428?text=Ol%C3%A1!%20Vi%20a%20apresenta%C3%A7%C3%A3o%20da%20Nexus%20Health%20e%20quero%20saber%20sobre%20o%20plano%20Essencial." target="_blank" rel="noopener">Falar sobre o Essencial</a>
+      </div>
+
+      <!-- Completo (destaque) -->
+      <div class="plan featured reveal">
+        <span class="plan-badge">Mais escolhido</span>
+        <div class="plan-h">
+          <div class="plan-name">Completo</div>
+          <p class="plan-desc">Sistema + tráfego enchendo o funil.</p>
+        </div>
+        <ul class="plan-feats">
+          <li class="muted">Tudo do Essencial, mais:</li>
+          <li>Gestão de tráfego pago (Meta Ads · Click-to-WhatsApp)</li>
+          <li>Painel de performance de tráfego</li>
+          <li>Campanhas de disparo</li>
+          <li>Reativação da base de pacientes</li>
+          <li>Acompanhamento de resultados</li>
+        </ul>
+        <a class="plan-cta solid" href="https://wa.me/5548991904428?text=Ol%C3%A1!%20Vi%20a%20apresenta%C3%A7%C3%A3o%20da%20Nexus%20Health%20e%20quero%20saber%20sobre%20o%20plano%20Completo." target="_blank" rel="noopener">Falar sobre o Completo</a>
+      </div>
+
+      <!-- Parceria 360 -->
+      <div class="plan reveal">
+        <div class="plan-h">
+          <div class="plan-name">Parceria 360</div>
+          <p class="plan-desc">A Nexus como sócia digital, ponta a ponta.</p>
+        </div>
+        <ul class="plan-feats">
+          <li class="muted">Tudo do Completo, mais:</li>
+          <li>Criação de site profissional</li>
+          <li>Criação de app da clínica</li>
+          <li>Automações sob medida</li>
+          <li>Estratégia e acompanhamento dedicados</li>
+        </ul>
+        <a class="plan-cta ghost" href="https://wa.me/5548991904428?text=Ol%C3%A1!%20Vi%20a%20apresenta%C3%A7%C3%A3o%20da%20Nexus%20Health%20e%20quero%20saber%20sobre%20a%20Parceria%20360." target="_blank" rel="noopener">Falar sobre a Parceria 360</a>
+      </div>
+    </div>
+
+    <p class="plans-foot reveal">Todos os planos incluem ativação assistida. Sem taxa escondida — o Rodrigo te passa o valor certo pra realidade da sua clínica.</p>
   </div>
 </section>
 

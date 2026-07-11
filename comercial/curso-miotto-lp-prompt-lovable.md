@@ -1,105 +1,101 @@
-# Prompt pro Lovable — LP do Curso da Jennifer (colar direto)
+# Prompt pro Lovable — LP Curso Harmonização Glútea (Dra. Jenniffer Miotto)
 
-> Cole o bloco abaixo no Lovable. Já vem com a identidade NEXUS, a copy final,
-> os order bumps e os blocos de compliance. Onde há `[colchete]`, preencher com o
-> dado real (bio/casos da Jennifer, links de checkout).
->
-> Fonte da copy: `comercial/curso-miotto-lp-e-trafego.md`.
+> Cole o bloco abaixo no Lovable pra reconstruir a LP e publicar no domínio dela.
+> Referência visual pronta: `comercial/curso-miotto-lp.html` (abra pra ver o resultado-alvo).
+> Onde há `[colchete]`, preencher com o dado real.
 
 ---
 
 ```
-Crie uma landing page de vendas (one-page, alta conversão) para um curso online gravado.
+Crie uma landing page de vendas (one-page, alta conversão) para um curso online gravado
+de HARMONIZAÇÃO GLÚTEA (ácido hialurônico + bioestimulador), da biomédica Dra. Jenniffer
+Miotto. Estética de luxo editorial (referência: o site drajenniffer, tons creme/espresso).
 
 ## Identidade visual (obrigatória)
-- Estilo: minimalista, dark-mode, premium — referência Apple / Linear.
-- Cor de destaque (CTAs, detalhes, ícones): #00BFA5 (teal).
-- Fundo escuro (near-black), texto claro, muito respiro/whitespace.
-- Tipografia: Inter (títulos bold, corpo regular).
-- Botões com o teal #00BFA5, cantos levemente arredondados, hover sutil.
-- Use ✅ (check teal) para as listas de benefícios, nunca bullets simples.
-- 100% responsivo mobile-first. Sem scroll horizontal. Imagens max-width 100%.
+- Paleta: fundo creme #F4EEE4; seções escuras espresso #2B2621; acento cobre/terracota
+  #A9744C (e #C08B5C para hover/detalhes). Texto sobre creme #2C2620; texto sobre escuro #ECE3D4.
+- Tipografia: TÍTULOS em serifa editorial elegante (tipo Hoefler/Playfair/Canela), com
+  palavras de ênfase em ITÁLICO na cor cobre. CORPO em sans-serif limpa (tipo Inter).
+  Labels em CAIXA ALTA com letter-spacing e um traço "—" antes.
+- Alterna seções creme e espresso. Muito whitespace. Cantos suaves. Mobile-first.
+- Use ✦ (cobre) nas listas de destaque. Botões: em fundo creme = espresso; em fundo escuro = cobre.
 
-## Estrutura da página (nesta ordem)
+## Seções (nesta ordem)
 
-### 1. Hero (above the fold)
-- Título (h1): "Domine o Protocolo de Bioestimulador de Glúteo — a técnica que vira o procedimento mais lucrativo da sua clínica"
-- Subtítulo: "Do fundamento à aplicação passo a passo, com a biomédica Jennifer [Miotto]. Aprenda a executar com segurança, precificar como protocolo e parar de deixar dinheiro na mesa."
-- Botão CTA primário: "QUERO DOMINAR O PROTOCOLO" (ancora no checkout)
-- Espaço para um vídeo (VSL) ou imagem de destaque acima/ao lado do texto.
+### 1. Nav (sticky, creme)
+Marca à esquerda em serifa: "Dra. Jenniffer Miotto" + "ESTÉTICA AVANÇADA" (sub, caixa alta).
+Botão CTA à direita (espresso): "Quero o protocolo" → âncora no checkout.
 
-### 2. A dor (identificação)
-Título: "Você viu o glúteo com bioestimulador explodir de procura — mas…"
-Três cards:
-- "Trava na insegurança da técnica e não se sente pronta pra aplicar com confiança."
-- "Tem medo de intercorrência e de não saber conduzir."
-- "Domina a mão, mas a agenda continua vazia — técnica boa não paga conta sozinha."
+### 2. Hero (creme)
+- Label: "— CURSO ONLINE · PARA PROFISSIONAIS"
+- H1 (serifa): "Domine a harmonização glútea completa com *ciência e segurança*." (itálico cobre em "ciência e segurança")
+- Sub: "Do ácido hialurônico ao bioestimulador — contorno, projeção e realce natural das curvas, com técnica, segurança e o modelo pra transformar tudo isso em centro de lucro. Conduzido pessoalmente pela biomédica Dra. Jenniffer Miotto."
+- Botões: "Quero dominar o protocolo" (espresso) + "Conhecer o conteúdo" (outline).
+- Chips: "✦ Acesso vitalício · ✦ Demonstração completa gravada · ✦ Certificado"
+- À direita: FOTO da Dra. (blazer branco) integrada/sangrando no layout, SEM moldura, com
+  bordas esfumaçadas derretendo no creme (mask gradient). [subir foto: jenniffer-miotto.webp]
 
-### 3. A virada (promessa)
-Texto: "Este curso te leva de 'tenho medo de aplicar' pra 'esse é o procedimento que mais fatura na minha clínica'. Você sai com o protocolo na mão, a segurança pra executar e o modelo pra precificar e vender — não só a técnica."
+### 3. Dor (creme) — título "Você viu a harmonização glútea *explodir de procura* — mas…"
+3 cards: "Insegurança na técnica" · "Medo de intercorrência" · "Agenda vazia" (textos de dor curtos).
 
-### 4. O que você vai dominar (grade)
-Lista com ✅:
-✅ Anatomia, planos e zonas de risco do glúteo
-✅ Bioestimuladores: qual usar, diluição, ativação e nº de sessões
-✅ Avaliação, seleção e documentação do paciente
-✅ Técnica de aplicação passo a passo (demonstração completa gravada)
-✅ Manejo de pós e de intercorrências
-✅ Precificação e montagem do pacote (parar de dar desconto)
-✅ Como encher a agenda pro procedimento — aquisição de paciente
+### 4. Conteúdo (seção ESPRESSO) — layout 2 colunas
+- Esquerda: VÍDEO da demonstração real (player), tag "DEMONSTRAÇÃO · TÉCNICA REAL". [subir o vídeo]
+- Direita: label "— O QUE VOCÊ VAI DOMINAR", H2 "Da anatomia à *agenda cheia*.", e lista numerada:
+  01 Anatomia, planos e zonas de risco do glúteo
+  02 Ácido hialurônico no glúteo — indicação, técnica, volumes e camadas
+  03 Bioestimuladores de colágeno — qual usar, diluição, ativação, sessões
+  04 Avaliação e planejamento — qual técnica para cada objetivo (contorno, projeção, realce)
+  05 Técnica de aplicação passo a passo — demonstração completa gravada, sem cortes
+  06 Manejo de pós-procedimento e intercorrências
+  07 Precificação e montagem do pacote — parar de dar desconto
+  08 Como encher a agenda pro procedimento
+  Botão cobre: "Começar agora".
 
-### 5. Pra quem é (filtro)
-Dois blocos lado a lado:
-- "É pra você se é: biomédico(a) esteta, médico(a) ou enfermeiro(a) habilitado(a) que quer dominar (ou aperfeiçoar) o protocolo de glúteo e transformá-lo em centro de lucro."
-- "Não é pra você se: busca 'fórmula mágica' sem estudo — aqui tem técnica e responsabilidade."
-Abaixo, um aviso destacado (caixa com borda teal):
-"⚠️ Importante: o procedimento de bioestimulador em glúteo está fora do escopo de atuação de cirurgiões-dentistas (restrito à região orofacial). Este curso é destinado aos profissionais habilitados citados acima."
+### 5. Pra quem é (creme) — dois cards
+- "É pra você se é": biomédico(a) esteta, médico(a), enfermeiro(a) habilitado(a), e quer tornar o glúteo centro de lucro.
+- "Não é pra você se": busca fórmula mágica sem estudo; não quer assumir a responsabilidade técnica.
+- Caixa de aviso (borda dourada): "Os procedimentos de harmonização glútea (ácido hialurônico e bioestimulador) estão FORA do escopo de cirurgiões-dentistas (restrito à região orofacial). Este curso é destinado aos profissionais habilitados acima."
 
-### 6. Autoridade (quem é a Jennifer)
-Foto + bio: "Jennifer [Miotto] — biomédica esteta, sócia da NEXUS. [Credenciais + nº de procedimentos realizados + casos documentados]."
-Espaço para galeria de casos (antes/depois) com legenda de consentimento.
+### 6. Autoridade (creme claro) — 2 colunas
+- Esquerda: FOTO da Dra. (blazer). Direita: label "— QUEM ENSINA", H2 "Dra. Jenniffer Miotto",
+  bio: "Biomédica esteta, referência em harmonização glútea em Itajaí e Balneário Camboriú. [credenciais + nº de procedimentos]."
+- Stats: "[+000] procedimentos realizados · 2 unidades em SC · CRBM escopo confirmado".
+- Galeria: 3 FOTOS reais do procedimento (dela aplicando). [subir as 3 fotos]
 
-### 7. Bônus
-Cards com 🎁: Termo de consentimento modelo · Ficha de anamnese · Tabela de precificação editável · Checklist de biossegurança.
+### 7. Bônus (creme) — 4 cards
+Termo de consentimento · Ficha de anamnese · Tabela de precificação · Checklist de biossegurança.
 
-### 8. Oferta (checkout)
-- Texto de ancoragem: "Uma única aplicação de bioestimulador de glúteo na clínica já paga o curso várias vezes."
-- Preço em destaque: "R$ 497 (ou 12x)" — "Acesso imediato e vitalício."
-- Botão CTA: "GARANTIR MINHA VAGA — R$ 497"
+### 8. Oferta (seção espresso) com card de checkout (creme)
+- Ancoragem: "Uma aplicação já paga o curso várias vezes."
+- Preço: de R$ 1.297 por "R$ 497 (ou 12x)" · "Acesso imediato e para sempre".
+- Order bumps (checkbox, atualizam o total ao vivo):
+  [ ] Máquina de Captação de Paciente +R$ 97
+  [ ] Criativo Campeão +R$ 67
+  [ ] Sua Secretária de IA +R$ 127
+- Total dinâmico + botão cobre "Garantir minha vaga agora" → checkout PagTrust [inserir link].
+- Selo: "Garantia incondicional de 7 dias".
 
-#### Order bumps (checkbox no checkout, aumentam o pedido)
-Renderizar como caixas selecionáveis logo antes do botão de pagamento:
-- [ ] Adicionar "Máquina de Captação de Paciente" — +R$ 97
-- [ ] Adicionar "Criativo Campeão" (swipe file de anúncios) — +R$ 67
-- [ ] Adicionar "Sua Secretária de IA" (montar agente no WhatsApp) — +R$ 127
-(Integrar com checkout PagTrust via link/embed: [inserir link do checkout].)
+### 9. FAQ (creme, acordeão)
+- "Sou de outra profissão, posso aplicar?" · "O curso me habilita legalmente? (capacitação técnica)" ·
+  "É gravado? (on-demand, vitalício)" · "Tem certificado? [definir]".
 
-### 9. Garantia
-Selo: "Garantia de 7 dias. Não é o que você esperava? Devolvemos 100%."
-
-### 10. FAQ (acordeão)
-- "Sou [profissão], posso aplicar?" → "Depende do seu conselho. O curso é destinado a biomédicos estetas, médicos e enfermeiros habilitados. Dentistas não (fora do escopo)."
-- "O curso me habilita legalmente?" → "É capacitação técnica. A habilitação para o ato é definida pelo seu conselho de classe."
-- "É gravado?" → "Sim, on-demand, acesso vitalício, no seu ritmo."
-- "Tem certificado?" → "[definir]"
-
-### 11. CTA final + rodapé
-- Botão: "QUERO COMEÇAR AGORA"
-- Rodapé: NEXUS Inteligência Artificial LTDA · CNPJ 59.468.222/0001-86 · Balneário Camboriú/SC · [política de privacidade / termos].
+### 10. CTA final (espresso) + rodapé
+H2: "Domine a técnica, precifique como protocolo e *encha a agenda*". Botão CTA.
+Rodapé: "Dra. Jenniffer Miotto · Estética Avançada · Itajaí & Balneário Camboriú/SC · [CNPJ]".
 
 ## Técnico
-- Instalar campo para pixel do Meta (conversão de Purchase) no <head>.
-- CTAs fazem scroll suave até a seção de checkout.
-- Otimizar para carregamento rápido (mobile).
-- Meta title: "Curso Protocolo de Bioestimulador de Glúteo — Jennifer [Miotto]".
+- Instalar pixel do Meta (Purchase) no <head>. CTAs com scroll suave até o checkout.
+- Integrar checkout PagTrust (link/embed) e disparar o lead pro CRM/Bia após a compra.
+- Meta title: "Curso de Harmonização Glútea — Dra. Jenniffer Miotto". Otimizar mobile.
 ```
 
 ---
 
-## Pendências pra finalizar a LP (não travam a geração, travam a publicação)
+## Checklist pra ficar no ar (o que depende de você)
 
-- [ ] Bio + credenciais da Jennifer (bloco 6) — Gate 2
-- [ ] Casos antes/depois com consentimento (bloco 6)
-- [ ] Link/embed do checkout PagTrust + order bumps (bloco 8)
-- [ ] Pixel do Meta (Purchase) instalado
-- [ ] Confirmar se tem certificado (FAQ)
+- [ ] **Domínio/subdomínio** (ex.: `curso.drajenniffer.nexushealth.com.br`)
+- [ ] **Checkout PagTrust** criado (curso R$ 497 + 3 order bumps) → colar o link
+- [ ] **Bio + nº de procedimentos** da Dra. (troca o `[+000]`)
+- [ ] **CNPJ** do rodapé (quem vende: Jennifer ou NEXUS)
+- [ ] **Pixel do Meta** (Purchase) instalado
+- [ ] Subir os assets: foto (`jenniffer-miotto.webp`), o vídeo da demo e as 3 fotos do procedimento

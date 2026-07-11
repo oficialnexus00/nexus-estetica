@@ -1,4 +1,8 @@
-# Curso da Jennifer — Grade de tópicos (Protocolo de Bioestimulador de Glúteo)
+# Curso da Jennifer — Grade de tópicos (Harmonização Glútea: ácido + bioestimulador)
+
+> **Escopo (corrigido):** não é só bioestimulador. É **harmonização glútea completa** —
+> **ácido hialurônico E bioestimulador de colágeno** — cobrindo contorno, projeção e
+> realce. Casa com o carro-chefe da marca dela ("Harmonização Glútea").
 
 > **Contexto:** entregável da task ClickUp [86ajff7un](https://app.clickup.com/t/86ajff7un).
 > Compliance do lado da Jennifer **resolvido** — CRBM confirmou escopo, ela pode ministrar,
@@ -32,10 +36,18 @@ As 3 primeiras partes justificam o ticket; a última é o que nos entrega o lead
 - Aula 1.2 — Biossegurança, assepsia, ambiente e materiais
 - Aula 1.3 — Marco legal e responsabilidade do profissional (documentação, consentimento)
 
-### Módulo 2 — Bioestimuladores: o produto na ponta da agulha
-- Aula 2.1 — Tipos e mecanismo: hidroxiapatita de cálcio (Radiesse) x PLLA (Sculptra)
-- Aula 2.2 — Diluição, hidratação e ativação corretas por produto
-- Aula 2.3 — Quando usar qual, quantos frascos, quantas sessões
+### Módulo 2 — Ácido hialurônico no glúteo
+- Aula 2.1 — Indicação: quando o ácido é a escolha (contorno/projeção imediata)
+- Aula 2.2 — Técnica, camadas, volumes e produtos
+- Aula 2.3 — Cuidados, segurança vascular e limites
+
+### Módulo 3 — Bioestimuladores de colágeno
+- Aula 3.1 — Tipos e mecanismo: hidroxiapatita de cálcio (Radiesse) x PLLA (Sculptra)
+- Aula 3.2 — Diluição, hidratação e ativação corretas por produto
+- Aula 3.3 — Quando usar qual, quantos frascos, quantas sessões
+
+### Módulo 3.5 — Ácido x bioestimulador: qual técnica para cada objetivo
+- Combinar ou escolher: contorno, projeção, realce e resultado natural sob medida
 
 ### Módulo 3 — Avaliação e seleção do paciente
 - Aula 3.1 — Anamnese, indicações e **contraindicações**

@@ -36,10 +36,17 @@ remota, sede em Balneário Camboriú/SC.
 │   └── fluxo-bia.md              # Regras do fluxo da agente Bia
 ├── stack/                        # Tecnologia
 │   └── stack-tecnico.md          # Ferramentas e arquitetura
-└── pmo/                          # Gestão
-    ├── como-trabalhamos.md       # Método PMO (P0–P3, dono, KPI)
-    └── pendencias.md             # Backlog de decisões do Kaian
+├── pmo/                          # Gestão
+│   ├── como-trabalhamos.md       # Método PMO (P0–P3, dono, KPI)
+│   └── pendencias.md             # Backlog de decisões do Kaian
+└── afiliados/                    # NOVO business — afiliados/garimpo (fora da NEXUS)
+    ├── visao-geral.md            # Registro da ideia + modelo de comissão
+    └── referencias.md            # Banco de referências (@garimporeal.oficiall #1)
 ```
+
+> **Nota:** `afiliados/` é um **business separado** da NEXUS (curadoria de achadinhos
+> monetizada por comissão de afiliado), registrado aqui por conveniência até ganhar
+> seu próprio espaço/departamento no ClickUp.
 
 ## Como manter atualizado
 

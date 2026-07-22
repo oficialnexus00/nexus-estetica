@@ -37,6 +37,7 @@ import Internacao from './views/Internacao'
 import Inteligencia from './views/Inteligencia'
 import Reativacao from './views/Reativacao'
 import Bia from './views/Bia'
+import Suporte from './views/Suporte'
 
 const NAV = [
   { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
@@ -52,6 +53,7 @@ const NAV = [
   { id: 'reativacao', label: 'Reativação', icon: '🔔' },
   { id: 'configuracoes', label: 'Configurações', icon: '⚙️' },
   { id: 'bia', label: 'Bia (IA)', icon: '✦' },
+  { id: 'suporte', label: 'Suporte', icon: '🎧' },
 ] as const
 
 type View = (typeof NAV)[number]['id']
@@ -943,12 +945,19 @@ export default function App() {
               </div>
             </div>
           </div>
-          {VIEWS_COM_AGENDAR.has(view) && (
-            <button onClick={() => setAgendando(true)} disabled={!data}
-              className="shrink-0 whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50 md:px-3.5 md:text-[13px]">
-              + Agendar
+          <div className="flex shrink-0 items-center gap-2">
+            <button onClick={() => go('suporte')}
+              className={`whitespace-nowrap rounded-lg border px-3 py-2 text-[12.5px] font-medium transition md:px-3.5 md:text-[13px] ${
+                view === 'suporte' ? 'border-brand/50 bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:border-brand/50 hover:text-ink'}`}>
+              🎧 Suporte
             </button>
-          )}
+            {VIEWS_COM_AGENDAR.has(view) && (
+              <button onClick={() => setAgendando(true)} disabled={!data}
+                className="whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50 md:px-3.5 md:text-[13px]">
+                + Agendar
+              </button>
+            )}
+          </div>
         </header>
 
         {aviso && (
@@ -988,6 +997,7 @@ export default function App() {
               {view === 'reativacao' && <Reativacao data={data} />}
               {view === 'configuracoes' && <Configuracoes data={data} acoes={acoes} />}
               {view === 'bia' && <Bia />}
+              {view === 'suporte' && <Suporte />}
             </>
           )}
         </div>

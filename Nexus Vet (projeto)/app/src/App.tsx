@@ -124,6 +124,20 @@ function gerarHorarios(inicio: string, intervaloHoras: number): { hora: string; 
   })
 }
 
+/** Ícone da Bia: bonequinha com a estrelinha de IA na base (herda a cor via currentColor). */
+function BiaIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[15px] w-[15px] shrink-0" fill="currentColor" aria-hidden="true">
+      {/* cabeça */}
+      <circle cx="12" cy="4.8" r="2.9" />
+      {/* corpo / vestido */}
+      <path d="M12 8.1c-2.3 0-3.6 1.9-4.1 4.3-.2 1 .5 1.9 1.5 1.9h5.2c1 0 1.7-.9 1.5-1.9C15.6 10 14.3 8.1 12 8.1z" />
+      {/* estrelinha de IA embaixo, no centro */}
+      <path d="M12 14.6c.32 1.55.83 2.06 2.38 2.38-1.55.32-2.06.83-2.38 2.38-.32-1.55-.83-2.06-2.38-2.38 1.55-.32 2.06-.83 2.38-2.38z" />
+    </svg>
+  )
+}
+
 function Logo() {
   return (
     <svg viewBox="0 0 1024 1024" className="h-7 w-7">
@@ -872,7 +886,9 @@ export default function App() {
           <button key={item.id} onClick={() => go(item.id)}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-[13.5px] font-medium transition
               ${view === item.id ? 'bg-brand/12 text-brand' : 'text-ink-2 hover:bg-surface-2 hover:text-ink'}`}>
-            <span className="text-[15px] leading-none">{item.icon}</span>
+            {item.id === 'bia'
+              ? <BiaIcon />
+              : <span className="text-[15px] leading-none">{item.icon}</span>}
             {item.label}
           </button>
         ))}

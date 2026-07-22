@@ -37,6 +37,7 @@ import Internacao from './views/Internacao'
 import Inteligencia from './views/Inteligencia'
 import Reativacao from './views/Reativacao'
 import Bia from './views/Bia'
+import Guia from './views/Guia'
 import Suporte from './views/Suporte'
 
 const NAV = [
@@ -53,6 +54,7 @@ const NAV = [
   { id: 'reativacao', label: 'Reativação', icon: '🔔' },
   { id: 'configuracoes', label: 'Configurações', icon: '⚙️' },
   { id: 'bia', label: 'Bia (IA)', icon: '✦' },
+  { id: 'guia', label: 'Guia de uso', icon: '📚' },
   { id: 'suporte', label: 'Suporte', icon: '🎧' },
 ] as const
 
@@ -997,6 +999,7 @@ export default function App() {
               {view === 'reativacao' && <Reativacao data={data} />}
               {view === 'configuracoes' && <Configuracoes data={data} acoes={acoes} />}
               {view === 'bia' && <Bia />}
+              {view === 'guia' && <Guia />}
               {view === 'suporte' && <Suporte />}
             </>
           )}

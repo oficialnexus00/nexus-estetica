@@ -55,8 +55,8 @@ const NAV = [
 type View = (typeof NAV)[number]['id']
 type Clinica = { id: string; nome: string; cidade: string | null }
 
-// "+ Agendar" só aparece nas telas onde agendar faz sentido no fluxo.
-const VIEWS_COM_AGENDAR = new Set<View>(['dashboard', 'agenda', 'tutores'])
+// "+ Agendar" só aparece na Agenda — é onde criar agendamento pertence ao fluxo.
+const VIEWS_COM_AGENDAR = new Set<View>(['agenda'])
 
 /** Ações de escrita disponíveis para as telas. */
 export type Acoes = {

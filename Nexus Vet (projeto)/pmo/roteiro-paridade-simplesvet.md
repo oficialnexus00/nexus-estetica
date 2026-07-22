@@ -21,7 +21,7 @@ clínico/Pet 360 · Clientes · Financeiro (base + DRE) · Reativação com IA
 **Falta pra igualar — módulos inteiros:**
 1. ✅ ~~Comissionamento~~ (comissões + extratos) — **concluído**
 2. ✅ ~~Internação~~ (internados, boxes, aprazamento, parâmetros, alta→lançamento) — **concluído**
-3. ⚠️ **Inteligência/BI** (produtividade, relatórios de vendas) ← **próximo**
+3. ✅ ~~Inteligência/BI~~ (produtividade, vendas, clientes, sazonalidade, export CSV) — **concluído**
 4. ❌ **Portal do tutor**
 5. ❌ **Pesquisa de satisfação / NPS**
 6. ❌ **Fiscal/NF-e** e **Site** (decisão do Rodrigo — regulado / fora da tese)
@@ -59,7 +59,7 @@ Uma fase por vez, fechada de ponta a ponta.
 | **Agenda** | Agenda · Escala (plantão) · Configuração | ⚠️ |
 | **Vendas (PDV)** | Ponto de venda · Minhas vendas · Movimentos de caixa · Consulta vendas · Pacotes vendidos · Recebimentos · Lista de preços · Ranking de clientes · Saldo dos clientes · Formas de recebimento · Modelo de orçamento · Modelo de demonstrativo · Configuração | ❌ |
 | **Comissionamento** | Comissões em aberto · Extratos | ❌ |
-| **Inteligência (BI)** | Produtividade · Vendas | ⚠️ |
+| **Inteligência (BI)** | Produtividade · Vendas | ✅ |
 | **Consultas** | Vacinação · Aniversários · Log | ⚠️ |
 | **Cadastros** | Espécies · Raças · Pelagens · Patologias · Tipos de atendimento · Vacinas · Exames · Atributos de exames · Referências de exames · Modelo de receita · Origem dos clientes · Modelo de documento | ⚠️ |
 | **Internação** | Animais internados · Mapa de Execução (aprazamento) · Histórico · Parâmetros clínicos · Modelos de prescrição · Boxes (leitos) | ✅ |
@@ -132,12 +132,13 @@ profissionais, protocolo de vacinas) · Recibos/comprovantes PDF · Bia (placeho
 - ⏭️ **Modelos de prescrição** — adiado (fazer junto de Cadastros/modelos)
 - ⏭️ **Histórico de internações** detalhado — v1 mostra encerradas na aba Histórico; aprofundar depois
 
-## Fase 5 — Inteligência / Relatórios ⚠️→❌
+## Fase 5 — Inteligência / Relatórios ✅ CONCLUÍDA (jul/2026)
 
-- [ ] **Produtividade** (faturamento/atendimentos por profissional)
-- [ ] **Vendas** (por serviço/produto, ranking de rentabilidade)
-- [ ] Sazonalidade e clientes novos x recorrentes
-- [ ] Exportação CSV/Excel
+- [x] **Produtividade** (faturamento + atendimentos + ticket médio por profissional, ranking + tabela) ✅
+- [x] **Vendas** (por serviço/produto, ranking de rentabilidade, % do total, descontos) ✅
+- [x] **Clientes** — novos × recorrentes, base ativa/inativa, **sazonalidade** (a receber por mês, 6 meses), origem ✅
+- [x] **Exportação CSV** (produtividade, vendas por item, base de clientes — abre no Excel pt-BR) ✅
+- ⏭️ Comparativo entre clínicas / drill-down por período custom — adiado (v1 usa a clínica selecionada)
 
 ## Fase 6 — Cadastros de apoio + Consultas ⚠️
 

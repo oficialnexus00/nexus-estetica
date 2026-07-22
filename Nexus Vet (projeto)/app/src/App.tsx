@@ -34,6 +34,7 @@ import Exames from './views/Exames'
 import Vendas from './views/Vendas'
 import Comissoes from './views/Comissoes'
 import Internacao from './views/Internacao'
+import Inteligencia from './views/Inteligencia'
 import Reativacao from './views/Reativacao'
 import Bia from './views/Bia'
 
@@ -45,6 +46,7 @@ const NAV = [
   { id: 'vendas', label: 'Vendas', icon: '🛒' },
   { id: 'comissoes', label: 'Comissões', icon: '💵' },
   { id: 'internacao', label: 'Internação', icon: '🏥' },
+  { id: 'inteligencia', label: 'Inteligência', icon: '📊' },
   { id: 'estoque', label: 'Estoque', icon: '📦' },
   { id: 'exames', label: 'Exames', icon: '🔬' },
   { id: 'reativacao', label: 'Reativação', icon: '🔔' },
@@ -955,6 +957,7 @@ export default function App() {
               {view === 'vendas' && <Vendas data={data} acoes={acoes} />}
               {view === 'comissoes' && <Comissoes data={data} acoes={acoes} />}
               {view === 'internacao' && <Internacao data={data} acoes={acoes} />}
+              {view === 'inteligencia' && <Inteligencia data={data} />}
               {view === 'estoque' && <Estoque itens={data.estoque ?? []} acoes={acoes} />}
               {view === 'exames' && <Exames exames={data.exames ?? []} pets={data.tutores.flatMap(t => t.pets)} acoes={acoes} />}
               {view === 'reativacao' && <Reativacao data={data} />}

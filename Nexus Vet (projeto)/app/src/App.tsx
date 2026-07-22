@@ -39,10 +39,10 @@ import Reativacao from './views/Reativacao'
 import Bia from './views/Bia'
 
 const NAV = [
-  { id: 'dashboard', label: 'Dashboard', icon: '◧' },
-  { id: 'agenda', label: 'Agenda', icon: '▤' },
-  { id: 'tutores', label: 'Tutores & Pets', icon: '◉' },
-  { id: 'financeiro', label: 'Financeiro', icon: '◈' },
+  { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
+  { id: 'agenda', label: 'Agenda', icon: '📅' },
+  { id: 'tutores', label: 'Tutores & Pets', icon: '🐾' },
+  { id: 'financeiro', label: 'Financeiro', icon: '💰' },
   { id: 'vendas', label: 'Vendas', icon: '🛒' },
   { id: 'comissoes', label: 'Comissões', icon: '💵' },
   { id: 'internacao', label: 'Internação', icon: '🏥' },

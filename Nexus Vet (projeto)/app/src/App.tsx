@@ -55,6 +55,9 @@ const NAV = [
 type View = (typeof NAV)[number]['id']
 type Clinica = { id: string; nome: string; cidade: string | null }
 
+// "+ Agendar" só aparece nas telas onde agendar faz sentido no fluxo.
+const VIEWS_COM_AGENDAR = new Set<View>(['dashboard', 'agenda', 'tutores'])
+
 /** Ações de escrita disponíveis para as telas. */
 export type Acoes = {
   demo: boolean
@@ -913,10 +916,12 @@ export default function App() {
               </div>
             </div>
           </div>
-          <button onClick={() => setAgendando(true)} disabled={!data}
-            className="shrink-0 whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50 md:px-3.5 md:text-[13px]">
-            + Agendar
-          </button>
+          {VIEWS_COM_AGENDAR.has(view) && (
+            <button onClick={() => setAgendando(true)} disabled={!data}
+              className="shrink-0 whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50 md:px-3.5 md:text-[13px]">
+              + Agendar
+            </button>
+          )}
         </header>
 
         {aviso && (

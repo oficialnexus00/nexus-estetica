@@ -50,7 +50,7 @@ const NAV = [
   { id: 'estoque', label: 'Estoque', icon: '📦' },
   { id: 'exames', label: 'Exames', icon: '🔬' },
   { id: 'reativacao', label: 'Reativação', icon: '🔔' },
-  { id: 'configuracoes', label: 'Configurações', icon: '⚙' },
+  { id: 'configuracoes', label: 'Configurações', icon: '⚙️' },
   { id: 'bia', label: 'Bia (IA)', icon: '✦' },
 ] as const
 

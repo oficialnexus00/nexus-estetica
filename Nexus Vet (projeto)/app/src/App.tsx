@@ -128,17 +128,20 @@ function gerarHorarios(inicio: string, intervaloHoras: number): { hora: string; 
 function BiaIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 -my-1" aria-hidden="true">
-      {/* cabelo (atrás) */}
-      <circle cx="12" cy="6" r="4.1" fill="#5D4037" />
-      {/* rosto */}
-      <circle cx="12" cy="6.5" r="3.1" fill="#F3C892" />
-      {/* franja */}
-      <path fill="#5D4037" d="M8.9 5.4c.9-1.3 5.3-1.3 6.2 0 .2.6.2 1.2.1 1.8-.6-1-1.7-1.4-3.2-1.4s-2.6.4-3.2 1.4c-.1-.6-.1-1.2.1-1.8z" />
-      {/* laço */}
-      <path fill="#00BFA5" d="M14.8 3.1c.7-.2 1.5.1 1.6.7.1.6-.5 1.1-1.2 1.2z" />
-      {/* vestido (teal da marca) */}
-      <path fill="#00BFA5" d="M12 9.4c-2.2 0-3.5 1.7-4 4-.22 1 .5 1.9 1.5 1.9h5c1 0 1.72-.9 1.5-1.9-.5-2.3-1.8-4-4-4z" />
-      {/* estrelinha de IA — base, centro */}
+      {/* corpo alargado horizontalmente (mesma altura) */}
+      <g transform="matrix(1.28 0 0 1 -3.36 0)">
+        {/* cabelo (atrás) */}
+        <circle cx="12" cy="6" r="4.1" fill="#5D4037" />
+        {/* rosto */}
+        <circle cx="12" cy="6.5" r="3.1" fill="#F3C892" />
+        {/* franja */}
+        <path fill="#5D4037" d="M8.9 5.4c.9-1.3 5.3-1.3 6.2 0 .2.6.2 1.2.1 1.8-.6-1-1.7-1.4-3.2-1.4s-2.6.4-3.2 1.4c-.1-.6-.1-1.2.1-1.8z" />
+        {/* laço */}
+        <path fill="#00BFA5" d="M14.8 3.1c.7-.2 1.5.1 1.6.7.1.6-.5 1.1-1.2 1.2z" />
+        {/* vestido (teal da marca) */}
+        <path fill="#00BFA5" d="M12 9.4c-2.2 0-3.5 1.7-4 4-.22 1 .5 1.9 1.5 1.9h5c1 0 1.72-.9 1.5-1.9-.5-2.3-1.8-4-4-4z" />
+      </g>
+      {/* estrelinha de IA — base, centro (simétrica) */}
       <path fill="#FFCA28" d="M12 15.3c.34 1.66.9 2.22 2.56 2.56-1.66.34-2.22.9-2.56 2.56-.34-1.66-.9-2.22-2.56-2.56 1.66-.34 2.22-.9 2.56-2.56z" />
     </svg>
   )

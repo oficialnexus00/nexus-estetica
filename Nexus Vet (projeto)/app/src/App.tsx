@@ -5,6 +5,16 @@ import type { DB, Tutor, ItemVenda, FormaPagamento } from './data'
 export type DadosVenda = {
   clienteNome?: string; petNome?: string; itens: ItemVenda[]; desconto: number; formaPagamento: FormaPagamento; profissional?: string
 }
+
+export type DadosInternacao = {
+  petId: string; motivo: string; box?: string; profissional?: string; previsaoAlta?: string; valorDiaria: number
+}
+export type DadosParametro = {
+  temperatura?: number; fc?: number; fr?: number; mucosas?: string; obs?: string
+}
+export type DadosMedicacao = {
+  medicamento: string; dose: string; via: string; intervaloHoras: number; inicio: string
+}
 import { supabase, MODO_DEMO } from './lib/supabase'
 import { carregarClinica, carregarClinicas, situacaoDa } from './lib/queries'
 import * as mut from './lib/mutations'
@@ -23,6 +33,7 @@ import Estoque from './views/Estoque'
 import Exames from './views/Exames'
 import Vendas from './views/Vendas'
 import Comissoes from './views/Comissoes'
+import Internacao from './views/Internacao'
 import Reativacao from './views/Reativacao'
 import Bia from './views/Bia'
 
@@ -33,6 +44,7 @@ const NAV = [
   { id: 'financeiro', label: 'Financeiro', icon: '◈' },
   { id: 'vendas', label: 'Vendas', icon: '🛒' },
   { id: 'comissoes', label: 'Comissões', icon: '💵' },
+  { id: 'internacao', label: 'Internação', icon: '🏥' },
   { id: 'estoque', label: 'Estoque', icon: '📦' },
   { id: 'exames', label: 'Exames', icon: '🔬' },
   { id: 'reativacao', label: 'Reativação', icon: '🔔' },
@@ -85,7 +97,26 @@ export type Acoes = {
   abrirCaixa: (valorInicial: number) => Promise<void>
   registrarMovimentoCaixa: (d: { tipo: 'entrada' | 'saida'; descricao: string; valor: number }) => Promise<void>
   fecharCaixa: () => Promise<void>
+  internarPet: (d: DadosInternacao) => Promise<void>
+  registrarParametro: (internacaoId: string, d: DadosParametro) => Promise<void>
+  adicionarMedicacao: (internacaoId: string, d: DadosMedicacao) => Promise<void>
+  alternarAplicacao: (internacaoId: string, medId: string, idx: number) => Promise<void>
+  darAlta: (internacaoId: string) => Promise<void>
   clinicaNome: string
+}
+
+/** Gera o aprazamento (horários previstos) de uma medicação nas próximas 24h. */
+function gerarHorarios(inicio: string, intervaloHoras: number): { hora: string; aplicado: boolean }[] {
+  const [h, m] = inicio.split(':').map(Number)
+  const base = h * 60 + (m || 0)
+  const intervalo = Math.max(1, intervaloHoras)
+  const n = Math.max(1, Math.floor(24 / intervalo))
+  return Array.from({ length: n }, (_, i) => {
+    const t = (base + i * intervalo * 60) % (24 * 60)
+    const hh = String(Math.floor(t / 60)).padStart(2, '0')
+    const mm = String(t % 60).padStart(2, '0')
+    return { hora: `${hh}:${mm}`, aplicado: false }
+  })
 }
 
 function Logo() {
@@ -724,6 +755,88 @@ export default function App() {
       }))
       notificar('Caixa fechado.')
     },
+
+    async internarPet(d) {
+      const pet = data?.tutores.flatMap(t => t.pets.map(p => ({ p, tutor: t }))).find(x => x.p.id === d.petId)
+      if (!pet) return
+      const hoje = new Date().toISOString().slice(0, 10)
+      const nova = {
+        id: 'int' + Date.now(), petId: d.petId, petNome: pet.p.nome, tutorNome: pet.tutor.nome,
+        especie: pet.p.especie, box: d.box, motivo: d.motivo, profissional: d.profissional,
+        entrada: hoje, previsaoAlta: d.previsaoAlta, valorDiaria: d.valorDiaria,
+        status: 'internado' as const, parametros: [], medicacoes: [],
+      }
+      setData(atual => atual && ({ ...atual, internacoes: [nova, ...(atual.internacoes ?? [])] }))
+      notificar(`${pet.p.nome} internado.`)
+    },
+
+    async registrarParametro(internacaoId, d) {
+      const agora = new Date()
+      const hoje = agora.toISOString().slice(0, 10)
+      const hora = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+      setData(atual => atual && ({
+        ...atual,
+        internacoes: (atual.internacoes ?? []).map(i => i.id !== internacaoId ? i : ({
+          ...i,
+          parametros: [...i.parametros, { id: 'pc' + Date.now(), data: hoje, hora, ...d }],
+        })),
+      }))
+      notificar('Parâmetros clínicos registrados.')
+    },
+
+    async adicionarMedicacao(internacaoId, d) {
+      setData(atual => atual && ({
+        ...atual,
+        internacoes: (atual.internacoes ?? []).map(i => i.id !== internacaoId ? i : ({
+          ...i,
+          medicacoes: [...i.medicacoes, {
+            id: 'md-int' + Date.now(), medicamento: d.medicamento, dose: d.dose, via: d.via,
+            intervaloHoras: d.intervaloHoras, horarios: gerarHorarios(d.inicio, d.intervaloHoras),
+          }],
+        })),
+      }))
+      notificar(`${d.medicamento} adicionado ao aprazamento.`)
+    },
+
+    async alternarAplicacao(internacaoId, medId, idx) {
+      setData(atual => atual && ({
+        ...atual,
+        internacoes: (atual.internacoes ?? []).map(i => i.id !== internacaoId ? i : ({
+          ...i,
+          medicacoes: i.medicacoes.map(m => m.id !== medId ? m : ({
+            ...m,
+            horarios: m.horarios.map((h, n) => n === idx ? { ...h, aplicado: !h.aplicado } : h),
+          })),
+        })),
+      }))
+    },
+
+    async darAlta(internacaoId) {
+      const hoje = new Date().toISOString().slice(0, 10)
+      const alvo = (data?.internacoes ?? []).find(i => i.id === internacaoId)
+      const dias = alvo
+        ? Math.max(1, Math.round((new Date(hoje + 'T00:00:00').getTime() - new Date(alvo.entrada + 'T00:00:00').getTime()) / 86400000))
+        : 1
+      const valor = alvo ? dias * alvo.valorDiaria : 0
+      setData(atual => {
+        if (!atual) return atual
+        const i = (atual.internacoes ?? []).find(x => x.id === internacaoId)
+        if (!i) return atual
+        return {
+          ...atual,
+          internacoes: atual.internacoes.map(x => x.id === internacaoId ? { ...x, status: 'alta' as const, saida: hoje } : x),
+          lancamentos: [{
+            id: 'f' + Date.now(), tipo: 'receber' as const,
+            descricao: `Internação — ${dias} ${dias === 1 ? 'diária' : 'diárias'} (${i.petNome})`,
+            categoria: 'internacao', valor, vencimento: hoje,
+            tutorNome: i.tutorNome, petNome: i.petNome,
+          }, ...atual.lancamentos],
+        }
+      })
+      notificar(alvo
+        ? `Alta de ${alvo.petNome}. ${dias} ${dias === 1 ? 'diária' : 'diárias'} → ${valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} lançados a receber.`
+        : 'Alta registrada.')
+    },
   }
 
   const clinic = clinicas.find(c => c.id === clinicId)
@@ -836,6 +949,7 @@ export default function App() {
               {view === 'financeiro' && <Financeiro data={data} acoes={acoes} />}
               {view === 'vendas' && <Vendas data={data} acoes={acoes} />}
               {view === 'comissoes' && <Comissoes data={data} acoes={acoes} />}
+              {view === 'internacao' && <Internacao data={data} acoes={acoes} />}
               {view === 'estoque' && <Estoque itens={data.estoque ?? []} acoes={acoes} />}
               {view === 'exames' && <Exames exames={data.exames ?? []} pets={data.tutores.flatMap(t => t.pets)} acoes={acoes} />}
               {view === 'reativacao' && <Reativacao data={data} />}

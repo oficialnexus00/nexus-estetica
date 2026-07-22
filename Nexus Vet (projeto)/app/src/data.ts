@@ -183,20 +183,44 @@ export type ParametroClinico = {
   temperatura?: number
   fc?: number             // frequência cardíaca (bpm)
   fr?: number             // frequência respiratória (mpm)
+  mucosas?: string        // coloração das mucosas (normocoradas, pálidas…)
   obs?: string
 }
+
+// Mapa de execução (aprazamento) — cada horário previsto de uma medicação, marcável
+export type HorarioAprazado = { hora: string; aplicado: boolean }
+export type MedicacaoInternacao = {
+  id: string
+  medicamento: string
+  dose: string            // "20mg", "1 comprimido"
+  via: string             // IV, IM, SC, VO
+  intervaloHoras: number  // de quantas em quantas horas
+  horarios: HorarioAprazado[]
+}
+
+// Leito/baia da clínica — ocupação derivada das internações ativas
+export type Box = {
+  id: string
+  nome: string
+  tipo: 'canino' | 'felino' | 'uti' | 'isolamento'
+}
+
 export type Internacao = {
   id: string
   petId: string
   petNome: string
   tutorNome: string
   especie: Especie
-  box?: string
+  box?: string            // id do box
   motivo: string
+  profissional?: string
   entrada: string         // AAAA-MM-DD
   previsaoAlta?: string
+  saida?: string          // AAAA-MM-DD (preenchido na alta)
+  valorDiaria: number     // R$/dia — base do lançamento gerado na alta
   status: 'internado' | 'alta'
   parametros: ParametroClinico[]
+  medicacoes: MedicacaoInternacao[]
 }
 
 // Movimentos de caixa (abertura, suprimento, sangria, fechamento)
@@ -240,6 +264,8 @@ export type DB = {
   vendas: Venda[]
   orcamentos: Orcamento[]
   caixa: Caixa | null
+  boxes: Box[]
+  internacoes: Internacao[]
   lancamentos: Lancamento[]
   kpis: { faturamentoMes: number; noShowPct: number; ocupacaoPct: number; vacinasAtrasadas: number; agendadosPelaIA: number; ticketMedio: number }
   receitaSemana: { dia: string; valor: number }[]
@@ -448,6 +474,51 @@ export const db: Record<'c1' | 'c2', DB> = {
         { id: 'mc3', tipo: 'saida', descricao: 'Compra de material (sangria)', valor: 35, hora: '11:15' },
       ],
     },
+    boxes: [
+      { id: 'bx1', nome: 'Canino 1', tipo: 'canino' },
+      { id: 'bx2', nome: 'Canino 2', tipo: 'canino' },
+      { id: 'bx3', nome: 'Felino 1', tipo: 'felino' },
+      { id: 'bx4', nome: 'UTI 1', tipo: 'uti' },
+      { id: 'bx5', nome: 'Isolamento', tipo: 'isolamento' },
+    ],
+    internacoes: [
+      {
+        id: 'int1', petId: 'p2', petNome: 'Mel', tutorNome: 'Ricardo Alves', especie: 'gato',
+        box: 'bx3', motivo: 'Pós-operatório de castração — observação de 24h',
+        profissional: 'Dr. Bruno', entrada: hojeMenos(1), previsaoAlta: hojeMais(0),
+        valorDiaria: 120, status: 'internado',
+        parametros: [
+          { id: 'pc1', data: hojeMenos(1), hora: '15:00', temperatura: 38.4, fc: 140, fr: 28, mucosas: 'Normocoradas', obs: 'Recuperação anestésica tranquila.' },
+          { id: 'pc2', data: hojeMenos(1), hora: '21:00', temperatura: 38.1, fc: 132, fr: 26, mucosas: 'Normocoradas' },
+          { id: 'pc3', data: hojeMenos(0), hora: '07:00', temperatura: 38.3, fc: 136, fr: 24, mucosas: 'Normocoradas', obs: 'Aceitou alimentação. Ferida sem secreção.' },
+        ],
+        medicacoes: [
+          { id: 'md-int1', medicamento: 'Meloxicam', dose: '0,1 mg/kg', via: 'SC', intervaloHoras: 24,
+            horarios: [{ hora: '16:00', aplicado: true }, { hora: '16:00', aplicado: false }] },
+          { id: 'md-int2', medicamento: 'Dipirona', dose: '25 mg/kg', via: 'IV', intervaloHoras: 8,
+            horarios: [{ hora: '16:00', aplicado: true }, { hora: '00:00', aplicado: true }, { hora: '08:00', aplicado: true }, { hora: '16:00', aplicado: false }] },
+        ],
+      },
+      {
+        id: 'int2', petId: 'p4', petNome: 'Nina', tutorNome: 'Juliana Prado', especie: 'cao',
+        box: 'bx4', motivo: 'Gastroenterite com desidratação — fluidoterapia',
+        profissional: 'Dra. Helena', entrada: hojeMenos(2), previsaoAlta: hojeMais(1),
+        valorDiaria: 180, status: 'internado',
+        parametros: [
+          { id: 'pc4', data: hojeMenos(2), hora: '10:00', temperatura: 39.6, fc: 120, fr: 40, mucosas: 'Pálidas', obs: 'Desidratação ~7%. Iniciada fluidoterapia.' },
+          { id: 'pc5', data: hojeMenos(1), hora: '10:00', temperatura: 39.0, fc: 108, fr: 32, mucosas: 'Levemente pálidas', obs: 'Reduziu vômitos. Segue no soro.' },
+          { id: 'pc6', data: hojeMenos(0), hora: '08:00', temperatura: 38.5, fc: 96, fr: 28, mucosas: 'Normocoradas', obs: 'Hidratação recuperada. Aceitando água.' },
+        ],
+        medicacoes: [
+          { id: 'md-int3', medicamento: 'Ringer com lactato', dose: '250 ml', via: 'IV', intervaloHoras: 6,
+            horarios: [{ hora: '12:00', aplicado: true }, { hora: '18:00', aplicado: true }, { hora: '00:00', aplicado: true }, { hora: '06:00', aplicado: true }, { hora: '12:00', aplicado: false }] },
+          { id: 'md-int4', medicamento: 'Ondansetrona', dose: '0,5 mg/kg', via: 'IV', intervaloHoras: 12,
+            horarios: [{ hora: '12:00', aplicado: true }, { hora: '00:00', aplicado: true }, { hora: '12:00', aplicado: false }] },
+          { id: 'md-int5', medicamento: 'Omeprazol', dose: '1 mg/kg', via: 'IV', intervaloHoras: 24,
+            horarios: [{ hora: '10:00', aplicado: true }, { hora: '10:00', aplicado: false }] },
+        ],
+      },
+    ],
     kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 2, agendadosPelaIA: 4, ticketMedio: 187 },
     receitaSemana: [
       { dia: 'Seg', valor: 2100 }, { dia: 'Ter', valor: 2680 }, { dia: 'Qua', valor: 1980 },
@@ -496,6 +567,12 @@ export const db: Record<'c1' | 'c2', DB> = {
     vendas: [],
     orcamentos: [],
     caixa: null,
+    boxes: [
+      { id: 'bx6', nome: 'Canino 1', tipo: 'canino' },
+      { id: 'bx7', nome: 'Felino 1', tipo: 'felino' },
+      { id: 'bx8', nome: 'Isolamento', tipo: 'isolamento' },
+    ],
+    internacoes: [],
     lancamentos: [
       { id: 'f9', tipo: 'receber', descricao: 'Banho e tosa', categoria: 'banho_tosa', valor: 80,
         vencimento: hojeMenos(1), pagoEm: hojeMenos(1), formaPagamento: 'debito', tutorNome: 'Carla Menezes', petNome: 'Pipoca' },

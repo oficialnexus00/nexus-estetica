@@ -19,9 +19,9 @@ clínico/Pet 360 · Clientes · Financeiro (base + DRE) · Reativação com IA
 (diferencial nosso, sem paralelo lá) · PDV básico.
 
 **Falta pra igualar — módulos inteiros:**
-1. ❌ **Comissionamento** (comissões + extratos)
-2. ❌ **Internação** (internados, boxes, aprazamento, parâmetros, prescrição)
-3. ⚠️ **Inteligência/BI** (produtividade, relatórios de vendas)
+1. ✅ ~~Comissionamento~~ (comissões + extratos) — **concluído**
+2. ✅ ~~Internação~~ (internados, boxes, aprazamento, parâmetros, alta→lançamento) — **concluído**
+3. ⚠️ **Inteligência/BI** (produtividade, relatórios de vendas) ← **próximo**
 4. ❌ **Portal do tutor**
 5. ❌ **Pesquisa de satisfação / NPS**
 6. ❌ **Fiscal/NF-e** e **Site** (decisão do Rodrigo — regulado / fora da tese)
@@ -62,7 +62,7 @@ Uma fase por vez, fechada de ponta a ponta.
 | **Inteligência (BI)** | Produtividade · Vendas | ⚠️ |
 | **Consultas** | Vacinação · Aniversários · Log | ⚠️ |
 | **Cadastros** | Espécies · Raças · Pelagens · Patologias · Tipos de atendimento · Vacinas · Exames · Atributos de exames · Referências de exames · Modelo de receita · Origem dos clientes · Modelo de documento | ⚠️ |
-| **Internação** | Animais internados · Mapa de Execução (aprazamento) · Histórico · Parâmetros clínicos · Modelos de prescrição · Boxes (leitos) | ❌ |
+| **Internação** | Animais internados · Mapa de Execução (aprazamento) · Histórico · Parâmetros clínicos · Modelos de prescrição · Boxes (leitos) | ✅ |
 | **Estoque e serviços** | Produtos e Serviços · Compras · Outras saídas · Análise de estoque · Inventário · Pedido de compra · Grupos de Produtos · Marcas · Produtos recomendados | ⚠️ |
 | **Financeiro** | Lançamentos · Conciliação de cartões · Contas a pagar · Demonstrativo · Fluxo de caixa · Contas e cartões · Categorias · Fornecedores · Formas de pagamento | ✅/⚠️ |
 | **Beta** | Recursos novos deles | — |
@@ -122,14 +122,15 @@ profissionais, protocolo de vacinas) · Recibos/comprovantes PDF · Bia (placeho
 - [x] **Extrato** por profissional/período (PDF) ✅
 - ⏭️ % por serviço/produto específico — adiado (v1 usa % por profissional; suficiente)
 
-## Fase 4 — Internação ❌
+## Fase 4 — Internação ✅ CONCLUÍDA (jul/2026)
 
-- [ ] **Animais internados** (painel dos internados no momento)
-- [ ] **Boxes** (leitos/baias) e ocupação
-- [ ] Ficha de internação + **Parâmetros clínicos** (registro periódico)
-- [ ] **Mapa de Execução** (aprazamento de medicação por horário)
-- [ ] **Modelos de prescrição** · **Histórico de internações**
-- [ ] Alta → gera venda/lançamento
+- [x] **Animais internados** (painel dos internados no momento, com dias, box, últimos sinais e alerta de medicação pendente) ✅
+- [x] **Boxes** (leitos/baias) e **ocupação** (mapa com livre/ocupado, taxa) ✅
+- [x] Ficha de internação + **Parâmetros clínicos** (aferições periódicas: T/FC/FR/mucosas/obs, em linha do tempo) ✅
+- [x] **Mapa de Execução** (aprazamento de medicação por horário — gera horários das próximas 24h pelo intervalo, marca aplicado) ✅
+- [x] Alta → **gera lançamento no Financeiro** (diárias × valor da diária, a receber) ✅
+- ⏭️ **Modelos de prescrição** — adiado (fazer junto de Cadastros/modelos)
+- ⏭️ **Histórico de internações** detalhado — v1 mostra encerradas na aba Histórico; aprofundar depois
 
 ## Fase 5 — Inteligência / Relatórios ⚠️→❌
 

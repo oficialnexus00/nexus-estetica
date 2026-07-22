@@ -124,16 +124,22 @@ function gerarHorarios(inicio: string, intervaloHoras: number): { hora: string; 
   })
 }
 
-/** Ícone da Bia: bonequinha com a estrelinha de IA na base (herda a cor via currentColor). */
+/** Ícone da Bia: bonequinha colorida (vestido teal) com a estrelinha de IA na base. */
 function BiaIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-[15px] w-[15px] shrink-0" fill="currentColor" aria-hidden="true">
-      {/* cabeça */}
-      <circle cx="12" cy="4.8" r="2.9" />
-      {/* corpo / vestido */}
-      <path d="M12 8.1c-2.3 0-3.6 1.9-4.1 4.3-.2 1 .5 1.9 1.5 1.9h5.2c1 0 1.7-.9 1.5-1.9C15.6 10 14.3 8.1 12 8.1z" />
-      {/* estrelinha de IA embaixo, no centro */}
-      <path d="M12 14.6c.32 1.55.83 2.06 2.38 2.38-1.55.32-2.06.83-2.38 2.38-.32-1.55-.83-2.06-2.38-2.38 1.55-.32 2.06-.83 2.38-2.38z" />
+    <svg viewBox="0 0 24 24" className="h-[17px] w-[17px] shrink-0" aria-hidden="true">
+      {/* cabelo (atrás) */}
+      <circle cx="12" cy="6" r="4.1" fill="#5D4037" />
+      {/* rosto */}
+      <circle cx="12" cy="6.5" r="3.1" fill="#F3C892" />
+      {/* franja */}
+      <path fill="#5D4037" d="M8.9 5.4c.9-1.3 5.3-1.3 6.2 0 .2.6.2 1.2.1 1.8-.6-1-1.7-1.4-3.2-1.4s-2.6.4-3.2 1.4c-.1-.6-.1-1.2.1-1.8z" />
+      {/* laço */}
+      <path fill="#00BFA5" d="M14.8 3.1c.7-.2 1.5.1 1.6.7.1.6-.5 1.1-1.2 1.2z" />
+      {/* vestido (teal da marca) */}
+      <path fill="#00BFA5" d="M12 9.4c-2.2 0-3.5 1.7-4 4-.22 1 .5 1.9 1.5 1.9h5c1 0 1.72-.9 1.5-1.9-.5-2.3-1.8-4-4-4z" />
+      {/* estrelinha de IA — base, centro */}
+      <path fill="#FFCA28" d="M12 15.3c.34 1.66.9 2.22 2.56 2.56-1.66.34-2.22.9-2.56 2.56-.34-1.66-.9-2.22-2.56-2.56 1.66-.34 2.22-.9 2.56-2.56z" />
     </svg>
   )
 }

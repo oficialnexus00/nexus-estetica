@@ -127,7 +127,7 @@ function gerarHorarios(inicio: string, intervaloHoras: number): { hora: string; 
 /** Ícone da Bia: bonequinha colorida (vestido teal) com a estrelinha de IA na base. */
 function BiaIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-[17px] w-[17px] shrink-0" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 -my-0.5" aria-hidden="true">
       {/* cabelo (atrás) */}
       <circle cx="12" cy="6" r="4.1" fill="#5D4037" />
       {/* rosto */}

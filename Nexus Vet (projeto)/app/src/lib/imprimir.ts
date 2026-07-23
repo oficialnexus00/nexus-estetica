@@ -47,42 +47,22 @@ function rodape(): string {
   return `<div class="rodape"><span>Emitido em ${agora}</span><span>Gerado por NEXUS Vet</span></div>`
 }
 
-function montarPagina(titulo: string, corpo: string): string {
-  // O <script> auto-dispara o diálogo de impressão (Salvar como PDF) ao abrir.
-  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${titulo}</title><style>${CSS}</style></head><body>${corpo}${rodape()}` +
-    `<script>window.addEventListener('load',function(){setTimeout(function(){try{window.focus();window.print()}catch(e){}},350)})<\/script>` +
-    `</body></html>`
+export const EVENTO_DOCUMENTO = 'nexus:documento'
+export type DocumentoDetalhe = { titulo: string; html: string }
+
+/** Monta a página HTML autônoma do documento (com estilo embutido). */
+export function montarPagina(titulo: string, corpo: string): string {
+  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${titulo}</title>` +
+    `<meta name="viewport" content="width=device-width, initial-scale=1"><style>${CSS}</style></head>` +
+    `<body>${corpo}${rodape()}</body></html>`
 }
 
+// Em vez de abrir aba/iframe-print (bloqueados no sandbox do Artifact), emitimos
+// um evento. O <DocumentoHost/> montado no app abre uma prévia embutida com os
+// botões Imprimir/Salvar PDF (funciona no app real) e Baixar (sempre funciona).
 function imprimir(titulo: string, corpo: string): void {
-  const pagina = montarPagina(titulo, corpo)
-
-  // 1) Abre numa aba nova — funciona no app real e escapa do sandbox do demo
-  //    (onde o print() de iframe/janela embutida é bloqueado).
-  try {
-    const win = window.open('', '_blank')
-    if (win && win.document) {
-      win.document.open()
-      win.document.write(pagina)
-      win.document.close()
-      return
-    }
-  } catch { /* popup bloqueado — cai no fallback */ }
-
-  // 2) Fallback: baixa o documento pronto para imprimir/salvar como PDF.
-  try {
-    const blob = new Blob([pagina], { type: 'text/html' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${titulo}.html`
-    a.target = '_blank'
-    a.rel = 'noopener'
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
-    setTimeout(() => URL.revokeObjectURL(url), 4000)
-  } catch { /* sem o que fazer */ }
+  const html = montarPagina(titulo, corpo)
+  window.dispatchEvent(new CustomEvent<DocumentoDetalhe>(EVENTO_DOCUMENTO, { detail: { titulo, html } }))
 }
 
 /* -------------------------------------------------- comprovante de vacinação */

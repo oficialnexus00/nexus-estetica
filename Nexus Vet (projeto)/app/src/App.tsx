@@ -40,6 +40,7 @@ import Bia from './views/Bia'
 import Guia from './views/Guia'
 import Suporte from './views/Suporte'
 import ThemeToggle, { type Tema } from './components/ThemeToggle'
+import DocumentoHost from './components/DocumentoHost'
 
 const NAV = [
   { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
@@ -1140,6 +1141,8 @@ export default function App() {
             onSalvar={async d => { await acoes.criarAgendamento(d); setAgendando(false); setAgendarData(undefined) }} />
         </Modal>
       )}
+
+      <DocumentoHost />
     </div>
   )
 }

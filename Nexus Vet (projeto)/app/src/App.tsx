@@ -75,6 +75,8 @@ export type Acoes = {
   editarPet: (petId: string, d: DadosEditarPet) => Promise<void>
   registrarAtendimento: (petId: string, d: DadosAtendimento) => Promise<void>
   registrarNotaClinica: (petId: string, d: { tipo: 'observacao' | 'patologia'; texto: string }) => Promise<void>
+  adicionarCondicao: (petId: string, texto: string) => Promise<void>
+  removerCondicao: (petId: string, index: number) => Promise<void>
   criarLancamento: (d: DadosLancamento) => Promise<void>
   baixarLancamento: (id: string) => Promise<void>
   criarServico: (d: DadosServico) => Promise<void>
@@ -278,6 +280,30 @@ export default function App() {
       notificar(d.tipo === 'patologia' ? 'Diagnóstico registrado.' : 'Observação registrada.')
     },
 
+    async adicionarCondicao(petId, texto) {
+      const t = texto.trim()
+      if (!t) return
+      setData(atual => atual && ({
+        ...atual,
+        tutores: atual.tutores.map(tu => ({
+          ...tu,
+          pets: tu.pets.map(p => p.id !== petId ? p : ({ ...p, condicoes: [...(p.condicoes ?? []), t] })),
+        })),
+      }))
+      notificar('Condição adicionada ao quadro clínico.')
+    },
+
+    async removerCondicao(petId, index) {
+      setData(atual => atual && ({
+        ...atual,
+        tutores: atual.tutores.map(tu => ({
+          ...tu,
+          pets: tu.pets.map(p => p.id !== petId ? p : ({ ...p, condicoes: (p.condicoes ?? []).filter((_, i) => i !== index) })),
+        })),
+      }))
+      notificar('Condição removida.')
+    },
+
     async registrarDose(petId, d) {
       const proxima = mut.calcularProximaDose(d.dataAplicacao, d)
       if (MODO_DEMO) {
@@ -309,6 +335,7 @@ export default function App() {
             id: 'p' + Date.now(), nome: d.pet.nome, especie: d.pet.especie,
             raca: d.pet.raca ?? '—', nascimento: d.pet.nascimento ?? new Date().toISOString().slice(0, 10),
             peso: 0, castrado: false, microchip: d.pet.microchip, pedigree: d.pet.pedigree,
+            sexo: d.pet.sexo, pelagem: d.pet.pelagem, condicoes: [],
             vacinas: [], atendimentos: [],
           }],
         }
@@ -376,6 +403,7 @@ export default function App() {
               nascimento: d.nascimento ?? p.nascimento,
               peso: d.pesoKg ?? p.peso, castrado: d.castrado, alerta: d.alertaSaude,
               microchip: d.microchip, pedigree: d.pedigree,
+              sexo: d.sexo, pelagem: d.pelagem,
             })),
           })),
         }))

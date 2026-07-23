@@ -257,13 +257,13 @@ export function FormModelo({ modelo, onSalvar, onCancelar }: {
 export type DadosTutorPet = {
   nome: string; telefone: string; cpf?: string
   email?: string; nascimento?: string; endereco?: string
-  pet: { nome: string; especie: Especie; raca?: string; nascimento?: string; microchip?: string; pedigree?: boolean }
+  pet: { nome: string; especie: Especie; raca?: string; nascimento?: string; microchip?: string; pedigree?: boolean; sexo?: 'macho' | 'femea'; pelagem?: string }
 }
 
 export function FormTutor({ onSalvar, onCancelar }: {
   onSalvar: (d: DadosTutorPet) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: '', telefone: '', cpf: '', email: '', nascTutor: '', endereco: '', petNome: '', especie: 'cao' as Especie, raca: '', nascimento: '', microchip: '' })
+  const [f, setF] = useState({ nome: '', telefone: '', cpf: '', email: '', nascTutor: '', endereco: '', petNome: '', especie: 'cao' as Especie, raca: '', nascimento: '', microchip: '', sexo: '', pelagem: '' })
   const [pedigree, setPedigree] = useState(false)
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
@@ -284,6 +284,8 @@ export function FormTutor({ onSalvar, onCancelar }: {
           nome: f.petNome.trim(), especie: f.especie,
           raca: f.raca.trim() || undefined, nascimento: f.nascimento || undefined,
           microchip: f.microchip.trim() || undefined, pedigree,
+          sexo: (f.sexo || undefined) as 'macho' | 'femea' | undefined,
+          pelagem: f.pelagem.trim() || undefined,
         },
       })
     } catch (err) {
@@ -330,6 +332,18 @@ export function FormTutor({ onSalvar, onCancelar }: {
             </Campo>
             <Campo label="Raça">
               <input value={f.raca} onChange={set('raca')} placeholder="SRD" className={inputCls} />
+            </Campo>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <Campo label="Sexo (opcional)">
+              <select value={f.sexo} onChange={set('sexo')} className={inputCls}>
+                <option value="">—</option>
+                <option value="macho">Macho</option>
+                <option value="femea">Fêmea</option>
+              </select>
+            </Campo>
+            <Campo label="Pelagem / cor (opcional)">
+              <input value={f.pelagem} onChange={set('pelagem')} placeholder="Ex.: Caramelo" className={inputCls} />
             </Campo>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -619,7 +633,7 @@ export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
 export type DadosEditarPet = {
   nome: string; especie: Especie; raca?: string; nascimento?: string
   pesoKg?: number; castrado: boolean; alertaSaude?: string
-  microchip?: string; pedigree?: boolean
+  microchip?: string; pedigree?: boolean; sexo?: 'macho' | 'femea'; pelagem?: string
 }
 
 export function FormEditarPet({ pet, onSalvar, onCancelar }: {
@@ -630,6 +644,7 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
     nascimento: pet.nascimento, peso: pet.peso ? String(pet.peso) : '',
     castrado: pet.castrado, alerta: pet.alerta ?? '',
     microchip: pet.microchip ?? '', pedigree: pet.pedigree ?? false,
+    sexo: pet.sexo ?? '', pelagem: pet.pelagem ?? '',
   })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
@@ -647,6 +662,8 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
         alertaSaude: f.alerta.trim() || undefined,
         microchip: f.microchip.trim() || undefined,
         pedigree: f.pedigree,
+        sexo: (f.sexo || undefined) as 'macho' | 'femea' | undefined,
+        pelagem: f.pelagem.trim() || undefined,
       })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
@@ -676,6 +693,18 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
         </Campo>
         <Campo label="Peso (kg)">
           <input inputMode="decimal" value={f.peso} placeholder="0,0" onChange={e => setF({ ...f, peso: e.target.value })} className={inputCls} />
+        </Campo>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Sexo">
+          <select value={f.sexo} onChange={e => setF({ ...f, sexo: e.target.value })} className={inputCls}>
+            <option value="">—</option>
+            <option value="macho">Macho</option>
+            <option value="femea">Fêmea</option>
+          </select>
+        </Campo>
+        <Campo label="Pelagem / cor">
+          <input value={f.pelagem} onChange={e => setF({ ...f, pelagem: e.target.value })} placeholder="Ex.: Caramelo" className={inputCls} />
         </Campo>
       </div>
       <Campo label="Nº do microchip">

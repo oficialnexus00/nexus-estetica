@@ -7,6 +7,7 @@ import Prontuario from '../components/Prontuario'
 import LinhaDoTempo from '../components/LinhaDoTempo'
 import PesoEvolucao from '../components/PesoEvolucao'
 import ProtocolosPet from '../components/ProtocolosPet'
+import QuadroClinico from '../components/QuadroClinico'
 import EmitirDocumento from '../components/EmitirDocumento'
 import Modal from '../components/Modal'
 import { FormTutor, FormEditarTutor, FormEditarPet } from '../components/Formularios'
@@ -53,7 +54,9 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
             <div>
               <h2 className="text-[20px] font-semibold tracking-tight">{pet.nome}</h2>
               <p className="mt-0.5 text-[13px] text-ink-2">
-                {pet.especie === 'cao' ? 'Cão' : 'Gato'} · {pet.raca} · {idadeDe(pet.nascimento)} · {pet.peso} kg
+                {pet.especie === 'cao' ? 'Cão' : 'Gato'}
+                {pet.sexo && ` · ${pet.sexo === 'macho' ? 'Macho' : 'Fêmea'}`} · {pet.raca} · {idadeDe(pet.nascimento)} · {pet.peso} kg
+                {pet.pelagem && ` · ${pet.pelagem}`}
                 {pet.castrado && ' · castrado'}
                 {pet.pedigree && <span className="text-brand"> · com pedigree</span>}
               </p>
@@ -90,6 +93,10 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
             </div>
           )}
         </div>
+
+        <QuadroClinico pet={pet}
+          onAdicionar={t => acoes.adicionarCondicao(pet.id, t)}
+          onRemover={i => acoes.removerCondicao(pet.id, i)} />
 
         <PesoEvolucao pet={pet} />
 

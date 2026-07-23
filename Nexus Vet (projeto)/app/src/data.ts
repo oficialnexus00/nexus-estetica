@@ -70,9 +70,12 @@ export type Pet = {
   nascimento: string
   peso: number
   castrado: boolean
+  sexo?: 'macho' | 'femea'
+  pelagem?: string
   microchip?: string
   pedigree?: boolean
   alerta?: string
+  condicoes?: string[]        // quadro clínico: condições crônicas/contínuas
   vacinas: Vacina[]
   atendimentos: Atendimento[]
   registros?: RegistroClinico[]
@@ -316,7 +319,8 @@ export const db: Record<'c1' | 'c2', DB> = {
         pets: [{
           id: 'p1', nome: 'Thor', especie: 'cao', raca: 'Golden Retriever',
           nascimento: '2021-06-04', peso: 32.4, castrado: true, alerta: 'Alergia a carrapaticida',
-          microchip: '981098201234567', pedigree: true,
+          sexo: 'macho', pelagem: 'Dourada', microchip: '981098201234567', pedigree: true,
+          condicoes: ['Dermatite alérgica crônica', 'Sensibilidade a carrapaticida'],
           vacinas: [
             { vacina: 'V10', aplicacao: '2025-07-10', proximaDose: '2026-07-10', situacao: 'atrasada' },
             { vacina: 'Antirrábica', aplicacao: '2025-08-02', proximaDose: '2026-08-02', situacao: 'proxima' },

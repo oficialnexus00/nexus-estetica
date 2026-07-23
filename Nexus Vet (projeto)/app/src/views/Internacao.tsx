@@ -3,6 +3,7 @@ import type { DB, Internacao as TInternacao, Box } from '../data'
 import { brl } from '../data'
 import type { Acoes, DadosInternacao, DadosMedicacao, DadosParametro } from '../App'
 import Modal, { Campo, inputCls as modalInput, Acoes as AcoesForm } from '../components/Modal'
+import ConfirmButton from '../components/ConfirmButton'
 
 type Aba = 'internados' | 'boxes' | 'historico'
 
@@ -207,10 +208,12 @@ function Ficha({ internacao: i, boxes, acoes, onVoltar }: {
           </div>
         </div>
         <div className="mt-3 flex justify-end border-t border-line pt-3">
-          <button onClick={() => { if (confirm(`Dar alta a ${i.petNome}? As diárias serão lançadas a receber.`)) { acoes.darAlta(i.id); onVoltar() } }}
+          <ConfirmButton titulo={`Dar alta — ${i.petNome}`}
+            mensagem={`Dar alta a ${i.petNome}? As diárias serão lançadas a receber no Financeiro.`}
+            confirmLabel="Dar alta" onConfirm={() => { acoes.darAlta(i.id); onVoltar() }}
             className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
             Dar alta
-          </button>
+          </ConfirmButton>
         </div>
       </div>
 
@@ -248,11 +251,12 @@ function MapaExecucao({ internacao: i, acoes, onAdicionar }: {
                 <span className="text-[13.5px] font-medium">{m.medicamento}</span>
                 <div className="flex items-center gap-2">
                   <span className="text-[11.5px] text-ink-3">{m.dose} · {m.via} · {m.intervaloHoras}/{m.intervaloHoras}h</span>
-                  <button onClick={() => { if (confirm(`Remover ${m.medicamento} do aprazamento?`)) acoes.removerMedicacao(i.id, m.id) }}
-                    aria-label={`Remover ${m.medicamento}`}
+                  <ConfirmButton aria-label={`Remover ${m.medicamento}`}
+                    titulo="Remover medicação" mensagem={`Remover ${m.medicamento} do aprazamento?`}
+                    confirmLabel="Remover" danger onConfirm={() => acoes.removerMedicacao(i.id, m.id)}
                     className="shrink-0 rounded-md border border-line px-1.5 py-0.5 text-[11px] leading-none text-ink-3 transition hover:border-bad/50 hover:text-bad">
                     ✕
-                  </button>
+                  </ConfirmButton>
                 </div>
               </div>
               <div className="mt-2 flex flex-wrap gap-1.5">

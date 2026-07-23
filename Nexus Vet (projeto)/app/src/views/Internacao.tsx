@@ -364,10 +364,10 @@ function FormInternar({ data, boxes, internados, onCancelar, onSalvar }: {
 
   const submeter = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!petId || !motivo.trim()) return
+    if (!petId) return
     setEnviando(true)
     await onSalvar({
-      petId, motivo: motivo.trim(), box: box || undefined,
+      petId, motivo: motivo.trim() || 'Internação', box: box || undefined,
       profissional: profissional || undefined, previsaoAlta: previsaoAlta || undefined,
       valorDiaria: Math.max(0, Number(valorDiaria.replace(',', '.')) || 0),
     })
@@ -385,8 +385,8 @@ function FormInternar({ data, boxes, internados, onCancelar, onSalvar }: {
           {disponiveis.map(p => <option key={p.petId} value={p.petId}>{p.label}</option>)}
         </select>
       </Campo>
-      <Campo label="Motivo da internação">
-        <input value={motivo} onChange={e => setMotivo(e.target.value)} required placeholder="Ex.: pós-operatório, fluidoterapia…" className={modalInput} />
+      <Campo label="Motivo (opcional)">
+        <input value={motivo} onChange={e => setMotivo(e.target.value)} placeholder="Ex.: pós-operatório, fluidoterapia…" className={modalInput} />
       </Campo>
       <div className="grid grid-cols-2 gap-3">
         <Campo label="Box">

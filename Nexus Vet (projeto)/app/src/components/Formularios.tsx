@@ -299,8 +299,8 @@ export function FormTutor({ onSalvar, onCancelar }: {
       <Campo label="Nome do tutor">
         <input value={f.nome} onChange={set('nome')} required placeholder="Maria Silva" className={inputCls} />
       </Campo>
-      <Campo label="WhatsApp (com DDD)">
-        <input value={f.telefone} onChange={set('telefone')} required placeholder="47 99999-0000" className={inputCls} />
+      <Campo label="WhatsApp (opcional)">
+        <input value={f.telefone} onChange={set('telefone')} placeholder="47 99999-0000" className={inputCls} />
       </Campo>
       <div className="grid grid-cols-2 gap-3">
         <Campo label="E-mail (opcional)">
@@ -478,8 +478,8 @@ export function FormAtendimento({ pet, tipos = [], onSalvar, onCancelar }: {
     setEnviando(true); setErro(null)
     try {
       await onSalvar({
-        data: f.data, profissional: f.profissional.trim(),
-        tipo: f.tipo.trim() || undefined, motivo: f.motivo.trim(),
+        data: f.data, profissional: f.profissional.trim() || '—',
+        tipo: f.tipo.trim() || undefined, motivo: f.motivo.trim() || 'Atendimento',
         anamnese: f.anamnese.trim() || undefined,
         exameFisico: f.exameFisico.trim() || undefined,
         peso: f.peso ? Number(f.peso.replace(',', '.')) : undefined,
@@ -506,8 +506,8 @@ export function FormAtendimento({ pet, tipos = [], onSalvar, onCancelar }: {
         <Campo label="Data">
           <input type="date" value={f.data} max={hoje()} required onChange={set('data')} className={inputCls} />
         </Campo>
-        <Campo label="Profissional">
-          <input value={f.profissional} required onChange={set('profissional')} className={inputCls} />
+        <Campo label="Profissional (opcional)">
+          <input value={f.profissional} onChange={set('profissional')} className={inputCls} />
         </Campo>
       </div>
 
@@ -519,8 +519,8 @@ export function FormAtendimento({ pet, tipos = [], onSalvar, onCancelar }: {
         </Campo>
       )}
 
-      <Campo label="Motivo da consulta">
-        <input value={f.motivo} required onChange={set('motivo')}
+      <Campo label="Motivo da consulta (opcional)">
+        <input value={f.motivo} onChange={set('motivo')}
           placeholder="Coceira nas patas" className={inputCls} />
       </Campo>
 
@@ -596,8 +596,8 @@ export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
       <Campo label="Nome do tutor">
         <input value={f.nome} required onChange={e => setF({ ...f, nome: e.target.value })} className={inputCls} />
       </Campo>
-      <Campo label="WhatsApp (com DDD)">
-        <input value={f.telefone} required onChange={e => setF({ ...f, telefone: e.target.value })} className={inputCls} />
+      <Campo label="WhatsApp (opcional)">
+        <input value={f.telefone} onChange={e => setF({ ...f, telefone: e.target.value })} className={inputCls} />
       </Campo>
       <div className="grid grid-cols-2 gap-3">
         <Campo label="E-mail">
@@ -1105,14 +1105,14 @@ export function FormEstoque({ onSubmit, onCancel }: {
       </Campo>
 
       <div className="grid grid-cols-3 gap-2">
-        <Campo label="Estoque *">
-          <input value={f.quantidade_estoque} onChange={set('quantidade_estoque')} type="number" required min="0" className={inputCls} />
+        <Campo label="Estoque">
+          <input value={f.quantidade_estoque} onChange={set('quantidade_estoque')} type="number" min="0" className={inputCls} />
         </Campo>
-        <Campo label="Mínimo *">
-          <input value={f.quantidade_minima} onChange={set('quantidade_minima')} type="number" required min="0" className={inputCls} />
+        <Campo label="Mínimo">
+          <input value={f.quantidade_minima} onChange={set('quantidade_minima')} type="number" min="0" className={inputCls} />
         </Campo>
-        <Campo label="Máximo *">
-          <input value={f.quantidade_maxima} onChange={set('quantidade_maxima')} type="number" required min="0" className={inputCls} />
+        <Campo label="Máximo">
+          <input value={f.quantidade_maxima} onChange={set('quantidade_maxima')} type="number" min="0" className={inputCls} />
         </Campo>
       </div>
 
@@ -1213,13 +1213,13 @@ export function FormEditarEstoque({ item, onSubmit, onCancel }: {
 
       <div className="grid grid-cols-3 gap-2">
         <Campo label="Estoque">
-          <input value={f.quantidade_estoque} onChange={set('quantidade_estoque')} type="number" required min="0" className={inputCls} />
+          <input value={f.quantidade_estoque} onChange={set('quantidade_estoque')} type="number" min="0" className={inputCls} />
         </Campo>
         <Campo label="Mínimo">
-          <input value={f.quantidade_minima} onChange={set('quantidade_minima')} type="number" required min="0" className={inputCls} />
+          <input value={f.quantidade_minima} onChange={set('quantidade_minima')} type="number" min="0" className={inputCls} />
         </Campo>
         <Campo label="Máximo">
-          <input value={f.quantidade_maxima} onChange={set('quantidade_maxima')} type="number" required min="0" className={inputCls} />
+          <input value={f.quantidade_maxima} onChange={set('quantidade_maxima')} type="number" min="0" className={inputCls} />
         </Campo>
       </div>
 

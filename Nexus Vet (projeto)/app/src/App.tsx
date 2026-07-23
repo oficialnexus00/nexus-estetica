@@ -468,19 +468,30 @@ export default function App() {
 
     async editarPet(petId, d) {
       if (MODO_DEMO) {
+        const hojeISO = new Date().toISOString().slice(0, 10)
         setData(atual => atual && ({
           ...atual,
           tutores: atual.tutores.map(t => ({
             ...t,
-            pets: t.pets.map(p => p.id !== petId ? p : ({
-              ...p,
-              nome: d.nome, especie: d.especie, raca: d.raca ?? '—',
-              nascimento: d.nascimento ?? p.nascimento,
-              peso: d.pesoKg ?? p.peso, castrado: d.castrado, alerta: d.alertaSaude,
-              microchip: d.microchip, pedigree: d.pedigree,
-              sexo: d.sexo, pelagem: d.pelagem,
-              porte: d.porte, temperamento: d.temperamento, rga: d.rga, observacoes: d.observacoes,
-            })),
+            pets: t.pets.map(p => {
+              if (p.id !== petId) return p
+              // Se o peso mudou aqui, registra um ponto na curva de evolução (mesmo
+              // efeito de uma pesagem) — assim qualquer novo peso alimenta o gráfico.
+              const pesoMudou = d.pesoKg != null && d.pesoKg !== p.peso
+              const atendimentos = pesoMudou
+                ? [{ id: 'c' + Date.now(), data: hojeISO, profissional: '—', tipo: 'Pesagem', motivo: 'Atualização de peso', peso: d.pesoKg }, ...p.atendimentos]
+                : p.atendimentos
+              return {
+                ...p,
+                nome: d.nome, especie: d.especie, raca: d.raca ?? '—',
+                nascimento: d.nascimento ?? p.nascimento,
+                peso: d.pesoKg ?? p.peso, castrado: d.castrado, alerta: d.alertaSaude,
+                microchip: d.microchip, pedigree: d.pedigree,
+                sexo: d.sexo, pelagem: d.pelagem,
+                porte: d.porte, temperamento: d.temperamento, rga: d.rga, observacoes: d.observacoes,
+                atendimentos,
+              }
+            }),
           })),
         }))
       } else {

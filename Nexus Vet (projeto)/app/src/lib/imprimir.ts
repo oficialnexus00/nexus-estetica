@@ -47,20 +47,42 @@ function rodape(): string {
   return `<div class="rodape"><span>Emitido em ${agora}</span><span>Gerado por NEXUS Vet</span></div>`
 }
 
+function montarPagina(titulo: string, corpo: string): string {
+  // O <script> auto-dispara o diálogo de impressão (Salvar como PDF) ao abrir.
+  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${titulo}</title><style>${CSS}</style></head><body>${corpo}${rodape()}` +
+    `<script>window.addEventListener('load',function(){setTimeout(function(){try{window.focus();window.print()}catch(e){}},350)})<\/script>` +
+    `</body></html>`
+}
+
 function imprimir(titulo: string, corpo: string): void {
-  const iframe = document.createElement('iframe')
-  iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;'
-  document.body.appendChild(iframe)
-  const doc = iframe.contentWindow?.document
-  if (!doc) return
-  doc.open()
-  doc.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${titulo}</title><style>${CSS}</style></head><body>${corpo}${rodape()}</body></html>`)
-  doc.close()
-  setTimeout(() => {
-    iframe.contentWindow?.focus()
-    iframe.contentWindow?.print()
-    setTimeout(() => document.body.removeChild(iframe), 1500)
-  }, 300)
+  const pagina = montarPagina(titulo, corpo)
+
+  // 1) Abre numa aba nova — funciona no app real e escapa do sandbox do demo
+  //    (onde o print() de iframe/janela embutida é bloqueado).
+  try {
+    const win = window.open('', '_blank')
+    if (win && win.document) {
+      win.document.open()
+      win.document.write(pagina)
+      win.document.close()
+      return
+    }
+  } catch { /* popup bloqueado — cai no fallback */ }
+
+  // 2) Fallback: baixa o documento pronto para imprimir/salvar como PDF.
+  try {
+    const blob = new Blob([pagina], { type: 'text/html' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${titulo}.html`
+    a.target = '_blank'
+    a.rel = 'noopener'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 4000)
+  } catch { /* sem o que fazer */ }
 }
 
 /* -------------------------------------------------- comprovante de vacinação */

@@ -371,6 +371,88 @@ export function FormTutor({ onSalvar, onCancelar }: {
   )
 }
 
+/* --------------------------------------------- adicionar pet a um tutor */
+
+export type DadosPet = DadosTutorPet['pet']
+
+export function FormPet({ tutorNome, onSalvar, onCancelar }: {
+  tutorNome: string; onSalvar: (d: DadosPet) => Promise<void>; onCancelar: () => void
+}) {
+  const [f, setF] = useState({ nome: '', especie: 'cao' as Especie, raca: '', nascimento: '', microchip: '', sexo: '', pelagem: '' })
+  const [pedigree, setPedigree] = useState(false)
+  const [enviando, setEnviando] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
+
+  async function enviar(e: FormEvent) {
+    e.preventDefault()
+    if (!f.nome.trim()) { setErro('Informe o nome do pet.'); return }
+    setEnviando(true); setErro(null)
+    try {
+      await onSalvar({
+        nome: f.nome.trim(), especie: f.especie,
+        raca: f.raca.trim() || undefined, nascimento: f.nascimento || undefined,
+        microchip: f.microchip.trim() || undefined, pedigree,
+        sexo: (f.sexo || undefined) as 'macho' | 'femea' | undefined,
+        pelagem: f.pelagem.trim() || undefined,
+      })
+    } catch (err) {
+      setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
+      setEnviando(false)
+    }
+  }
+
+  return (
+    <form onSubmit={enviar} className="space-y-3">
+      <p className="text-[12.5px] text-ink-3">Novo pet de <span className="font-medium text-ink-2">{tutorNome}</span>. Os demais detalhes podem ser preenchidos depois em "Editar pet".</p>
+      <Campo label="Nome do pet">
+        <input value={f.nome} onChange={set('nome')} required placeholder="Thor" className={inputCls} />
+      </Campo>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Espécie">
+          <select value={f.especie} onChange={set('especie')} className={inputCls}>
+            <option value="cao">Cão</option>
+            <option value="gato">Gato</option>
+          </select>
+        </Campo>
+        <Campo label="Raça">
+          <input value={f.raca} onChange={set('raca')} placeholder="SRD" className={inputCls} />
+        </Campo>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Sexo (opcional)">
+          <select value={f.sexo} onChange={set('sexo')} className={inputCls}>
+            <option value="">—</option>
+            <option value="macho">Macho</option>
+            <option value="femea">Fêmea</option>
+          </select>
+        </Campo>
+        <Campo label="Pelagem / cor (opcional)">
+          <input value={f.pelagem} onChange={set('pelagem')} placeholder="Ex.: Caramelo" className={inputCls} />
+        </Campo>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Nascimento (opcional)">
+          <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
+        </Campo>
+        <Campo label="Nº do microchip (opcional)">
+          <input value={f.microchip} onChange={set('microchip')} placeholder="000000000000000" className={inputCls} />
+        </Campo>
+      </div>
+      <Campo label="Pedigree">
+        <button type="button" onClick={() => setPedigree(v => !v)}
+          className={`w-full rounded-lg border px-3 py-2 text-[13px] font-medium transition ${
+            pedigree ? 'border-brand bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
+          {pedigree ? '✓ Com pedigree' : 'Sem pedigree'}
+        </button>
+      </Campo>
+
+      {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
+      <Acoes onCancelar={onCancelar} enviando={enviando} rotulo="Adicionar pet" />
+    </form>
+  )
+}
+
 /* ------------------------------------------------------ lançamento */
 
 export type DadosLancamento = {

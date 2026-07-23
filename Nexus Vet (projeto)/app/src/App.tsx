@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { clinics as clinicasDemo, db } from './data'
-import type { DB, Tutor, ItemVenda, FormaPagamento } from './data'
+import type { DB, Tutor, Pet, ItemVenda, FormaPagamento } from './data'
 
 export type DadosVenda = {
   clienteNome?: string; petNome?: string; itens: ItemVenda[]; desconto: number; formaPagamento: FormaPagamento; profissional?: string
@@ -21,7 +21,7 @@ import * as mut from './lib/mutations'
 import Modal from './components/Modal'
 import { FormAgendamento, type DadosAgendamento, type DadosDose, type DadosTutorPet,
   type DadosEditarTutor, type DadosEditarPet, type DadosAtendimento,
-  type DadosLancamento, type DadosFornecedor, type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional,
+  type DadosLancamento, type DadosFornecedor, type DadosPet, type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional,
   type DadosEstoque, type DadosEditarEstoque, type DadosMovimento,
   type DadosExame, type DadosResultado, type DadosProtocolo, type DadosModelo } from './components/Formularios'
 import Dashboard from './views/Dashboard'
@@ -67,6 +67,7 @@ export type Acoes = {
   demo: boolean
   registrarDose: (petId: string, d: DadosDose) => Promise<void>
   criarTutorComPet: (d: DadosTutorPet) => Promise<void>
+  adicionarPet: (tutorId: string, d: DadosPet) => Promise<void>
   criarAgendamento: (d: DadosAgendamento) => Promise<void>
   confirmarPendentes: () => Promise<number>
   editarTutor: (tutorId: string, d: DadosEditarTutor) => Promise<void>
@@ -403,6 +404,26 @@ export default function App() {
         await recarregar()
       }
       notificar(`${d.nome} e ${d.pet.nome} cadastrados.`)
+    },
+
+    async adicionarPet(tutorId, d) {
+      if (MODO_DEMO) {
+        const novoPet: Pet = {
+          id: 'p' + Date.now(), nome: d.nome, especie: d.especie,
+          raca: d.raca ?? '—', nascimento: d.nascimento ?? new Date().toISOString().slice(0, 10),
+          peso: 0, castrado: false, microchip: d.microchip, pedigree: d.pedigree,
+          sexo: d.sexo, pelagem: d.pelagem, condicoes: [],
+          vacinas: [], atendimentos: [],
+        }
+        setData(atual => atual && ({
+          ...atual,
+          tutores: atual.tutores.map(t => t.id !== tutorId ? t : ({ ...t, pets: [...t.pets, novoPet] })),
+        }))
+      } else {
+        await mut.criarPet(clinicId, { tutorId, ...d })
+        await recarregar()
+      }
+      notificar(`${d.nome} adicionado à família.`)
     },
 
     async criarAgendamento(d) {

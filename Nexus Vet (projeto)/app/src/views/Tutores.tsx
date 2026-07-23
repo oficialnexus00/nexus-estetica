@@ -8,7 +8,7 @@ import LinhaDoTempo from '../components/LinhaDoTempo'
 import PesoEvolucao from '../components/PesoEvolucao'
 import AcoesPet from '../components/AcoesPet'
 import Modal from '../components/Modal'
-import { FormTutor, FormEditarTutor, FormEditarPet } from '../components/Formularios'
+import { FormTutor, FormEditarTutor, FormEditarPet, FormPet } from '../components/Formularios'
 
 const ETAPA: Record<Tutor['etapa'], string> = {
   lead: 'border-s2/40 bg-s2/10 text-s2',
@@ -31,6 +31,7 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
   const [cadastrando, setCadastrando] = useState(false)
   const [editandoTutor, setEditandoTutor] = useState<Tutor | null>(null)
   const [editandoPet, setEditandoPet] = useState<Pet | null>(null)
+  const [adicionandoPetEm, setAdicionandoPetEm] = useState<Tutor | null>(null)
 
   // o pet selecionado precisa vir sempre da lista atual, senão a carteira
   // continua mostrando o estado antigo depois de registrar uma dose
@@ -190,6 +191,10 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
                   </button>
                 )
               })}
+              <button onClick={() => setAdicionandoPetEm(t)}
+                className="flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-line bg-surface-2/50 px-3 py-2.5 text-[12.5px] font-medium text-ink-3 transition hover:border-brand/50 hover:text-brand">
+                <span className="text-[14px] leading-none">+</span> Adicionar pet
+              </button>
             </div>
           </div>
         ))}
@@ -203,6 +208,13 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
         {editandoTutor && (
           <FormEditarTutor tutor={editandoTutor} onCancelar={() => setEditandoTutor(null)}
             onSalvar={async d => { await acoes.editarTutor(editandoTutor.id, d); setEditandoTutor(null) }} />
+        )}
+      </Modal>
+
+      <Modal titulo={`Adicionar pet a ${adicionandoPetEm?.nome}`} aberto={!!adicionandoPetEm} onFechar={() => setAdicionandoPetEm(null)}>
+        {adicionandoPetEm && (
+          <FormPet tutorNome={adicionandoPetEm.nome} onCancelar={() => setAdicionandoPetEm(null)}
+            onSalvar={async d => { await acoes.adicionarPet(adicionandoPetEm.id, d); setAdicionandoPetEm(null) }} />
         )}
       </Modal>
     </div>

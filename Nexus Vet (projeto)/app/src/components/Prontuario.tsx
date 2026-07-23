@@ -98,12 +98,28 @@ function Registro({ at, pet, tutorNome, clinica }: {
   )
 }
 
-export default function Prontuario({ pet, tutorNome, clinica, tipos = [], onNovoAtendimento }: {
+const SUGESTOES_COND = [
+  'Dermatite alérgica crônica', 'Cardiopatia', 'Insuficiência renal', 'Diabetes',
+  'Obesidade', 'Artrose', 'Epilepsia', 'Hipotireoidismo', 'Doença periodontal', 'Sopro cardíaco',
+]
+
+export default function Prontuario({ pet, tutorNome, clinica, tipos = [], onNovoAtendimento,
+  condicoes = [], onAdicionarCondicao, onRemoverCondicao }: {
   pet: Pet; tutorNome: string; clinica: string; tipos?: string[]
   onNovoAtendimento?: (d: DadosAtendimento) => Promise<void>
+  condicoes?: string[]
+  onAdicionarCondicao?: (texto: string) => Promise<void>
+  onRemoverCondicao?: (index: number) => Promise<void>
 }) {
   const [registrando, setRegistrando] = useState(false)
+  const [novaCond, setNovaCond] = useState('')
   const atendimentos = [...pet.atendimentos].sort((a, b) => b.data.localeCompare(a.data))
+
+  const addCond = async () => {
+    if (!novaCond.trim() || !onAdicionarCondicao) return
+    await onAdicionarCondicao(novaCond)
+    setNovaCond('')
+  }
 
   return (
     <div className="rounded-xl border border-line bg-surface-1 p-5">
@@ -122,6 +138,38 @@ export default function Prontuario({ pet, tutorNome, clinica, tipos = [], onNovo
         )}
       </div>
 
+      {/* Quadro clínico — condições crônicas (unificado no prontuário) */}
+      {onAdicionarCondicao && (
+        <div className="mb-4 rounded-lg border border-line bg-surface-2 p-3.5">
+          <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-ink-3">Quadro clínico · condições crônicas</div>
+          {condicoes.length === 0 ? (
+            <p className="mb-2.5 text-[12.5px] text-ink-3">Nenhuma condição registrada.</p>
+          ) : (
+            <div className="mb-2.5 flex flex-wrap gap-2">
+              {condicoes.map((c, i) => (
+                <span key={i} className="flex items-center gap-1.5 rounded-lg border border-warn/40 bg-warn/10 px-2.5 py-1 text-[12.5px] text-warn">
+                  {c}
+                  <button onClick={() => onRemoverCondicao?.(i)} aria-label={`Remover ${c}`} className="text-warn/70 transition hover:text-warn">✕</button>
+                </span>
+              ))}
+            </div>
+          )}
+          <div className="flex gap-2">
+            <input value={novaCond} onChange={e => setNovaCond(e.target.value)} list="cond-sugestoes"
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCond() } }}
+              placeholder="Ex.: Cardiopatia"
+              className="min-w-0 flex-1 rounded-lg border border-line bg-surface-1 px-3 py-2 text-[13px] outline-none transition placeholder:text-ink-3 focus:border-brand/60" />
+            <datalist id="cond-sugestoes">{SUGESTOES_COND.map(s => <option key={s} value={s} />)}</datalist>
+            <button onClick={addCond} disabled={!novaCond.trim()}
+              className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50">
+              Adicionar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Atendimentos */}
+      <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-ink-3">Atendimentos</div>
       {atendimentos.length === 0 ? (
         <p className="py-6 text-center text-[13px] text-ink-3">
           Nenhum atendimento registrado ainda.

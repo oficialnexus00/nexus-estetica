@@ -7,7 +7,6 @@ import Prontuario from '../components/Prontuario'
 import LinhaDoTempo from '../components/LinhaDoTempo'
 import PesoEvolucao from '../components/PesoEvolucao'
 import ProtocolosPet from '../components/ProtocolosPet'
-import QuadroClinico from '../components/QuadroClinico'
 import EmitirDocumento from '../components/EmitirDocumento'
 import Modal from '../components/Modal'
 import { FormTutor, FormEditarTutor, FormEditarPet } from '../components/Formularios'
@@ -97,14 +96,13 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
           )}
         </div>
 
-        <QuadroClinico pet={pet}
-          onAdicionar={t => acoes.adicionarCondicao(pet.id, t)}
-          onRemover={i => acoes.removerCondicao(pet.id, i)} />
+        <Prontuario pet={pet} tutorNome={tutor.nome} clinica={acoes.clinicaNome} tipos={data.tiposAtendimento ?? []}
+          onNovoAtendimento={d => acoes.registrarAtendimento(pet.id, d)}
+          condicoes={pet.condicoes ?? []}
+          onAdicionarCondicao={t => acoes.adicionarCondicao(pet.id, t)}
+          onRemoverCondicao={i => acoes.removerCondicao(pet.id, i)} />
 
         <PesoEvolucao pet={pet} />
-
-        <Prontuario pet={pet} tutorNome={tutor.nome} clinica={acoes.clinicaNome} tipos={data.tiposAtendimento ?? []}
-          onNovoAtendimento={d => acoes.registrarAtendimento(pet.id, d)} />
 
         <CarteiraVacina vacinas={pet.vacinas} especie={pet.especie} protocolos={data.protocolos ?? []}
           onRegistrarDose={d => acoes.registrarDose(pet.id, d)} />

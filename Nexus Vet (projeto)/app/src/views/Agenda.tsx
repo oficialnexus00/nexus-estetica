@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { DB, StatusAgenda, Agendamento } from '../data'
+import type { DB, StatusAgenda, Agendamento, Internacao } from '../data'
 import type { Acoes } from '../App'
 
 const STATUS: Record<StatusAgenda, { label: string; classe: string; dot: string }> = {
@@ -31,6 +31,19 @@ export default function Agenda({ data, acoes }: { data: DB; acoes: Acoes }) {
     const arr = porDia.get(a.data) ?? []; arr.push(a); porDia.set(a.data, arr)
   }
   const doDia = (d: Date) => (porDia.get(ymd(d)) ?? []).slice().sort((a, b) => a.hora.localeCompare(b.hora))
+
+  // Internados presentes num dia: da entrada até a alta (ou, se ainda internado,
+  // até a previsão de alta / hoje). É o pet que está DENTRO da clínica naquele dia.
+  const hojeY = ymd(hoje)
+  const boxNome = new Map((data.boxes ?? []).map(b => [b.id, b.nome]))
+  const internadosNoDia = (d: Date): Internacao[] => {
+    const dd = ymd(d)
+    return (data.internacoes ?? []).filter(i => {
+      if (dd < i.entrada) return false
+      const fim = i.saida ?? (i.previsaoAlta && i.previsaoAlta > hojeY ? i.previsaoAlta : hojeY)
+      return dd <= fim
+    })
+  }
 
   // dias do período visível (para contar pendentes)
   const diasVisiveis = (): Date[] => {
@@ -97,68 +110,111 @@ export default function Agenda({ data, acoes }: { data: DB; acoes: Acoes }) {
         </div>
       )}
 
-      {modo === 'dia' && <VistaDia agendamentos={doDia(ref)} />}
+      {modo === 'dia' && <VistaDia agendamentos={doDia(ref)} internados={internadosNoDia(ref)} boxNome={boxNome} />}
       {modo === 'semana' && (
-        <VistaSemana dias={Array.from({ length: 7 }, (_, i) => addDays(inicioSemana(ref), i))} doDia={doDia} hoje={hoje}
+        <VistaSemana dias={Array.from({ length: 7 }, (_, i) => addDays(inicioSemana(ref), i))} doDia={doDia}
+          internadosNoDia={internadosNoDia} hoje={hoje}
           irParaDia={d => { setRef(d); setModo('dia') }} />
       )}
       {modo === 'mes' && (
-        <VistaMes base={ref} doDia={doDia} hoje={hoje}
+        <VistaMes base={ref} doDia={doDia} internadosNoDia={internadosNoDia} hoje={hoje}
           irParaDia={d => { setRef(d); setModo('dia') }} />
       )}
     </div>
   )
 }
 
-function VistaDia({ agendamentos }: { agendamentos: Agendamento[] }) {
-  if (agendamentos.length === 0) {
-    return <p className="rounded-xl border border-line bg-surface-1 py-12 text-center text-[13.5px] text-ink-3">Nenhum agendamento neste dia.</p>
-  }
+// Faixa "quem está internado" — separada dos horários porque internação não é slot
+function FaixaInternados({ internados, boxNome }: { internados: Internacao[]; boxNome: Map<string, string> }) {
+  if (internados.length === 0) return null
   return (
-    <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
-      <table className="w-full min-w-[680px] text-left">
-        <thead>
-          <tr className="border-b border-line text-[11.5px] uppercase tracking-wider text-ink-3">
-            <th className="px-4 py-3 font-medium">Hora</th>
-            <th className="px-4 py-3 font-medium">Pet</th>
-            <th className="px-4 py-3 font-medium">Tutor</th>
-            <th className="px-4 py-3 font-medium">Serviço</th>
-            <th className="px-4 py-3 font-medium">Profissional</th>
-            <th className="px-4 py-3 font-medium">Canal</th>
-            <th className="px-4 py-3 font-medium">Status</th>
-          </tr>
-        </thead>
-        <tbody className="text-[13.5px]">
-          {agendamentos.map(a => (
-            <tr key={a.id} className="border-b border-line/60 transition last:border-0 hover:bg-surface-2/60">
-              <td className="px-4 py-3 tabular-nums font-medium">{a.hora}</td>
-              <td className="px-4 py-3 font-medium">{a.pet}</td>
-              <td className="px-4 py-3 text-ink-2">{a.tutor}</td>
-              <td className="px-4 py-3 text-ink-2">{a.servico}</td>
-              <td className="px-4 py-3 text-ink-2">{a.profissional}</td>
-              <td className="px-4 py-3">
-                {a.canal === 'ia'
-                  ? <span className="rounded-md bg-brand/15 px-2 py-0.5 text-[11px] font-medium text-brand">Bia</span>
-                  : <span className="text-[11.5px] text-ink-3">Recepção</span>}
-              </td>
-              <td className="px-4 py-3">
-                <span className={`rounded-md border px-2 py-0.5 text-[11px] font-medium ${STATUS[a.status].classe}`}>{STATUS[a.status].label}</span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="rounded-xl border border-s2/40 bg-s2/[0.06] p-3">
+      <div className="mb-2 flex items-center gap-2 px-1">
+        <span className="text-[13.5px]">🏥</span>
+        <h3 className="text-[12.5px] font-semibold uppercase tracking-wider text-s2">
+          Internados · {internados.length} na clínica
+        </h3>
+      </div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {internados.map(i => (
+          <div key={i.id} className="rounded-lg border border-line bg-surface-1 px-3 py-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[13.5px] font-medium">{i.petNome}</span>
+              <span className="rounded-md border border-s2/40 bg-s2/10 px-2 py-0.5 text-[10.5px] font-medium text-s2">
+                {i.box ? (boxNome.get(i.box) ?? 'Internado') : 'Internado'}
+              </span>
+            </div>
+            <div className="mt-0.5 truncate text-[11.5px] text-ink-3">{i.tutorNome} · {i.motivo}</div>
+            <div className="mt-0.5 text-[10.5px] text-ink-3">
+              Entrada {fmtCurto(i.entrada)}{i.previsaoAlta ? ` · previsão de alta ${fmtCurto(i.previsaoAlta)}` : ''}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
 
-function VistaSemana({ dias, doDia, hoje, irParaDia }: {
-  dias: Date[]; doDia: (d: Date) => Agendamento[]; hoje: Date; irParaDia: (d: Date) => void
+const fmtCurto = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+
+function VistaDia({ agendamentos, internados, boxNome }: {
+  agendamentos: Agendamento[]; internados: Internacao[]; boxNome: Map<string, string>
+}) {
+  return (
+    <div className="space-y-3">
+      <FaixaInternados internados={internados} boxNome={boxNome} />
+      {agendamentos.length === 0 ? (
+        <p className="rounded-xl border border-line bg-surface-1 py-12 text-center text-[13.5px] text-ink-3">
+          Nenhum agendamento com hora marcada neste dia.
+        </p>
+      ) : (
+        <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
+          <table className="w-full min-w-[680px] text-left">
+            <thead>
+              <tr className="border-b border-line text-[11.5px] uppercase tracking-wider text-ink-3">
+                <th className="px-4 py-3 font-medium">Hora</th>
+                <th className="px-4 py-3 font-medium">Pet</th>
+                <th className="px-4 py-3 font-medium">Tutor</th>
+                <th className="px-4 py-3 font-medium">Serviço</th>
+                <th className="px-4 py-3 font-medium">Profissional</th>
+                <th className="px-4 py-3 font-medium">Canal</th>
+                <th className="px-4 py-3 font-medium">Status</th>
+              </tr>
+            </thead>
+            <tbody className="text-[13.5px]">
+              {agendamentos.map(a => (
+                <tr key={a.id} className="border-b border-line/60 transition last:border-0 hover:bg-surface-2/60">
+                  <td className="px-4 py-3 tabular-nums font-medium">{a.hora}</td>
+                  <td className="px-4 py-3 font-medium">{a.pet}</td>
+                  <td className="px-4 py-3 text-ink-2">{a.tutor}</td>
+                  <td className="px-4 py-3 text-ink-2">{a.servico}</td>
+                  <td className="px-4 py-3 text-ink-2">{a.profissional}</td>
+                  <td className="px-4 py-3">
+                    {a.canal === 'ia'
+                      ? <span className="rounded-md bg-brand/15 px-2 py-0.5 text-[11px] font-medium text-brand">Bia</span>
+                      : <span className="text-[11.5px] text-ink-3">Recepção</span>}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={`rounded-md border px-2 py-0.5 text-[11px] font-medium ${STATUS[a.status].classe}`}>{STATUS[a.status].label}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function VistaSemana({ dias, doDia, internadosNoDia, hoje, irParaDia }: {
+  dias: Date[]; doDia: (d: Date) => Agendamento[]; internadosNoDia: (d: Date) => Internacao[]; hoje: Date; irParaDia: (d: Date) => void
 }) {
   return (
     <div className="grid gap-2 md:grid-cols-7">
       {dias.map((d, i) => {
         const ags = doDia(d)
+        const internados = internadosNoDia(d)
         const eHoje = ymd(d) === ymd(hoje)
         return (
           <div key={i} className={`rounded-xl border bg-surface-1 p-2.5 ${eHoje ? 'border-brand/50' : 'border-line'}`}>
@@ -166,9 +222,15 @@ function VistaSemana({ dias, doDia, hoje, irParaDia }: {
               <span className={`text-[12px] font-semibold ${eHoje ? 'text-brand' : 'text-ink-2'}`}>{DIAS_SEMANA[i]}</span>
               <span className={`text-[13px] tabular-nums ${eHoje ? 'text-brand' : 'text-ink-3'}`}>{d.getDate()}</span>
             </button>
+            {internados.length > 0 && (
+              <button onClick={() => irParaDia(d)}
+                className="mb-1.5 flex w-full items-center gap-1 rounded-lg border border-s2/40 bg-s2/10 px-2 py-1 text-left text-[10.5px] font-medium text-s2">
+                🏥 {internados.length} internado{internados.length > 1 ? 's' : ''}
+              </button>
+            )}
             <div className="space-y-1.5">
               {ags.length === 0
-                ? <p className="py-2 text-center text-[11px] text-ink-3">—</p>
+                ? (internados.length === 0 ? <p className="py-2 text-center text-[11px] text-ink-3">—</p> : null)
                 : ags.map(a => (
                     <button key={a.id} onClick={() => irParaDia(d)}
                       className="flex w-full items-center gap-1.5 rounded-lg border border-line bg-surface-2 px-2 py-1.5 text-left transition hover:border-brand/50">
@@ -187,8 +249,8 @@ function VistaSemana({ dias, doDia, hoje, irParaDia }: {
   )
 }
 
-function VistaMes({ base, doDia, hoje, irParaDia }: {
-  base: Date; doDia: (d: Date) => Agendamento[]; hoje: Date; irParaDia: (d: Date) => void
+function VistaMes({ base, doDia, internadosNoDia, hoje, irParaDia }: {
+  base: Date; doDia: (d: Date) => Agendamento[]; internadosNoDia: (d: Date) => Internacao[]; hoje: Date; irParaDia: (d: Date) => void
 }) {
   const primeiro = new Date(base.getFullYear(), base.getMonth(), 1)
   const inicioGrade = addDays(primeiro, -((primeiro.getDay() + 6) % 7))
@@ -204,12 +266,18 @@ function VistaMes({ base, doDia, hoje, irParaDia }: {
           const doMes = d.getMonth() === base.getMonth()
           const eHoje = ymd(d) === ymd(hoje)
           const ags = doDia(d)
+          const internados = internadosNoDia(d)
           return (
             <button key={i} onClick={() => irParaDia(d)}
               className={`min-h-[64px] rounded-lg border p-1.5 text-left align-top transition hover:border-brand/50 ${
                 eHoje ? 'border-brand/50 bg-brand/5' : 'border-line bg-surface-2'} ${doMes ? '' : 'opacity-40'}`}>
               <div className={`text-[11.5px] font-medium tabular-nums ${eHoje ? 'text-brand' : 'text-ink-2'}`}>{d.getDate()}</div>
               <div className="mt-1 space-y-0.5">
+                {internados.length > 0 && (
+                  <div className="flex items-center gap-1 truncate text-[10px] font-medium text-s2">
+                    🏥 <span className="truncate">{internados.length} intern.</span>
+                  </div>
+                )}
                 {ags.slice(0, 2).map(a => (
                   <div key={a.id} className="flex items-center gap-1 truncate text-[10px] text-ink-3">
                     <span className="h-1 w-1 shrink-0 rounded-full" style={{ background: STATUS[a.status].dot }} />

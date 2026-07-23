@@ -247,6 +247,23 @@ export type Caixa = {
   movimentos: MovimentoCaixa[]
 }
 
+// Fornecedor (PJ) — empresa que fornece produtos/serviços para a clínica.
+// É a contraparte B2B: a clínica atende tutores (PF/CPF) mas compra de empresas (PJ/CNPJ).
+export type Fornecedor = {
+  id: string
+  razaoSocial: string          // razão social (identidade jurídica) — obrigatório
+  nomeFantasia?: string        // como é conhecido no dia a dia
+  cnpj?: string                // 00.000.000/0000-00
+  inscricaoEstadual?: string
+  contato?: string             // pessoa de contato
+  telefone?: string
+  email?: string
+  endereco?: string
+  categoria?: string           // insumos, medicamentos, ração, serviços…
+  observacoes?: string
+  ativo: boolean
+}
+
 export type Lancamento = {
   id: string
   tipo: 'receber' | 'pagar'
@@ -258,6 +275,9 @@ export type Lancamento = {
   formaPagamento?: FormaPagamento
   tutorNome?: string
   petNome?: string
+  fornecedorId?: string       // vínculo com a empresa fornecedora (contas a pagar)
+  fornecedorNome?: string
+  documento?: string          // nº da nota fiscal / boleto
 }
 
 export type DB = {
@@ -276,8 +296,17 @@ export type DB = {
   boxes: Box[]
   internacoes: Internacao[]
   lancamentos: Lancamento[]
+  fornecedores: Fornecedor[]
   kpis: { faturamentoMes: number; noShowPct: number; ocupacaoPct: number; vacinasAtrasadas: number; agendadosPelaIA: number; ticketMedio: number }
   receitaSemana: { dia: string; valor: number }[]
+}
+
+/** Formata um CNPJ (só dígitos ou já formatado) como 00.000.000/0000-00.
+ *  Se não tiver 14 dígitos, devolve o que veio (deixa o usuário preencher parcial). */
+export const formatarCNPJ = (v: string) => {
+  const d = v.replace(/\D/g, '').slice(0, 14)
+  if (d.length !== 14) return v
+  return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`
 }
 
 /** Dias de atraso de um lançamento em aberto (negativo = ainda vai vencer). */
@@ -428,9 +457,34 @@ export const db: Record<'c1' | 'c2', DB> = {
         vencimento: hojeMenos(6), pagoEm: hojeMenos(6), formaPagamento: 'credito', tutorNome: 'Ricardo Alves', petNome: 'Mel' },
       // a pagar
       { id: 'f6', tipo: 'pagar', descricao: 'Aluguel da clínica', categoria: 'fixo', valor: 4200, vencimento: hojeMais(6) },
-      { id: 'f7', tipo: 'pagar', descricao: 'Fornecedor — vacinas', categoria: 'insumo', valor: 1380, vencimento: hojeMais(2) },
+      { id: 'f7', tipo: 'pagar', descricao: 'Compra de vacinas V10 e antirrábica', categoria: 'insumo', valor: 1380,
+        vencimento: hojeMais(2), fornecedorId: 'fo2', fornecedorNome: 'LaborXYZ Biológicos Ltda', documento: 'NF 45872' },
       { id: 'f8', tipo: 'pagar', descricao: 'Energia elétrica', categoria: 'fixo', valor: 640,
         vencimento: hojeMenos(3), pagoEm: hojeMenos(3), formaPagamento: 'boleto' },
+      { id: 'f11', tipo: 'pagar', descricao: 'Antibióticos e analgésicos', categoria: 'insumo', valor: 920,
+        vencimento: hojeMenos(4), fornecedorId: 'fo1', fornecedorNome: 'FarmaXYZ Distribuidora Ltda', documento: 'NF 12043' },
+    ],
+    fornecedores: [
+      { id: 'fo1', razaoSocial: 'FarmaXYZ Distribuidora de Medicamentos Ltda', nomeFantasia: 'FarmaXYZ',
+        cnpj: '12.345.678/0001-90', inscricaoEstadual: '251.234.567', contato: 'Roberto Lima',
+        telefone: '47 3344-5566', email: 'vendas@farmaxyz.com.br',
+        endereco: 'Rua Industrial, 800 — Joinville/SC', categoria: 'Medicamentos', ativo: true },
+      { id: 'fo2', razaoSocial: 'LaborXYZ Produtos Biológicos Ltda', nomeFantasia: 'LaborXYZ',
+        cnpj: '23.456.789/0001-01', inscricaoEstadual: '252.345.678', contato: 'Fernanda Souza',
+        telefone: '47 3365-7788', email: 'comercial@laborxyz.com.br',
+        endereco: 'Av. das Indústrias, 1200 — Blumenau/SC', categoria: 'Vacinas', ativo: true },
+      { id: 'fo3', razaoSocial: 'MedicSupply Materiais Hospitalares Ltda', nomeFantasia: 'MedicSupply',
+        cnpj: '34.567.890/0001-12', contato: 'Paulo Andrade',
+        telefone: '47 3322-9900', email: 'atendimento@medicsupply.com.br',
+        endereco: 'Rua do Comércio, 450 — Itajaí/SC', categoria: 'Materiais', ativo: true },
+      { id: 'fo4', razaoSocial: 'Quality Lab Diagnósticos Ltda', nomeFantasia: 'QualityLab',
+        cnpj: '45.678.901/0001-23', contato: 'Dra. Camila Reis',
+        telefone: '47 3311-2233', email: 'lab@qualitylab.com.br',
+        endereco: 'Rua Sete de Setembro, 90 — Balneário Camboriú/SC', categoria: 'Laboratório', ativo: true },
+      { id: 'fo5', razaoSocial: 'Ração Brasil Comércio de Alimentos Ltda', nomeFantasia: 'RaçãoBrasil',
+        cnpj: '56.789.012/0001-34', contato: 'Marcos Vinícius',
+        telefone: '47 3300-4455', email: 'pedidos@racaobrasil.com.br',
+        endereco: 'BR-101, km 120 — Tijucas/SC', categoria: 'Alimentos', ativo: true },
     ],
     estoque: [
       { id: 'inv1', nome: 'Amoxicilina 500mg', categoria: 'medicamento', codigo: 'AMX500', quantidade_estoque: 45, quantidade_minima: 10, quantidade_maxima: 100, data_validade: '2026-12-31', lote: 'LOTE123456', fornecedor_nome: 'FarmaXYZ', fornecedor_contato: '47 3344-5566', preco_custo: 2.50, preco_venda: 8.90, ativo: true },
@@ -599,7 +653,18 @@ export const db: Record<'c1' | 'c2', DB> = {
     lancamentos: [
       { id: 'f9', tipo: 'receber', descricao: 'Banho e tosa', categoria: 'banho_tosa', valor: 80,
         vencimento: hojeMenos(1), pagoEm: hojeMenos(1), formaPagamento: 'debito', tutorNome: 'Carla Menezes', petNome: 'Pipoca' },
-      { id: 'f10', tipo: 'pagar', descricao: 'Fornecedor — ração', categoria: 'insumo', valor: 890, vencimento: hojeMais(9) },
+      { id: 'f10', tipo: 'pagar', descricao: 'Compra de ração premium', categoria: 'insumo', valor: 890,
+        vencimento: hojeMais(9), fornecedorId: 'fo6', fornecedorNome: 'RaçãoBrasil', documento: 'NF 8891' },
+    ],
+    fornecedores: [
+      { id: 'fo6', razaoSocial: 'Ração Brasil Comércio de Alimentos Ltda', nomeFantasia: 'RaçãoBrasil',
+        cnpj: '56.789.012/0001-34', contato: 'Marcos Vinícius',
+        telefone: '47 3300-4455', email: 'pedidos@racaobrasil.com.br',
+        endereco: 'BR-101, km 120 — Tijucas/SC', categoria: 'Alimentos', ativo: true },
+      { id: 'fo7', razaoSocial: 'FarmaXYZ Distribuidora de Medicamentos Ltda', nomeFantasia: 'FarmaXYZ',
+        cnpj: '12.345.678/0001-90', contato: 'Roberto Lima',
+        telefone: '47 3344-5566', email: 'vendas@farmaxyz.com.br',
+        endereco: 'Rua Industrial, 800 — Joinville/SC', categoria: 'Medicamentos', ativo: true },
     ],
     kpis: { faturamentoMes: 15340, noShowPct: 12, ocupacaoPct: 54, vacinasAtrasadas: 0, agendadosPelaIA: 1, ticketMedio: 142 },
     receitaSemana: [

@@ -2,9 +2,10 @@ import { useState } from 'react'
 import type { DB } from '../data'
 import type { Acoes } from '../App'
 import Modal from '../components/Modal'
-import { FormServico, FormProfissional, FormEditarServico, FormEditarProfissional, FormProtocolo, FormModelo,
+import ConfirmButton from '../components/ConfirmButton'
+import { FormServico, FormProfissional, FormEditarServico, FormEditarProfissional, FormProtocolo, FormModelo, FormFornecedor,
   type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional } from '../components/Formularios'
-import type { ProtocoloVacina, ModeloDocumento } from '../data'
+import type { ProtocoloVacina, ModeloDocumento, Fornecedor } from '../data'
 
 const CATEGORIAS: Record<string, string> = {
   consulta: 'Consulta',
@@ -27,7 +28,7 @@ const descreveProtocolo = (p: ProtocoloVacina) => {
 }
 
 export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes }) {
-  const [aba, setAba] = useState<'servicos' | 'profissionais' | 'protocolos' | 'tipos' | 'modelos'>('servicos')
+  const [aba, setAba] = useState<'servicos' | 'profissionais' | 'fornecedores' | 'protocolos' | 'tipos' | 'modelos'>('servicos')
   const [adicionandoServico, setAdicionandoServico] = useState(false)
   const [editandoServico, setEditandoServico] = useState<DB['servicos'][0] | null>(null)
   const [adicionandoProfissional, setAdicionandoProfissional] = useState(false)
@@ -37,10 +38,13 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
   const [novoTipo, setNovoTipo] = useState('')
   const [adicionandoModelo, setAdicionandoModelo] = useState(false)
   const [editandoModelo, setEditandoModelo] = useState<ModeloDocumento | null>(null)
+  const [adicionandoFornecedor, setAdicionandoFornecedor] = useState(false)
+  const [editandoFornecedor, setEditandoFornecedor] = useState<Fornecedor | null>(null)
 
   const ABAS = [
     ['servicos', '💼 Serviços'],
     ['profissionais', '👨‍⚕️ Profissionais'],
+    ['fornecedores', '🏢 Fornecedores'],
     ['protocolos', '💉 Protocolo de vacinas'],
     ['tipos', '🩺 Tipos de atendimento'],
     ['modelos', '📄 Modelos de documento'],
@@ -153,6 +157,71 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {aba === 'fornecedores' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-[15px] font-semibold">Fornecedores</h2>
+              <p className="mt-0.5 text-[12px] text-ink-3">Empresas (PJ) que abastecem a clínica — vinculadas às contas a pagar.</p>
+            </div>
+            <button onClick={() => setAdicionandoFornecedor(true)}
+              className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
+              + Novo fornecedor
+            </button>
+          </div>
+
+          {(data.fornecedores ?? []).length === 0 ? (
+            <div className="rounded-xl border border-line bg-surface-1 p-6 text-center">
+              <p className="text-[13.5px] text-ink-2">Nenhum fornecedor cadastrado ainda.</p>
+              <p className="mt-1 text-[12px] text-ink-3">Cadastre as empresas de quem você compra insumos, vacinas e serviços.</p>
+            </div>
+          ) : (
+            <div className="grid gap-3 md:grid-cols-2">
+              {(data.fornecedores ?? []).map(fo => (
+                <div key={fo.id} className="rounded-xl border border-line bg-surface-1 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-[14px] font-semibold">{fo.nomeFantasia || fo.razaoSocial}</h3>
+                        {fo.categoria && (
+                          <span className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-medium text-ink-2">
+                            {fo.categoria}
+                          </span>
+                        )}
+                      </div>
+                      {fo.nomeFantasia && fo.razaoSocial !== fo.nomeFantasia && (
+                        <p className="mt-0.5 text-[12px] text-ink-3">{fo.razaoSocial}</p>
+                      )}
+                    </div>
+                    <div className="flex shrink-0 gap-1.5">
+                      <button onClick={() => setEditandoFornecedor(fo)}
+                        className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
+                        Editar
+                      </button>
+                      <ConfirmButton titulo="Remover fornecedor" mensagem={`Remover "${fo.nomeFantasia || fo.razaoSocial}" da lista de fornecedores?`}
+                        confirmLabel="Remover" danger onConfirm={() => acoes.deletarFornecedor(fo.id)}
+                        className="rounded-lg border border-bad/40 bg-bad/10 px-2.5 py-1 text-[11.5px] font-medium text-bad transition hover:border-bad/60 hover:bg-bad/20">
+                        Deletar
+                      </ConfirmButton>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 grid gap-1 text-[12px] text-ink-2">
+                    {fo.cnpj && <div><span className="text-ink-3">CNPJ</span> · {fo.cnpj}</div>}
+                    {fo.inscricaoEstadual && <div><span className="text-ink-3">IE</span> · {fo.inscricaoEstadual}</div>}
+                    {(fo.contato || fo.telefone) && (
+                      <div>{[fo.contato, fo.telefone].filter(Boolean).join(' · ')}</div>
+                    )}
+                    {fo.email && <div className="truncate">{fo.email}</div>}
+                    {fo.endereco && <div className="text-ink-3">{fo.endereco}</div>}
                   </div>
                 </div>
               ))}
@@ -318,6 +387,18 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
         {editandoProfissional && (
           <FormEditarProfissional profissional={editandoProfissional} onCancelar={() => setEditandoProfissional(null)}
             onSalvar={async d => { await acoes.atualizarProfissional(editandoProfissional.id, d); setEditandoProfissional(null) }} />
+        )}
+      </Modal>
+
+      <Modal titulo="Novo fornecedor" aberto={adicionandoFornecedor} onFechar={() => setAdicionandoFornecedor(false)}>
+        <FormFornecedor onCancelar={() => setAdicionandoFornecedor(false)}
+          onSalvar={async d => { await acoes.criarFornecedor(d); setAdicionandoFornecedor(false) }} />
+      </Modal>
+
+      <Modal titulo={`Editar ${editandoFornecedor?.nomeFantasia || editandoFornecedor?.razaoSocial}`} aberto={!!editandoFornecedor} onFechar={() => setEditandoFornecedor(null)}>
+        {editandoFornecedor && (
+          <FormFornecedor fornecedor={editandoFornecedor} onCancelar={() => setEditandoFornecedor(null)}
+            onSalvar={async d => { await acoes.atualizarFornecedor(editandoFornecedor.id, d); setEditandoFornecedor(null) }} />
         )}
       </Modal>
 

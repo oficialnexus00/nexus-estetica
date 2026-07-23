@@ -21,7 +21,7 @@ import * as mut from './lib/mutations'
 import Modal from './components/Modal'
 import { FormAgendamento, type DadosAgendamento, type DadosDose, type DadosTutorPet,
   type DadosEditarTutor, type DadosEditarPet, type DadosAtendimento,
-  type DadosLancamento, type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional,
+  type DadosLancamento, type DadosFornecedor, type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional,
   type DadosEstoque, type DadosEditarEstoque, type DadosMovimento,
   type DadosExame, type DadosResultado, type DadosProtocolo, type DadosModelo } from './components/Formularios'
 import Dashboard from './views/Dashboard'
@@ -79,6 +79,9 @@ export type Acoes = {
   removerCondicao: (petId: string, index: number) => Promise<void>
   criarLancamento: (d: DadosLancamento) => Promise<void>
   baixarLancamento: (id: string) => Promise<void>
+  criarFornecedor: (d: DadosFornecedor) => Promise<void>
+  atualizarFornecedor: (id: string, d: DadosFornecedor) => Promise<void>
+  deletarFornecedor: (id: string) => Promise<void>
   criarServico: (d: DadosServico) => Promise<void>
   atualizarServico: (id: string, d: DadosEditarServico) => Promise<void>
   deletarServico: (id: string) => Promise<void>
@@ -221,6 +224,7 @@ export default function App() {
             id: 'f' + Date.now(), tipo: d.tipo, descricao: d.descricao,
             categoria: d.categoria, valor: d.valor, vencimento: d.vencimento,
             tutorNome: d.tutorNome,
+            fornecedorId: d.fornecedorId, fornecedorNome: d.fornecedorNome, documento: d.documento,
           }, ...atual.lancamentos],
         }))
       } else {
@@ -243,6 +247,45 @@ export default function App() {
         await recarregar()
       }
       notificar('Baixa registrada.')
+    },
+
+    async criarFornecedor(d) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({
+          ...atual,
+          fornecedores: [{ id: 'fo' + Date.now(), ...d, ativo: true }, ...atual.fornecedores],
+        }))
+      } else {
+        await mut.criarFornecedor(clinicId, d)
+        await recarregar()
+      }
+      notificar(`Fornecedor ${d.nomeFantasia || d.razaoSocial} cadastrado.`)
+    },
+
+    async atualizarFornecedor(id, d) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({
+          ...atual,
+          fornecedores: atual.fornecedores.map(fo => fo.id === id ? { ...fo, ...d } : fo),
+        }))
+      } else {
+        await mut.atualizarFornecedor(id, d)
+        await recarregar()
+      }
+      notificar('Fornecedor atualizado.')
+    },
+
+    async deletarFornecedor(id) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({
+          ...atual,
+          fornecedores: atual.fornecedores.filter(fo => fo.id !== id),
+        }))
+      } else {
+        await mut.deletarFornecedor(id)
+        await recarregar()
+      }
+      notificar('Fornecedor removido.')
     },
 
     async registrarAtendimento(petId, d) {

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Campo, inputCls, Acoes } from './Modal'
-import type { DB, Especie, Tutor, Pet, InventoryItem, ProtocoloVacina, ModeloDocumento } from '../data'
+import type { DB, Especie, Tutor, Pet, InventoryItem, ProtocoloVacina, ModeloDocumento, Fornecedor } from '../data'
+import { formatarCNPJ } from '../data'
 
 const hoje = () => new Date().toISOString().slice(0, 10)
 
@@ -375,16 +376,19 @@ export function FormTutor({ onSalvar, onCancelar }: {
 export type DadosLancamento = {
   tipo: 'receber' | 'pagar'; descricao: string; categoria?: string
   valor: number; vencimento: string; tutorId?: string; tutorNome?: string
+  fornecedorId?: string; fornecedorNome?: string; documento?: string
 }
 
 export function FormLancamento({ dados, onSalvar, onCancelar }: {
   dados: DB; onSalvar: (d: DadosLancamento) => Promise<void>; onCancelar: () => void
 }) {
   const [tipo, setTipo] = useState<'receber' | 'pagar'>('receber')
-  const [f, setF] = useState({ descricao: '', categoria: '', valor: '', vencimento: hoje(), tutorId: '' })
+  const [f, setF] = useState({ descricao: '', categoria: '', valor: '', vencimento: hoje(), tutorId: '', fornecedorId: '', documento: '' })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
+
+  const fornecedorSel = dados.fornecedores.find(fo => fo.id === f.fornecedorId)
 
   async function enviar(e: FormEvent) {
     e.preventDefault()
@@ -393,10 +397,15 @@ export function FormLancamento({ dados, onSalvar, onCancelar }: {
     setEnviando(true); setErro(null)
     try {
       const tutor = dados.tutores.find(t => t.id === f.tutorId)
+      const fornecedor = dados.fornecedores.find(fo => fo.id === f.fornecedorId)
       await onSalvar({
         tipo, descricao: f.descricao.trim(), categoria: f.categoria.trim() || undefined,
         valor, vencimento: f.vencimento,
-        tutorId: f.tutorId || undefined, tutorNome: tutor?.nome,
+        tutorId: tipo === 'receber' ? (f.tutorId || undefined) : undefined,
+        tutorNome: tipo === 'receber' ? tutor?.nome : undefined,
+        fornecedorId: tipo === 'pagar' ? (f.fornecedorId || undefined) : undefined,
+        fornecedorNome: tipo === 'pagar' ? (fornecedor?.nomeFantasia || fornecedor?.razaoSocial) : undefined,
+        documento: tipo === 'pagar' ? (f.documento.trim() || undefined) : undefined,
       })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
@@ -418,7 +427,7 @@ export function FormLancamento({ dados, onSalvar, onCancelar }: {
 
       <Campo label="Descrição">
         <input value={f.descricao} required onChange={set('descricao')}
-          placeholder={tipo === 'receber' ? 'Consulta clínica' : 'Fornecedor — vacinas'} className={inputCls} />
+          placeholder={tipo === 'receber' ? 'Consulta clínica' : 'Compra de vacinas'} className={inputCls} />
       </Campo>
 
       <div className="grid grid-cols-2 gap-3">
@@ -445,8 +454,136 @@ export function FormLancamento({ dados, onSalvar, onCancelar }: {
         </Campo>
       )}
 
+      {tipo === 'pagar' && (
+        <>
+          <Campo label="Fornecedor (opcional)">
+            <select value={f.fornecedorId} onChange={set('fornecedorId')} className={inputCls}>
+              <option value="">Sem fornecedor</option>
+              {dados.fornecedores.map(fo => (
+                <option key={fo.id} value={fo.id}>{fo.nomeFantasia || fo.razaoSocial}</option>
+              ))}
+            </select>
+          </Campo>
+          {fornecedorSel && (
+            <div className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[11.5px] text-ink-3">
+              <div className="font-medium text-ink-2">{fornecedorSel.razaoSocial}</div>
+              {fornecedorSel.cnpj && <div>CNPJ {fornecedorSel.cnpj}</div>}
+              {(fornecedorSel.contato || fornecedorSel.telefone) && (
+                <div>{[fornecedorSel.contato, fornecedorSel.telefone].filter(Boolean).join(' · ')}</div>
+              )}
+            </div>
+          )}
+          <Campo label="Documento — NF / boleto (opcional)">
+            <input value={f.documento} onChange={set('documento')}
+              placeholder="NF 12043" className={inputCls} />
+          </Campo>
+        </>
+      )}
+
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} rotulo="Lançar" />
+    </form>
+  )
+}
+
+/* --------------------------------------------------- fornecedor (PJ) */
+
+export type DadosFornecedor = {
+  razaoSocial: string; nomeFantasia?: string; cnpj?: string; inscricaoEstadual?: string
+  contato?: string; telefone?: string; email?: string; endereco?: string
+  categoria?: string; observacoes?: string
+}
+
+export function FormFornecedor({ fornecedor, onSalvar, onCancelar }: {
+  fornecedor?: Fornecedor; onSalvar: (d: DadosFornecedor) => Promise<void>; onCancelar: () => void
+}) {
+  const [f, setF] = useState({
+    razaoSocial: fornecedor?.razaoSocial ?? '', nomeFantasia: fornecedor?.nomeFantasia ?? '',
+    cnpj: fornecedor?.cnpj ?? '', inscricaoEstadual: fornecedor?.inscricaoEstadual ?? '',
+    contato: fornecedor?.contato ?? '', telefone: fornecedor?.telefone ?? '',
+    email: fornecedor?.email ?? '', endereco: fornecedor?.endereco ?? '',
+    categoria: fornecedor?.categoria ?? '', observacoes: fornecedor?.observacoes ?? '',
+  })
+  const [enviando, setEnviando] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
+
+  async function enviar(e: FormEvent) {
+    e.preventDefault()
+    if (!f.razaoSocial.trim()) { setErro('Informe ao menos a razão social.'); return }
+    setEnviando(true); setErro(null)
+    try {
+      const t = (s: string) => s.trim() || undefined
+      await onSalvar({
+        razaoSocial: f.razaoSocial.trim(), nomeFantasia: t(f.nomeFantasia),
+        cnpj: f.cnpj.trim() ? formatarCNPJ(f.cnpj) : undefined, inscricaoEstadual: t(f.inscricaoEstadual),
+        contato: t(f.contato), telefone: t(f.telefone), email: t(f.email),
+        endereco: t(f.endereco), categoria: t(f.categoria), observacoes: t(f.observacoes),
+      })
+    } catch (err) {
+      setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
+      setEnviando(false)
+    }
+  }
+
+  return (
+    <form onSubmit={enviar} className="space-y-3">
+      <Campo label="Razão social">
+        <input value={f.razaoSocial} required onChange={set('razaoSocial')}
+          placeholder="FarmaXYZ Distribuidora de Medicamentos Ltda" className={inputCls} />
+      </Campo>
+
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Nome fantasia (opcional)">
+          <input value={f.nomeFantasia} onChange={set('nomeFantasia')}
+            placeholder="FarmaXYZ" className={inputCls} />
+        </Campo>
+        <Campo label="Categoria (opcional)">
+          <input value={f.categoria} onChange={set('categoria')}
+            placeholder="Medicamentos" className={inputCls} />
+        </Campo>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="CNPJ (opcional)">
+          <input value={f.cnpj} onChange={set('cnpj')}
+            onBlur={() => f.cnpj.trim() && setF(s => ({ ...s, cnpj: formatarCNPJ(s.cnpj) }))}
+            placeholder="00.000.000/0000-00" className={inputCls} />
+        </Campo>
+        <Campo label="Inscrição estadual (opcional)">
+          <input value={f.inscricaoEstadual} onChange={set('inscricaoEstadual')}
+            placeholder="000.000.000" className={inputCls} />
+        </Campo>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Contato (opcional)">
+          <input value={f.contato} onChange={set('contato')}
+            placeholder="Roberto Lima" className={inputCls} />
+        </Campo>
+        <Campo label="Telefone (opcional)">
+          <input value={f.telefone} onChange={set('telefone')}
+            placeholder="47 3344-5566" className={inputCls} />
+        </Campo>
+      </div>
+
+      <Campo label="E-mail (opcional)">
+        <input type="email" value={f.email} onChange={set('email')}
+          placeholder="vendas@farmaxyz.com.br" className={inputCls} />
+      </Campo>
+
+      <Campo label="Endereço (opcional)">
+        <input value={f.endereco} onChange={set('endereco')}
+          placeholder="Rua Industrial, 800 — Joinville/SC" className={inputCls} />
+      </Campo>
+
+      <Campo label="Observações (opcional)">
+        <textarea value={f.observacoes} onChange={set('observacoes')}
+          placeholder="Prazo de entrega, condições de pagamento…" className={inputCls + ' min-h-[64px] resize-y'} />
+      </Campo>
+
+      {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
+      <Acoes onCancelar={onCancelar} enviando={enviando} rotulo={fornecedor ? 'Salvar' : 'Cadastrar fornecedor'} />
     </form>
   )
 }

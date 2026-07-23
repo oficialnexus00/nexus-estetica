@@ -111,6 +111,7 @@ export type Acoes = {
   internarPet: (d: DadosInternacao) => Promise<void>
   registrarParametro: (internacaoId: string, d: DadosParametro) => Promise<void>
   adicionarMedicacao: (internacaoId: string, d: DadosMedicacao) => Promise<void>
+  removerMedicacao: (internacaoId: string, medId: string) => Promise<void>
   alternarAplicacao: (internacaoId: string, medId: string, idx: number) => Promise<void>
   darAlta: (internacaoId: string) => Promise<void>
   clinicaNome: string
@@ -857,6 +858,17 @@ export default function App() {
         })),
       }))
       notificar(`${d.medicamento} adicionado ao aprazamento.`)
+    },
+
+    async removerMedicacao(internacaoId, medId) {
+      setData(atual => atual && ({
+        ...atual,
+        internacoes: (atual.internacoes ?? []).map(i => i.id !== internacaoId ? i : ({
+          ...i,
+          medicacoes: i.medicacoes.filter(m => m.id !== medId),
+        })),
+      }))
+      notificar('Medicação removida do aprazamento.')
     },
 
     async alternarAplicacao(internacaoId, medId, idx) {

@@ -246,7 +246,14 @@ function MapaExecucao({ internacao: i, acoes, onAdicionar }: {
             <div key={m.id} className="rounded-lg border border-line bg-surface-2 p-3">
               <div className="flex items-baseline justify-between gap-2">
                 <span className="text-[13.5px] font-medium">{m.medicamento}</span>
-                <span className="text-[11.5px] text-ink-3">{m.dose} · {m.via} · {m.intervaloHoras}/{m.intervaloHoras}h</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11.5px] text-ink-3">{m.dose} · {m.via} · {m.intervaloHoras}/{m.intervaloHoras}h</span>
+                  <button onClick={() => { if (confirm(`Remover ${m.medicamento} do aprazamento?`)) acoes.removerMedicacao(i.id, m.id) }}
+                    aria-label={`Remover ${m.medicamento}`}
+                    className="shrink-0 rounded-md border border-line px-1.5 py-0.5 text-[11px] leading-none text-ink-3 transition hover:border-bad/50 hover:text-bad">
+                    ✕
+                  </button>
+                </div>
               </div>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {m.horarios.map((h, idx) => (

@@ -86,7 +86,8 @@ function Gerencial({ data, ir }: { data: DB; ir: Ir }) {
 }
 
 function Clinico({ data, ir }: { data: DB; ir: Ir }) {
-  const agenda = data.agenda
+  const hoje = new Date().toISOString().slice(0, 10)
+  const agenda = data.agenda.filter(a => a.data === hoje)
   const aConfirmar = agenda.filter(a => a.status === 'pendente').length
   const examesPendentes = (data.exames ?? []).filter(e => e.status === 'solicitado')
   const petsPorId = new Map(data.tutores.flatMap(t => t.pets.map(p => [p.id, p.nome] as const)))

@@ -163,6 +163,7 @@ export async function carregarClinica(clinicId: string): Promise<DB> {
     .filter(a => a.inicio.slice(0, 10) === hoje)
     .map(a => ({
       id: a.id,
+      data: a.inicio.slice(0, 10),
       hora: new Date(a.inicio).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
       pet: a.pets?.nome ?? '—',
       tutor: a.tutors?.nome ?? '—',

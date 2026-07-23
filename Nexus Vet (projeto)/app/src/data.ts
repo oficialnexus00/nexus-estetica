@@ -96,6 +96,7 @@ export type Tutor = {
 
 export type Agendamento = {
   id: string
+  data: string            // AAAA-MM-DD
   hora: string
   pet: string
   tutor: string
@@ -396,12 +397,21 @@ export const db: Record<'c1' | 'c2', DB> = {
       },
     ],
     agenda: [
-      { id: 'a1', hora: '08:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Vacina V10', profissional: 'Dra. Helena', status: 'confirmada', canal: 'ia' },
-      { id: 'a2', hora: '09:00', pet: 'Mel', tutor: 'Ricardo Alves', servico: 'Consulta clínica', profissional: 'Dra. Helena', status: 'atendida', canal: 'recepcao' },
-      { id: 'a3', hora: '10:00', pet: 'Amora', tutor: 'Felipe Moraes', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'confirmada', canal: 'ia' },
-      { id: 'a4', hora: '11:00', pet: 'Bidu', tutor: 'Ricardo Alves', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'pendente', canal: 'ia' },
-      { id: 'a5', hora: '14:00', pet: 'Nina', tutor: 'Juliana Prado', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'falta', canal: 'recepcao' },
-      { id: 'a6', hora: '15:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Hemograma', profissional: 'Dra. Helena', status: 'pendente', canal: 'ia' },
+      // hoje
+      { id: 'a1', data: hojeMais(0), hora: '08:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Vacina V10', profissional: 'Dra. Helena', status: 'confirmada', canal: 'ia' },
+      { id: 'a2', data: hojeMais(0), hora: '09:00', pet: 'Mel', tutor: 'Ricardo Alves', servico: 'Consulta clínica', profissional: 'Dra. Helena', status: 'atendida', canal: 'recepcao' },
+      { id: 'a3', data: hojeMais(0), hora: '10:00', pet: 'Amora', tutor: 'Felipe Moraes', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'confirmada', canal: 'ia' },
+      { id: 'a4', data: hojeMais(0), hora: '11:00', pet: 'Bidu', tutor: 'Ricardo Alves', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'pendente', canal: 'ia' },
+      { id: 'a5', data: hojeMais(0), hora: '14:00', pet: 'Nina', tutor: 'Juliana Prado', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'falta', canal: 'recepcao' },
+      { id: 'a6', data: hojeMais(0), hora: '15:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Hemograma', profissional: 'Dra. Helena', status: 'pendente', canal: 'ia' },
+      // resto da semana
+      { id: 'a20', data: hojeMais(1), hora: '09:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Retorno', profissional: 'Dra. Helena', status: 'confirmada', canal: 'ia' },
+      { id: 'a21', data: hojeMais(1), hora: '11:00', pet: 'Mel', tutor: 'Ricardo Alves', servico: 'Vacina antirrábica', profissional: 'Dra. Helena', status: 'pendente', canal: 'ia' },
+      { id: 'a22', data: hojeMais(2), hora: '10:00', pet: 'Nina', tutor: 'Juliana Prado', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'confirmada', canal: 'recepcao' },
+      { id: 'a23', data: hojeMais(3), hora: '14:30', pet: 'Bidu', tutor: 'Ricardo Alves', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'pendente', canal: 'ia' },
+      // mais adiante no mês
+      { id: 'a24', data: hojeMais(9), hora: '10:00', pet: 'Amora', tutor: 'Felipe Moraes', servico: 'Vacina V10', profissional: 'Dra. Helena', status: 'confirmada', canal: 'ia' },
+      { id: 'a25', data: hojeMais(16), hora: '15:00', pet: 'Thor', tutor: 'Marina Costa', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'pendente', canal: 'ia' },
     ],
     lancamentos: [
       // a receber — em aberto e vencidos (alimentam a régua de cobrança)
@@ -553,7 +563,8 @@ export const db: Record<'c1' | 'c2', DB> = {
       },
     ],
     agenda: [
-      { id: 'a7', hora: '09:30', pet: 'Pipoca', tutor: 'Carla Menezes', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'confirmada', canal: 'ia' },
+      { id: 'a7', data: hojeMais(0), hora: '09:30', pet: 'Pipoca', tutor: 'Carla Menezes', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'confirmada', canal: 'ia' },
+      { id: 'a26', data: hojeMais(2), hora: '11:00', pet: 'Pipoca', tutor: 'Carla Menezes', servico: 'Consulta clínica', profissional: 'Dra. Helena', status: 'pendente', canal: 'recepcao' },
     ],
     estoque: [
       { id: 'inv11', nome: 'Amoxicilina 500mg', categoria: 'medicamento', codigo: 'AMX500', quantidade_estoque: 30, quantidade_minima: 10, quantidade_maxima: 100, data_validade: '2026-11-20', lote: 'LOTE654321', fornecedor_nome: 'FarmaXYZ', fornecedor_contato: '47 3344-5566', preco_custo: 2.50, preco_venda: 8.90, ativo: true },

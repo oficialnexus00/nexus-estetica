@@ -353,17 +353,14 @@ export default function App() {
       const servico = data?.servicos.find(s => s.id === d.serviceId)
       if (MODO_DEMO) {
         const tutor = data?.tutores.find(t => t.pets.some(p => p.id === d.petId))
-        const hoje = new Date().toISOString().slice(0, 10)
-        if (d.data === hoje) {
-          setData(atual => atual && ({
-            ...atual,
-            agenda: [...atual.agenda, {
-              id: 'a' + Date.now(), hora: d.hora, pet: pet?.nome ?? '—', tutor: tutor?.nome ?? '—',
-              servico: servico?.nome ?? '—', profissional: d.profissional,
-              status: 'pendente' as const, canal: 'recepcao' as const,
-            }].sort((a, b) => a.hora.localeCompare(b.hora)),
-          }))
-        }
+        setData(atual => atual && ({
+          ...atual,
+          agenda: [...atual.agenda, {
+            id: 'a' + Date.now(), data: d.data, hora: d.hora, pet: pet?.nome ?? '—', tutor: tutor?.nome ?? '—',
+            servico: servico?.nome ?? '—', profissional: d.profissional,
+            status: 'pendente' as const, canal: 'recepcao' as const,
+          }].sort((a, b) => (a.data + a.hora).localeCompare(b.data + b.hora)),
+        }))
       } else {
         await mut.criarAgendamento(clinicId, {
           tutorId: d.tutorId, petId: d.petId, serviceId: d.serviceId,

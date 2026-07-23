@@ -94,6 +94,9 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
           )}
         </div>
 
+        <LinhaDoTempo pet={pet} exames={(data.exames ?? []).filter(e => e.pet_id === pet.id)}
+          onNota={d => acoes.registrarNotaClinica(pet.id, d)} />
+
         <QuadroClinico pet={pet}
           onAdicionar={t => acoes.adicionarCondicao(pet.id, t)}
           onRemover={i => acoes.removerCondicao(pet.id, i)} />
@@ -107,9 +110,6 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
           onRegistrarDose={d => acoes.registrarDose(pet.id, d)} />
 
         <ProtocolosPet pet={pet} protocolos={data.protocolos ?? []} />
-
-        <LinhaDoTempo pet={pet} exames={(data.exames ?? []).filter(e => e.pet_id === pet.id)}
-          onNota={d => acoes.registrarNotaClinica(pet.id, d)} />
 
         <Modal titulo={`Editar ${pet.nome}`} aberto={!!editandoPet} onFechar={() => setEditandoPet(null)}>
           {editandoPet && (

@@ -2,11 +2,10 @@ import { useState } from 'react'
 import type { DB, Tutor, Pet } from '../data'
 import { idadeDe } from '../data'
 import type { Acoes } from '../App'
-import CarteiraVacina from '../components/CarteiraVacina'
+import Vacinacao from '../components/Vacinacao'
 import Prontuario from '../components/Prontuario'
 import LinhaDoTempo from '../components/LinhaDoTempo'
 import PesoEvolucao from '../components/PesoEvolucao'
-import ProtocolosPet from '../components/ProtocolosPet'
 import EmitirDocumento from '../components/EmitirDocumento'
 import Modal from '../components/Modal'
 import { FormTutor, FormEditarTutor, FormEditarPet } from '../components/Formularios'
@@ -104,10 +103,8 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
 
         <PesoEvolucao pet={pet} />
 
-        <CarteiraVacina vacinas={pet.vacinas} especie={pet.especie} protocolos={data.protocolos ?? []}
+        <Vacinacao pet={pet} protocolos={data.protocolos ?? []}
           onRegistrarDose={d => acoes.registrarDose(pet.id, d)} />
-
-        <ProtocolosPet pet={pet} protocolos={data.protocolos ?? []} />
 
         <Modal titulo={`Editar ${pet.nome}`} aberto={!!editandoPet} onFechar={() => setEditandoPet(null)}>
           {editandoPet && (

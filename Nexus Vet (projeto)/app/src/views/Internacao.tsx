@@ -299,6 +299,7 @@ function Parametros({ internacao: i, acoes }: { internacao: TInternacao; acoes: 
   }
 
   const registros = [...i.parametros].reverse()
+  const vazio = !temperatura.trim() && !fc.trim() && !fr.trim() && !mucosas.trim() && !obs.trim()
 
   return (
     <div className="rounded-xl border border-line bg-surface-1 p-4">
@@ -310,10 +311,11 @@ function Parametros({ internacao: i, acoes }: { internacao: TInternacao; acoes: 
       </div>
       <input value={mucosas} onChange={e => setMucosas(e.target.value)} placeholder="Mucosas" className={inputCls + ' mt-2 w-full'} />
       <input value={obs} onChange={e => setObs(e.target.value)} placeholder="Observação" className={inputCls + ' mt-2 w-full'} />
-      <button onClick={registrar} disabled={enviando}
+      <button onClick={registrar} disabled={enviando || vazio}
         className="mt-2 w-full rounded-lg bg-brand px-3 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50">
         {enviando ? 'Registrando…' : 'Registrar aferição'}
       </button>
+      {vazio && <p className="mt-1.5 text-center text-[11.5px] text-ink-3">Preencha ao menos um campo (temperatura, FC, FR, mucosas ou observação).</p>}
 
       <div className="mt-4 space-y-1.5 border-t border-line pt-3">
         {registros.length === 0
@@ -384,7 +386,7 @@ function FormInternar({ data, boxes, internados, onCancelar, onSalvar }: {
         </select>
       </Campo>
       <Campo label="Motivo da internação">
-        <input value={motivo} onChange={e => setMotivo(e.target.value)} placeholder="Ex.: pós-operatório, fluidoterapia…" className={modalInput} />
+        <input value={motivo} onChange={e => setMotivo(e.target.value)} required placeholder="Ex.: pós-operatório, fluidoterapia…" className={modalInput} />
       </Campo>
       <div className="grid grid-cols-2 gap-3">
         <Campo label="Box">
@@ -437,7 +439,7 @@ function FormMedicacao({ onCancelar, onSalvar }: {
   return (
     <form onSubmit={submeter} className="space-y-3">
       <Campo label="Medicamento">
-        <input value={medicamento} onChange={e => setMedicamento(e.target.value)} placeholder="Ex.: Dipirona" className={modalInput} />
+        <input value={medicamento} onChange={e => setMedicamento(e.target.value)} required placeholder="Ex.: Dipirona" className={modalInput} />
       </Campo>
       <div className="grid grid-cols-2 gap-3">
         <Campo label="Dose">

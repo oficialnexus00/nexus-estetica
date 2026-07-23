@@ -389,8 +389,8 @@ function Caixa({ data, acoes }: { data: DB; acoes: Acoes }) {
             className={inputCls + ' min-w-0 flex-1'} />
           <input type="number" min={0} value={movValor} onChange={e => setMovValor(e.target.value)} placeholder="Valor"
             className={inputCls + ' w-28'} />
-          <button onClick={registrarMov}
-            className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
+          <button onClick={registrarMov} disabled={!movValor.trim() || Number(movValor.replace(',', '.')) <= 0}
+            className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50">
             Registrar
           </button>
         </div>

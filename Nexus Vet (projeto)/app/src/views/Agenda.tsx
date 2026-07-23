@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import type { DB, StatusAgenda, Agendamento, Internacao } from '../data'
+import { brl } from '../data'
 import type { Acoes } from '../App'
 
 const STATUS: Record<StatusAgenda, { label: string; classe: string; cor: string }> = {
@@ -56,13 +57,16 @@ export default function Agenda({ data, acoes, onAgendar }: {
   const [modo, setModo] = useState<Modo>('dia')
   const [ref, setRef] = useState(() => new Date())
   const [confirmando, setConfirmando] = useState(false)
+  const [filtroProf, setFiltroProf] = useState('todos')
   const hoje = new Date()
 
   const dur = new Map(data.servicos.map(s => [s.nome, s.duracao]))
+  const preco = new Map(data.servicos.map(s => [s.nome, s.preco]))
 
   const porDia = new Map<string, Agendamento[]>()
   for (const a of data.agenda) { const arr = porDia.get(a.data) ?? []; arr.push(a); porDia.set(a.data, arr) }
-  const doDia = (d: Date) => (porDia.get(ymd(d)) ?? []).slice().sort((a, b) => a.hora.localeCompare(b.hora))
+  const filtrar = (l: Agendamento[]) => filtroProf === 'todos' ? l : l.filter(a => a.profissional === filtroProf)
+  const doDia = (d: Date) => filtrar((porDia.get(ymd(d)) ?? []).slice().sort((a, b) => a.hora.localeCompare(b.hora)))
 
   const hojeY = ymd(hoje)
   const boxNome = new Map((data.boxes ?? []).map(b => [b.id, b.nome]))
@@ -82,6 +86,11 @@ export default function Agenda({ data, acoes, onAgendar }: {
     return Array.from({ length: dias }, (_, i) => new Date(ref.getFullYear(), ref.getMonth(), i + 1))
   }
   const pendentesVisiveis = diasVisiveis().reduce((n, d) => n + doDia(d).filter(a => a.status === 'pendente').length, 0)
+
+  // Receita agendada do período visível (exclui cancelados) — ideia do NEXUS Health
+  const agsPeriodo = diasVisiveis().flatMap(d => doDia(d)).filter(a => a.status !== 'cancelada')
+  const receita = agsPeriodo.reduce((s, a) => s + (preco.get(a.servico) ?? 0), 0)
+  const qtdAgendados = agsPeriodo.length
 
   async function confirmarTodos() {
     setConfirmando(true)
@@ -142,6 +151,24 @@ export default function Agenda({ data, acoes, onAgendar }: {
         </div>
       )}
 
+      {/* filtro por profissional · legenda de status · receita agendada do período */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <select value={filtroProf} onChange={e => setFiltroProf(e.target.value)}
+          className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px] font-medium text-ink-2 outline-none transition hover:border-brand/50 focus:border-brand/60">
+          <option value="todos">👩‍⚕️ Todos os profissionais</option>
+          {data.profissionais.map(p => <option key={p.id} value={p.nome}>{p.nome}</option>)}
+        </select>
+
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <Legenda />
+          <div className="rounded-lg border border-brand/30 bg-brand/[0.06] px-3 py-1.5 text-[12px]">
+            <span className="text-ink-3">Receita agendada</span>{' '}
+            <span className="font-semibold tabular-nums text-ink">{brl(receita)}</span>
+            <span className="text-ink-3"> · {qtdAgendados} {qtdAgendados === 1 ? 'agend.' : 'agend.'}</span>
+          </div>
+        </div>
+      </div>
+
       {modo === 'dia' && (
         <GradeDia dia={ref} eventos={distribuir(doDia(ref), dur)} internados={internadosNoDia(ref)}
           boxNome={boxNome} ehHoje={ymd(ref) === hojeY} onAgendar={onAgendar}
@@ -167,6 +194,22 @@ export default function Agenda({ data, acoes, onAgendar }: {
         <VistaMes base={ref} doDia={doDia} internadosNoDia={internadosNoDia} hoje={hoje}
           irParaDia={d => { setRef(d); setModo('dia') }} />
       )}
+    </div>
+  )
+}
+
+/* ------------------------------------------------------- legenda de status */
+
+function Legenda() {
+  const itens: StatusAgenda[] = ['pendente', 'confirmada', 'atendida', 'falta', 'cancelada']
+  return (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+      {itens.map(k => (
+        <span key={k} className="flex items-center gap-1.5 text-[11px] text-ink-2">
+          <span className="h-2 w-2 rounded-full" style={{ background: STATUS[k].cor }} />
+          {STATUS[k].label}
+        </span>
+      ))}
     </div>
   )
 }

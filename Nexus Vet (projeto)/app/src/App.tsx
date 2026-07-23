@@ -303,11 +303,13 @@ export default function App() {
       if (MODO_DEMO) {
         const novo: Tutor = {
           id: 't' + Date.now(), nome: d.nome, telefone: d.telefone, origem: 'Cadastro manual',
+          email: d.email, nascimento: d.nascimento, endereco: d.endereco,
           etapa: 'lead', desde: new Date().toISOString().slice(0, 10),
           pets: [{
             id: 'p' + Date.now(), nome: d.pet.nome, especie: d.pet.especie,
             raca: d.pet.raca ?? '—', nascimento: d.pet.nascimento ?? new Date().toISOString().slice(0, 10),
-            peso: 0, castrado: false, vacinas: [], atendimentos: [],
+            peso: 0, castrado: false, microchip: d.pet.microchip, pedigree: d.pet.pedigree,
+            vacinas: [], atendimentos: [],
           }],
         }
         setData(atual => atual && ({ ...atual, tutores: [novo, ...atual.tutores] }))
@@ -350,7 +352,8 @@ export default function App() {
         setData(atual => atual && ({
           ...atual,
           tutores: atual.tutores.map(t => t.id !== tutorId ? t
-            : ({ ...t, nome: d.nome, telefone: d.telefone, etapa: d.etapa })),
+            : ({ ...t, nome: d.nome, telefone: d.telefone, etapa: d.etapa,
+                 email: d.email, nascimento: d.nascimento, endereco: d.endereco })),
         }))
       } else {
         await mut.atualizarTutor(tutorId, {
@@ -372,6 +375,7 @@ export default function App() {
               nome: d.nome, especie: d.especie, raca: d.raca ?? '—',
               nascimento: d.nascimento ?? p.nascimento,
               peso: d.pesoKg ?? p.peso, castrado: d.castrado, alerta: d.alertaSaude,
+              microchip: d.microchip, pedigree: d.pedigree,
             })),
           })),
         }))

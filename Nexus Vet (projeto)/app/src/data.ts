@@ -70,6 +70,8 @@ export type Pet = {
   nascimento: string
   peso: number
   castrado: boolean
+  microchip?: string
+  pedigree?: boolean
   alerta?: string
   vacinas: Vacina[]
   atendimentos: Atendimento[]
@@ -80,6 +82,9 @@ export type Tutor = {
   id: string
   nome: string
   telefone: string
+  email?: string
+  nascimento?: string
+  endereco?: string
   origem: string
   etapa: 'lead' | 'agendado' | 'cliente' | 'inativo'
   desde: string
@@ -305,10 +310,13 @@ export const db: Record<'c1' | 'c2', DB> = {
     tutores: [
       {
         id: 't1', nome: 'Marina Costa', telefone: '47 99812-4455', origem: 'Instagram Ads',
+        email: 'marina.costa@email.com', nascimento: '1990-05-14',
+        endereco: 'Rua das Flores, 123 — Balneário Camboriú/SC',
         etapa: 'cliente', desde: '2024-03-12',
         pets: [{
           id: 'p1', nome: 'Thor', especie: 'cao', raca: 'Golden Retriever',
           nascimento: '2021-06-04', peso: 32.4, castrado: true, alerta: 'Alergia a carrapaticida',
+          microchip: '981098201234567', pedigree: true,
           vacinas: [
             { vacina: 'V10', aplicacao: '2025-07-10', proximaDose: '2026-07-10', situacao: 'atrasada' },
             { vacina: 'Antirrábica', aplicacao: '2025-08-02', proximaDose: '2026-08-02', situacao: 'proxima' },

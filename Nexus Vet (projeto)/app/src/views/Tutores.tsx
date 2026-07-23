@@ -55,10 +55,19 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
               <p className="mt-0.5 text-[13px] text-ink-2">
                 {pet.especie === 'cao' ? 'Cão' : 'Gato'} · {pet.raca} · {idadeDe(pet.nascimento)} · {pet.peso} kg
                 {pet.castrado && ' · castrado'}
+                {pet.pedigree && <span className="text-brand"> · com pedigree</span>}
               </p>
-              <p className="mt-2 text-[13px] text-ink-3">
-                Tutor: <span className="text-ink-2">{tutor.nome}</span> · {tutor.telefone}
-              </p>
+              {pet.microchip && (
+                <p className="mt-0.5 text-[12px] text-ink-3">Microchip: <span className="font-mono text-ink-2">{pet.microchip}</span></p>
+              )}
+              <div className="mt-2 space-y-0.5 text-[13px] text-ink-3">
+                <p>Tutor: <span className="text-ink-2">{tutor.nome}</span> · {tutor.telefone}</p>
+                {tutor.email && <p>✉ {tutor.email}</p>}
+                {tutor.endereco && <p>📍 {tutor.endereco}</p>}
+                {tutor.nascimento && (
+                  <p>🎂 {new Date(tutor.nascimento + 'T00:00:00').toLocaleDateString('pt-BR')} <span className="text-ink-2">({idadeDe(tutor.nascimento)})</span></p>
+                )}
+              </div>
             </div>
             <div className="flex flex-wrap gap-2">
               <button onClick={() => comprovanteVacinacao({

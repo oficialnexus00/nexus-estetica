@@ -256,13 +256,15 @@ export function FormModelo({ modelo, onSalvar, onCancelar }: {
 
 export type DadosTutorPet = {
   nome: string; telefone: string; cpf?: string
-  pet: { nome: string; especie: Especie; raca?: string; nascimento?: string }
+  email?: string; nascimento?: string; endereco?: string
+  pet: { nome: string; especie: Especie; raca?: string; nascimento?: string; microchip?: string; pedigree?: boolean }
 }
 
 export function FormTutor({ onSalvar, onCancelar }: {
   onSalvar: (d: DadosTutorPet) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: '', telefone: '', cpf: '', petNome: '', especie: 'cao' as Especie, raca: '', nascimento: '' })
+  const [f, setF] = useState({ nome: '', telefone: '', cpf: '', email: '', nascTutor: '', endereco: '', petNome: '', especie: 'cao' as Especie, raca: '', nascimento: '', microchip: '' })
+  const [pedigree, setPedigree] = useState(false)
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
@@ -275,9 +277,13 @@ export function FormTutor({ onSalvar, onCancelar }: {
         nome: f.nome.trim(),
         telefone: f.telefone.replace(/\D/g, ''),
         cpf: f.cpf.replace(/\D/g, '') || undefined,
+        email: f.email.trim() || undefined,
+        nascimento: f.nascTutor || undefined,
+        endereco: f.endereco.trim() || undefined,
         pet: {
           nome: f.petNome.trim(), especie: f.especie,
           raca: f.raca.trim() || undefined, nascimento: f.nascimento || undefined,
+          microchip: f.microchip.trim() || undefined, pedigree,
         },
       })
     } catch (err) {
@@ -294,8 +300,19 @@ export function FormTutor({ onSalvar, onCancelar }: {
       <Campo label="WhatsApp (com DDD)">
         <input value={f.telefone} onChange={set('telefone')} required placeholder="47 99999-0000" className={inputCls} />
       </Campo>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="E-mail (opcional)">
+          <input type="email" value={f.email} onChange={set('email')} placeholder="voce@email.com" className={inputCls} />
+        </Campo>
+        <Campo label="Nascimento (opcional)">
+          <input type="date" value={f.nascTutor} max={hoje()} onChange={set('nascTutor')} className={inputCls} />
+        </Campo>
+      </div>
       <Campo label="CPF (opcional)">
         <input value={f.cpf} onChange={set('cpf')} placeholder="000.000.000-00" className={inputCls} />
+      </Campo>
+      <Campo label="Endereço (opcional)">
+        <input value={f.endereco} onChange={set('endereco')} placeholder="Rua, número — cidade/UF" className={inputCls} />
       </Campo>
 
       <div className="!mt-5 border-t border-line pt-4">
@@ -315,8 +332,20 @@ export function FormTutor({ onSalvar, onCancelar }: {
               <input value={f.raca} onChange={set('raca')} placeholder="SRD" className={inputCls} />
             </Campo>
           </div>
-          <Campo label="Nascimento (opcional)">
-            <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
+          <div className="grid grid-cols-2 gap-3">
+            <Campo label="Nascimento (opcional)">
+              <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
+            </Campo>
+            <Campo label="Nº do microchip (opcional)">
+              <input value={f.microchip} onChange={set('microchip')} placeholder="000000000000000" className={inputCls} />
+            </Campo>
+          </div>
+          <Campo label="Pedigree">
+            <button type="button" onClick={() => setPedigree(v => !v)}
+              className={`w-full rounded-lg border px-3 py-2 text-[13px] font-medium transition ${
+                pedigree ? 'border-brand bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
+              {pedigree ? '✓ Com pedigree' : 'Sem pedigree'}
+            </button>
           </Campo>
         </div>
       </div>
@@ -521,12 +550,16 @@ export function FormAtendimento({ pet, tipos = [], onSalvar, onCancelar }: {
 
 export type DadosEditarTutor = {
   nome: string; telefone: string; cpf?: string; etapa: Tutor['etapa']
+  email?: string; nascimento?: string; endereco?: string
 }
 
 export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
   tutor: Tutor; onSalvar: (d: DadosEditarTutor) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: tutor.nome, telefone: tutor.telefone, cpf: '', etapa: tutor.etapa })
+  const [f, setF] = useState({
+    nome: tutor.nome, telefone: tutor.telefone, cpf: '', etapa: tutor.etapa,
+    email: tutor.email ?? '', nascimento: tutor.nascimento ?? '', endereco: tutor.endereco ?? '',
+  })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
 
@@ -534,7 +567,10 @@ export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
     e.preventDefault()
     setEnviando(true); setErro(null)
     try {
-      await onSalvar({ nome: f.nome.trim(), telefone: f.telefone.trim(), cpf: f.cpf.replace(/\D/g, '') || undefined, etapa: f.etapa })
+      await onSalvar({
+        nome: f.nome.trim(), telefone: f.telefone.trim(), cpf: f.cpf.replace(/\D/g, '') || undefined, etapa: f.etapa,
+        email: f.email.trim() || undefined, nascimento: f.nascimento || undefined, endereco: f.endereco.trim() || undefined,
+      })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
       setEnviando(false)
@@ -548,6 +584,17 @@ export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
       </Campo>
       <Campo label="WhatsApp (com DDD)">
         <input value={f.telefone} required onChange={e => setF({ ...f, telefone: e.target.value })} className={inputCls} />
+      </Campo>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="E-mail">
+          <input type="email" value={f.email} onChange={e => setF({ ...f, email: e.target.value })} placeholder="voce@email.com" className={inputCls} />
+        </Campo>
+        <Campo label="Nascimento">
+          <input type="date" value={f.nascimento} max={hoje()} onChange={e => setF({ ...f, nascimento: e.target.value })} className={inputCls} />
+        </Campo>
+      </div>
+      <Campo label="Endereço">
+        <input value={f.endereco} onChange={e => setF({ ...f, endereco: e.target.value })} placeholder="Rua, número — cidade/UF" className={inputCls} />
       </Campo>
       <Campo label="CPF (deixe vazio para manter)">
         <input value={f.cpf} onChange={e => setF({ ...f, cpf: e.target.value })} placeholder="000.000.000-00" className={inputCls} />
@@ -572,6 +619,7 @@ export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
 export type DadosEditarPet = {
   nome: string; especie: Especie; raca?: string; nascimento?: string
   pesoKg?: number; castrado: boolean; alertaSaude?: string
+  microchip?: string; pedigree?: boolean
 }
 
 export function FormEditarPet({ pet, onSalvar, onCancelar }: {
@@ -581,6 +629,7 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
     nome: pet.nome, especie: pet.especie, raca: pet.raca === '—' ? '' : pet.raca,
     nascimento: pet.nascimento, peso: pet.peso ? String(pet.peso) : '',
     castrado: pet.castrado, alerta: pet.alerta ?? '',
+    microchip: pet.microchip ?? '', pedigree: pet.pedigree ?? false,
   })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
@@ -596,6 +645,8 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
         pesoKg: f.peso ? Number(f.peso.replace(',', '.')) : undefined,
         castrado: f.castrado,
         alertaSaude: f.alerta.trim() || undefined,
+        microchip: f.microchip.trim() || undefined,
+        pedigree: f.pedigree,
       })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
@@ -627,9 +678,20 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
           <input inputMode="decimal" value={f.peso} placeholder="0,0" onChange={e => setF({ ...f, peso: e.target.value })} className={inputCls} />
         </Campo>
       </div>
+      <Campo label="Nº do microchip">
+        <input value={f.microchip} onChange={e => setF({ ...f, microchip: e.target.value })}
+          placeholder="000000000000000" className={inputCls} />
+      </Campo>
       <Campo label="Alerta de saúde (alergias, condições)">
         <input value={f.alerta} onChange={e => setF({ ...f, alerta: e.target.value })}
           placeholder="Alergia a carrapaticida" className={inputCls} />
+      </Campo>
+      <Campo label="Pedigree">
+        <button type="button" onClick={() => setF({ ...f, pedigree: !f.pedigree })}
+          className={`w-full rounded-lg border px-3 py-2 text-[13px] font-medium transition ${
+            f.pedigree ? 'border-brand bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
+          {f.pedigree ? '✓ Com pedigree' : 'Sem pedigree'}
+        </button>
       </Campo>
       <label className="flex cursor-pointer items-center gap-2.5 pt-1">
         <input type="checkbox" checked={f.castrado} onChange={e => setF({ ...f, castrado: e.target.checked })}

@@ -19,7 +19,9 @@ const mesmoDia = (a: Date, b: Date) => ymd(a) === ymd(b)
 const DIAS_SEMANA = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
-export default function Agenda({ data, acoes }: { data: DB; acoes: Acoes }) {
+export default function Agenda({ data, acoes, onAgendar }: {
+  data: DB; acoes: Acoes; onAgendar: (dataISO: string) => void
+}) {
   const [modo, setModo] = useState<Modo>('dia')
   const [ref, setRef] = useState(() => new Date())
   const [confirmando, setConfirmando] = useState(false)
@@ -95,6 +97,11 @@ export default function Agenda({ data, acoes }: { data: DB; acoes: Acoes }) {
             className="rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 text-[13px] text-ink-2 transition hover:text-ink">›</button>
           <button onClick={() => setRef(new Date())}
             className="rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[12.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">Hoje</button>
+          <div className="mx-0.5 h-5 w-px bg-line" />
+          <button onClick={() => onAgendar(ymd(modo === 'dia' ? ref : new Date()))}
+            className="whitespace-nowrap rounded-lg bg-brand px-3 py-1.5 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim">
+            + Agendar{modo === 'dia' ? ' neste dia' : ''}
+          </button>
         </div>
       </div>
 
@@ -110,10 +117,11 @@ export default function Agenda({ data, acoes }: { data: DB; acoes: Acoes }) {
         </div>
       )}
 
-      {modo === 'dia' && <VistaDia agendamentos={doDia(ref)} internados={internadosNoDia(ref)} boxNome={boxNome} />}
+      {modo === 'dia' && <VistaDia dia={ref} agendamentos={doDia(ref)} internados={internadosNoDia(ref)}
+        boxNome={boxNome} onAgendar={onAgendar} />}
       {modo === 'semana' && (
         <VistaSemana dias={Array.from({ length: 7 }, (_, i) => addDays(inicioSemana(ref), i))} doDia={doDia}
-          internadosNoDia={internadosNoDia} hoje={hoje}
+          internadosNoDia={internadosNoDia} hoje={hoje} onAgendar={onAgendar}
           irParaDia={d => { setRef(d); setModo('dia') }} />
       )}
       {modo === 'mes' && (
@@ -157,16 +165,21 @@ function FaixaInternados({ internados, boxNome }: { internados: Internacao[]; bo
 
 const fmtCurto = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
 
-function VistaDia({ agendamentos, internados, boxNome }: {
-  agendamentos: Agendamento[]; internados: Internacao[]; boxNome: Map<string, string>
+function VistaDia({ dia, agendamentos, internados, boxNome, onAgendar }: {
+  dia: Date; agendamentos: Agendamento[]; internados: Internacao[]; boxNome: Map<string, string>
+  onAgendar: (dataISO: string) => void
 }) {
   return (
     <div className="space-y-3">
       <FaixaInternados internados={internados} boxNome={boxNome} />
       {agendamentos.length === 0 ? (
-        <p className="rounded-xl border border-line bg-surface-1 py-12 text-center text-[13.5px] text-ink-3">
-          Nenhum agendamento com hora marcada neste dia.
-        </p>
+        <button onClick={() => onAgendar(ymd(dia))}
+          className="group flex w-full flex-col items-center gap-2 rounded-xl border border-dashed border-line bg-surface-1 py-12 text-center transition hover:border-brand/60 hover:bg-brand/[0.04]">
+          <span className="text-[13.5px] text-ink-3">Nenhum agendamento com hora marcada neste dia.</span>
+          <span className="rounded-lg bg-brand px-3 py-1.5 text-[12.5px] font-semibold text-surface-0 transition group-hover:bg-brand-dim">
+            + Agendar neste dia
+          </span>
+        </button>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
           <table className="w-full min-w-[680px] text-left">
@@ -201,14 +214,19 @@ function VistaDia({ agendamentos, internados, boxNome }: {
               ))}
             </tbody>
           </table>
+          <button onClick={() => onAgendar(ymd(dia))}
+            className="flex w-full items-center justify-center gap-1.5 border-t border-line py-2.5 text-[12.5px] font-medium text-ink-3 transition hover:bg-brand/[0.06] hover:text-brand">
+            <span className="text-[14px] leading-none">+</span> Agendar neste dia
+          </button>
         </div>
       )}
     </div>
   )
 }
 
-function VistaSemana({ dias, doDia, internadosNoDia, hoje, irParaDia }: {
-  dias: Date[]; doDia: (d: Date) => Agendamento[]; internadosNoDia: (d: Date) => Internacao[]; hoje: Date; irParaDia: (d: Date) => void
+function VistaSemana({ dias, doDia, internadosNoDia, hoje, irParaDia, onAgendar }: {
+  dias: Date[]; doDia: (d: Date) => Agendamento[]; internadosNoDia: (d: Date) => Internacao[]
+  hoje: Date; irParaDia: (d: Date) => void; onAgendar: (dataISO: string) => void
 }) {
   return (
     <div className="grid gap-2 md:grid-cols-7">
@@ -217,11 +235,15 @@ function VistaSemana({ dias, doDia, internadosNoDia, hoje, irParaDia }: {
         const internados = internadosNoDia(d)
         const eHoje = ymd(d) === ymd(hoje)
         return (
-          <div key={i} className={`rounded-xl border bg-surface-1 p-2.5 ${eHoje ? 'border-brand/50' : 'border-line'}`}>
-            <button onClick={() => irParaDia(d)} className="mb-2 flex w-full items-baseline justify-between gap-1 text-left">
-              <span className={`text-[12px] font-semibold ${eHoje ? 'text-brand' : 'text-ink-2'}`}>{DIAS_SEMANA[i]}</span>
-              <span className={`text-[13px] tabular-nums ${eHoje ? 'text-brand' : 'text-ink-3'}`}>{d.getDate()}</span>
-            </button>
+          <div key={i} className={`group flex flex-col rounded-xl border bg-surface-1 p-2.5 ${eHoje ? 'border-brand/50' : 'border-line'}`}>
+            <div className="mb-2 flex items-baseline justify-between gap-1">
+              <button onClick={() => irParaDia(d)} className="flex flex-1 items-baseline justify-between gap-1 text-left">
+                <span className={`text-[12px] font-semibold ${eHoje ? 'text-brand' : 'text-ink-2'}`}>{DIAS_SEMANA[i]}</span>
+                <span className={`text-[13px] tabular-nums ${eHoje ? 'text-brand' : 'text-ink-3'}`}>{d.getDate()}</span>
+              </button>
+              <button onClick={() => onAgendar(ymd(d))} aria-label={`Agendar em ${ymd(d)}`}
+                className="ml-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-line text-[13px] leading-none text-ink-3 opacity-0 transition hover:border-brand/60 hover:text-brand group-hover:opacity-100">+</button>
+            </div>
             {internados.length > 0 && (
               <button onClick={() => irParaDia(d)}
                 className="mb-1.5 flex w-full items-center gap-1 rounded-lg border border-s2/40 bg-s2/10 px-2 py-1 text-left text-[10.5px] font-medium text-s2">

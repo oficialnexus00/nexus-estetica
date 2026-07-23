@@ -62,9 +62,6 @@ const NAV = [
 type View = (typeof NAV)[number]['id']
 type Clinica = { id: string; nome: string; cidade: string | null }
 
-// "+ Agendar" só aparece na Agenda — é onde criar agendamento pertence ao fluxo.
-const VIEWS_COM_AGENDAR = new Set<View>(['agenda'])
-
 /** Ações de escrita disponíveis para as telas. */
 export type Acoes = {
   demo: boolean
@@ -179,6 +176,7 @@ export default function App() {
   const [view, setView] = useState<View>('dashboard')
   const [menuOpen, setMenuOpen] = useState(false)
   const [agendando, setAgendando] = useState(false)
+  const [agendarData, setAgendarData] = useState<string | undefined>(undefined)
   const [aviso, setAviso] = useState<string | null>(null)
 
   // Tema dia/noite — persiste a escolha e aplica no <html> via data-theme.
@@ -1053,12 +1051,6 @@ export default function App() {
                 view === 'suporte' ? 'border-brand/50 bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:border-brand/50 hover:text-ink'}`}>
               🎧 Suporte
             </button>
-            {VIEWS_COM_AGENDAR.has(view) && (
-              <button onClick={() => setAgendando(true)} disabled={!data}
-                className="whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50 md:px-3.5 md:text-[13px]">
-                + Agendar
-              </button>
-            )}
           </div>
         </header>
 
@@ -1087,7 +1079,8 @@ export default function App() {
           {!erro && data && (
             <>
               {view === 'dashboard' && <Dashboard data={data} ir={(v) => setView(v)} />}
-              {view === 'agenda' && <Agenda data={data} acoes={acoes} />}
+              {view === 'agenda' && <Agenda data={data} acoes={acoes}
+                onAgendar={d => { setAgendarData(d); setAgendando(true) }} />}
               {view === 'tutores' && <Tutores data={data} acoes={acoes} />}
               {view === 'financeiro' && <Financeiro data={data} acoes={acoes} />}
               {view === 'vendas' && <Vendas data={data} acoes={acoes} />}
@@ -1107,9 +1100,11 @@ export default function App() {
       </main>
 
       {data && (
-        <Modal titulo="Novo agendamento" aberto={agendando} onFechar={() => setAgendando(false)}>
-          <FormAgendamento dados={data} onCancelar={() => setAgendando(false)}
-            onSalvar={async d => { await acoes.criarAgendamento(d); setAgendando(false) }} />
+        <Modal titulo="Novo agendamento" aberto={agendando}
+          onFechar={() => { setAgendando(false); setAgendarData(undefined) }}>
+          <FormAgendamento dados={data} dataInicial={agendarData}
+            onCancelar={() => { setAgendando(false); setAgendarData(undefined) }}
+            onSalvar={async d => { await acoes.criarAgendamento(d); setAgendando(false); setAgendarData(undefined) }} />
         </Modal>
       )}
     </div>

@@ -6,10 +6,9 @@ import Vacinacao from '../components/Vacinacao'
 import Prontuario from '../components/Prontuario'
 import LinhaDoTempo from '../components/LinhaDoTempo'
 import PesoEvolucao from '../components/PesoEvolucao'
-import EmitirDocumento from '../components/EmitirDocumento'
+import AcoesPet from '../components/AcoesPet'
 import Modal from '../components/Modal'
 import { FormTutor, FormEditarTutor, FormEditarPet } from '../components/Formularios'
-import { comprovanteVacinacao } from '../lib/imprimir'
 
 const ETAPA: Record<Tutor['etapa'], string> = {
   lead: 'border-s2/40 bg-s2/10 text-s2',
@@ -74,13 +73,6 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <button onClick={() => comprovanteVacinacao({
-                  clinica: acoes.clinicaNome, tutor: tutor.nome, pet: pet.nome, especie: pet.especie, vacinas: pet.vacinas,
-                })}
-                className="rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
-                Comprovante de vacina
-              </button>
-              <EmitirDocumento pet={pet} tutorNome={tutor.nome} clinica={acoes.clinicaNome} modelos={data.modelos ?? []} />
               <button onClick={() => setEditandoPet(pet)}
                 className="rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
                 Editar pet
@@ -94,6 +86,8 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
             </div>
           )}
         </div>
+
+        <AcoesPet pet={pet} tutorNome={tutor.nome} data={data} acoes={acoes} />
 
         <Prontuario pet={pet} tutorNome={tutor.nome} clinica={acoes.clinicaNome} tipos={data.tiposAtendimento ?? []}
           onNovoAtendimento={d => acoes.registrarAtendimento(pet.id, d)}

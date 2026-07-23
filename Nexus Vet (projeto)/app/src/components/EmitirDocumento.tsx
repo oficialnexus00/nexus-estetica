@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { Pet, ModeloDocumento } from '../data'
 import { idadeDe } from '../data'
 import Modal from './Modal'
@@ -23,8 +23,9 @@ function preencher(conteudo: string, pet: Pet, tutor: string, clinica: string): 
   return conteudo.replace(/\{pet\}|\{tutor\}|\{especie\}|\{raca\}|\{idade\}|\{data\}|\{clinica\}/g, m => mapa[m] ?? m)
 }
 
-export default function EmitirDocumento({ pet, tutorNome, clinica, modelos, profissional }: {
+export default function EmitirDocumento({ pet, tutorNome, clinica, modelos, profissional, trigger }: {
   pet: Pet; tutorNome: string; clinica: string; modelos: ModeloDocumento[]; profissional?: string
+  trigger?: (abrir: () => void) => ReactNode
 }) {
   const [aberto, setAberto] = useState(false)
   const [modeloId, setModeloId] = useState(modelos[0]?.id ?? '')
@@ -55,10 +56,12 @@ export default function EmitirDocumento({ pet, tutorNome, clinica, modelos, prof
 
   return (
     <>
-      <button onClick={abrir}
-        className="rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
-        Emitir documento
-      </button>
+      {trigger ? trigger(abrir) : (
+        <button onClick={abrir}
+          className="rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
+          Emitir documento
+        </button>
+      )}
 
       <Modal titulo="Emitir documento" aberto={aberto} onFechar={() => setAberto(false)}>
         <div className="space-y-3">

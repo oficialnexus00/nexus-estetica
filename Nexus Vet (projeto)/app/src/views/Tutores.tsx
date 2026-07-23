@@ -143,7 +143,7 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
         </button>
       </div>
 
-      <Modal titulo="Cadastrar tutor e pet" aberto={cadastrando} onFechar={() => setCadastrando(false)}>
+      <Modal titulo="Cadastrar tutor e pet" aberto={cadastrando} onFechar={() => setCadastrando(false)} largura="lg">
         <FormTutor onCancelar={() => setCadastrando(false)}
           onSalvar={async d => { await acoes.criarTutorComPet(d); setCadastrando(false) }} />
       </Modal>

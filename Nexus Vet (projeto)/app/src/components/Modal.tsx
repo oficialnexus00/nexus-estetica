@@ -1,7 +1,8 @@
 import { useEffect, type ReactNode } from 'react'
 
-export default function Modal({ titulo, aberto, onFechar, children }: {
+export default function Modal({ titulo, aberto, onFechar, children, largura = 'md' }: {
   titulo: string; aberto: boolean; onFechar: () => void; children: ReactNode
+  largura?: 'md' | 'lg' | 'xl'
 }) {
   useEffect(() => {
     if (!aberto) return
@@ -12,11 +13,13 @@ export default function Modal({ titulo, aberto, onFechar, children }: {
 
   if (!aberto) return null
 
+  const larguraCls = largura === 'xl' ? 'sm:max-w-4xl' : largura === 'lg' ? 'sm:max-w-3xl' : 'sm:max-w-md'
+
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
       <div className="absolute inset-0 bg-black/70" onClick={onFechar} />
       <div role="dialog" aria-modal="true" aria-label={titulo}
-        className="relative max-h-[92vh] w-full overflow-y-auto rounded-t-2xl border border-line bg-surface-1 p-5 sm:max-w-md sm:rounded-2xl">
+        className={`relative max-h-[92vh] w-full overflow-y-auto rounded-t-2xl border border-line bg-surface-1 p-5 sm:rounded-2xl ${larguraCls}`}>
         <div className="mb-4 flex items-center justify-between gap-3">
           <h3 className="text-[15px] font-semibold tracking-tight">{titulo}</h3>
           <button onClick={onFechar} aria-label="Fechar"

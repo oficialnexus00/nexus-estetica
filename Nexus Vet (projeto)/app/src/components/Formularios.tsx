@@ -296,31 +296,36 @@ export function FormTutor({ onSalvar, onCancelar }: {
   }
 
   return (
-    <form onSubmit={enviar} className="space-y-3">
-      <Campo label="Nome do tutor">
-        <input value={f.nome} onChange={set('nome')} required placeholder="Maria Silva" className={inputCls} />
-      </Campo>
-      <Campo label="WhatsApp (opcional)">
-        <input value={f.telefone} onChange={set('telefone')} placeholder="47 99999-0000" className={inputCls} />
-      </Campo>
-      <div className="grid grid-cols-2 gap-3">
-        <Campo label="E-mail (opcional)">
-          <input type="email" value={f.email} onChange={set('email')} placeholder="voce@email.com" className={inputCls} />
-        </Campo>
-        <Campo label="Nascimento (opcional)">
-          <input type="date" value={f.nascTutor} max={hoje()} onChange={set('nascTutor')} className={inputCls} />
-        </Campo>
-      </div>
-      <Campo label="CPF (opcional)">
-        <input value={f.cpf} onChange={set('cpf')} placeholder="000.000.000-00" className={inputCls} />
-      </Campo>
-      <Campo label="Endereço (opcional)">
-        <input value={f.endereco} onChange={set('endereco')} placeholder="Rua, número — cidade/UF" className={inputCls} />
-      </Campo>
-
-      <div className="!mt-5 border-t border-line pt-4">
-        <p className="mb-3 text-[12px] font-medium uppercase tracking-wider text-ink-3">Primeiro pet</p>
+    <form onSubmit={enviar} className="space-y-4">
+      <div className="grid gap-x-6 gap-y-3 md:grid-cols-2">
+        {/* Coluna do tutor */}
         <div className="space-y-3">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">Dados do tutor</p>
+          <Campo label="Nome do tutor">
+            <input value={f.nome} onChange={set('nome')} required placeholder="Maria Silva" className={inputCls} />
+          </Campo>
+          <Campo label="WhatsApp (opcional)">
+            <input value={f.telefone} onChange={set('telefone')} placeholder="47 99999-0000" className={inputCls} />
+          </Campo>
+          <div className="grid grid-cols-2 gap-3">
+            <Campo label="E-mail (opcional)">
+              <input type="email" value={f.email} onChange={set('email')} placeholder="voce@email.com" className={inputCls} />
+            </Campo>
+            <Campo label="Nascimento (opcional)">
+              <input type="date" value={f.nascTutor} max={hoje()} onChange={set('nascTutor')} className={inputCls} />
+            </Campo>
+          </div>
+          <Campo label="CPF (opcional)">
+            <input value={f.cpf} onChange={set('cpf')} placeholder="000.000.000-00" className={inputCls} />
+          </Campo>
+          <Campo label="Endereço (opcional)">
+            <input value={f.endereco} onChange={set('endereco')} placeholder="Rua, número — cidade/UF" className={inputCls} />
+          </Campo>
+        </div>
+
+        {/* Coluna do primeiro pet */}
+        <div className="space-y-3 md:border-l md:border-line md:pl-6">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">Primeiro pet</p>
           <Campo label="Nome do pet">
             <input value={f.petNome} onChange={set('petNome')} required placeholder="Thor" className={inputCls} />
           </Campo>
@@ -351,7 +356,7 @@ export function FormTutor({ onSalvar, onCancelar }: {
             <Campo label="Nascimento (opcional)">
               <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
             </Campo>
-            <Campo label="Nº do microchip (opcional)">
+            <Campo label="Microchip (opcional)">
               <input value={f.microchip} onChange={set('microchip')} placeholder="000000000000000" className={inputCls} />
             </Campo>
           </div>

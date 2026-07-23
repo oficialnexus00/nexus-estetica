@@ -771,7 +771,25 @@ export type DadosEditarPet = {
   nome: string; especie: Especie; raca?: string; nascimento?: string
   pesoKg?: number; castrado: boolean; alertaSaude?: string
   microchip?: string; pedigree?: boolean; sexo?: 'macho' | 'femea'; pelagem?: string
+  porte?: Pet['porte']; temperamento?: string; rga?: string; observacoes?: string
 }
+
+const PORTES: { v: NonNullable<Pet['porte']>; r: string }[] = [
+  { v: 'pequeno', r: 'Pequeno' }, { v: 'medio', r: 'Médio' },
+  { v: 'grande', r: 'Grande' }, { v: 'gigante', r: 'Gigante' },
+]
+const TEMPERAMENTOS = ['Dócil', 'Agitado', 'Medroso', 'Agressivo', 'Reativo']
+
+// Subtítulo de seção — deixa o formulário longo legível e "explicativo"
+function Secao({ titulo, dica }: { titulo: string; dica?: string }) {
+  return (
+    <div className="pt-1">
+      <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">{titulo}</div>
+      {dica && <div className="mt-0.5 text-[11px] text-ink-3">{dica}</div>}
+    </div>
+  )
+}
+const dicaCls = 'mt-1 text-[11px] text-ink-3'
 
 export function FormEditarPet({ pet, onSalvar, onCancelar }: {
   pet: Pet; onSalvar: (d: DadosEditarPet) => Promise<void>; onCancelar: () => void
@@ -782,9 +800,12 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
     castrado: pet.castrado, alerta: pet.alerta ?? '',
     microchip: pet.microchip ?? '', pedigree: pet.pedigree ?? false,
     sexo: pet.sexo ?? '', pelagem: pet.pelagem ?? '',
+    porte: pet.porte ?? '', temperamento: pet.temperamento ?? '',
+    rga: pet.rga ?? '', observacoes: pet.observacoes ?? '',
   })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
 
   async function enviar(e: FormEvent) {
     e.preventDefault()
@@ -801,6 +822,10 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
         pedigree: f.pedigree,
         sexo: (f.sexo || undefined) as 'macho' | 'femea' | undefined,
         pelagem: f.pelagem.trim() || undefined,
+        porte: (f.porte || undefined) as Pet['porte'],
+        temperamento: f.temperamento.trim() || undefined,
+        rga: f.rga.trim() || undefined,
+        observacoes: f.observacoes.trim() || undefined,
       })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
@@ -809,9 +834,10 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
   }
 
   return (
-    <form onSubmit={enviar} className="space-y-3">
+    <form onSubmit={enviar} className="max-h-[70vh] space-y-3 overflow-y-auto pr-1">
+      <Secao titulo="Identificação" />
       <Campo label="Nome do pet">
-        <input value={f.nome} required onChange={e => setF({ ...f, nome: e.target.value })} className={inputCls} />
+        <input value={f.nome} required onChange={set('nome')} className={inputCls} />
       </Campo>
       <div className="grid grid-cols-2 gap-3">
         <Campo label="Espécie">
@@ -820,38 +846,58 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
             <option value="gato">Gato</option>
           </select>
         </Campo>
-        <Campo label="Raça">
-          <input value={f.raca} onChange={e => setF({ ...f, raca: e.target.value })} className={inputCls} />
-        </Campo>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        <Campo label="Nascimento">
-          <input type="date" value={f.nascimento} max={hoje()} onChange={e => setF({ ...f, nascimento: e.target.value })} className={inputCls} />
-        </Campo>
-        <Campo label="Peso (kg)">
-          <input inputMode="decimal" value={f.peso} placeholder="0,0" onChange={e => setF({ ...f, peso: e.target.value })} className={inputCls} />
-        </Campo>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
         <Campo label="Sexo">
-          <select value={f.sexo} onChange={e => setF({ ...f, sexo: e.target.value })} className={inputCls}>
+          <select value={f.sexo} onChange={set('sexo')} className={inputCls}>
             <option value="">—</option>
             <option value="macho">Macho</option>
             <option value="femea">Fêmea</option>
           </select>
         </Campo>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Raça">
+          <input value={f.raca} onChange={set('raca')} placeholder="Ex.: SRD, Golden…" className={inputCls} />
+        </Campo>
         <Campo label="Pelagem / cor">
-          <input value={f.pelagem} onChange={e => setF({ ...f, pelagem: e.target.value })} placeholder="Ex.: Caramelo" className={inputCls} />
+          <input value={f.pelagem} onChange={set('pelagem')} placeholder="Ex.: Caramelo" className={inputCls} />
         </Campo>
       </div>
-      <Campo label="Nº do microchip">
-        <input value={f.microchip} onChange={e => setF({ ...f, microchip: e.target.value })}
-          placeholder="000000000000000" className={inputCls} />
-      </Campo>
-      <Campo label="Alerta de saúde (alergias, condições)">
-        <input value={f.alerta} onChange={e => setF({ ...f, alerta: e.target.value })}
-          placeholder="Alergia a carrapaticida" className={inputCls} />
-      </Campo>
+
+      <Secao titulo="Características" dica="Ajudam no manejo, na dose e na escolha do box." />
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Nascimento">
+          <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
+        </Campo>
+        <Campo label="Peso (kg)">
+          <input inputMode="decimal" value={f.peso} placeholder="0,0" onChange={set('peso')} className={inputCls} />
+        </Campo>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Porte">
+          <select value={f.porte} onChange={set('porte')} className={inputCls}>
+            <option value="">—</option>
+            {PORTES.map(p => <option key={p.v} value={p.v}>{p.r}</option>)}
+          </select>
+        </Campo>
+        <Campo label="Temperamento">
+          <input list="temperamentos" value={f.temperamento} onChange={set('temperamento')}
+            placeholder="Ex.: Dócil" className={inputCls} />
+          <datalist id="temperamentos">
+            {TEMPERAMENTOS.map(t => <option key={t} value={t} />)}
+          </datalist>
+          <p className={dicaCls}>Orienta o manejo seguro da equipe (ex.: pet reativo).</p>
+        </Campo>
+      </div>
+
+      <Secao titulo="Registro" dica="Identificação oficial do animal." />
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Nº do microchip">
+          <input value={f.microchip} onChange={set('microchip')} placeholder="000000000000000" className={inputCls} />
+        </Campo>
+        <Campo label="RGA / registro">
+          <input value={f.rga} onChange={set('rga')} placeholder="Registro de raça" className={inputCls} />
+        </Campo>
+      </div>
       <Campo label="Pedigree">
         <button type="button" onClick={() => setF({ ...f, pedigree: !f.pedigree })}
           className={`w-full rounded-lg border px-3 py-2 text-[13px] font-medium transition ${
@@ -859,11 +905,23 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
           {f.pedigree ? '✓ Com pedigree' : 'Sem pedigree'}
         </button>
       </Campo>
-      <label className="flex cursor-pointer items-center gap-2.5 pt-1">
+
+      <Secao titulo="Saúde" />
+      <label className="flex cursor-pointer items-center gap-2.5">
         <input type="checkbox" checked={f.castrado} onChange={e => setF({ ...f, castrado: e.target.checked })}
           className="h-4 w-4 accent-brand" />
         <span className="text-[13px] text-ink-2">Castrado</span>
       </label>
+      <Campo label="Alerta de saúde (alergias, condições)">
+        <input value={f.alerta} onChange={set('alerta')} placeholder="Alergia a carrapaticida" className={inputCls} />
+        <p className={dicaCls}>Aparece destacado em vermelho na ficha e ao registrar um atendimento.</p>
+      </Campo>
+
+      <Secao titulo="Observações" />
+      <Campo label="Anotações gerais (opcional)">
+        <textarea value={f.observacoes} onChange={set('observacoes')} className={inputCls + ' min-h-[64px] resize-y'}
+          placeholder="Preferências, comportamento no banho, contato de emergência…" />
+      </Campo>
 
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} />

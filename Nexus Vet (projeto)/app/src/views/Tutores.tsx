@@ -17,6 +17,10 @@ const ETAPA: Record<Tutor['etapa'], string> = {
   inativo: 'border-line bg-surface-2 text-ink-3',
 }
 
+const PORTE_LABEL: Record<string, string> = {
+  pequeno: 'pequeno', medio: 'médio', grande: 'grande', gigante: 'gigante',
+}
+
 const alerta = (p: Pet) =>
   p.vacinas.some(v => v.situacao === 'atrasada') ? 'atrasada'
   : p.vacinas.some(v => v.situacao === 'proxima') ? 'proxima' : null
@@ -56,12 +60,25 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
               <p className="mt-0.5 text-[13px] text-ink-2">
                 {pet.especie === 'cao' ? 'Cão' : 'Gato'}
                 {pet.sexo && ` · ${pet.sexo === 'macho' ? 'Macho' : 'Fêmea'}`} · {pet.raca} · {idadeDe(pet.nascimento)} · {pet.peso} kg
+                {pet.porte && ` · porte ${PORTE_LABEL[pet.porte]}`}
                 {pet.pelagem && ` · ${pet.pelagem}`}
                 {pet.castrado && ' · castrado'}
                 {pet.pedigree && <span className="text-brand"> · com pedigree</span>}
               </p>
-              {pet.microchip && (
-                <p className="mt-0.5 text-[12px] text-ink-3">Microchip: <span className="font-mono text-ink-2">{pet.microchip}</span></p>
+              {pet.temperamento && (
+                <p className="mt-1 inline-flex items-center gap-1 rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[11.5px] text-ink-2">
+                  Temperamento: <span className="font-medium text-ink">{pet.temperamento}</span>
+                </p>
+              )}
+              {(pet.microchip || pet.rga) && (
+                <p className="mt-0.5 text-[12px] text-ink-3">
+                  {pet.microchip && <>Microchip: <span className="font-mono text-ink-2">{pet.microchip}</span></>}
+                  {pet.microchip && pet.rga && ' · '}
+                  {pet.rga && <>RGA: <span className="font-mono text-ink-2">{pet.rga}</span></>}
+                </p>
+              )}
+              {pet.observacoes && (
+                <p className="mt-1 text-[12px] text-ink-3">📝 {pet.observacoes}</p>
               )}
               <div className="mt-2 space-y-0.5 text-[13px] text-ink-3">
                 <p>Tutor: <span className="text-ink-2">{tutor.nome}</span> · {tutor.telefone}</p>

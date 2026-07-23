@@ -458,6 +458,7 @@ export default function App() {
               peso: d.pesoKg ?? p.peso, castrado: d.castrado, alerta: d.alertaSaude,
               microchip: d.microchip, pedigree: d.pedigree,
               sexo: d.sexo, pelagem: d.pelagem,
+              porte: d.porte, temperamento: d.temperamento, rga: d.rga, observacoes: d.observacoes,
             })),
           })),
         }))

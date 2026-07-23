@@ -100,7 +100,7 @@ export default function Agenda({ data, acoes, onAgendar }: {
           <div className="mx-0.5 h-5 w-px bg-line" />
           <button onClick={() => onAgendar(ymd(modo === 'dia' ? ref : new Date()))}
             className="whitespace-nowrap rounded-lg bg-brand px-3 py-1.5 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim">
-            + Agendar{modo === 'dia' ? ' neste dia' : ''}
+            + Agendar
           </button>
         </div>
       </div>

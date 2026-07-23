@@ -49,6 +49,9 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
       <div className="space-y-4">
         <button onClick={() => setSel(null)} className="text-[13px] text-ink-2 transition hover:text-ink">← Voltar</button>
 
+        <LinhaDoTempo pet={pet} exames={(data.exames ?? []).filter(e => e.pet_id === pet.id)}
+          onNota={d => acoes.registrarNotaClinica(pet.id, d)} />
+
         <div className="rounded-xl border border-line bg-surface-1 p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
@@ -93,9 +96,6 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
             </div>
           )}
         </div>
-
-        <LinhaDoTempo pet={pet} exames={(data.exames ?? []).filter(e => e.pet_id === pet.id)}
-          onNota={d => acoes.registrarNotaClinica(pet.id, d)} />
 
         <QuadroClinico pet={pet}
           onAdicionar={t => acoes.adicionarCondicao(pet.id, t)}

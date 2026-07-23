@@ -85,28 +85,24 @@ export default function LinhaDoTempo({ pet, exames, onNota }: {
   return (
     <div className="rounded-xl border border-line bg-surface-1 p-5">
       <div className={`flex flex-wrap items-center justify-between gap-2 ${aberto ? 'mb-3' : ''}`}>
-        <div className="flex items-center gap-2">
+        <button onClick={() => setAberto(v => !v)} aria-expanded={aberto}
+          className="flex items-center gap-2 text-left transition hover:text-brand">
+          <span className="text-[12px] leading-none text-ink-3">{aberto ? '▾' : '▸'}</span>
           <h3 className="text-[14px] font-semibold">Linha do tempo</h3>
-          <span className="text-[11.5px] text-ink-3">{eventos.length} {eventos.length === 1 ? 'evento' : 'eventos'}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          {aberto && onNota && (
-            <>
-              <button onClick={() => setForm('observacao')}
-                className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
-                + Observação
-              </button>
-              <button onClick={() => setForm('patologia')}
-                className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
-                + Diagnóstico
-              </button>
-            </>
-          )}
-          <button onClick={() => setAberto(v => !v)}
-            className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
-            {aberto ? '− Minimizar' : '+ Expandir'}
-          </button>
-        </div>
+          <span className="text-[11.5px] font-normal text-ink-3">{eventos.length} {eventos.length === 1 ? 'evento' : 'eventos'}</span>
+        </button>
+        {aberto && onNota && (
+          <div className="flex items-center gap-1.5">
+            <button onClick={() => setForm('observacao')}
+              className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
+              + Observação
+            </button>
+            <button onClick={() => setForm('patologia')}
+              className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
+              + Diagnóstico
+            </button>
+          </div>
+        )}
       </div>
 
       {aberto && (<>

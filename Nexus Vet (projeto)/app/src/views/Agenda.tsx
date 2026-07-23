@@ -142,25 +142,26 @@ export default function Agenda({ data, acoes, onAgendar }: {
         </div>
       )}
 
-      {modo !== 'mes' && (
-        <TiraDias
-          ref_={ref}
-          ativo={d => modo === 'dia'
-            ? ymd(d) === ymd(ref)
-            : ymd(d) >= ymd(inicioSemana(ref)) && ymd(d) <= ymd(addDays(inicioSemana(ref), 6))}
-          hojeY={hojeY}
-          temEvento={d => (porDia.get(ymd(d))?.length ?? 0) > 0 || internadosNoDia(d).length > 0}
-          onPick={setRef} />
-      )}
-
       {modo === 'dia' && (
         <GradeDia dia={ref} eventos={distribuir(doDia(ref), dur)} internados={internadosNoDia(ref)}
-          boxNome={boxNome} ehHoje={ymd(ref) === hojeY} onAgendar={onAgendar} />
+          boxNome={boxNome} ehHoje={ymd(ref) === hojeY} onAgendar={onAgendar}
+          tira={
+            <TiraDias ref_={ref} ativo={d => ymd(d) === ymd(ref)} hojeY={hojeY}
+              temEvento={d => (porDia.get(ymd(d))?.length ?? 0) > 0 || internadosNoDia(d).length > 0}
+              onPick={setRef} />
+          } />
       )}
       {modo === 'semana' && (
         <GradeSemana dias={Array.from({ length: 7 }, (_, i) => addDays(inicioSemana(ref), i))}
           doDia={doDia} dur={dur} internadosNoDia={internadosNoDia} hojeY={hojeY} onAgendar={onAgendar}
-          irParaDia={d => { setRef(d); setModo('dia') }} />
+          irParaDia={d => { setRef(d); setModo('dia') }}
+          tira={
+            <TiraDias ref_={ref}
+              ativo={d => ymd(d) >= ymd(inicioSemana(ref)) && ymd(d) <= ymd(addDays(inicioSemana(ref), 6))}
+              hojeY={hojeY}
+              temEvento={d => (porDia.get(ymd(d))?.length ?? 0) > 0 || internadosNoDia(d).length > 0}
+              onPick={setRef} />
+          } />
       )}
       {modo === 'mes' && (
         <VistaMes base={ref} doDia={doDia} internadosNoDia={internadosNoDia} hoje={hoje}
@@ -189,7 +190,7 @@ function TiraDias({ ref_, ativo, hojeY, temEvento, onPick }: {
   }, [refKey])
 
   return (
-    <div ref={scroller} className="flex gap-1 overflow-x-auto rounded-xl border border-line bg-surface-1 px-2 py-2">
+    <div ref={scroller} className="flex gap-1 overflow-x-auto px-2 py-2">
       {dias.map((d, i) => {
         const on = ativo(d)
         const eHoje = ymd(d) === hojeY
@@ -304,15 +305,16 @@ function cliqueParaHora(e: React.MouseEvent<HTMLDivElement>, minH: number, hourH
   return minToHora(Math.max(0, Math.min(23 * 60 + 45, min)))
 }
 
-function GradeDia({ dia, eventos, internados, boxNome, ehHoje, onAgendar }: {
+function GradeDia({ dia, eventos, internados, boxNome, ehHoje, onAgendar, tira }: {
   dia: Date; eventos: Evento[]; internados: Internacao[]; boxNome: Map<string, string>
-  ehHoje: boolean; onAgendar: (dataISO: string, hora?: string) => void
+  ehHoje: boolean; onAgendar: (dataISO: string, hora?: string) => void; tira?: React.ReactNode
 }) {
   const hourH = 56
   const { minH, maxH } = faixaHoras(eventos)
   const horas = listaHoras(minH, maxH)
   return (
     <div className="overflow-hidden rounded-xl border border-line bg-surface-1">
+      {tira && <div className="border-b border-line bg-surface-2/40">{tira}</div>}
       <AllDayInternados internados={internados} boxNome={boxNome} />
       <div className="max-h-[64vh] overflow-y-auto pt-3">
         <div className="flex">
@@ -339,10 +341,10 @@ function GradeDia({ dia, eventos, internados, boxNome, ehHoje, onAgendar }: {
   )
 }
 
-function GradeSemana({ dias, doDia, dur, internadosNoDia, hojeY, onAgendar, irParaDia }: {
+function GradeSemana({ dias, doDia, dur, internadosNoDia, hojeY, onAgendar, irParaDia, tira }: {
   dias: Date[]; doDia: (d: Date) => Agendamento[]; dur: Map<string, number>
   internadosNoDia: (d: Date) => Internacao[]; hojeY: string
-  onAgendar: (dataISO: string, hora?: string) => void; irParaDia: (d: Date) => void
+  onAgendar: (dataISO: string, hora?: string) => void; irParaDia: (d: Date) => void; tira?: React.ReactNode
 }) {
   const hourH = 48
   const eventosPorDia = dias.map(d => distribuir(doDia(d), dur))
@@ -352,6 +354,7 @@ function GradeSemana({ dias, doDia, dur, internadosNoDia, hojeY, onAgendar, irPa
 
   return (
     <div className="overflow-hidden rounded-xl border border-line bg-surface-1">
+      {tira && <div className="border-b border-line bg-surface-2/40">{tira}</div>}
       {/* cabeçalho dos dias */}
       <div className="flex border-b border-line">
         <div className="w-14 shrink-0" />

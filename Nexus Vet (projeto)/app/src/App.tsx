@@ -39,6 +39,7 @@ import Reativacao from './views/Reativacao'
 import Bia from './views/Bia'
 import Guia from './views/Guia'
 import Suporte from './views/Suporte'
+import ThemeToggle, { type Tema } from './components/ThemeToggle'
 
 const NAV = [
   { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
@@ -179,6 +180,20 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [agendando, setAgendando] = useState(false)
   const [aviso, setAviso] = useState<string | null>(null)
+
+  // Tema dia/noite — persiste a escolha e aplica no <html> via data-theme.
+  const [tema, setTema] = useState<Tema>(() => {
+    if (typeof localStorage !== 'undefined') {
+      const salvo = localStorage.getItem('nexus-tema')
+      if (salvo === 'light' || salvo === 'dark') return salvo
+    }
+    return 'dark'
+  })
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', tema)
+    try { localStorage.setItem('nexus-tema', tema) } catch { /* ignora */ }
+  }, [tema])
+  const alternarTema = () => setTema(t => (t === 'dark' ? 'light' : 'dark'))
 
   const [clinicas, setClinicas] = useState<Clinica[]>(MODO_DEMO ? clinicasDemo.map(c => ({ ...c })) : [])
   const [clinicId, setClinicId] = useState<string>(MODO_DEMO ? 'c1' : '')
@@ -1032,6 +1047,7 @@ export default function App() {
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2">
+            <ThemeToggle tema={tema} onToggle={alternarTema} />
             <button onClick={() => go('suporte')}
               className={`whitespace-nowrap rounded-lg border px-3 py-2 text-[12.5px] font-medium transition md:px-3.5 md:text-[13px] ${
                 view === 'suporte' ? 'border-brand/50 bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:border-brand/50 hover:text-ink'}`}>

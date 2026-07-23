@@ -1022,15 +1022,15 @@ export type DadosAgendamento = {
   tutorId: string; petId: string; serviceId: string; data: string; hora: string; profissional: string
 }
 
-export function FormAgendamento({ dados, dataInicial, onSalvar, onCancelar }: {
-  dados: DB; dataInicial?: string; onSalvar: (d: DadosAgendamento) => Promise<void>; onCancelar: () => void
+export function FormAgendamento({ dados, dataInicial, horaInicial, onSalvar, onCancelar }: {
+  dados: DB; dataInicial?: string; horaInicial?: string; onSalvar: (d: DadosAgendamento) => Promise<void>; onCancelar: () => void
 }) {
   const petsDisponiveis = dados.tutores.flatMap(t => t.pets.map(p => ({ ...p, tutorId: t.id, tutorNome: t.nome })))
   const [petId, setPetId] = useState(petsDisponiveis[0]?.id ?? '')
   const [serviceId, setServiceId] = useState(dados.servicos[0]?.id ?? '')
   // pré-preenche com o dia que o usuário está vendo na agenda (nunca no passado)
   const [data, setData] = useState(dataInicial && dataInicial >= hoje() ? dataInicial : hoje())
-  const [hora, setHora] = useState('09:00')
+  const [hora, setHora] = useState(horaInicial ?? '09:00')
   const [profissional, setProfissional] = useState('Dra. Helena')
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)

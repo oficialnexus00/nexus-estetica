@@ -2,12 +2,12 @@ import { useState } from 'react'
 import type { DB, StatusAgenda, Agendamento, Internacao } from '../data'
 import type { Acoes } from '../App'
 
-const STATUS: Record<StatusAgenda, { label: string; classe: string; dot: string }> = {
-  pendente:   { label: 'A confirmar', classe: 'border-warn/40 bg-warn/10 text-warn', dot: '#e0a63a' },
-  confirmada: { label: 'Confirmada',  classe: 'border-ok/40 bg-ok/10 text-ok',       dot: '#2fbf71' },
-  atendida:   { label: 'Atendida',    classe: 'border-line bg-surface-2 text-ink-2', dot: '#9aa7bd' },
-  falta:      { label: 'Faltou',      classe: 'border-bad/40 bg-bad/10 text-bad',    dot: '#e66767' },
-  cancelada:  { label: 'Cancelada',   classe: 'border-line bg-surface-2 text-ink-3', dot: '#5d6b84' },
+const STATUS: Record<StatusAgenda, { label: string; classe: string; cor: string }> = {
+  pendente:   { label: 'A confirmar', classe: 'border-warn/40 bg-warn/10 text-warn', cor: '#e0a63a' },
+  confirmada: { label: 'Confirmada',  classe: 'border-ok/40 bg-ok/10 text-ok',       cor: '#2fbf71' },
+  atendida:   { label: 'Atendida',    classe: 'border-line bg-surface-2 text-ink-2', cor: '#7d8aa3' },
+  falta:      { label: 'Faltou',      classe: 'border-bad/40 bg-bad/10 text-bad',    cor: '#e66767' },
+  cancelada:  { label: 'Cancelada',   classe: 'border-line bg-surface-2 text-ink-3', cor: '#8792a6' },
 }
 
 type Modo = 'dia' | 'semana' | 'mes'
@@ -15,27 +15,55 @@ type Modo = 'dia' | 'semana' | 'mes'
 const ymd = (d: Date) => d.toISOString().slice(0, 10)
 const addDays = (d: Date, n: number) => { const x = new Date(d); x.setDate(x.getDate() + n); return x }
 const inicioSemana = (d: Date) => addDays(d, -((d.getDay() + 6) % 7)) // segunda
-const mesmoDia = (a: Date, b: Date) => ymd(a) === ymd(b)
 const DIAS_SEMANA = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+const pad = (n: number) => String(n).padStart(2, '0')
+const minToHora = (m: number) => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`
+const horaToMin = (h: string) => { const [a, b] = h.split(':').map(Number); return a * 60 + (b || 0) }
+
+// Evento posicionável na grade (com faixa de minutos e faixa/coluna para sobreposição)
+type Evento = Agendamento & { ini: number; fim: number; lane: number; cols: number }
+
+/** Layout de sobreposição: eventos que se cruzam ficam lado a lado (estilo Google Calendar). */
+function distribuir(ags: Agendamento[], dur: Map<string, number>): Evento[] {
+  const base = ags
+    .map(a => { const ini = horaToMin(a.hora); return { ...a, ini, fim: ini + (dur.get(a.servico) ?? 30) } })
+    .sort((a, b) => a.ini - b.ini || a.fim - b.fim)
+  const fimLanes: number[] = []
+  const comLane = base.map(ev => {
+    let lane = fimLanes.findIndex(f => f <= ev.ini)
+    if (lane === -1) { lane = fimLanes.length; fimLanes.push(ev.fim) } else fimLanes[lane] = ev.fim
+    return { ...ev, lane }
+  })
+  return comLane.map(ev => {
+    const cruzam = comLane.filter(o => o.ini < ev.fim && o.fim > ev.ini)
+    const cols = Math.max(...cruzam.map(o => o.lane)) + 1
+    return { ...ev, cols }
+  })
+}
+
+/** Faixa de horas visível: 08–19 por padrão, expandida para caber tudo. */
+function faixaHoras(evs: Evento[]) {
+  let minH = 8, maxH = 19
+  for (const e of evs) { minH = Math.min(minH, Math.floor(e.ini / 60)); maxH = Math.max(maxH, Math.ceil(e.fim / 60)) }
+  return { minH: Math.max(6, minH), maxH: Math.min(23, Math.max(maxH, minH + 4)) }
+}
+const listaHoras = (minH: number, maxH: number) => Array.from({ length: maxH - minH }, (_, i) => minH + i)
 
 export default function Agenda({ data, acoes, onAgendar }: {
-  data: DB; acoes: Acoes; onAgendar: (dataISO: string) => void
+  data: DB; acoes: Acoes; onAgendar: (dataISO: string, hora?: string) => void
 }) {
   const [modo, setModo] = useState<Modo>('dia')
   const [ref, setRef] = useState(() => new Date())
   const [confirmando, setConfirmando] = useState(false)
-
   const hoje = new Date()
 
+  const dur = new Map(data.servicos.map(s => [s.nome, s.duracao]))
+
   const porDia = new Map<string, Agendamento[]>()
-  for (const a of data.agenda) {
-    const arr = porDia.get(a.data) ?? []; arr.push(a); porDia.set(a.data, arr)
-  }
+  for (const a of data.agenda) { const arr = porDia.get(a.data) ?? []; arr.push(a); porDia.set(a.data, arr) }
   const doDia = (d: Date) => (porDia.get(ymd(d)) ?? []).slice().sort((a, b) => a.hora.localeCompare(b.hora))
 
-  // Internados presentes num dia: da entrada até a alta (ou, se ainda internado,
-  // até a previsão de alta / hoje). É o pet que está DENTRO da clínica naquele dia.
   const hojeY = ymd(hoje)
   const boxNome = new Map((data.boxes ?? []).map(b => [b.id, b.nome]))
   const internadosNoDia = (d: Date): Internacao[] => {
@@ -47,11 +75,9 @@ export default function Agenda({ data, acoes, onAgendar }: {
     })
   }
 
-  // dias do período visível (para contar pendentes)
   const diasVisiveis = (): Date[] => {
     if (modo === 'dia') return [ref]
     if (modo === 'semana') return Array.from({ length: 7 }, (_, i) => addDays(inicioSemana(ref), i))
-    const first = new Date(ref.getFullYear(), ref.getMonth(), 1)
     const dias = new Date(ref.getFullYear(), ref.getMonth() + 1, 0).getDate()
     return Array.from({ length: dias }, (_, i) => new Date(ref.getFullYear(), ref.getMonth(), i + 1))
   }
@@ -78,7 +104,6 @@ export default function Agenda({ data, acoes, onAgendar }: {
 
   return (
     <div className="space-y-4">
-      {/* Barra de controle */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex rounded-lg border border-line bg-surface-2 p-0.5">
           {([['dia', 'Dia'], ['semana', 'Semana'], ['mes', 'Mês']] as const).map(([m, r]) => (
@@ -117,11 +142,13 @@ export default function Agenda({ data, acoes, onAgendar }: {
         </div>
       )}
 
-      {modo === 'dia' && <VistaDia dia={ref} agendamentos={doDia(ref)} internados={internadosNoDia(ref)}
-        boxNome={boxNome} onAgendar={onAgendar} />}
+      {modo === 'dia' && (
+        <GradeDia dia={ref} eventos={distribuir(doDia(ref), dur)} internados={internadosNoDia(ref)}
+          boxNome={boxNome} ehHoje={ymd(ref) === hojeY} onAgendar={onAgendar} />
+      )}
       {modo === 'semana' && (
-        <VistaSemana dias={Array.from({ length: 7 }, (_, i) => addDays(inicioSemana(ref), i))} doDia={doDia}
-          internadosNoDia={internadosNoDia} hoje={hoje} onAgendar={onAgendar}
+        <GradeSemana dias={Array.from({ length: 7 }, (_, i) => addDays(inicioSemana(ref), i))}
+          doDia={doDia} dur={dur} internadosNoDia={internadosNoDia} hojeY={hojeY} onAgendar={onAgendar}
           irParaDia={d => { setRef(d); setModo('dia') }} />
       )}
       {modo === 'mes' && (
@@ -132,141 +159,198 @@ export default function Agenda({ data, acoes, onAgendar }: {
   )
 }
 
-// Faixa "quem está internado" — separada dos horários porque internação não é slot
-function FaixaInternados({ internados, boxNome }: { internados: Internacao[]; boxNome: Map<string, string> }) {
+/* ------------------------------------------------------- peças da grade */
+
+function Gutter({ horas, hourH }: { horas: number[]; hourH: number }) {
+  return (
+    <div className="w-14 shrink-0">
+      {horas.map(h => (
+        <div key={h} style={{ height: hourH }} className="relative">
+          <span className="absolute right-2 -top-2 text-[10px] tabular-nums text-ink-3">{pad(h)}:00</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function LinhasHora({ horas, hourH }: { horas: number[]; hourH: number }) {
+  return (
+    <>
+      {horas.map((h, i) => (
+        <div key={h} className="pointer-events-none absolute inset-x-0 border-t border-line/50" style={{ top: i * hourH }} />
+      ))}
+    </>
+  )
+}
+
+function LinhaAgora({ minH, maxH, hourH }: { minH: number; maxH: number; hourH: number }) {
+  const agora = new Date()
+  const m = agora.getHours() * 60 + agora.getMinutes()
+  if (m < minH * 60 || m > maxH * 60) return null
+  const top = ((m - minH * 60) / 60) * hourH
+  return (
+    <div className="pointer-events-none absolute inset-x-0 z-20" style={{ top }}>
+      <div className="h-px bg-bad" />
+      <div className="absolute -left-1 -top-[3px] h-1.5 w-1.5 rounded-full bg-bad" />
+    </div>
+  )
+}
+
+function Bloco({ ev, minH, hourH }: { ev: Evento; minH: number; hourH: number }) {
+  const st = STATUS[ev.status]
+  const top = ((ev.ini - minH * 60) / 60) * hourH
+  const altura = Math.max(20, ((ev.fim - ev.ini) / 60) * hourH - 2)
+  const left = (ev.lane / ev.cols) * 100
+  const width = (1 / ev.cols) * 100
+  const compacto = altura < 40
+  return (
+    <div className="absolute overflow-hidden rounded-md border px-1.5 py-1"
+      style={{
+        top, height: altura,
+        left: `calc(${left}% + 2px)`, width: `calc(${width}% - 4px)`,
+        background: st.cor + '22', borderColor: st.cor + '55', borderLeft: `3px solid ${st.cor}`,
+      }}
+      title={`${ev.hora} · ${ev.pet} · ${ev.servico} · ${ev.profissional} — ${st.label}`}>
+      <div className="flex items-center gap-1 truncate text-[10.5px] font-semibold leading-tight text-ink">
+        <span className="tabular-nums">{ev.hora}</span>
+        <span className="truncate">{ev.pet}</span>
+        {ev.canal === 'ia' && <span className="shrink-0 text-brand">✦</span>}
+      </div>
+      {!compacto && <div className="truncate text-[10px] leading-tight text-ink-2">{ev.servico}</div>}
+      {altura > 58 && <div className="truncate text-[9.5px] leading-tight text-ink-3">{ev.profissional}</div>}
+    </div>
+  )
+}
+
+function AllDayInternados({ internados, boxNome }: { internados: Internacao[]; boxNome: Map<string, string> }) {
   if (internados.length === 0) return null
   return (
-    <div className="rounded-xl border border-s2/40 bg-s2/[0.06] p-3">
-      <div className="mb-2 flex items-center gap-2 px-1">
-        <span className="text-[13.5px]">🏥</span>
-        <h3 className="text-[12.5px] font-semibold uppercase tracking-wider text-s2">
-          Internados · {internados.length} na clínica
-        </h3>
-      </div>
-      <div className="grid gap-2 sm:grid-cols-2">
+    <div className="flex items-start gap-2 border-b border-line bg-s2/[0.05] px-3 py-2">
+      <span className="mt-0.5 shrink-0 text-[10px] font-semibold uppercase tracking-wider text-s2">🏥 Internados</span>
+      <div className="flex flex-wrap gap-1.5">
         {internados.map(i => (
-          <div key={i.id} className="rounded-lg border border-line bg-surface-1 px-3 py-2">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[13.5px] font-medium">{i.petNome}</span>
-              <span className="rounded-md border border-s2/40 bg-s2/10 px-2 py-0.5 text-[10.5px] font-medium text-s2">
-                {i.box ? (boxNome.get(i.box) ?? 'Internado') : 'Internado'}
-              </span>
-            </div>
-            <div className="mt-0.5 truncate text-[11.5px] text-ink-3">{i.tutorNome} · {i.motivo}</div>
-            <div className="mt-0.5 text-[10.5px] text-ink-3">
-              Entrada {fmtCurto(i.entrada)}{i.previsaoAlta ? ` · previsão de alta ${fmtCurto(i.previsaoAlta)}` : ''}
-            </div>
-          </div>
+          <span key={i.id} className="rounded-md border border-s2/40 bg-s2/10 px-2 py-0.5 text-[11px] font-medium text-s2"
+            title={`${i.tutorNome} · ${i.motivo}`}>
+            {i.petNome}{i.box ? ` · ${boxNome.get(i.box) ?? ''}` : ''}
+          </span>
         ))}
       </div>
     </div>
   )
 }
 
-const fmtCurto = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+// converte a posição do clique numa hora (snap de 15 min) e dispara o agendar
+function cliqueParaHora(e: React.MouseEvent<HTMLDivElement>, minH: number, hourH: number): string {
+  const rect = e.currentTarget.getBoundingClientRect()
+  const y = e.clientY - rect.top
+  const min = minH * 60 + Math.round((y / hourH) * 60 / 15) * 15
+  return minToHora(Math.max(0, Math.min(23 * 60 + 45, min)))
+}
 
-function VistaDia({ dia, agendamentos, internados, boxNome, onAgendar }: {
-  dia: Date; agendamentos: Agendamento[]; internados: Internacao[]; boxNome: Map<string, string>
-  onAgendar: (dataISO: string) => void
+function GradeDia({ dia, eventos, internados, boxNome, ehHoje, onAgendar }: {
+  dia: Date; eventos: Evento[]; internados: Internacao[]; boxNome: Map<string, string>
+  ehHoje: boolean; onAgendar: (dataISO: string, hora?: string) => void
 }) {
+  const hourH = 56
+  const { minH, maxH } = faixaHoras(eventos)
+  const horas = listaHoras(minH, maxH)
   return (
-    <div className="space-y-3">
-      <FaixaInternados internados={internados} boxNome={boxNome} />
-      {agendamentos.length === 0 ? (
-        <button onClick={() => onAgendar(ymd(dia))}
-          className="group flex w-full flex-col items-center gap-2 rounded-xl border border-dashed border-line bg-surface-1 py-12 text-center transition hover:border-brand/60 hover:bg-brand/[0.04]">
-          <span className="text-[13.5px] text-ink-3">Nenhum agendamento com hora marcada neste dia.</span>
-          <span className="rounded-lg bg-brand px-3 py-1.5 text-[12.5px] font-semibold text-surface-0 transition group-hover:bg-brand-dim">
-            + Agendar neste dia
-          </span>
-        </button>
-      ) : (
-        <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
-          <table className="w-full min-w-[680px] text-left">
-            <thead>
-              <tr className="border-b border-line text-[11.5px] uppercase tracking-wider text-ink-3">
-                <th className="px-4 py-3 font-medium">Hora</th>
-                <th className="px-4 py-3 font-medium">Pet</th>
-                <th className="px-4 py-3 font-medium">Tutor</th>
-                <th className="px-4 py-3 font-medium">Serviço</th>
-                <th className="px-4 py-3 font-medium">Profissional</th>
-                <th className="px-4 py-3 font-medium">Canal</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-              </tr>
-            </thead>
-            <tbody className="text-[13.5px]">
-              {agendamentos.map(a => (
-                <tr key={a.id} className="border-b border-line/60 transition last:border-0 hover:bg-surface-2/60">
-                  <td className="px-4 py-3 tabular-nums font-medium">{a.hora}</td>
-                  <td className="px-4 py-3 font-medium">{a.pet}</td>
-                  <td className="px-4 py-3 text-ink-2">{a.tutor}</td>
-                  <td className="px-4 py-3 text-ink-2">{a.servico}</td>
-                  <td className="px-4 py-3 text-ink-2">{a.profissional}</td>
-                  <td className="px-4 py-3">
-                    {a.canal === 'ia'
-                      ? <span className="rounded-md bg-brand/15 px-2 py-0.5 text-[11px] font-medium text-brand">Bia</span>
-                      : <span className="text-[11.5px] text-ink-3">Recepção</span>}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`rounded-md border px-2 py-0.5 text-[11px] font-medium ${STATUS[a.status].classe}`}>{STATUS[a.status].label}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button onClick={() => onAgendar(ymd(dia))}
-            className="flex w-full items-center justify-center gap-1.5 border-t border-line py-2.5 text-[12.5px] font-medium text-ink-3 transition hover:bg-brand/[0.06] hover:text-brand">
-            <span className="text-[14px] leading-none">+</span> Agendar neste dia
-          </button>
+    <div className="overflow-hidden rounded-xl border border-line bg-surface-1">
+      <AllDayInternados internados={internados} boxNome={boxNome} />
+      <div className="max-h-[64vh] overflow-y-auto pt-3">
+        <div className="flex">
+          <Gutter horas={horas} hourH={hourH} />
+          <div className="relative flex-1 cursor-pointer border-l border-line" style={{ height: (maxH - minH) * hourH }}
+            title="Clique num horário para agendar"
+            onClick={e => onAgendar(ymd(dia), cliqueParaHora(e, minH, hourH))}>
+            <LinhasHora horas={horas} hourH={hourH} />
+            {ehHoje && <LinhaAgora minH={minH} maxH={maxH} hourH={hourH} />}
+            {eventos.map(ev => (
+              <div key={ev.id} onClick={e => e.stopPropagation()} className="cursor-default">
+                <Bloco ev={ev} minH={minH} hourH={hourH} />
+              </div>
+            ))}
+            {eventos.length === 0 && (
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-[13px] text-ink-3">
+                Nenhum agendamento — clique num horário para marcar.
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }
 
-function VistaSemana({ dias, doDia, internadosNoDia, hoje, irParaDia, onAgendar }: {
-  dias: Date[]; doDia: (d: Date) => Agendamento[]; internadosNoDia: (d: Date) => Internacao[]
-  hoje: Date; irParaDia: (d: Date) => void; onAgendar: (dataISO: string) => void
+function GradeSemana({ dias, doDia, dur, internadosNoDia, hojeY, onAgendar, irParaDia }: {
+  dias: Date[]; doDia: (d: Date) => Agendamento[]; dur: Map<string, number>
+  internadosNoDia: (d: Date) => Internacao[]; hojeY: string
+  onAgendar: (dataISO: string, hora?: string) => void; irParaDia: (d: Date) => void
 }) {
+  const hourH = 48
+  const eventosPorDia = dias.map(d => distribuir(doDia(d), dur))
+  const { minH, maxH } = faixaHoras(eventosPorDia.flat())
+  const horas = listaHoras(minH, maxH)
+  const temInternado = dias.some(d => internadosNoDia(d).length > 0)
+
   return (
-    <div className="grid gap-2 md:grid-cols-7">
-      {dias.map((d, i) => {
-        const ags = doDia(d)
-        const internados = internadosNoDia(d)
-        const eHoje = ymd(d) === ymd(hoje)
-        return (
-          <div key={i} className={`group flex flex-col rounded-xl border bg-surface-1 p-2.5 ${eHoje ? 'border-brand/50' : 'border-line'}`}>
-            <div className="mb-2 flex items-baseline justify-between gap-1">
-              <button onClick={() => irParaDia(d)} className="flex flex-1 items-baseline justify-between gap-1 text-left">
-                <span className={`text-[12px] font-semibold ${eHoje ? 'text-brand' : 'text-ink-2'}`}>{DIAS_SEMANA[i]}</span>
-                <span className={`text-[13px] tabular-nums ${eHoje ? 'text-brand' : 'text-ink-3'}`}>{d.getDate()}</span>
+    <div className="overflow-hidden rounded-xl border border-line bg-surface-1">
+      {/* cabeçalho dos dias */}
+      <div className="flex border-b border-line">
+        <div className="w-14 shrink-0" />
+        {dias.map((d, i) => {
+          const eHoje = ymd(d) === hojeY
+          return (
+            <button key={i} onClick={() => irParaDia(d)}
+              className={`flex-1 border-l border-line px-1 py-2 text-center transition hover:bg-surface-2/60 ${eHoje ? 'bg-brand/[0.06]' : ''}`}>
+              <div className={`text-[11px] font-semibold uppercase tracking-wide ${eHoje ? 'text-brand' : 'text-ink-3'}`}>{DIAS_SEMANA[i]}</div>
+              <div className={`text-[15px] font-semibold tabular-nums ${eHoje ? 'text-brand' : 'text-ink'}`}>{d.getDate()}</div>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* faixa de internados (all-day) */}
+      {temInternado && (
+        <div className="flex border-b border-line bg-s2/[0.05]">
+          <div className="flex w-14 shrink-0 items-center justify-center py-1 text-[9px] font-semibold uppercase tracking-wider text-s2">🏥</div>
+          {dias.map((d, i) => {
+            const ints = internadosNoDia(d)
+            return (
+              <button key={i} onClick={() => irParaDia(d)} className="flex-1 border-l border-line px-1 py-1 text-center">
+                {ints.length > 0 && (
+                  <span className="inline-block rounded-md border border-s2/40 bg-s2/10 px-1.5 py-0.5 text-[10px] font-medium text-s2">
+                    {ints.length}
+                  </span>
+                )}
               </button>
-              <button onClick={() => onAgendar(ymd(d))} aria-label={`Agendar em ${ymd(d)}`}
-                className="ml-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-line text-[13px] leading-none text-ink-3 opacity-0 transition hover:border-brand/60 hover:text-brand group-hover:opacity-100">+</button>
-            </div>
-            {internados.length > 0 && (
-              <button onClick={() => irParaDia(d)}
-                className="mb-1.5 flex w-full items-center gap-1 rounded-lg border border-s2/40 bg-s2/10 px-2 py-1 text-left text-[10.5px] font-medium text-s2">
-                🏥 {internados.length} internado{internados.length > 1 ? 's' : ''}
-              </button>
-            )}
-            <div className="space-y-1.5">
-              {ags.length === 0
-                ? (internados.length === 0 ? <p className="py-2 text-center text-[11px] text-ink-3">—</p> : null)
-                : ags.map(a => (
-                    <button key={a.id} onClick={() => irParaDia(d)}
-                      className="flex w-full items-center gap-1.5 rounded-lg border border-line bg-surface-2 px-2 py-1.5 text-left transition hover:border-brand/50">
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: STATUS[a.status].dot }} />
-                      <div className="min-w-0">
-                        <div className="text-[11.5px] font-medium tabular-nums">{a.hora} <span className="font-normal text-ink-2">{a.pet}</span></div>
-                        <div className="truncate text-[10.5px] text-ink-3">{a.servico}</div>
-                      </div>
-                    </button>
-                  ))}
-            </div>
-          </div>
-        )
-      })}
+            )
+          })}
+        </div>
+      )}
+
+      {/* grade de horas */}
+      <div className="max-h-[60vh] overflow-y-auto pt-3">
+        <div className="flex" style={{ height: (maxH - minH) * hourH }}>
+          <Gutter horas={horas} hourH={hourH} />
+          {dias.map((d, i) => {
+            const eHoje = ymd(d) === hojeY
+            return (
+              <div key={i} className="relative flex-1 cursor-pointer border-l border-line"
+                title="Clique para agendar"
+                onClick={e => onAgendar(ymd(d), cliqueParaHora(e, minH, hourH))}>
+                <LinhasHora horas={horas} hourH={hourH} />
+                {eHoje && <LinhaAgora minH={minH} maxH={maxH} hourH={hourH} />}
+                {eventosPorDia[i].map(ev => (
+                  <div key={ev.id} onClick={e => e.stopPropagation()} className="cursor-default">
+                    <Bloco ev={ev} minH={minH} hourH={hourH} />
+                  </div>
+                ))}
+              </div>
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }
@@ -302,7 +386,7 @@ function VistaMes({ base, doDia, internadosNoDia, hoje, irParaDia }: {
                 )}
                 {ags.slice(0, 2).map(a => (
                   <div key={a.id} className="flex items-center gap-1 truncate text-[10px] text-ink-3">
-                    <span className="h-1 w-1 shrink-0 rounded-full" style={{ background: STATUS[a.status].dot }} />
+                    <span className="h-1 w-1 shrink-0 rounded-full" style={{ background: STATUS[a.status].cor }} />
                     <span className="truncate tabular-nums">{a.hora} {a.pet}</span>
                   </div>
                 ))}

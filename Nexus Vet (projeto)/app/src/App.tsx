@@ -179,6 +179,7 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [agendando, setAgendando] = useState(false)
   const [agendarData, setAgendarData] = useState<string | undefined>(undefined)
+  const [agendarHora, setAgendarHora] = useState<string | undefined>(undefined)
   const [aviso, setAviso] = useState<string | null>(null)
 
   // Tema dia/noite — persiste a escolha e aplica no <html> via data-theme.
@@ -1114,7 +1115,7 @@ export default function App() {
             <>
               {view === 'dashboard' && <Dashboard data={data} ir={(v) => setView(v)} />}
               {view === 'agenda' && <Agenda data={data} acoes={acoes}
-                onAgendar={d => { setAgendarData(d); setAgendando(true) }} />}
+                onAgendar={(d, h) => { setAgendarData(d); setAgendarHora(h); setAgendando(true) }} />}
               {view === 'tutores' && <Tutores data={data} acoes={acoes} />}
               {view === 'financeiro' && <Financeiro data={data} acoes={acoes} />}
               {view === 'vendas' && <Vendas data={data} acoes={acoes} />}
@@ -1135,10 +1136,10 @@ export default function App() {
 
       {data && (
         <Modal titulo="Novo agendamento" aberto={agendando}
-          onFechar={() => { setAgendando(false); setAgendarData(undefined) }}>
-          <FormAgendamento dados={data} dataInicial={agendarData}
-            onCancelar={() => { setAgendando(false); setAgendarData(undefined) }}
-            onSalvar={async d => { await acoes.criarAgendamento(d); setAgendando(false); setAgendarData(undefined) }} />
+          onFechar={() => { setAgendando(false); setAgendarData(undefined); setAgendarHora(undefined) }}>
+          <FormAgendamento dados={data} dataInicial={agendarData} horaInicial={agendarHora}
+            onCancelar={() => { setAgendando(false); setAgendarData(undefined); setAgendarHora(undefined) }}
+            onSalvar={async d => { await acoes.criarAgendamento(d); setAgendando(false); setAgendarData(undefined); setAgendarHora(undefined) }} />
         </Modal>
       )}
 

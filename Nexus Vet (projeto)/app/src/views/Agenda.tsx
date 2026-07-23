@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { DB, StatusAgenda, Agendamento, Internacao } from '../data'
 import type { Acoes } from '../App'
 
@@ -142,6 +142,17 @@ export default function Agenda({ data, acoes, onAgendar }: {
         </div>
       )}
 
+      {modo !== 'mes' && (
+        <TiraDias
+          ref_={ref}
+          ativo={d => modo === 'dia'
+            ? ymd(d) === ymd(ref)
+            : ymd(d) >= ymd(inicioSemana(ref)) && ymd(d) <= ymd(addDays(inicioSemana(ref), 6))}
+          hojeY={hojeY}
+          temEvento={d => (porDia.get(ymd(d))?.length ?? 0) > 0 || internadosNoDia(d).length > 0}
+          onPick={setRef} />
+      )}
+
       {modo === 'dia' && (
         <GradeDia dia={ref} eventos={distribuir(doDia(ref), dur)} internados={internadosNoDia(ref)}
           boxNome={boxNome} ehHoje={ymd(ref) === hojeY} onAgendar={onAgendar} />
@@ -155,6 +166,52 @@ export default function Agenda({ data, acoes, onAgendar }: {
         <VistaMes base={ref} doDia={doDia} internadosNoDia={internadosNoDia} hoje={hoje}
           irParaDia={d => { setRef(d); setModo('dia') }} />
       )}
+    </div>
+  )
+}
+
+/* ------------------------------------------------------- tira de dias */
+
+// Barra horizontal rolável para avançar/voltar os dias sem depender só das setas.
+function TiraDias({ ref_, ativo, hojeY, temEvento, onPick }: {
+  ref_: Date; ativo: (d: Date) => boolean; hojeY: string
+  temEvento: (d: Date) => boolean; onPick: (d: Date) => void
+}) {
+  const scroller = useRef<HTMLDivElement>(null)
+  const alvo = useRef<HTMLButtonElement>(null)
+  // janela ampla de dias (≈9 semanas) para rolar bastante
+  const inicio = addDays(ref_, -21)
+  const dias = Array.from({ length: 63 }, (_, i) => addDays(inicio, i))
+  const refKey = ymd(ref_)
+
+  useEffect(() => {
+    alvo.current?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+  }, [refKey])
+
+  return (
+    <div ref={scroller} className="flex gap-1 overflow-x-auto rounded-xl border border-line bg-surface-1 px-2 py-2">
+      {dias.map((d, i) => {
+        const on = ativo(d)
+        const eHoje = ymd(d) === hojeY
+        const primeiroDoMes = d.getDate() === 1
+        return (
+          <div key={i} className="flex shrink-0 items-stretch">
+            {primeiroDoMes && i > 0 && <div className="mx-1 my-1 w-px bg-line" />}
+            <button ref={on ? alvo : undefined} onClick={() => onPick(d)}
+              className={`relative flex w-12 shrink-0 flex-col items-center rounded-lg px-1 py-1.5 transition ${
+                on ? 'bg-brand text-surface-0' : 'text-ink-2 hover:bg-surface-2'}`}>
+              <span className={`text-[9.5px] font-medium uppercase ${on ? 'text-surface-0/80' : 'text-ink-3'}`}>
+                {DIAS_SEMANA[(d.getDay() + 6) % 7]}
+              </span>
+              <span className={`text-[15px] font-semibold tabular-nums ${!on && eHoje ? 'text-brand' : ''}`}>{d.getDate()}</span>
+              <span className={`text-[8.5px] uppercase ${on ? 'text-surface-0/80' : 'text-ink-3'}`}>
+                {d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '')}
+              </span>
+              {!on && temEvento(d) && <span className="absolute bottom-0.5 h-1 w-1 rounded-full bg-brand" />}
+            </button>
+          </div>
+        )
+      })}
     </div>
   )
 }

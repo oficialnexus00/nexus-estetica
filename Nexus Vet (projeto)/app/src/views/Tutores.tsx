@@ -100,16 +100,16 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
 
         <PesoEvolucao pet={pet} />
 
-        <LinhaDoTempo pet={pet} exames={(data.exames ?? []).filter(e => e.pet_id === pet.id)}
-          onNota={d => acoes.registrarNotaClinica(pet.id, d)} />
-
         <Prontuario pet={pet} tutorNome={tutor.nome} clinica={acoes.clinicaNome} tipos={data.tiposAtendimento ?? []}
           onNovoAtendimento={d => acoes.registrarAtendimento(pet.id, d)} />
 
-        <ProtocolosPet pet={pet} protocolos={data.protocolos ?? []} />
-
         <CarteiraVacina vacinas={pet.vacinas} especie={pet.especie} protocolos={data.protocolos ?? []}
           onRegistrarDose={d => acoes.registrarDose(pet.id, d)} />
+
+        <ProtocolosPet pet={pet} protocolos={data.protocolos ?? []} />
+
+        <LinhaDoTempo pet={pet} exames={(data.exames ?? []).filter(e => e.pet_id === pet.id)}
+          onNota={d => acoes.registrarNotaClinica(pet.id, d)} />
 
         <Modal titulo={`Editar ${pet.nome}`} aberto={!!editandoPet} onFechar={() => setEditandoPet(null)}>
           {editandoPet && (

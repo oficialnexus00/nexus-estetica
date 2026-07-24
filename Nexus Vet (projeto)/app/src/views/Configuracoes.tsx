@@ -479,13 +479,13 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
       </Modal>
 
       <Modal titulo="Novo box de internação" aberto={adicionandoBox} onFechar={() => setAdicionandoBox(false)}>
-        <FormBox onCancelar={() => setAdicionandoBox(false)}
+        <FormBox boxes={data.boxes ?? []} onCancelar={() => setAdicionandoBox(false)}
           onSalvar={async d => { await acoes.criarBox(d); setAdicionandoBox(false) }} />
       </Modal>
 
       <Modal titulo={`Editar ${editandoBox?.nome}`} aberto={!!editandoBox} onFechar={() => setEditandoBox(null)}>
         {editandoBox && (
-          <FormBox box={editandoBox} onCancelar={() => setEditandoBox(null)}
+          <FormBox box={editandoBox} boxes={data.boxes ?? []} onCancelar={() => setEditandoBox(null)}
             onSalvar={async d => { await acoes.atualizarBox(editandoBox.id, d); setEditandoBox(null) }} />
         )}
       </Modal>

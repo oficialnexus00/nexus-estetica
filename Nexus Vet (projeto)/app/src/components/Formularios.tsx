@@ -684,35 +684,60 @@ const TIPOS_BOX: { v: Box['tipo']; r: string }[] = [
   { v: 'uti', r: 'UTI' }, { v: 'isolamento', r: 'Isolamento' },
 ]
 
-export function FormBox({ box, onSalvar, onCancelar }: {
-  box?: Box; onSalvar: (d: DadosBox) => Promise<void>; onCancelar: () => void
+const rotuloTipo = (t: Box['tipo']) => TIPOS_BOX.find(x => x.v === t)!.r
+// menor número ainda não usado por um box daquele tipo
+const proximoNumero = (t: Box['tipo'], boxes: Box[]) => {
+  const usados = new Set(
+    boxes.filter(b => b.tipo === t).map(b => { const m = b.nome.match(/(\d+)\s*$/); return m ? Number(m[1]) : 0 })
+  )
+  let n = 1; while (usados.has(n)) n++; return n
+}
+
+export function FormBox({ box, boxes = [], onSalvar, onCancelar }: {
+  box?: Box; boxes?: Box[]; onSalvar: (d: DadosBox) => Promise<void>; onCancelar: () => void
 }) {
-  const [nome, setNome] = useState(box?.nome ?? '')
   const [tipo, setTipo] = useState<Box['tipo']>(box?.tipo ?? 'canino')
+  const [numero, setNumero] = useState<number>(() => {
+    if (box) { const m = box.nome.match(/(\d+)\s*$/); return m ? Number(m[1]) : 1 }
+    return proximoNumero('canino', boxes)
+  })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
 
+  const nome = `${rotuloTipo(tipo)} ${numero}`
+  // ao trocar o tipo num box novo, já sugere o próximo número livre
+  const trocarTipo = (t: Box['tipo']) => { setTipo(t); if (!box) setNumero(proximoNumero(t, boxes)) }
+  const duplicado = !box && boxes.some(b => b.nome.toLowerCase() === nome.toLowerCase())
+
   async function enviar(e: FormEvent) {
     e.preventDefault()
-    if (!nome.trim()) { setErro('Informe o nome do box.'); return }
+    if (duplicado) { setErro(`Já existe um box "${nome}". Escolha outro número.`); return }
     setEnviando(true); setErro(null)
-    try { await onSalvar({ nome: nome.trim(), tipo }) }
+    try { await onSalvar({ nome, tipo }) }
     catch (err) { setErro(err instanceof Error ? err.message : 'Não consegui salvar.'); setEnviando(false) }
   }
 
   return (
     <form onSubmit={enviar} className="space-y-3">
-      <Campo label="Nome do box / leito">
-        <input value={nome} required onChange={e => setNome(e.target.value)} placeholder="Ex.: Canino 3, UTI 2" className={inputCls} />
-      </Campo>
-      <Campo label="Tipo">
-        <select value={tipo} onChange={e => setTipo(e.target.value as Box['tipo'])} className={inputCls}>
-          {TIPOS_BOX.map(t => <option key={t.v} value={t.v}>{t.r}</option>)}
-        </select>
-      </Campo>
-      <p className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12px] text-ink-3">
-        O tipo ajuda a alocar o paciente certo (cão, gato, UTI ou isolamento) na hora de internar.
-      </p>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Tipo">
+          <select value={tipo} onChange={e => trocarTipo(e.target.value as Box['tipo'])} className={inputCls}>
+            {TIPOS_BOX.map(t => <option key={t.v} value={t.v}>{t.r}</option>)}
+          </select>
+        </Campo>
+        <Campo label="Número">
+          <select value={numero} onChange={e => setNumero(Number(e.target.value))} className={inputCls}>
+            {Array.from({ length: 20 }, (_, i) => i + 1).map(n => <option key={n} value={n}>{n}</option>)}
+          </select>
+        </Campo>
+      </div>
+
+      <div className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px]">
+        <span className="text-ink-3">Vai criar o box: </span>
+        <span className="font-semibold text-ink">{nome}</span>
+      </div>
+
+      {duplicado && <p className="text-[12.5px] text-warn">Esse box já existe — escolha outro número.</p>}
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} rotulo={box ? 'Salvar' : 'Adicionar box'} />
     </form>

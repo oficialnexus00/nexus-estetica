@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Campo, inputCls, Acoes } from './Modal'
-import type { DB, Especie, Tutor, Pet, InventoryItem, ProtocoloVacina, ModeloDocumento, Fornecedor } from '../data'
+import type { DB, Especie, Tutor, Pet, InventoryItem, ProtocoloVacina, ModeloDocumento, Fornecedor, Box } from '../data'
 import { formatarCNPJ } from '../data'
 
 const hoje = () => new Date().toISOString().slice(0, 10)
@@ -671,6 +671,50 @@ export function FormFornecedor({ fornecedor, onSalvar, onCancelar }: {
 
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} rotulo={fornecedor ? 'Salvar' : 'Cadastrar fornecedor'} />
+    </form>
+  )
+}
+
+/* --------------------------------------------- box / leito de internação */
+
+export type DadosBox = { nome: string; tipo: Box['tipo'] }
+
+const TIPOS_BOX: { v: Box['tipo']; r: string }[] = [
+  { v: 'canino', r: 'Canino' }, { v: 'felino', r: 'Felino' },
+  { v: 'uti', r: 'UTI' }, { v: 'isolamento', r: 'Isolamento' },
+]
+
+export function FormBox({ box, onSalvar, onCancelar }: {
+  box?: Box; onSalvar: (d: DadosBox) => Promise<void>; onCancelar: () => void
+}) {
+  const [nome, setNome] = useState(box?.nome ?? '')
+  const [tipo, setTipo] = useState<Box['tipo']>(box?.tipo ?? 'canino')
+  const [enviando, setEnviando] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
+
+  async function enviar(e: FormEvent) {
+    e.preventDefault()
+    if (!nome.trim()) { setErro('Informe o nome do box.'); return }
+    setEnviando(true); setErro(null)
+    try { await onSalvar({ nome: nome.trim(), tipo }) }
+    catch (err) { setErro(err instanceof Error ? err.message : 'Não consegui salvar.'); setEnviando(false) }
+  }
+
+  return (
+    <form onSubmit={enviar} className="space-y-3">
+      <Campo label="Nome do box / leito">
+        <input value={nome} required onChange={e => setNome(e.target.value)} placeholder="Ex.: Canino 3, UTI 2" className={inputCls} />
+      </Campo>
+      <Campo label="Tipo">
+        <select value={tipo} onChange={e => setTipo(e.target.value as Box['tipo'])} className={inputCls}>
+          {TIPOS_BOX.map(t => <option key={t.v} value={t.v}>{t.r}</option>)}
+        </select>
+      </Campo>
+      <p className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12px] text-ink-3">
+        O tipo ajuda a alocar o paciente certo (cão, gato, UTI ou isolamento) na hora de internar.
+      </p>
+      {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
+      <Acoes onCancelar={onCancelar} enviando={enviando} rotulo={box ? 'Salvar' : 'Adicionar box'} />
     </form>
   )
 }

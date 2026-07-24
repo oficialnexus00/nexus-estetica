@@ -3,9 +3,16 @@ import type { DB } from '../data'
 import type { Acoes } from '../App'
 import Modal from '../components/Modal'
 import ConfirmButton from '../components/ConfirmButton'
-import { FormServico, FormProfissional, FormEditarServico, FormEditarProfissional, FormProtocolo, FormModelo, FormFornecedor,
+import { FormServico, FormProfissional, FormEditarServico, FormEditarProfissional, FormProtocolo, FormModelo, FormFornecedor, FormBox,
   type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional } from '../components/Formularios'
-import type { ProtocoloVacina, ModeloDocumento, Fornecedor } from '../data'
+import type { ProtocoloVacina, ModeloDocumento, Fornecedor, Box } from '../data'
+
+const TIPO_BOX: Record<Box['tipo'], { rotulo: string; cls: string }> = {
+  canino: { rotulo: 'Canino', cls: 'border-s2/40 bg-s2/10 text-s2' },
+  felino: { rotulo: 'Felino', cls: 'border-s4/40 bg-s4/10 text-s4' },
+  uti: { rotulo: 'UTI', cls: 'border-bad/40 bg-bad/10 text-bad' },
+  isolamento: { rotulo: 'Isolamento', cls: 'border-s3/40 bg-s3/10 text-s3' },
+}
 
 const CATEGORIAS: Record<string, string> = {
   consulta: 'Consulta',
@@ -28,7 +35,7 @@ const descreveProtocolo = (p: ProtocoloVacina) => {
 }
 
 export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes }) {
-  const [aba, setAba] = useState<'servicos' | 'profissionais' | 'fornecedores' | 'protocolos' | 'tipos' | 'modelos'>('servicos')
+  const [aba, setAba] = useState<'servicos' | 'profissionais' | 'fornecedores' | 'boxes' | 'protocolos' | 'tipos' | 'modelos'>('servicos')
   const [adicionandoServico, setAdicionandoServico] = useState(false)
   const [editandoServico, setEditandoServico] = useState<DB['servicos'][0] | null>(null)
   const [adicionandoProfissional, setAdicionandoProfissional] = useState(false)
@@ -40,15 +47,21 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
   const [editandoModelo, setEditandoModelo] = useState<ModeloDocumento | null>(null)
   const [adicionandoFornecedor, setAdicionandoFornecedor] = useState(false)
   const [editandoFornecedor, setEditandoFornecedor] = useState<Fornecedor | null>(null)
+  const [adicionandoBox, setAdicionandoBox] = useState(false)
+  const [editandoBox, setEditandoBox] = useState<Box | null>(null)
 
   const ABAS = [
     ['servicos', '💼 Serviços'],
     ['profissionais', '👨‍⚕️ Profissionais'],
     ['fornecedores', '🏢 Fornecedores'],
+    ['boxes', '🏥 Boxes de internação'],
     ['protocolos', '💉 Protocolo de vacinas'],
     ['tipos', '🩺 Tipos de atendimento'],
     ['modelos', '📄 Modelos de documento'],
   ] as const
+
+  // boxes ocupados por uma internação ativa não podem ser removidos
+  const boxesOcupados = new Set((data.internacoes ?? []).filter(i => i.status === 'internado' && i.box).map(i => i.box))
 
   return (
     <div className="space-y-5">
@@ -230,6 +243,69 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
         </div>
       )}
 
+      {aba === 'boxes' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-[15px] font-semibold">Boxes de internação</h2>
+              <p className="mt-0.5 text-[12px] text-ink-3">Os leitos/quartos da sua clínica — monte conforme o tamanho e a necessidade.</p>
+            </div>
+            <button onClick={() => setAdicionandoBox(true)}
+              className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
+              + Novo box
+            </button>
+          </div>
+
+          {(data.boxes ?? []).length === 0 ? (
+            <div className="rounded-xl border border-line bg-surface-1 p-6 text-center">
+              <p className="text-[13.5px] text-ink-2">Nenhum box cadastrado ainda.</p>
+              <p className="mt-1 text-[12px] text-ink-3">Adicione os leitos da clínica (canino, felino, UTI, isolamento).</p>
+            </div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {(data.boxes ?? []).map(b => {
+                const ocupado = boxesOcupados.has(b.id)
+                return (
+                  <div key={b.id} className="rounded-xl border border-line bg-surface-1 p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-[14px] font-semibold">{b.nome}</h3>
+                          <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${TIPO_BOX[b.tipo].cls}`}>
+                            {TIPO_BOX[b.tipo].rotulo}
+                          </span>
+                        </div>
+                        <p className={`mt-1 text-[11.5px] ${ocupado ? 'text-warn' : 'text-ok'}`}>
+                          {ocupado ? '● Ocupado' : '● Livre'}
+                        </p>
+                      </div>
+                      <div className="flex shrink-0 gap-1.5">
+                        <button onClick={() => setEditandoBox(b)}
+                          className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
+                          Editar
+                        </button>
+                        {ocupado ? (
+                          <span title="Box ocupado — dê alta ao paciente antes de remover"
+                            className="cursor-not-allowed rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-3/60">
+                            Deletar
+                          </span>
+                        ) : (
+                          <ConfirmButton titulo="Remover box" mensagem={`Remover o box "${b.nome}"?`}
+                            confirmLabel="Remover" danger onConfirm={() => acoes.deletarBox(b.id)}
+                            className="rounded-lg border border-bad/40 bg-bad/10 px-2.5 py-1 text-[11.5px] font-medium text-bad transition hover:border-bad/60 hover:bg-bad/20">
+                            Deletar
+                          </ConfirmButton>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
       {aba === 'protocolos' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -399,6 +475,18 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
         {editandoFornecedor && (
           <FormFornecedor fornecedor={editandoFornecedor} onCancelar={() => setEditandoFornecedor(null)}
             onSalvar={async d => { await acoes.atualizarFornecedor(editandoFornecedor.id, d); setEditandoFornecedor(null) }} />
+        )}
+      </Modal>
+
+      <Modal titulo="Novo box de internação" aberto={adicionandoBox} onFechar={() => setAdicionandoBox(false)}>
+        <FormBox onCancelar={() => setAdicionandoBox(false)}
+          onSalvar={async d => { await acoes.criarBox(d); setAdicionandoBox(false) }} />
+      </Modal>
+
+      <Modal titulo={`Editar ${editandoBox?.nome}`} aberto={!!editandoBox} onFechar={() => setEditandoBox(null)}>
+        {editandoBox && (
+          <FormBox box={editandoBox} onCancelar={() => setEditandoBox(null)}
+            onSalvar={async d => { await acoes.atualizarBox(editandoBox.id, d); setEditandoBox(null) }} />
         )}
       </Modal>
 

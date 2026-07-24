@@ -21,7 +21,7 @@ import * as mut from './lib/mutations'
 import Modal from './components/Modal'
 import { FormAgendamento, type DadosAgendamento, type DadosDose, type DadosTutorPet,
   type DadosEditarTutor, type DadosEditarPet, type DadosAtendimento,
-  type DadosLancamento, type DadosFornecedor, type DadosPet, type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional,
+  type DadosLancamento, type DadosFornecedor, type DadosPet, type DadosBox, type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional,
   type DadosEstoque, type DadosEditarEstoque, type DadosMovimento,
   type DadosExame, type DadosResultado, type DadosProtocolo, type DadosModelo } from './components/Formularios'
 import Dashboard from './views/Dashboard'
@@ -82,6 +82,9 @@ export type Acoes = {
   criarFornecedor: (d: DadosFornecedor) => Promise<void>
   atualizarFornecedor: (id: string, d: DadosFornecedor) => Promise<void>
   deletarFornecedor: (id: string) => Promise<void>
+  criarBox: (d: DadosBox) => Promise<void>
+  atualizarBox: (id: string, d: DadosBox) => Promise<void>
+  deletarBox: (id: string) => Promise<void>
   criarServico: (d: DadosServico) => Promise<void>
   atualizarServico: (id: string, d: DadosEditarServico) => Promise<void>
   deletarServico: (id: string) => Promise<void>
@@ -302,6 +305,36 @@ export default function App() {
         await recarregar()
       }
       notificar('Fornecedor removido.')
+    },
+
+    async criarBox(d) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({ ...atual, boxes: [...atual.boxes, { id: 'bx' + Date.now(), nome: d.nome, tipo: d.tipo }] }))
+      } else {
+        await mut.criarBox(clinicId, d)
+        await recarregar()
+      }
+      notificar(`Box ${d.nome} adicionado.`)
+    },
+
+    async atualizarBox(id, d) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({ ...atual, boxes: atual.boxes.map(b => b.id === id ? { ...b, nome: d.nome, tipo: d.tipo } : b) }))
+      } else {
+        await mut.atualizarBox(id, d)
+        await recarregar()
+      }
+      notificar('Box atualizado.')
+    },
+
+    async deletarBox(id) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({ ...atual, boxes: atual.boxes.filter(b => b.id !== id) }))
+      } else {
+        await mut.deletarBox(id)
+        await recarregar()
+      }
+      notificar('Box removido.')
     },
 
     async registrarAtendimento(petId, d) {

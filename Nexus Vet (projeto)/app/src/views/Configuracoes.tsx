@@ -113,6 +113,15 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
                       </button>
                     </div>
                   </div>
+                  {s.descricao && (
+                    <p className="mt-3 text-[12.5px] leading-snug text-ink-2">{s.descricao}</p>
+                  )}
+                  {s.observacao && (
+                    <div className="mt-2 rounded-lg border border-warn/30 bg-warn/10 px-2.5 py-1.5">
+                      <p className="text-[11px] font-medium uppercase tracking-wide text-warn">Observação</p>
+                      <p className="mt-0.5 text-[12.5px] leading-snug text-ink-2">{s.observacao}</p>
+                    </div>
+                  )}
                   <div className="mt-3 flex items-center justify-between">
                     <div className="space-y-0.5">
                       <p className="text-[12px] text-ink-3">Valor</p>

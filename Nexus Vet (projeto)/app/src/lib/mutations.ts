@@ -334,7 +334,7 @@ export async function confirmarPendentes(clinicId: string, dia: string) {
 /* ---------------------------------------------------------------- serviços */
 
 export async function criarServico(clinicId: string, dados: {
-  nome: string; categoria: string; preco: number; duracao: number
+  nome: string; categoria: string; preco: number; duracao: number; descricao?: string; observacao?: string
 }) {
   const { data, error } = await cliente()
     .from('services')
@@ -344,6 +344,8 @@ export async function criarServico(clinicId: string, dados: {
       categoria: dados.categoria,
       preco: dados.preco,
       duracao_min: dados.duracao,
+      descricao: dados.descricao ?? null,
+      observacao: dados.observacao ?? null,
       ativo: true,
     })
     .select('id')
@@ -353,13 +355,15 @@ export async function criarServico(clinicId: string, dados: {
 }
 
 export async function atualizarServico(id: string, dados: {
-  nome?: string; categoria?: string; preco?: number; duracao?: number
+  nome?: string; categoria?: string; preco?: number; duracao?: number; descricao?: string; observacao?: string
 }) {
   const campos: Record<string, unknown> = {}
   if (dados.nome !== undefined) campos.nome = dados.nome
   if (dados.categoria !== undefined) campos.categoria = dados.categoria
   if (dados.preco !== undefined) campos.preco = dados.preco
   if (dados.duracao !== undefined) campos.duracao_min = dados.duracao
+  if (dados.descricao !== undefined) campos.descricao = dados.descricao
+  if (dados.observacao !== undefined) campos.observacao = dados.observacao
 
   const { error } = await cliente().from('services').update(campos).eq('id', id)
   if (error) throw error

@@ -110,7 +110,7 @@ export type Agendamento = {
   canal: 'ia' | 'recepcao'
 }
 
-export type Servico = { id: string; nome: string; categoria: string; preco: number; duracao: number }
+export type Servico = { id: string; nome: string; categoria: string; preco: number; duracao: number; descricao?: string; observacao?: string }
 
 export type Profissional = { id: string; nome: string; especialidade?: string; telefone?: string; comissaoPct?: number }
 
@@ -335,11 +335,11 @@ const hojeMenos = (d: number) => desloca(-d)
 const hojeMais = (d: number) => desloca(d)
 
 const servicos: Servico[] = [
-  { id: 's1', nome: 'Consulta clínica', categoria: 'consulta', preco: 150, duracao: 30 },
-  { id: 's2', nome: 'Vacina V10', categoria: 'vacina', preco: 90, duracao: 15 },
+  { id: 's1', nome: 'Consulta clínica', categoria: 'consulta', preco: 150, duracao: 30, descricao: 'Avaliação clínica geral do pet, com exame físico e orientações ao tutor.' },
+  { id: 's2', nome: 'Vacina V10', categoria: 'vacina', preco: 90, duracao: 15, descricao: 'Vacina múltipla para cães (V10). Protege contra cinomose, parvovirose, leptospirose e outras.' },
   { id: 's3', nome: 'Vacina antirrábica', categoria: 'vacina', preco: 70, duracao: 15 },
-  { id: 's4', nome: 'Banho e tosa', categoria: 'banho_tosa', preco: 80, duracao: 60 },
-  { id: 's5', nome: 'Castração', categoria: 'cirurgia', preco: 850, duracao: 120 },
+  { id: 's4', nome: 'Banho e tosa', categoria: 'banho_tosa', preco: 80, duracao: 60, observacao: 'Confirmar porte do animal para ajustar o valor.' },
+  { id: 's5', nome: 'Castração', categoria: 'cirurgia', preco: 850, duracao: 120, descricao: 'Cirurgia de castração com anestesia e acompanhamento pós-operatório.', observacao: 'Jejum de 8h antes do procedimento.' },
   { id: 's6', nome: 'Hemograma', categoria: 'exame', preco: 120, duracao: 20 },
 ]
 

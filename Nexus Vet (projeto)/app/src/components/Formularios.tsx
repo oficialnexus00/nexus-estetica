@@ -1169,13 +1169,13 @@ export function FormAgendamento({ dados, dataInicial, horaInicial, onSalvar, onC
 /* -------------------------------------------------------- novo serviço */
 
 export type DadosServico = {
-  nome: string; categoria: string; preco: number; duracao: number
+  nome: string; categoria: string; preco: number; duracao: number; descricao?: string; observacao?: string
 }
 
 export function FormServico({ onSalvar, onCancelar }: {
   onSalvar: (d: DadosServico) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: '', categoria: 'consulta', preco: '', duracao: '30' })
+  const [f, setF] = useState({ nome: '', categoria: 'consulta', preco: '', duracao: '30', descricao: '', observacao: '' })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
@@ -1188,7 +1188,11 @@ export function FormServico({ onSalvar, onCancelar }: {
     if (!duracao || duracao <= 0) { setErro('Informe uma duração maior que zero.'); return }
     setEnviando(true); setErro(null)
     try {
-      await onSalvar({ nome: f.nome.trim(), categoria: f.categoria.trim(), preco, duracao })
+      await onSalvar({
+        nome: f.nome.trim(), categoria: f.categoria.trim(), preco, duracao,
+        descricao: f.descricao.trim() || undefined,
+        observacao: f.observacao.trim() || undefined,
+      })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
       setEnviando(false)
@@ -1220,6 +1224,18 @@ export function FormServico({ onSalvar, onCancelar }: {
           <input type="number" min={5} value={f.duracao} onChange={set('duracao')} required className={inputCls} />
         </Campo>
       </div>
+
+      <Campo label="Descrição (opcional)">
+        <textarea value={f.descricao} onChange={set('descricao')} rows={3}
+          placeholder="Descreva o que está incluso no serviço, o que o tutor pode esperar…"
+          className={inputCls + ' min-h-[64px] resize-y'} />
+      </Campo>
+
+      <Campo label="Observação (opcional)">
+        <textarea value={f.observacao} onChange={set('observacao')} rows={2}
+          placeholder="Preparo, restrições ou lembretes (ex.: jejum de 8h, confirmar porte)…"
+          className={inputCls + ' min-h-[52px] resize-y'} />
+      </Campo>
 
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} rotulo="Adicionar serviço" />
@@ -1279,13 +1295,13 @@ export function FormProfissional({ onSalvar, onCancelar }: {
 /* ------------------------------------------------------ editar serviço */
 
 export type DadosEditarServico = {
-  nome: string; categoria: string; preco: number; duracao: number
+  nome: string; categoria: string; preco: number; duracao: number; descricao?: string; observacao?: string
 }
 
 export function FormEditarServico({ servico, onSalvar, onCancelar }: {
   servico: DB['servicos'][0]; onSalvar: (d: DadosEditarServico) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: servico.nome, categoria: servico.categoria, preco: String(servico.preco), duracao: String(servico.duracao) })
+  const [f, setF] = useState({ nome: servico.nome, categoria: servico.categoria, preco: String(servico.preco), duracao: String(servico.duracao), descricao: servico.descricao ?? '', observacao: servico.observacao ?? '' })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
@@ -1298,7 +1314,11 @@ export function FormEditarServico({ servico, onSalvar, onCancelar }: {
     if (!duracao || duracao <= 0) { setErro('Informe uma duração maior que zero.'); return }
     setEnviando(true); setErro(null)
     try {
-      await onSalvar({ nome: f.nome.trim(), categoria: f.categoria.trim(), preco, duracao })
+      await onSalvar({
+        nome: f.nome.trim(), categoria: f.categoria.trim(), preco, duracao,
+        descricao: f.descricao.trim() || undefined,
+        observacao: f.observacao.trim() || undefined,
+      })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
       setEnviando(false)
@@ -1330,6 +1350,18 @@ export function FormEditarServico({ servico, onSalvar, onCancelar }: {
           <input type="number" min={5} value={f.duracao} onChange={set('duracao')} required className={inputCls} />
         </Campo>
       </div>
+
+      <Campo label="Descrição (opcional)">
+        <textarea value={f.descricao} onChange={set('descricao')} rows={3}
+          placeholder="Descreva o que está incluso no serviço, o que o tutor pode esperar…"
+          className={inputCls + ' min-h-[64px] resize-y'} />
+      </Campo>
+
+      <Campo label="Observação (opcional)">
+        <textarea value={f.observacao} onChange={set('observacao')} rows={2}
+          placeholder="Preparo, restrições ou lembretes (ex.: jejum de 8h, confirmar porte)…"
+          className={inputCls + ' min-h-[52px] resize-y'} />
+      </Campo>
 
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} />

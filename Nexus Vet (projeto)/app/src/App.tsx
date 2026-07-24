@@ -557,6 +557,7 @@ export default function App() {
           ...atual,
           servicos: [...atual.servicos, {
             id: 's' + Date.now(), nome: d.nome, categoria: d.categoria, preco: d.preco, duracao: d.duracao,
+            descricao: d.descricao, observacao: d.observacao,
           }],
         }))
       } else {

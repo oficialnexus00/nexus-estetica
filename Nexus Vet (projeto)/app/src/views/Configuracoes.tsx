@@ -5,13 +5,14 @@ import Modal from '../components/Modal'
 import ConfirmButton from '../components/ConfirmButton'
 import { FormServico, FormProfissional, FormEditarServico, FormEditarProfissional, FormProtocolo, FormModelo, FormFornecedor, FormBox,
   type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional } from '../components/Formularios'
-import type { ProtocoloVacina, ModeloDocumento, Fornecedor, Box } from '../data'
+import type { ProtocoloVacina, ModeloDocumento, Fornecedor, Box, FinalidadeBox } from '../data'
+import { ESPECIE_BOX, FINALIDADE_BOX } from '../data'
 
-const TIPO_BOX: Record<Box['tipo'], { rotulo: string; cls: string }> = {
-  canino: { rotulo: 'Canino', cls: 'border-s2/40 bg-s2/10 text-s2' },
-  felino: { rotulo: 'Felino', cls: 'border-s4/40 bg-s4/10 text-s4' },
-  uti: { rotulo: 'UTI', cls: 'border-bad/40 bg-bad/10 text-bad' },
-  isolamento: { rotulo: 'Isolamento', cls: 'border-s3/40 bg-s3/10 text-s3' },
+const FINAL_CLS: Record<FinalidadeBox, string> = {
+  comum: 'border-s1/40 bg-s1/10 text-s1',
+  uti: 'border-bad/40 bg-bad/10 text-bad',
+  isolamento: 'border-s3/40 bg-s3/10 text-s3',
+  semi: 'border-s2/40 bg-s2/10 text-s2',
 }
 
 const CATEGORIAS: Record<string, string> = {
@@ -269,12 +270,16 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
                   <div key={b.id} className="rounded-xl border border-line bg-surface-1 p-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-1.5">
                           <h3 className="text-[14px] font-semibold">{b.nome}</h3>
-                          <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${TIPO_BOX[b.tipo].cls}`}>
-                            {TIPO_BOX[b.tipo].rotulo}
+                          <span className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[10.5px] font-medium text-ink-2">
+                            {ESPECIE_BOX[b.especie]}
+                          </span>
+                          <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${FINAL_CLS[b.finalidade]}`}>
+                            {FINALIDADE_BOX[b.finalidade]}
                           </span>
                         </div>
+                        {b.observacao && <p className="mt-1 text-[11.5px] text-ink-3">{b.observacao}</p>}
                         <p className={`mt-1 text-[11.5px] ${ocupado ? 'text-warn' : 'text-ok'}`}>
                           {ocupado ? '● Ocupado' : '● Livre'}
                         </p>

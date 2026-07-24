@@ -257,12 +257,15 @@ export async function deletarFornecedor(id: string) {
 
 /* ---------------------------------------------------------- boxes / leitos */
 
-type DadosBox = { nome: string; tipo: 'canino' | 'felino' | 'uti' | 'isolamento' }
+type DadosBox = {
+  nome: string; especie: 'cao' | 'gato' | 'ambos'
+  finalidade: 'comum' | 'uti' | 'isolamento' | 'semi'; observacao?: string
+}
 
 export async function criarBox(clinicId: string, dados: DadosBox) {
   const { data, error } = await cliente()
     .from('boarding_boxes')
-    .insert({ clinic_id: clinicId, nome: dados.nome, tipo: dados.tipo })
+    .insert({ clinic_id: clinicId, nome: dados.nome, especie: dados.especie, finalidade: dados.finalidade, observacao: dados.observacao || null })
     .select('id')
     .single()
   if (error) throw error
@@ -270,7 +273,9 @@ export async function criarBox(clinicId: string, dados: DadosBox) {
 }
 
 export async function atualizarBox(id: string, dados: DadosBox) {
-  const { error } = await cliente().from('boarding_boxes').update({ nome: dados.nome, tipo: dados.tipo }).eq('id', id)
+  const { error } = await cliente().from('boarding_boxes')
+    .update({ nome: dados.nome, especie: dados.especie, finalidade: dados.finalidade, observacao: dados.observacao || null })
+    .eq('id', id)
   if (error) throw error
 }
 

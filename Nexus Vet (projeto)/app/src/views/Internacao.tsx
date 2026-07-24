@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import type { DB, Internacao as TInternacao, Box } from '../data'
-import { brl } from '../data'
+import type { DB, Internacao as TInternacao, Box, FinalidadeBox } from '../data'
+import { brl, ESPECIE_BOX, FINALIDADE_BOX } from '../data'
 import type { Acoes, DadosInternacao, DadosMedicacao, DadosParametro } from '../App'
 import Modal, { Campo, inputCls as modalInput, Acoes as AcoesForm } from '../components/Modal'
 import ConfirmButton from '../components/ConfirmButton'
@@ -16,12 +16,14 @@ const diasInternado = (i: TInternacao) => {
 
 const inputCls = 'rounded-lg border border-line bg-surface-2 px-3 py-2 text-[13px] outline-none focus:border-brand/60'
 
-const TIPO_BOX: Record<Box['tipo'], { rotulo: string; cls: string }> = {
-  canino: { rotulo: 'Canino', cls: 'border-s2/40 bg-s2/10 text-s2' },
-  felino: { rotulo: 'Felino', cls: 'border-s4/40 bg-s4/10 text-s4' },
-  uti: { rotulo: 'UTI', cls: 'border-bad/40 bg-bad/10 text-bad' },
-  isolamento: { rotulo: 'Isolamento', cls: 'border-s3/40 bg-s3/10 text-s3' },
+// cor da tarja pela finalidade do box
+const FINAL_CLS: Record<FinalidadeBox, string> = {
+  comum: 'border-s1/40 bg-s1/10 text-s1',
+  uti: 'border-bad/40 bg-bad/10 text-bad',
+  isolamento: 'border-s3/40 bg-s3/10 text-s3',
+  semi: 'border-s2/40 bg-s2/10 text-s2',
 }
+const rotuloBox = (b: Box) => `${ESPECIE_BOX[b.especie]} · ${FINALIDADE_BOX[b.finalidade]}`
 
 export default function Internacao({ data, acoes }: { data: DB; acoes: Acoes }) {
   const [aba, setAba] = useState<Aba>('internados')
@@ -111,7 +113,7 @@ function CardInternado({ i, boxes, onAbrir }: { i: TInternacao; boxes: Box[]; on
           </div>
           <div className="mt-0.5 text-[12px] text-ink-3">{i.tutorNome}</div>
         </div>
-        {box && <span className={`shrink-0 rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${TIPO_BOX[box.tipo].cls}`}>{box.nome}</span>}
+        {box && <span className={`shrink-0 rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${FINAL_CLS[box.finalidade]}`}>{box.nome}</span>}
       </div>
       <div className="mt-2 line-clamp-2 text-[12.5px] text-ink-2">{i.motivo}</div>
       <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line pt-2.5 text-[11.5px] text-ink-3">
@@ -206,10 +208,14 @@ function MapaBoxes({ boxes, internados }: { boxes: Box[]; internados: TInternaca
           const ocupante = internados.find(i => i.box === b.id)
           return (
             <div key={b.id} className={`rounded-xl border p-4 ${ocupante ? 'border-brand/40 bg-brand/5' : 'border-line bg-surface-1'}`}>
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="text-[14px] font-semibold">{b.nome}</span>
-                <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${TIPO_BOX[b.tipo].cls}`}>{TIPO_BOX[b.tipo].rotulo}</span>
+                <div className="flex flex-wrap gap-1">
+                  <span className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[10.5px] font-medium text-ink-2">{ESPECIE_BOX[b.especie]}</span>
+                  <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${FINAL_CLS[b.finalidade]}`}>{FINALIDADE_BOX[b.finalidade]}</span>
+                </div>
               </div>
+              {b.observacao && <div className="mt-1 text-[11px] text-ink-3">{b.observacao}</div>}
               {ocupante
                 ? <div className="mt-2 text-[12.5px]">
                     <span className="font-medium">{ocupante.petNome}</span>
@@ -244,7 +250,7 @@ function Ficha({ internacao: i, boxes, acoes, onVoltar }: {
             <div className="flex items-center gap-2">
               <span className="text-[17px] font-semibold">{i.petNome}</span>
               <span>{i.especie === 'gato' ? '🐱' : '🐶'}</span>
-              {box && <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${TIPO_BOX[box.tipo].cls}`}>{box.nome}</span>}
+              {box && <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${FINAL_CLS[box.finalidade]}`}>{box.nome}</span>}
             </div>
             <div className="mt-0.5 text-[12.5px] text-ink-3">{i.tutorNome}</div>
             <div className="mt-2 text-[13px] text-ink-2">{i.motivo}</div>
@@ -441,7 +447,7 @@ function FormInternar({ data, boxes, internados, onCancelar, onSalvar }: {
         <Campo label="Box">
           <select value={box} onChange={e => setBox(e.target.value)} className={modalInput}>
             <option value="">Sem box</option>
-            {boxesLivres.map(b => <option key={b.id} value={b.id}>{b.nome} ({TIPO_BOX[b.tipo].rotulo})</option>)}
+            {boxesLivres.map(b => <option key={b.id} value={b.id}>{b.nome} — {rotuloBox(b)}</option>)}
           </select>
         </Campo>
         <Campo label="Responsável">

@@ -309,17 +309,17 @@ export default function App() {
 
     async criarBox(d) {
       if (MODO_DEMO) {
-        setData(atual => atual && ({ ...atual, boxes: [...atual.boxes, { id: 'bx' + Date.now(), nome: d.nome, tipo: d.tipo }] }))
+        setData(atual => atual && ({ ...atual, boxes: [...atual.boxes, { id: 'bx' + Date.now(), nome: d.nome, especie: d.especie, finalidade: d.finalidade, observacao: d.observacao }] }))
       } else {
         await mut.criarBox(clinicId, d)
         await recarregar()
       }
-      notificar(`Box ${d.nome} adicionado.`)
+      notificar(`${d.nome} adicionado.`)
     },
 
     async atualizarBox(id, d) {
       if (MODO_DEMO) {
-        setData(atual => atual && ({ ...atual, boxes: atual.boxes.map(b => b.id === id ? { ...b, nome: d.nome, tipo: d.tipo } : b) }))
+        setData(atual => atual && ({ ...atual, boxes: atual.boxes.map(b => b.id === id ? { ...b, nome: d.nome, especie: d.especie, finalidade: d.finalidade, observacao: d.observacao } : b) }))
       } else {
         await mut.atualizarBox(id, d)
         await recarregar()

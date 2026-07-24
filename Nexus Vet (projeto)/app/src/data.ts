@@ -212,10 +212,19 @@ export type MedicacaoInternacao = {
 }
 
 // Leito/baia da clínica — ocupação derivada das internações ativas
+export type EspecieBox = 'cao' | 'gato' | 'ambos'
+export type FinalidadeBox = 'comum' | 'uti' | 'isolamento' | 'semi'
 export type Box = {
   id: string
   nome: string
-  tipo: 'canino' | 'felino' | 'uti' | 'isolamento'
+  especie: EspecieBox        // tipo de animal que o box atende
+  finalidade: FinalidadeBox  // internação comum, UTI, isolamento, semi-intensiva
+  observacao?: string
+}
+
+export const ESPECIE_BOX: Record<EspecieBox, string> = { cao: 'Cão', gato: 'Gato', ambos: 'Cão e gato' }
+export const FINALIDADE_BOX: Record<FinalidadeBox, string> = {
+  comum: 'Internação comum', uti: 'UTI', isolamento: 'Isolamento', semi: 'Semi-intensiva',
 }
 
 export type Internacao = {
@@ -557,11 +566,11 @@ export const db: Record<'c1' | 'c2', DB> = {
       ],
     },
     boxes: [
-      { id: 'bx1', nome: 'Canino 1', tipo: 'canino' },
-      { id: 'bx2', nome: 'Canino 2', tipo: 'canino' },
-      { id: 'bx3', nome: 'Felino 1', tipo: 'felino' },
-      { id: 'bx4', nome: 'UTI 1', tipo: 'uti' },
-      { id: 'bx5', nome: 'Isolamento', tipo: 'isolamento' },
+      { id: 'bx1', nome: 'Box 1', especie: 'cao', finalidade: 'comum' },
+      { id: 'bx2', nome: 'Box 2', especie: 'cao', finalidade: 'comum', observacao: 'Cabe porte grande' },
+      { id: 'bx3', nome: 'Box 3', especie: 'gato', finalidade: 'comum', observacao: 'Ambiente silencioso, longe dos cães' },
+      { id: 'bx4', nome: 'Box 4', especie: 'ambos', finalidade: 'uti', observacao: 'Monitor multiparamétrico e oxigênio' },
+      { id: 'bx5', nome: 'Box 5', especie: 'ambos', finalidade: 'isolamento', observacao: 'Antessala para paramentação' },
     ],
     internacoes: [
       {
@@ -670,9 +679,9 @@ export const db: Record<'c1' | 'c2', DB> = {
     orcamentos: [],
     caixa: null,
     boxes: [
-      { id: 'bx6', nome: 'Canino 1', tipo: 'canino' },
-      { id: 'bx7', nome: 'Felino 1', tipo: 'felino' },
-      { id: 'bx8', nome: 'Isolamento', tipo: 'isolamento' },
+      { id: 'bx6', nome: 'Box 1', especie: 'cao', finalidade: 'comum' },
+      { id: 'bx7', nome: 'Box 2', especie: 'gato', finalidade: 'comum' },
+      { id: 'bx8', nome: 'Box 3', especie: 'ambos', finalidade: 'isolamento' },
     ],
     internacoes: [],
     lancamentos: [

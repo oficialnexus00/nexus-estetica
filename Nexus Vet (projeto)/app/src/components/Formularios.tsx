@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Campo, inputCls, Acoes } from './Modal'
-import type { DB, Especie, Tutor, Pet, InventoryItem, ProtocoloVacina, ModeloDocumento, Fornecedor, Box } from '../data'
-import { formatarCNPJ } from '../data'
+import type { DB, Especie, Tutor, Pet, InventoryItem, ProtocoloVacina, ModeloDocumento, Fornecedor, Box, EspecieBox, FinalidadeBox } from '../data'
+import { formatarCNPJ, ESPECIE_BOX, FINALIDADE_BOX } from '../data'
 
 const hoje = () => new Date().toISOString().slice(0, 10)
 
@@ -677,64 +677,69 @@ export function FormFornecedor({ fornecedor, onSalvar, onCancelar }: {
 
 /* --------------------------------------------- box / leito de internação */
 
-export type DadosBox = { nome: string; tipo: Box['tipo'] }
+export type DadosBox = { nome: string; especie: EspecieBox; finalidade: FinalidadeBox; observacao?: string }
 
-const TIPOS_BOX: { v: Box['tipo']; r: string }[] = [
-  { v: 'canino', r: 'Canino' }, { v: 'felino', r: 'Felino' },
-  { v: 'uti', r: 'UTI' }, { v: 'isolamento', r: 'Isolamento' },
-]
-
-const rotuloTipo = (t: Box['tipo']) => TIPOS_BOX.find(x => x.v === t)!.r
-// menor número ainda não usado por um box daquele tipo
-const proximoNumero = (t: Box['tipo'], boxes: Box[]) => {
-  const usados = new Set(
-    boxes.filter(b => b.tipo === t).map(b => { const m = b.nome.match(/(\d+)\s*$/); return m ? Number(m[1]) : 0 })
-  )
+// menor número de "Box N" ainda não usado
+const proximoNumeroBox = (boxes: Box[]) => {
+  const usados = new Set(boxes.map(b => { const m = b.nome.match(/(\d+)\s*$/); return m ? Number(m[1]) : 0 }))
   let n = 1; while (usados.has(n)) n++; return n
 }
 
 export function FormBox({ box, boxes = [], onSalvar, onCancelar }: {
   box?: Box; boxes?: Box[]; onSalvar: (d: DadosBox) => Promise<void>; onCancelar: () => void
 }) {
-  const [tipo, setTipo] = useState<Box['tipo']>(box?.tipo ?? 'canino')
   const [numero, setNumero] = useState<number>(() => {
     if (box) { const m = box.nome.match(/(\d+)\s*$/); return m ? Number(m[1]) : 1 }
-    return proximoNumero('canino', boxes)
+    return proximoNumeroBox(boxes)
   })
+  const [especie, setEspecie] = useState<EspecieBox>(box?.especie ?? 'cao')
+  const [finalidade, setFinalidade] = useState<FinalidadeBox>(box?.finalidade ?? 'comum')
+  const [observacao, setObservacao] = useState(box?.observacao ?? '')
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
 
-  const nome = `${rotuloTipo(tipo)} ${numero}`
-  // ao trocar o tipo num box novo, já sugere o próximo número livre
-  const trocarTipo = (t: Box['tipo']) => { setTipo(t); if (!box) setNumero(proximoNumero(t, boxes)) }
+  const nome = box ? box.nome : `Box ${numero}`
   const duplicado = !box && boxes.some(b => b.nome.toLowerCase() === nome.toLowerCase())
 
   async function enviar(e: FormEvent) {
     e.preventDefault()
-    if (duplicado) { setErro(`Já existe um box "${nome}". Escolha outro número.`); return }
+    if (duplicado) { setErro(`Já existe um "${nome}". Escolha outro número.`); return }
     setEnviando(true); setErro(null)
-    try { await onSalvar({ nome, tipo }) }
+    try { await onSalvar({ nome, especie, finalidade, observacao: observacao.trim() || undefined }) }
     catch (err) { setErro(err instanceof Error ? err.message : 'Não consegui salvar.'); setEnviando(false) }
   }
 
   return (
     <form onSubmit={enviar} className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        <Campo label="Tipo">
-          <select value={tipo} onChange={e => trocarTipo(e.target.value as Box['tipo'])} className={inputCls}>
-            {TIPOS_BOX.map(t => <option key={t.v} value={t.v}>{t.r}</option>)}
+      {!box && (
+        <Campo label="Número do box">
+          <select value={numero} onChange={e => setNumero(Number(e.target.value))} className={inputCls}>
+            {Array.from({ length: 30 }, (_, i) => i + 1).map(n => <option key={n} value={n}>Box {n}</option>)}
           </select>
         </Campo>
-        <Campo label="Número">
-          <select value={numero} onChange={e => setNumero(Number(e.target.value))} className={inputCls}>
-            {Array.from({ length: 20 }, (_, i) => i + 1).map(n => <option key={n} value={n}>{n}</option>)}
+      )}
+
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Tipo de animal">
+          <select value={especie} onChange={e => setEspecie(e.target.value as EspecieBox)} className={inputCls}>
+            {(Object.keys(ESPECIE_BOX) as EspecieBox[]).map(k => <option key={k} value={k}>{ESPECIE_BOX[k]}</option>)}
+          </select>
+        </Campo>
+        <Campo label="Finalidade">
+          <select value={finalidade} onChange={e => setFinalidade(e.target.value as FinalidadeBox)} className={inputCls}>
+            {(Object.keys(FINALIDADE_BOX) as FinalidadeBox[]).map(k => <option key={k} value={k}>{FINALIDADE_BOX[k]}</option>)}
           </select>
         </Campo>
       </div>
 
-      <div className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px]">
-        <span className="text-ink-3">Vai criar o box: </span>
-        <span className="font-semibold text-ink">{nome}</span>
+      <Campo label="Observação (opcional)">
+        <textarea value={observacao} onChange={e => setObservacao(e.target.value)}
+          placeholder="Ex.: cabe porte grande · tem oxigênio · próximo à sala de cirurgia"
+          className={inputCls + ' min-h-[64px] resize-y'} />
+      </Campo>
+
+      <div className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12px] text-ink-3">
+        {nome} · {ESPECIE_BOX[especie]} · {FINALIDADE_BOX[finalidade]}
       </div>
 
       {duplicado && <p className="text-[12.5px] text-warn">Esse box já existe — escolha outro número.</p>}

@@ -600,6 +600,25 @@ export const db: Record<'c1' | 'c2', DB> = {
             horarios: [{ hora: '10:00', aplicado: true }, { hora: '10:00', aplicado: false }] },
         ],
       },
+      // encerradas (histórico) — datas de alta espalhadas para o filtro por período
+      {
+        id: 'int3', petId: 'p1', petNome: 'Thor', tutorNome: 'Marina Costa', especie: 'cao',
+        box: 'bx1', motivo: 'Observação pós-crise alérgica', profissional: 'Dra. Helena',
+        entrada: hojeMenos(6), previsaoAlta: hojeMenos(4), saida: hojeMenos(4),
+        valorDiaria: 150, status: 'alta', parametros: [], medicacoes: [],
+      },
+      {
+        id: 'int4', petId: 'p3', petNome: 'Bidu', tutorNome: 'Ricardo Alves', especie: 'cao',
+        box: 'bx2', motivo: 'Pós-operatório de cálculo urinário', profissional: 'Dr. Bruno',
+        entrada: hojeMenos(38), previsaoAlta: hojeMenos(35), saida: hojeMenos(35),
+        valorDiaria: 160, status: 'alta', parametros: [], medicacoes: [],
+      },
+      {
+        id: 'int5', petId: 'p4', petNome: 'Nina', tutorNome: 'Juliana Prado', especie: 'cao',
+        box: 'bx4', motivo: 'Parvovirose — isolamento e suporte', profissional: 'Dra. Helena',
+        entrada: hojeMenos(102), previsaoAlta: hojeMenos(96), saida: hojeMenos(96),
+        valorDiaria: 200, status: 'alta', parametros: [], medicacoes: [],
+      },
     ],
     kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 2, agendadosPelaIA: 4, ticketMedio: 187 },
     receitaSemana: [

@@ -27,11 +27,18 @@ export default function Internacao({ data, acoes }: { data: DB; acoes: Acoes }) 
   const [aba, setAba] = useState<Aba>('internados')
   const [selId, setSelId] = useState<string | null>(null)
   const [internando, setInternando] = useState(false)
+  const [histDe, setHistDe] = useState('')
+  const [histAte, setHistAte] = useState('')
 
   const internacoes = data.internacoes ?? []
   const boxes = data.boxes ?? []
   const internados = internacoes.filter(i => i.status === 'internado')
   const historico = internacoes.filter(i => i.status === 'alta')
+  // filtro por período no histórico (pela data de alta; cai na entrada se faltar)
+  const dataRef = (i: TInternacao) => i.saida ?? i.entrada
+  const historicoFiltrado = historico
+    .filter(i => { const d = dataRef(i); return (!histDe || d >= histDe) && (!histAte || d <= histAte) })
+    .sort((a, b) => dataRef(b).localeCompare(dataRef(a)))
   const selecionada = internados.find(i => i.id === selId) ?? null
 
   if (selecionada) {
@@ -69,7 +76,15 @@ export default function Internacao({ data, acoes }: { data: DB; acoes: Acoes }) 
       {aba === 'historico' && (
         historico.length === 0
           ? <p className="py-10 text-center text-[13.5px] text-ink-3">Nenhuma internação encerrada ainda.</p>
-          : <div className="space-y-3">{historico.map(i => <CardHistorico key={i.id} i={i} />)}</div>
+          : (
+            <div className="space-y-3">
+              <FiltroPeriodo de={histDe} ate={histAte} setDe={setHistDe} setAte={setHistAte}
+                total={historicoFiltrado.length} deTodos={historico.length} />
+              {historicoFiltrado.length === 0
+                ? <p className="py-10 text-center text-[13.5px] text-ink-3">Nenhuma internação encerrada no período selecionado.</p>
+                : historicoFiltrado.map(i => <CardHistorico key={i.id} i={i} />)}
+            </div>
+          )
       )}
 
       <Modal titulo="Internar pet" aberto={internando} onFechar={() => setInternando(false)}>
@@ -107,6 +122,40 @@ function CardInternado({ i, boxes, onAbrir }: { i: TInternacao; boxes: Box[]; on
           : <span className="text-ok">● medicação em dia</span>}
       </div>
     </button>
+  )
+}
+
+// Filtro por período do histórico — presets + intervalo De/Até (não muda os cards)
+function FiltroPeriodo({ de, ate, setDe, setAte, total, deTodos }: {
+  de: string; ate: string; setDe: (v: string) => void; setAte: (v: string) => void
+  total: number; deTodos: number
+}) {
+  const hoje = hojeStr()
+  const menos = (n: number) => { const d = new Date(); d.setDate(d.getDate() - n); return d.toISOString().slice(0, 10) }
+  const aplicar = (n: number | null) => { if (n === null) { setDe(''); setAte('') } else { setDe(menos(n)); setAte(hoje) } }
+  const presets: [string, number | null][] = [['Tudo', null], ['7 dias', 7], ['30 dias', 30], ['90 dias', 90]]
+  const ativo = (n: number | null) => n === null ? (!de && !ate) : (de === menos(n) && ate === hoje)
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-surface-1 p-3">
+      <div className="flex flex-wrap gap-1.5">
+        {presets.map(([r, n]) => (
+          <button key={r} onClick={() => aplicar(n)}
+            className={`rounded-lg px-3 py-1.5 text-[12px] font-medium transition ${
+              ativo(n) ? 'bg-brand/12 text-brand' : 'border border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
+            {r}
+          </button>
+        ))}
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <label className="flex items-center gap-1.5 text-[12px] text-ink-3">De
+          <input type="date" value={de} max={ate || hoje} onChange={e => setDe(e.target.value)} className={inputCls} />
+        </label>
+        <label className="flex items-center gap-1.5 text-[12px] text-ink-3">Até
+          <input type="date" value={ate} min={de || undefined} onChange={e => setAte(e.target.value)} className={inputCls} />
+        </label>
+        <span className="text-[12px] text-ink-3">{total} de {deTodos}</span>
+      </div>
+    </div>
   )
 }
 

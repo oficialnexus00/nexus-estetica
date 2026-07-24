@@ -41,6 +41,7 @@ export default function LinhaDoTempo({ pet, exames, onNota }: {
 }) {
   const [filtro, setFiltro] = useState<Filtro>('tudo')
   const [form, setForm] = useState<'observacao' | 'patologia' | null>(null)
+  const [aberto, setAberto] = useState(true)
 
   const eventos: Evento[] = [
     ...pet.atendimentos.map(a => ({
@@ -83,10 +84,15 @@ export default function LinhaDoTempo({ pet, exames, onNota }: {
 
   return (
     <div className="rounded-xl border border-line bg-surface-1 p-5">
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-[14px] font-semibold">Linha do tempo</h3>
-        {onNota && (
-          <div className="flex gap-1.5">
+      <div className={`flex flex-wrap items-center justify-between gap-2 ${aberto ? 'mb-3' : ''}`}>
+        <button onClick={() => setAberto(v => !v)} aria-expanded={aberto}
+          className="flex items-center gap-2 text-left transition hover:text-brand">
+          <span className="text-[12px] leading-none text-ink-3">{aberto ? '▾' : '▸'}</span>
+          <h3 className="text-[14px] font-semibold">Linha do tempo</h3>
+          <span className="text-[11.5px] font-normal text-ink-3">{eventos.length} {eventos.length === 1 ? 'evento' : 'eventos'}</span>
+        </button>
+        {aberto && onNota && (
+          <div className="flex items-center gap-1.5">
             <button onClick={() => setForm('observacao')}
               className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
               + Observação
@@ -99,6 +105,7 @@ export default function LinhaDoTempo({ pet, exames, onNota }: {
         )}
       </div>
 
+      {aberto && (<>
       <div className="mb-3 flex flex-wrap gap-1.5">
         {filtros.map(([f, rotulo]) => (
           <button key={f} onClick={() => setFiltro(f)}
@@ -137,6 +144,7 @@ export default function LinhaDoTempo({ pet, exames, onNota }: {
           })}
         </div>
       )}
+      </>)}
 
       {onNota && (
         <Modal titulo={form === 'patologia' ? 'Registrar diagnóstico' : 'Nova observação'}

@@ -2,21 +2,23 @@ import { useState } from 'react'
 import type { DB, Tutor, Pet } from '../data'
 import { idadeDe } from '../data'
 import type { Acoes } from '../App'
-import CarteiraVacina from '../components/CarteiraVacina'
+import Vacinacao from '../components/Vacinacao'
 import Prontuario from '../components/Prontuario'
 import LinhaDoTempo from '../components/LinhaDoTempo'
 import PesoEvolucao from '../components/PesoEvolucao'
-import ProtocolosPet from '../components/ProtocolosPet'
-import EmitirDocumento from '../components/EmitirDocumento'
+import AcoesPet from '../components/AcoesPet'
 import Modal from '../components/Modal'
-import { FormTutor, FormEditarTutor, FormEditarPet } from '../components/Formularios'
-import { comprovanteVacinacao } from '../lib/imprimir'
+import { FormTutor, FormEditarTutor, FormEditarPet, FormPet } from '../components/Formularios'
 
 const ETAPA: Record<Tutor['etapa'], string> = {
   lead: 'border-s2/40 bg-s2/10 text-s2',
   agendado: 'border-warn/40 bg-warn/10 text-warn',
   cliente: 'border-ok/40 bg-ok/10 text-ok',
   inativo: 'border-line bg-surface-2 text-ink-3',
+}
+
+const PORTE_LABEL: Record<string, string> = {
+  pequeno: 'pequeno', medio: 'médio', grande: 'grande', gigante: 'gigante',
 }
 
 const alerta = (p: Pet) =>
@@ -29,6 +31,7 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
   const [cadastrando, setCadastrando] = useState(false)
   const [editandoTutor, setEditandoTutor] = useState<Tutor | null>(null)
   const [editandoPet, setEditandoPet] = useState<Pet | null>(null)
+  const [adicionandoPetEm, setAdicionandoPetEm] = useState<Tutor | null>(null)
 
   // o pet selecionado precisa vir sempre da lista atual, senão a carteira
   // continua mostrando o estado antigo depois de registrar uma dose
@@ -48,26 +51,46 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
       <div className="space-y-4">
         <button onClick={() => setSel(null)} className="text-[13px] text-ink-2 transition hover:text-ink">← Voltar</button>
 
+        <LinhaDoTempo pet={pet} exames={(data.exames ?? []).filter(e => e.pet_id === pet.id)}
+          onNota={d => acoes.registrarNotaClinica(pet.id, d)} />
+
         <div className="rounded-xl border border-line bg-surface-1 p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-[20px] font-semibold tracking-tight">{pet.nome}</h2>
               <p className="mt-0.5 text-[13px] text-ink-2">
-                {pet.especie === 'cao' ? 'Cão' : 'Gato'} · {pet.raca} · {idadeDe(pet.nascimento)} · {pet.peso} kg
+                {pet.especie === 'cao' ? 'Cão' : 'Gato'}
+                {pet.sexo && ` · ${pet.sexo === 'macho' ? 'Macho' : 'Fêmea'}`} · {pet.raca} · {idadeDe(pet.nascimento)} · {pet.peso} kg
+                {pet.porte && ` · porte ${PORTE_LABEL[pet.porte]}`}
+                {pet.pelagem && ` · ${pet.pelagem}`}
                 {pet.castrado && ' · castrado'}
+                {pet.pedigree && <span className="text-brand"> · com pedigree</span>}
               </p>
-              <p className="mt-2 text-[13px] text-ink-3">
-                Tutor: <span className="text-ink-2">{tutor.nome}</span> · {tutor.telefone}
-              </p>
+              {pet.temperamento && (
+                <p className="mt-1 inline-flex items-center gap-1 rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[11.5px] text-ink-2">
+                  Temperamento: <span className="font-medium text-ink">{pet.temperamento}</span>
+                </p>
+              )}
+              {(pet.microchip || pet.rga) && (
+                <p className="mt-0.5 text-[12px] text-ink-3">
+                  {pet.microchip && <>Microchip: <span className="font-mono text-ink-2">{pet.microchip}</span></>}
+                  {pet.microchip && pet.rga && ' · '}
+                  {pet.rga && <>RGA: <span className="font-mono text-ink-2">{pet.rga}</span></>}
+                </p>
+              )}
+              {pet.observacoes && (
+                <p className="mt-1 text-[12px] text-ink-3">📝 {pet.observacoes}</p>
+              )}
+              <div className="mt-2 space-y-0.5 text-[13px] text-ink-3">
+                <p>Tutor: <span className="text-ink-2">{tutor.nome}</span> · {tutor.telefone}</p>
+                {tutor.email && <p>✉ {tutor.email}</p>}
+                {tutor.endereco && <p>📍 {tutor.endereco}</p>}
+                {tutor.nascimento && (
+                  <p>🎂 {new Date(tutor.nascimento + 'T00:00:00').toLocaleDateString('pt-BR')} <span className="text-ink-2">({idadeDe(tutor.nascimento)})</span></p>
+                )}
+              </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <button onClick={() => comprovanteVacinacao({
-                  clinica: acoes.clinicaNome, tutor: tutor.nome, pet: pet.nome, especie: pet.especie, vacinas: pet.vacinas,
-                })}
-                className="rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
-                Comprovante de vacina
-              </button>
-              <EmitirDocumento pet={pet} tutorNome={tutor.nome} clinica={acoes.clinicaNome} modelos={data.modelos ?? []} />
               <button onClick={() => setEditandoPet(pet)}
                 className="rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
                 Editar pet
@@ -82,17 +105,17 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
           )}
         </div>
 
-        <PesoEvolucao pet={pet} />
-
-        <LinhaDoTempo pet={pet} exames={(data.exames ?? []).filter(e => e.pet_id === pet.id)}
-          onNota={d => acoes.registrarNotaClinica(pet.id, d)} />
+        <AcoesPet pet={pet} tutorNome={tutor.nome} data={data} acoes={acoes} />
 
         <Prontuario pet={pet} tutorNome={tutor.nome} clinica={acoes.clinicaNome} tipos={data.tiposAtendimento ?? []}
-          onNovoAtendimento={d => acoes.registrarAtendimento(pet.id, d)} />
+          onNovoAtendimento={d => acoes.registrarAtendimento(pet.id, d)}
+          condicoes={pet.condicoes ?? []}
+          onAdicionarCondicao={t => acoes.adicionarCondicao(pet.id, t)}
+          onRemoverCondicao={i => acoes.removerCondicao(pet.id, i)} />
 
-        <ProtocolosPet pet={pet} protocolos={data.protocolos ?? []} />
+        <PesoEvolucao pet={pet} />
 
-        <CarteiraVacina vacinas={pet.vacinas} especie={pet.especie} protocolos={data.protocolos ?? []}
+        <Vacinacao pet={pet} protocolos={data.protocolos ?? []}
           onRegistrarDose={d => acoes.registrarDose(pet.id, d)} />
 
         <Modal titulo={`Editar ${pet.nome}`} aberto={!!editandoPet} onFechar={() => setEditandoPet(null)}>
@@ -120,7 +143,7 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
         </button>
       </div>
 
-      <Modal titulo="Cadastrar tutor e pet" aberto={cadastrando} onFechar={() => setCadastrando(false)}>
+      <Modal titulo="Cadastrar tutor e pet" aberto={cadastrando} onFechar={() => setCadastrando(false)} largura="lg">
         <FormTutor onCancelar={() => setCadastrando(false)}
           onSalvar={async d => { await acoes.criarTutorComPet(d); setCadastrando(false) }} />
       </Modal>
@@ -168,6 +191,10 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
                   </button>
                 )
               })}
+              <button onClick={() => setAdicionandoPetEm(t)}
+                className="flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-line bg-surface-2/50 px-3 py-2.5 text-[12.5px] font-medium text-ink-3 transition hover:border-brand/50 hover:text-brand">
+                <span className="text-[14px] leading-none">+</span> Adicionar pet
+              </button>
             </div>
           </div>
         ))}
@@ -181,6 +208,13 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
         {editandoTutor && (
           <FormEditarTutor tutor={editandoTutor} onCancelar={() => setEditandoTutor(null)}
             onSalvar={async d => { await acoes.editarTutor(editandoTutor.id, d); setEditandoTutor(null) }} />
+        )}
+      </Modal>
+
+      <Modal titulo={`Adicionar pet a ${adicionandoPetEm?.nome}`} aberto={!!adicionandoPetEm} onFechar={() => setAdicionandoPetEm(null)}>
+        {adicionandoPetEm && (
+          <FormPet tutorNome={adicionandoPetEm.nome} onCancelar={() => setAdicionandoPetEm(null)}
+            onSalvar={async d => { await acoes.adicionarPet(adicionandoPetEm.id, d); setAdicionandoPetEm(null) }} />
         )}
       </Modal>
     </div>

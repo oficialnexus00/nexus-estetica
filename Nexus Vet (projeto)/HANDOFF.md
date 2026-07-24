@@ -58,20 +58,28 @@ fechado de ponta a ponta. Marcar o item no roteiro a cada entrega.
 
 Sistema opera de ponta a ponta. Telas: Dashboard (lente Gerencial + Clínica),
 Agenda, Tutores & Pets (Pet 360 completo), Financeiro (Resumo/DRE/Análise/
-receber/pagar/atraso), **Vendas/PDV**, Estoque, Exames, Reativação (Bia),
-Configurações, Bia (placeholder). Documentos em PDF (recibo, comprovante de
-vacina, receita/atestado/termo por modelo).
+receber/pagar/atraso), **Vendas/PDV**, **Comissões**, **Internação**,
+**Inteligência/BI**, Estoque, Exames, Reativação (Bia), Configurações, Bia
+(placeholder). Documentos em PDF (recibo, comprovante de vacina, receita/
+atestado/termo por modelo).
 
 **Paridade com SimplesVet — progresso** (detalhe no roteiro):
 - ✅ **Fase 1 — Atendimento clínico** concluída (linha do tempo, tipo de
   atendimento, peso c/ gráfico, patologia, observações, protocolos por pet, documentos por modelo).
-- ⏳ **Fase 2 — Vendas/PDV** quase completa: ✅ PDV · ✅ Vendas realizadas ·
-  ✅ Saldo dos clientes · ✅ Caixa · ✅ Ranking · ✅ Lista de preços.
-  **Falta:** Orçamentos + Pacotes.
+- ✅ **Fase 2 — Vendas/PDV** concluída (PDV, vendas realizadas, saldo dos
+  clientes, caixa, ranking, lista de preços, orçamentos). Pacotes ficou p/ Cadastros.
+- ✅ **Fase 3 — Comissionamento** concluída (% por profissional, apuração, extrato PDF).
+- ✅ **Fase 4 — Internação** concluída (painel de internados, **boxes/ocupação**,
+  ficha com **parâmetros clínicos**, **mapa de execução/aprazamento** de medicação,
+  **alta → lançamento no Financeiro** por diárias). Roda em modo demo.
+- ✅ **Fase 5 — Inteligência/BI** concluída (produtividade por profissional,
+  vendas por serviço/produto com ranking de rentabilidade, clientes novos ×
+  recorrentes + sazonalidade, **exportação CSV**). View de leitura, sem escrita.
 
-**Próximo passo imediato:** terminar **Orçamentos/Pacotes** (fecha a Fase 2) →
-depois **Comissionamento** → **Internação** → **Inteligência/BI** → completar
-Estoque/Financeiro → menores (Aniversários, NPS, Portal) → Fiscal/Site (decisão do Rodrigo).
+**Próximo passo imediato:** completar **Estoque avançado** (compras/pedido de
+compra, inventário, grupos/marcas) e **Financeiro+** (múltiplas contas,
+conciliação de cartões, fornecedores) → depois menores (Aniversários, NPS,
+Portal do tutor) → Fiscal/Site (decisão do Rodrigo).
 
 ## Mapa de código (app/src)
 
@@ -79,7 +87,7 @@ Estoque/Financeiro → menores (Aniversários, NPS, Portal) → Fiscal/Site (dec
 - `data.ts` — tipos + dados demo (fonte da verdade dos formatos)
 - `lib/queries.ts` / `lib/mutations.ts` — camada Supabase (produção, ainda não ligada)
 - `lib/imprimir.ts` — geração de PDF (recibo, comprovante, documento, cupom)
-- `views/` — telas (Dashboard, Agenda, Tutores, Financeiro, Vendas, Estoque, Exames, Reativacao, Configuracoes, Bia)
+- `views/` — telas (Dashboard, Agenda, Tutores, Financeiro, Vendas, Comissoes, Internacao, Inteligencia, Estoque, Exames, Reativacao, Configuracoes, Bia)
 - `components/` — Pet 360 (LinhaDoTempo, PesoEvolucao, ProtocolosPet, Prontuario, CarteiraVacina, EmitirDocumento), Formularios, Modal
 
 ## Quem toca

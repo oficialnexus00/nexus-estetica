@@ -47,20 +47,22 @@ function rodape(): string {
   return `<div class="rodape"><span>Emitido em ${agora}</span><span>Gerado por NEXUS Vet</span></div>`
 }
 
+export const EVENTO_DOCUMENTO = 'nexus:documento'
+export type DocumentoDetalhe = { titulo: string; html: string }
+
+/** Monta a página HTML autônoma do documento (com estilo embutido). */
+export function montarPagina(titulo: string, corpo: string): string {
+  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${titulo}</title>` +
+    `<meta name="viewport" content="width=device-width, initial-scale=1"><style>${CSS}</style></head>` +
+    `<body>${corpo}${rodape()}</body></html>`
+}
+
+// Em vez de abrir aba/iframe-print (bloqueados no sandbox do Artifact), emitimos
+// um evento. O <DocumentoHost/> montado no app abre uma prévia embutida com os
+// botões Imprimir/Salvar PDF (funciona no app real) e Baixar (sempre funciona).
 function imprimir(titulo: string, corpo: string): void {
-  const iframe = document.createElement('iframe')
-  iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;'
-  document.body.appendChild(iframe)
-  const doc = iframe.contentWindow?.document
-  if (!doc) return
-  doc.open()
-  doc.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${titulo}</title><style>${CSS}</style></head><body>${corpo}${rodape()}</body></html>`)
-  doc.close()
-  setTimeout(() => {
-    iframe.contentWindow?.focus()
-    iframe.contentWindow?.print()
-    setTimeout(() => document.body.removeChild(iframe), 1500)
-  }, 300)
+  const html = montarPagina(titulo, corpo)
+  window.dispatchEvent(new CustomEvent<DocumentoDetalhe>(EVENTO_DOCUMENTO, { detail: { titulo, html } }))
 }
 
 /* -------------------------------------------------- comprovante de vacinação */

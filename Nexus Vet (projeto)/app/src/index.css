@@ -21,6 +21,37 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
+/* Tema — os tokens acima são o modo escuro (padrão). O modo claro sobrepõe
+   as mesmas variáveis; como todas as telas usam os tokens (bg-surface-1,
+   text-ink…), a troca é instantânea e global, sem tocar em cada componente.
+   Off-white suave + cards brancos: o conteúdo e as imagens ganham destaque. */
+:root { --scroll-thumb: #1e2a41; color-scheme: dark; }
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-brand: #009e88;
+  --color-brand-dim: #007e6d;
+  /* Superfícies com separação clara: fundo cinza-claro → cards brancos →
+     chips/insets mais fechados. Sem isso, tudo vira branco-sobre-branco e as
+     caixas com opacidade (/50, /10) somem. */
+  --color-surface-0: #eaeef4;  /* fundo do app — cinza-claro frio */
+  --color-surface-1: #ffffff;  /* cards — branco puro, destacam do fundo */
+  --color-surface-2: #e3e9f1;  /* chips / campos / insets — distintos do branco */
+  --color-surface-3: #d4dded;
+  --color-line: #cbd4e1;       /* borda firme o bastante para desenhar a caixa */
+  --color-ink: #0d1626;
+  --color-ink-2: #48546a;      /* texto secundário mais escuro = mais legível */
+  --color-ink-3: #74809a;
+  --color-s1: #10814f;
+  --color-s2: #245fc4;
+  --color-s3: #916000;
+  --color-s4: #5b4ec2;
+  --color-ok: #12894f;
+  --color-warn: #9a6912;
+  --color-bad: #ce3d3d;
+  --scroll-thumb: #bfc9d9;
+}
+
 html, body, #root { height: 100%; }
 body {
   background: var(--color-surface-0);
@@ -28,8 +59,9 @@ body {
   font-family: var(--font-sans);
   font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
+  transition: background-color .25s ease, color .25s ease;
 }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: #1e2a41; border-radius: 8px; }
+::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Campo, inputCls, Acoes } from './Modal'
-import type { DB, Especie, Tutor, Pet, InventoryItem, ProtocoloVacina, ModeloDocumento } from '../data'
+import type { DB, Especie, Tutor, Pet, InventoryItem, ProtocoloVacina, ModeloDocumento, Fornecedor, Box, EspecieBox, FinalidadeBox } from '../data'
+import { formatarCNPJ, ESPECIE_BOX, FINALIDADE_BOX } from '../data'
 
 const hoje = () => new Date().toISOString().slice(0, 10)
 
@@ -256,13 +257,15 @@ export function FormModelo({ modelo, onSalvar, onCancelar }: {
 
 export type DadosTutorPet = {
   nome: string; telefone: string; cpf?: string
-  pet: { nome: string; especie: Especie; raca?: string; nascimento?: string }
+  email?: string; nascimento?: string; endereco?: string
+  pet: { nome: string; especie: Especie; raca?: string; nascimento?: string; microchip?: string; pedigree?: boolean; sexo?: 'macho' | 'femea'; pelagem?: string }
 }
 
 export function FormTutor({ onSalvar, onCancelar }: {
   onSalvar: (d: DadosTutorPet) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: '', telefone: '', cpf: '', petNome: '', especie: 'cao' as Especie, raca: '', nascimento: '' })
+  const [f, setF] = useState({ nome: '', telefone: '', cpf: '', email: '', nascTutor: '', endereco: '', petNome: '', especie: 'cao' as Especie, raca: '', nascimento: '', microchip: '', sexo: '', pelagem: '' })
+  const [pedigree, setPedigree] = useState(false)
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
@@ -275,9 +278,15 @@ export function FormTutor({ onSalvar, onCancelar }: {
         nome: f.nome.trim(),
         telefone: f.telefone.replace(/\D/g, ''),
         cpf: f.cpf.replace(/\D/g, '') || undefined,
+        email: f.email.trim() || undefined,
+        nascimento: f.nascTutor || undefined,
+        endereco: f.endereco.trim() || undefined,
         pet: {
           nome: f.petNome.trim(), especie: f.especie,
           raca: f.raca.trim() || undefined, nascimento: f.nascimento || undefined,
+          microchip: f.microchip.trim() || undefined, pedigree,
+          sexo: (f.sexo || undefined) as 'macho' | 'femea' | undefined,
+          pelagem: f.pelagem.trim() || undefined,
         },
       })
     } catch (err) {
@@ -287,20 +296,36 @@ export function FormTutor({ onSalvar, onCancelar }: {
   }
 
   return (
-    <form onSubmit={enviar} className="space-y-3">
-      <Campo label="Nome do tutor">
-        <input value={f.nome} onChange={set('nome')} required placeholder="Maria Silva" className={inputCls} />
-      </Campo>
-      <Campo label="WhatsApp (com DDD)">
-        <input value={f.telefone} onChange={set('telefone')} required placeholder="47 99999-0000" className={inputCls} />
-      </Campo>
-      <Campo label="CPF (opcional)">
-        <input value={f.cpf} onChange={set('cpf')} placeholder="000.000.000-00" className={inputCls} />
-      </Campo>
-
-      <div className="!mt-5 border-t border-line pt-4">
-        <p className="mb-3 text-[12px] font-medium uppercase tracking-wider text-ink-3">Primeiro pet</p>
+    <form onSubmit={enviar} className="space-y-4">
+      <div className="grid gap-x-6 gap-y-3 md:grid-cols-2">
+        {/* Coluna do tutor */}
         <div className="space-y-3">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">Dados do tutor</p>
+          <Campo label="Nome do tutor">
+            <input value={f.nome} onChange={set('nome')} required placeholder="Maria Silva" className={inputCls} />
+          </Campo>
+          <Campo label="WhatsApp (opcional)">
+            <input value={f.telefone} onChange={set('telefone')} placeholder="47 99999-0000" className={inputCls} />
+          </Campo>
+          <div className="grid grid-cols-2 gap-3">
+            <Campo label="E-mail (opcional)">
+              <input type="email" value={f.email} onChange={set('email')} placeholder="voce@email.com" className={inputCls} />
+            </Campo>
+            <Campo label="Nascimento (opcional)">
+              <input type="date" value={f.nascTutor} max={hoje()} onChange={set('nascTutor')} className={inputCls} />
+            </Campo>
+          </div>
+          <Campo label="CPF (opcional)">
+            <input value={f.cpf} onChange={set('cpf')} placeholder="000.000.000-00" className={inputCls} />
+          </Campo>
+          <Campo label="Endereço (opcional)">
+            <input value={f.endereco} onChange={set('endereco')} placeholder="Rua, número — cidade/UF" className={inputCls} />
+          </Campo>
+        </div>
+
+        {/* Coluna do primeiro pet */}
+        <div className="space-y-3 md:border-l md:border-line md:pl-6">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">Primeiro pet</p>
           <Campo label="Nome do pet">
             <input value={f.petNome} onChange={set('petNome')} required placeholder="Thor" className={inputCls} />
           </Campo>
@@ -315,8 +340,32 @@ export function FormTutor({ onSalvar, onCancelar }: {
               <input value={f.raca} onChange={set('raca')} placeholder="SRD" className={inputCls} />
             </Campo>
           </div>
-          <Campo label="Nascimento (opcional)">
-            <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
+          <div className="grid grid-cols-2 gap-3">
+            <Campo label="Sexo (opcional)">
+              <select value={f.sexo} onChange={set('sexo')} className={inputCls}>
+                <option value="">—</option>
+                <option value="macho">Macho</option>
+                <option value="femea">Fêmea</option>
+              </select>
+            </Campo>
+            <Campo label="Pelagem / cor (opcional)">
+              <input value={f.pelagem} onChange={set('pelagem')} placeholder="Ex.: Caramelo" className={inputCls} />
+            </Campo>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <Campo label="Nascimento (opcional)">
+              <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
+            </Campo>
+            <Campo label="Microchip (opcional)">
+              <input value={f.microchip} onChange={set('microchip')} placeholder="000000000000000" className={inputCls} />
+            </Campo>
+          </div>
+          <Campo label="Pedigree">
+            <button type="button" onClick={() => setPedigree(v => !v)}
+              className={`w-full rounded-lg border px-3 py-2 text-[13px] font-medium transition ${
+                pedigree ? 'border-brand bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
+              {pedigree ? '✓ Com pedigree' : 'Sem pedigree'}
+            </button>
           </Campo>
         </div>
       </div>
@@ -327,21 +376,106 @@ export function FormTutor({ onSalvar, onCancelar }: {
   )
 }
 
+/* --------------------------------------------- adicionar pet a um tutor */
+
+export type DadosPet = DadosTutorPet['pet']
+
+export function FormPet({ tutorNome, onSalvar, onCancelar }: {
+  tutorNome: string; onSalvar: (d: DadosPet) => Promise<void>; onCancelar: () => void
+}) {
+  const [f, setF] = useState({ nome: '', especie: 'cao' as Especie, raca: '', nascimento: '', microchip: '', sexo: '', pelagem: '' })
+  const [pedigree, setPedigree] = useState(false)
+  const [enviando, setEnviando] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
+
+  async function enviar(e: FormEvent) {
+    e.preventDefault()
+    if (!f.nome.trim()) { setErro('Informe o nome do pet.'); return }
+    setEnviando(true); setErro(null)
+    try {
+      await onSalvar({
+        nome: f.nome.trim(), especie: f.especie,
+        raca: f.raca.trim() || undefined, nascimento: f.nascimento || undefined,
+        microchip: f.microchip.trim() || undefined, pedigree,
+        sexo: (f.sexo || undefined) as 'macho' | 'femea' | undefined,
+        pelagem: f.pelagem.trim() || undefined,
+      })
+    } catch (err) {
+      setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
+      setEnviando(false)
+    }
+  }
+
+  return (
+    <form onSubmit={enviar} className="space-y-3">
+      <p className="text-[12.5px] text-ink-3">Novo pet de <span className="font-medium text-ink-2">{tutorNome}</span>. Os demais detalhes podem ser preenchidos depois em "Editar pet".</p>
+      <Campo label="Nome do pet">
+        <input value={f.nome} onChange={set('nome')} required placeholder="Thor" className={inputCls} />
+      </Campo>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Espécie">
+          <select value={f.especie} onChange={set('especie')} className={inputCls}>
+            <option value="cao">Cão</option>
+            <option value="gato">Gato</option>
+          </select>
+        </Campo>
+        <Campo label="Raça">
+          <input value={f.raca} onChange={set('raca')} placeholder="SRD" className={inputCls} />
+        </Campo>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Sexo (opcional)">
+          <select value={f.sexo} onChange={set('sexo')} className={inputCls}>
+            <option value="">—</option>
+            <option value="macho">Macho</option>
+            <option value="femea">Fêmea</option>
+          </select>
+        </Campo>
+        <Campo label="Pelagem / cor (opcional)">
+          <input value={f.pelagem} onChange={set('pelagem')} placeholder="Ex.: Caramelo" className={inputCls} />
+        </Campo>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Nascimento (opcional)">
+          <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
+        </Campo>
+        <Campo label="Nº do microchip (opcional)">
+          <input value={f.microchip} onChange={set('microchip')} placeholder="000000000000000" className={inputCls} />
+        </Campo>
+      </div>
+      <Campo label="Pedigree">
+        <button type="button" onClick={() => setPedigree(v => !v)}
+          className={`w-full rounded-lg border px-3 py-2 text-[13px] font-medium transition ${
+            pedigree ? 'border-brand bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
+          {pedigree ? '✓ Com pedigree' : 'Sem pedigree'}
+        </button>
+      </Campo>
+
+      {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
+      <Acoes onCancelar={onCancelar} enviando={enviando} rotulo="Adicionar pet" />
+    </form>
+  )
+}
+
 /* ------------------------------------------------------ lançamento */
 
 export type DadosLancamento = {
   tipo: 'receber' | 'pagar'; descricao: string; categoria?: string
   valor: number; vencimento: string; tutorId?: string; tutorNome?: string
+  fornecedorId?: string; fornecedorNome?: string; documento?: string
 }
 
 export function FormLancamento({ dados, onSalvar, onCancelar }: {
   dados: DB; onSalvar: (d: DadosLancamento) => Promise<void>; onCancelar: () => void
 }) {
   const [tipo, setTipo] = useState<'receber' | 'pagar'>('receber')
-  const [f, setF] = useState({ descricao: '', categoria: '', valor: '', vencimento: hoje(), tutorId: '' })
+  const [f, setF] = useState({ descricao: '', categoria: '', valor: '', vencimento: hoje(), tutorId: '', fornecedorId: '', documento: '' })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
+
+  const fornecedorSel = dados.fornecedores.find(fo => fo.id === f.fornecedorId)
 
   async function enviar(e: FormEvent) {
     e.preventDefault()
@@ -350,10 +484,15 @@ export function FormLancamento({ dados, onSalvar, onCancelar }: {
     setEnviando(true); setErro(null)
     try {
       const tutor = dados.tutores.find(t => t.id === f.tutorId)
+      const fornecedor = dados.fornecedores.find(fo => fo.id === f.fornecedorId)
       await onSalvar({
         tipo, descricao: f.descricao.trim(), categoria: f.categoria.trim() || undefined,
         valor, vencimento: f.vencimento,
-        tutorId: f.tutorId || undefined, tutorNome: tutor?.nome,
+        tutorId: tipo === 'receber' ? (f.tutorId || undefined) : undefined,
+        tutorNome: tipo === 'receber' ? tutor?.nome : undefined,
+        fornecedorId: tipo === 'pagar' ? (f.fornecedorId || undefined) : undefined,
+        fornecedorNome: tipo === 'pagar' ? (fornecedor?.nomeFantasia || fornecedor?.razaoSocial) : undefined,
+        documento: tipo === 'pagar' ? (f.documento.trim() || undefined) : undefined,
       })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
@@ -375,7 +514,7 @@ export function FormLancamento({ dados, onSalvar, onCancelar }: {
 
       <Campo label="Descrição">
         <input value={f.descricao} required onChange={set('descricao')}
-          placeholder={tipo === 'receber' ? 'Consulta clínica' : 'Fornecedor — vacinas'} className={inputCls} />
+          placeholder={tipo === 'receber' ? 'Consulta clínica' : 'Compra de vacinas'} className={inputCls} />
       </Campo>
 
       <div className="grid grid-cols-2 gap-3">
@@ -402,8 +541,210 @@ export function FormLancamento({ dados, onSalvar, onCancelar }: {
         </Campo>
       )}
 
+      {tipo === 'pagar' && (
+        <>
+          <Campo label="Fornecedor (opcional)">
+            <select value={f.fornecedorId} onChange={set('fornecedorId')} className={inputCls}>
+              <option value="">Sem fornecedor</option>
+              {dados.fornecedores.map(fo => (
+                <option key={fo.id} value={fo.id}>{fo.nomeFantasia || fo.razaoSocial}</option>
+              ))}
+            </select>
+          </Campo>
+          {fornecedorSel && (
+            <div className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[11.5px] text-ink-3">
+              <div className="font-medium text-ink-2">{fornecedorSel.razaoSocial}</div>
+              {fornecedorSel.cnpj && <div>CNPJ {fornecedorSel.cnpj}</div>}
+              {(fornecedorSel.contato || fornecedorSel.telefone) && (
+                <div>{[fornecedorSel.contato, fornecedorSel.telefone].filter(Boolean).join(' · ')}</div>
+              )}
+            </div>
+          )}
+          <Campo label="Documento — NF / boleto (opcional)">
+            <input value={f.documento} onChange={set('documento')}
+              placeholder="NF 12043" className={inputCls} />
+          </Campo>
+        </>
+      )}
+
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} rotulo="Lançar" />
+    </form>
+  )
+}
+
+/* --------------------------------------------------- fornecedor (PJ) */
+
+export type DadosFornecedor = {
+  razaoSocial: string; nomeFantasia?: string; cnpj?: string; inscricaoEstadual?: string
+  contato?: string; telefone?: string; email?: string; endereco?: string
+  categoria?: string; observacoes?: string
+}
+
+export function FormFornecedor({ fornecedor, onSalvar, onCancelar }: {
+  fornecedor?: Fornecedor; onSalvar: (d: DadosFornecedor) => Promise<void>; onCancelar: () => void
+}) {
+  const [f, setF] = useState({
+    razaoSocial: fornecedor?.razaoSocial ?? '', nomeFantasia: fornecedor?.nomeFantasia ?? '',
+    cnpj: fornecedor?.cnpj ?? '', inscricaoEstadual: fornecedor?.inscricaoEstadual ?? '',
+    contato: fornecedor?.contato ?? '', telefone: fornecedor?.telefone ?? '',
+    email: fornecedor?.email ?? '', endereco: fornecedor?.endereco ?? '',
+    categoria: fornecedor?.categoria ?? '', observacoes: fornecedor?.observacoes ?? '',
+  })
+  const [enviando, setEnviando] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
+
+  async function enviar(e: FormEvent) {
+    e.preventDefault()
+    if (!f.razaoSocial.trim()) { setErro('Informe ao menos a razão social.'); return }
+    setEnviando(true); setErro(null)
+    try {
+      const t = (s: string) => s.trim() || undefined
+      await onSalvar({
+        razaoSocial: f.razaoSocial.trim(), nomeFantasia: t(f.nomeFantasia),
+        cnpj: f.cnpj.trim() ? formatarCNPJ(f.cnpj) : undefined, inscricaoEstadual: t(f.inscricaoEstadual),
+        contato: t(f.contato), telefone: t(f.telefone), email: t(f.email),
+        endereco: t(f.endereco), categoria: t(f.categoria), observacoes: t(f.observacoes),
+      })
+    } catch (err) {
+      setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
+      setEnviando(false)
+    }
+  }
+
+  return (
+    <form onSubmit={enviar} className="space-y-3">
+      <Campo label="Razão social">
+        <input value={f.razaoSocial} required onChange={set('razaoSocial')}
+          placeholder="FarmaXYZ Distribuidora de Medicamentos Ltda" className={inputCls} />
+      </Campo>
+
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Nome fantasia (opcional)">
+          <input value={f.nomeFantasia} onChange={set('nomeFantasia')}
+            placeholder="FarmaXYZ" className={inputCls} />
+        </Campo>
+        <Campo label="Categoria (opcional)">
+          <input value={f.categoria} onChange={set('categoria')}
+            placeholder="Medicamentos" className={inputCls} />
+        </Campo>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="CNPJ (opcional)">
+          <input value={f.cnpj} onChange={set('cnpj')}
+            onBlur={() => f.cnpj.trim() && setF(s => ({ ...s, cnpj: formatarCNPJ(s.cnpj) }))}
+            placeholder="00.000.000/0000-00" className={inputCls} />
+        </Campo>
+        <Campo label="Inscrição estadual (opcional)">
+          <input value={f.inscricaoEstadual} onChange={set('inscricaoEstadual')}
+            placeholder="000.000.000" className={inputCls} />
+        </Campo>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Contato (opcional)">
+          <input value={f.contato} onChange={set('contato')}
+            placeholder="Roberto Lima" className={inputCls} />
+        </Campo>
+        <Campo label="Telefone (opcional)">
+          <input value={f.telefone} onChange={set('telefone')}
+            placeholder="47 3344-5566" className={inputCls} />
+        </Campo>
+      </div>
+
+      <Campo label="E-mail (opcional)">
+        <input type="email" value={f.email} onChange={set('email')}
+          placeholder="vendas@farmaxyz.com.br" className={inputCls} />
+      </Campo>
+
+      <Campo label="Endereço (opcional)">
+        <input value={f.endereco} onChange={set('endereco')}
+          placeholder="Rua Industrial, 800 — Joinville/SC" className={inputCls} />
+      </Campo>
+
+      <Campo label="Observações (opcional)">
+        <textarea value={f.observacoes} onChange={set('observacoes')}
+          placeholder="Prazo de entrega, condições de pagamento…" className={inputCls + ' min-h-[64px] resize-y'} />
+      </Campo>
+
+      {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
+      <Acoes onCancelar={onCancelar} enviando={enviando} rotulo={fornecedor ? 'Salvar' : 'Cadastrar fornecedor'} />
+    </form>
+  )
+}
+
+/* --------------------------------------------- box / leito de internação */
+
+export type DadosBox = { nome: string; especie: EspecieBox; finalidade: FinalidadeBox; observacao?: string }
+
+// menor número de "Box N" ainda não usado
+const proximoNumeroBox = (boxes: Box[]) => {
+  const usados = new Set(boxes.map(b => { const m = b.nome.match(/(\d+)\s*$/); return m ? Number(m[1]) : 0 }))
+  let n = 1; while (usados.has(n)) n++; return n
+}
+
+export function FormBox({ box, boxes = [], onSalvar, onCancelar }: {
+  box?: Box; boxes?: Box[]; onSalvar: (d: DadosBox) => Promise<void>; onCancelar: () => void
+}) {
+  const [numero, setNumero] = useState<number>(() => {
+    if (box) { const m = box.nome.match(/(\d+)\s*$/); return m ? Number(m[1]) : 1 }
+    return proximoNumeroBox(boxes)
+  })
+  const [especie, setEspecie] = useState<EspecieBox>(box?.especie ?? 'cao')
+  const [finalidade, setFinalidade] = useState<FinalidadeBox>(box?.finalidade ?? 'comum')
+  const [observacao, setObservacao] = useState(box?.observacao ?? '')
+  const [enviando, setEnviando] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
+
+  const nome = box ? box.nome : `Box ${numero}`
+  const duplicado = !box && boxes.some(b => b.nome.toLowerCase() === nome.toLowerCase())
+
+  async function enviar(e: FormEvent) {
+    e.preventDefault()
+    if (duplicado) { setErro(`Já existe um "${nome}". Escolha outro número.`); return }
+    setEnviando(true); setErro(null)
+    try { await onSalvar({ nome, especie, finalidade, observacao: observacao.trim() || undefined }) }
+    catch (err) { setErro(err instanceof Error ? err.message : 'Não consegui salvar.'); setEnviando(false) }
+  }
+
+  return (
+    <form onSubmit={enviar} className="space-y-3">
+      {!box && (
+        <Campo label="Número do box">
+          <select value={numero} onChange={e => setNumero(Number(e.target.value))} className={inputCls}>
+            {Array.from({ length: 30 }, (_, i) => i + 1).map(n => <option key={n} value={n}>Box {n}</option>)}
+          </select>
+        </Campo>
+      )}
+
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Tipo de animal">
+          <select value={especie} onChange={e => setEspecie(e.target.value as EspecieBox)} className={inputCls}>
+            {(Object.keys(ESPECIE_BOX) as EspecieBox[]).map(k => <option key={k} value={k}>{ESPECIE_BOX[k]}</option>)}
+          </select>
+        </Campo>
+        <Campo label="Finalidade">
+          <select value={finalidade} onChange={e => setFinalidade(e.target.value as FinalidadeBox)} className={inputCls}>
+            {(Object.keys(FINALIDADE_BOX) as FinalidadeBox[]).map(k => <option key={k} value={k}>{FINALIDADE_BOX[k]}</option>)}
+          </select>
+        </Campo>
+      </div>
+
+      <Campo label="Observação (opcional)">
+        <textarea value={observacao} onChange={e => setObservacao(e.target.value)}
+          placeholder="Ex.: cabe porte grande · tem oxigênio · próximo à sala de cirurgia"
+          className={inputCls + ' min-h-[64px] resize-y'} />
+      </Campo>
+
+      <div className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12px] text-ink-3">
+        {nome} · {ESPECIE_BOX[especie]} · {FINALIDADE_BOX[finalidade]}
+      </div>
+
+      {duplicado && <p className="text-[12.5px] text-warn">Esse box já existe — escolha outro número.</p>}
+      {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
+      <Acoes onCancelar={onCancelar} enviando={enviando} rotulo={box ? 'Salvar' : 'Adicionar box'} />
     </form>
   )
 }
@@ -435,8 +776,8 @@ export function FormAtendimento({ pet, tipos = [], onSalvar, onCancelar }: {
     setEnviando(true); setErro(null)
     try {
       await onSalvar({
-        data: f.data, profissional: f.profissional.trim(),
-        tipo: f.tipo.trim() || undefined, motivo: f.motivo.trim(),
+        data: f.data, profissional: f.profissional.trim() || '—',
+        tipo: f.tipo.trim() || undefined, motivo: f.motivo.trim() || 'Atendimento',
         anamnese: f.anamnese.trim() || undefined,
         exameFisico: f.exameFisico.trim() || undefined,
         peso: f.peso ? Number(f.peso.replace(',', '.')) : undefined,
@@ -463,8 +804,8 @@ export function FormAtendimento({ pet, tipos = [], onSalvar, onCancelar }: {
         <Campo label="Data">
           <input type="date" value={f.data} max={hoje()} required onChange={set('data')} className={inputCls} />
         </Campo>
-        <Campo label="Profissional">
-          <input value={f.profissional} required onChange={set('profissional')} className={inputCls} />
+        <Campo label="Profissional (opcional)">
+          <input value={f.profissional} onChange={set('profissional')} className={inputCls} />
         </Campo>
       </div>
 
@@ -476,8 +817,8 @@ export function FormAtendimento({ pet, tipos = [], onSalvar, onCancelar }: {
         </Campo>
       )}
 
-      <Campo label="Motivo da consulta">
-        <input value={f.motivo} required onChange={set('motivo')}
+      <Campo label="Motivo da consulta (opcional)">
+        <input value={f.motivo} onChange={set('motivo')}
           placeholder="Coceira nas patas" className={inputCls} />
       </Campo>
 
@@ -521,12 +862,16 @@ export function FormAtendimento({ pet, tipos = [], onSalvar, onCancelar }: {
 
 export type DadosEditarTutor = {
   nome: string; telefone: string; cpf?: string; etapa: Tutor['etapa']
+  email?: string; nascimento?: string; endereco?: string
 }
 
 export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
   tutor: Tutor; onSalvar: (d: DadosEditarTutor) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: tutor.nome, telefone: tutor.telefone, cpf: '', etapa: tutor.etapa })
+  const [f, setF] = useState({
+    nome: tutor.nome, telefone: tutor.telefone, cpf: '', etapa: tutor.etapa,
+    email: tutor.email ?? '', nascimento: tutor.nascimento ?? '', endereco: tutor.endereco ?? '',
+  })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
 
@@ -534,7 +879,10 @@ export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
     e.preventDefault()
     setEnviando(true); setErro(null)
     try {
-      await onSalvar({ nome: f.nome.trim(), telefone: f.telefone.trim(), cpf: f.cpf.replace(/\D/g, '') || undefined, etapa: f.etapa })
+      await onSalvar({
+        nome: f.nome.trim(), telefone: f.telefone.trim(), cpf: f.cpf.replace(/\D/g, '') || undefined, etapa: f.etapa,
+        email: f.email.trim() || undefined, nascimento: f.nascimento || undefined, endereco: f.endereco.trim() || undefined,
+      })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
       setEnviando(false)
@@ -546,8 +894,19 @@ export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
       <Campo label="Nome do tutor">
         <input value={f.nome} required onChange={e => setF({ ...f, nome: e.target.value })} className={inputCls} />
       </Campo>
-      <Campo label="WhatsApp (com DDD)">
-        <input value={f.telefone} required onChange={e => setF({ ...f, telefone: e.target.value })} className={inputCls} />
+      <Campo label="WhatsApp (opcional)">
+        <input value={f.telefone} onChange={e => setF({ ...f, telefone: e.target.value })} className={inputCls} />
+      </Campo>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="E-mail">
+          <input type="email" value={f.email} onChange={e => setF({ ...f, email: e.target.value })} placeholder="voce@email.com" className={inputCls} />
+        </Campo>
+        <Campo label="Nascimento">
+          <input type="date" value={f.nascimento} max={hoje()} onChange={e => setF({ ...f, nascimento: e.target.value })} className={inputCls} />
+        </Campo>
+      </div>
+      <Campo label="Endereço">
+        <input value={f.endereco} onChange={e => setF({ ...f, endereco: e.target.value })} placeholder="Rua, número — cidade/UF" className={inputCls} />
       </Campo>
       <Campo label="CPF (deixe vazio para manter)">
         <input value={f.cpf} onChange={e => setF({ ...f, cpf: e.target.value })} placeholder="000.000.000-00" className={inputCls} />
@@ -572,7 +931,26 @@ export function FormEditarTutor({ tutor, onSalvar, onCancelar }: {
 export type DadosEditarPet = {
   nome: string; especie: Especie; raca?: string; nascimento?: string
   pesoKg?: number; castrado: boolean; alertaSaude?: string
+  microchip?: string; pedigree?: boolean; sexo?: 'macho' | 'femea'; pelagem?: string
+  porte?: Pet['porte']; temperamento?: string; rga?: string; observacoes?: string
 }
+
+const PORTES: { v: NonNullable<Pet['porte']>; r: string }[] = [
+  { v: 'pequeno', r: 'Pequeno' }, { v: 'medio', r: 'Médio' },
+  { v: 'grande', r: 'Grande' }, { v: 'gigante', r: 'Gigante' },
+]
+const TEMPERAMENTOS = ['Dócil', 'Agitado', 'Medroso', 'Agressivo', 'Reativo']
+
+// Subtítulo de seção — deixa o formulário longo legível e "explicativo"
+function Secao({ titulo, dica }: { titulo: string; dica?: string }) {
+  return (
+    <div className="pt-1">
+      <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-2">{titulo}</div>
+      {dica && <div className="mt-0.5 text-[11px] text-ink-3">{dica}</div>}
+    </div>
+  )
+}
+const dicaCls = 'mt-1 text-[11px] text-ink-3'
 
 export function FormEditarPet({ pet, onSalvar, onCancelar }: {
   pet: Pet; onSalvar: (d: DadosEditarPet) => Promise<void>; onCancelar: () => void
@@ -581,9 +959,14 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
     nome: pet.nome, especie: pet.especie, raca: pet.raca === '—' ? '' : pet.raca,
     nascimento: pet.nascimento, peso: pet.peso ? String(pet.peso) : '',
     castrado: pet.castrado, alerta: pet.alerta ?? '',
+    microchip: pet.microchip ?? '', pedigree: pet.pedigree ?? false,
+    sexo: pet.sexo ?? '', pelagem: pet.pelagem ?? '',
+    porte: pet.porte ?? '', temperamento: pet.temperamento ?? '',
+    rga: pet.rga ?? '', observacoes: pet.observacoes ?? '',
   })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
 
   async function enviar(e: FormEvent) {
     e.preventDefault()
@@ -596,6 +979,14 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
         pesoKg: f.peso ? Number(f.peso.replace(',', '.')) : undefined,
         castrado: f.castrado,
         alertaSaude: f.alerta.trim() || undefined,
+        microchip: f.microchip.trim() || undefined,
+        pedigree: f.pedigree,
+        sexo: (f.sexo || undefined) as 'macho' | 'femea' | undefined,
+        pelagem: f.pelagem.trim() || undefined,
+        porte: (f.porte || undefined) as Pet['porte'],
+        temperamento: f.temperamento.trim() || undefined,
+        rga: f.rga.trim() || undefined,
+        observacoes: f.observacoes.trim() || undefined,
       })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
@@ -604,9 +995,10 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
   }
 
   return (
-    <form onSubmit={enviar} className="space-y-3">
+    <form onSubmit={enviar} className="max-h-[70vh] space-y-3 overflow-y-auto pr-1">
+      <Secao titulo="Identificação" />
       <Campo label="Nome do pet">
-        <input value={f.nome} required onChange={e => setF({ ...f, nome: e.target.value })} className={inputCls} />
+        <input value={f.nome} required onChange={set('nome')} className={inputCls} />
       </Campo>
       <div className="grid grid-cols-2 gap-3">
         <Campo label="Espécie">
@@ -615,27 +1007,82 @@ export function FormEditarPet({ pet, onSalvar, onCancelar }: {
             <option value="gato">Gato</option>
           </select>
         </Campo>
-        <Campo label="Raça">
-          <input value={f.raca} onChange={e => setF({ ...f, raca: e.target.value })} className={inputCls} />
+        <Campo label="Sexo">
+          <select value={f.sexo} onChange={set('sexo')} className={inputCls}>
+            <option value="">—</option>
+            <option value="macho">Macho</option>
+            <option value="femea">Fêmea</option>
+          </select>
         </Campo>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <Campo label="Nascimento">
-          <input type="date" value={f.nascimento} max={hoje()} onChange={e => setF({ ...f, nascimento: e.target.value })} className={inputCls} />
+        <Campo label="Raça">
+          <input value={f.raca} onChange={set('raca')} placeholder="Ex.: SRD, Golden…" className={inputCls} />
         </Campo>
-        <Campo label="Peso (kg)">
-          <input inputMode="decimal" value={f.peso} placeholder="0,0" onChange={e => setF({ ...f, peso: e.target.value })} className={inputCls} />
+        <Campo label="Pelagem / cor">
+          <input value={f.pelagem} onChange={set('pelagem')} placeholder="Ex.: Caramelo" className={inputCls} />
         </Campo>
       </div>
-      <Campo label="Alerta de saúde (alergias, condições)">
-        <input value={f.alerta} onChange={e => setF({ ...f, alerta: e.target.value })}
-          placeholder="Alergia a carrapaticida" className={inputCls} />
+
+      <Secao titulo="Características" dica="Ajudam no manejo, na dose e na escolha do box." />
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Nascimento">
+          <input type="date" value={f.nascimento} max={hoje()} onChange={set('nascimento')} className={inputCls} />
+        </Campo>
+        <Campo label="Peso (kg)">
+          <input inputMode="decimal" value={f.peso} placeholder="0,0" onChange={set('peso')} className={inputCls} />
+        </Campo>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Porte">
+          <select value={f.porte} onChange={set('porte')} className={inputCls}>
+            <option value="">—</option>
+            {PORTES.map(p => <option key={p.v} value={p.v}>{p.r}</option>)}
+          </select>
+        </Campo>
+        <Campo label="Temperamento">
+          <input list="temperamentos" value={f.temperamento} onChange={set('temperamento')}
+            placeholder="Ex.: Dócil" className={inputCls} />
+          <datalist id="temperamentos">
+            {TEMPERAMENTOS.map(t => <option key={t} value={t} />)}
+          </datalist>
+          <p className={dicaCls}>Orienta o manejo seguro da equipe (ex.: pet reativo).</p>
+        </Campo>
+      </div>
+
+      <Secao titulo="Registro" dica="Identificação oficial do animal." />
+      <div className="grid grid-cols-2 gap-3">
+        <Campo label="Nº do microchip">
+          <input value={f.microchip} onChange={set('microchip')} placeholder="000000000000000" className={inputCls} />
+        </Campo>
+        <Campo label="RGA / registro">
+          <input value={f.rga} onChange={set('rga')} placeholder="Registro de raça" className={inputCls} />
+        </Campo>
+      </div>
+      <Campo label="Pedigree">
+        <button type="button" onClick={() => setF({ ...f, pedigree: !f.pedigree })}
+          className={`w-full rounded-lg border px-3 py-2 text-[13px] font-medium transition ${
+            f.pedigree ? 'border-brand bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
+          {f.pedigree ? '✓ Com pedigree' : 'Sem pedigree'}
+        </button>
       </Campo>
-      <label className="flex cursor-pointer items-center gap-2.5 pt-1">
+
+      <Secao titulo="Saúde" />
+      <label className="flex cursor-pointer items-center gap-2.5">
         <input type="checkbox" checked={f.castrado} onChange={e => setF({ ...f, castrado: e.target.checked })}
           className="h-4 w-4 accent-brand" />
         <span className="text-[13px] text-ink-2">Castrado</span>
       </label>
+      <Campo label="Alerta de saúde (alergias, condições)">
+        <input value={f.alerta} onChange={set('alerta')} placeholder="Alergia a carrapaticida" className={inputCls} />
+        <p className={dicaCls}>Aparece destacado em vermelho na ficha e ao registrar um atendimento.</p>
+      </Campo>
+
+      <Secao titulo="Observações" />
+      <Campo label="Anotações gerais (opcional)">
+        <textarea value={f.observacoes} onChange={set('observacoes')} className={inputCls + ' min-h-[64px] resize-y'}
+          placeholder="Preferências, comportamento no banho, contato de emergência…" />
+      </Campo>
 
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} />
@@ -649,14 +1096,15 @@ export type DadosAgendamento = {
   tutorId: string; petId: string; serviceId: string; data: string; hora: string; profissional: string
 }
 
-export function FormAgendamento({ dados, onSalvar, onCancelar }: {
-  dados: DB; onSalvar: (d: DadosAgendamento) => Promise<void>; onCancelar: () => void
+export function FormAgendamento({ dados, dataInicial, horaInicial, onSalvar, onCancelar }: {
+  dados: DB; dataInicial?: string; horaInicial?: string; onSalvar: (d: DadosAgendamento) => Promise<void>; onCancelar: () => void
 }) {
   const petsDisponiveis = dados.tutores.flatMap(t => t.pets.map(p => ({ ...p, tutorId: t.id, tutorNome: t.nome })))
   const [petId, setPetId] = useState(petsDisponiveis[0]?.id ?? '')
   const [serviceId, setServiceId] = useState(dados.servicos[0]?.id ?? '')
-  const [data, setData] = useState(hoje())
-  const [hora, setHora] = useState('09:00')
+  // pré-preenche com o dia que o usuário está vendo na agenda (nunca no passado)
+  const [data, setData] = useState(dataInicial && dataInicial >= hoje() ? dataInicial : hoje())
+  const [hora, setHora] = useState(horaInicial ?? '09:00')
   const [profissional, setProfissional] = useState('Dra. Helena')
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
@@ -721,13 +1169,13 @@ export function FormAgendamento({ dados, onSalvar, onCancelar }: {
 /* -------------------------------------------------------- novo serviço */
 
 export type DadosServico = {
-  nome: string; categoria: string; preco: number; duracao: number
+  nome: string; categoria: string; preco: number; duracao: number; descricao?: string; observacao?: string
 }
 
 export function FormServico({ onSalvar, onCancelar }: {
   onSalvar: (d: DadosServico) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: '', categoria: 'consulta', preco: '', duracao: '30' })
+  const [f, setF] = useState({ nome: '', categoria: 'consulta', preco: '', duracao: '30', descricao: '', observacao: '' })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
@@ -740,7 +1188,11 @@ export function FormServico({ onSalvar, onCancelar }: {
     if (!duracao || duracao <= 0) { setErro('Informe uma duração maior que zero.'); return }
     setEnviando(true); setErro(null)
     try {
-      await onSalvar({ nome: f.nome.trim(), categoria: f.categoria.trim(), preco, duracao })
+      await onSalvar({
+        nome: f.nome.trim(), categoria: f.categoria.trim(), preco, duracao,
+        descricao: f.descricao.trim() || undefined,
+        observacao: f.observacao.trim() || undefined,
+      })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
       setEnviando(false)
@@ -772,6 +1224,18 @@ export function FormServico({ onSalvar, onCancelar }: {
           <input type="number" min={5} value={f.duracao} onChange={set('duracao')} required className={inputCls} />
         </Campo>
       </div>
+
+      <Campo label="Descrição (opcional)">
+        <textarea value={f.descricao} onChange={set('descricao')} rows={3}
+          placeholder="Descreva o que está incluso no serviço, o que o tutor pode esperar…"
+          className={inputCls + ' min-h-[64px] resize-y'} />
+      </Campo>
+
+      <Campo label="Observação (opcional)">
+        <textarea value={f.observacao} onChange={set('observacao')} rows={2}
+          placeholder="Preparo, restrições ou lembretes (ex.: jejum de 8h, confirmar porte)…"
+          className={inputCls + ' min-h-[52px] resize-y'} />
+      </Campo>
 
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} rotulo="Adicionar serviço" />
@@ -831,13 +1295,13 @@ export function FormProfissional({ onSalvar, onCancelar }: {
 /* ------------------------------------------------------ editar serviço */
 
 export type DadosEditarServico = {
-  nome: string; categoria: string; preco: number; duracao: number
+  nome: string; categoria: string; preco: number; duracao: number; descricao?: string; observacao?: string
 }
 
 export function FormEditarServico({ servico, onSalvar, onCancelar }: {
   servico: DB['servicos'][0]; onSalvar: (d: DadosEditarServico) => Promise<void>; onCancelar: () => void
 }) {
-  const [f, setF] = useState({ nome: servico.nome, categoria: servico.categoria, preco: String(servico.preco), duracao: String(servico.duracao) })
+  const [f, setF] = useState({ nome: servico.nome, categoria: servico.categoria, preco: String(servico.preco), duracao: String(servico.duracao), descricao: servico.descricao ?? '', observacao: servico.observacao ?? '' })
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value })
@@ -850,7 +1314,11 @@ export function FormEditarServico({ servico, onSalvar, onCancelar }: {
     if (!duracao || duracao <= 0) { setErro('Informe uma duração maior que zero.'); return }
     setEnviando(true); setErro(null)
     try {
-      await onSalvar({ nome: f.nome.trim(), categoria: f.categoria.trim(), preco, duracao })
+      await onSalvar({
+        nome: f.nome.trim(), categoria: f.categoria.trim(), preco, duracao,
+        descricao: f.descricao.trim() || undefined,
+        observacao: f.observacao.trim() || undefined,
+      })
     } catch (err) {
       setErro(err instanceof Error ? err.message : 'Não consegui salvar.')
       setEnviando(false)
@@ -882,6 +1350,18 @@ export function FormEditarServico({ servico, onSalvar, onCancelar }: {
           <input type="number" min={5} value={f.duracao} onChange={set('duracao')} required className={inputCls} />
         </Campo>
       </div>
+
+      <Campo label="Descrição (opcional)">
+        <textarea value={f.descricao} onChange={set('descricao')} rows={3}
+          placeholder="Descreva o que está incluso no serviço, o que o tutor pode esperar…"
+          className={inputCls + ' min-h-[64px] resize-y'} />
+      </Campo>
+
+      <Campo label="Observação (opcional)">
+        <textarea value={f.observacao} onChange={set('observacao')} rows={2}
+          placeholder="Preparo, restrições ou lembretes (ex.: jejum de 8h, confirmar porte)…"
+          className={inputCls + ' min-h-[52px] resize-y'} />
+      </Campo>
 
       {erro && <p className="text-[12.5px] text-bad">{erro}</p>}
       <Acoes onCancelar={onCancelar} enviando={enviando} />
@@ -1014,14 +1494,14 @@ export function FormEstoque({ onSubmit, onCancel }: {
       </Campo>
 
       <div className="grid grid-cols-3 gap-2">
-        <Campo label="Estoque *">
-          <input value={f.quantidade_estoque} onChange={set('quantidade_estoque')} type="number" required min="0" className={inputCls} />
+        <Campo label="Estoque">
+          <input value={f.quantidade_estoque} onChange={set('quantidade_estoque')} type="number" min="0" className={inputCls} />
         </Campo>
-        <Campo label="Mínimo *">
-          <input value={f.quantidade_minima} onChange={set('quantidade_minima')} type="number" required min="0" className={inputCls} />
+        <Campo label="Mínimo">
+          <input value={f.quantidade_minima} onChange={set('quantidade_minima')} type="number" min="0" className={inputCls} />
         </Campo>
-        <Campo label="Máximo *">
-          <input value={f.quantidade_maxima} onChange={set('quantidade_maxima')} type="number" required min="0" className={inputCls} />
+        <Campo label="Máximo">
+          <input value={f.quantidade_maxima} onChange={set('quantidade_maxima')} type="number" min="0" className={inputCls} />
         </Campo>
       </div>
 
@@ -1122,13 +1602,13 @@ export function FormEditarEstoque({ item, onSubmit, onCancel }: {
 
       <div className="grid grid-cols-3 gap-2">
         <Campo label="Estoque">
-          <input value={f.quantidade_estoque} onChange={set('quantidade_estoque')} type="number" required min="0" className={inputCls} />
+          <input value={f.quantidade_estoque} onChange={set('quantidade_estoque')} type="number" min="0" className={inputCls} />
         </Campo>
         <Campo label="Mínimo">
-          <input value={f.quantidade_minima} onChange={set('quantidade_minima')} type="number" required min="0" className={inputCls} />
+          <input value={f.quantidade_minima} onChange={set('quantidade_minima')} type="number" min="0" className={inputCls} />
         </Campo>
         <Campo label="Máximo">
-          <input value={f.quantidade_maxima} onChange={set('quantidade_maxima')} type="number" required min="0" className={inputCls} />
+          <input value={f.quantidade_maxima} onChange={set('quantidade_maxima')} type="number" min="0" className={inputCls} />
         </Campo>
       </div>
 

@@ -3,6 +3,7 @@ import type { DB, ItemVenda, FormaPagamento, Venda, Lancamento, MovimentoCaixa, 
 import { brl, diasAtraso } from '../data'
 import type { Acoes } from '../App'
 import { cupomVenda, orcamentoPDF } from '../lib/imprimir'
+import ConfirmButton from '../components/ConfirmButton'
 
 type Aba = 'pdv' | 'realizadas' | 'orcamentos' | 'caixa' | 'saldo' | 'ranking' | 'precos'
 
@@ -296,10 +297,11 @@ function OrcamentoCard({ o, acoes }: { o: Orcamento; acoes: Acoes }) {
             className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
             Converter em venda
           </button>
-          <button onClick={() => { if (confirm('Recusar este orçamento?')) acoes.recusarOrcamento(o.id) }}
+          <ConfirmButton titulo="Recusar orçamento" mensagem="Recusar este orçamento?"
+            confirmLabel="Recusar" danger onConfirm={() => acoes.recusarOrcamento(o.id)}
             className="rounded-lg border border-bad/40 bg-bad/10 px-3 py-2 text-[12.5px] font-medium text-bad transition hover:border-bad/60 hover:bg-bad/20">
             Recusar
-          </button>
+          </ConfirmButton>
         </div>
       )}
     </div>
@@ -368,10 +370,11 @@ function Caixa({ data, acoes }: { data: DB; acoes: Acoes }) {
           <div className="mt-0.5 text-[11.5px] text-ink-3">aberto às {caixa.movimentos[0]?.hora}</div>
         </div>
         <div className="flex items-center justify-end">
-          <button onClick={() => { if (confirm('Fechar o caixa agora?')) acoes.fecharCaixa() }}
+          <ConfirmButton titulo="Fechar caixa" mensagem="Fechar o caixa agora?"
+            confirmLabel="Fechar caixa" danger onConfirm={() => acoes.fecharCaixa()}
             className="rounded-lg border border-bad/40 bg-bad/10 px-3.5 py-2 text-[13px] font-medium text-bad transition hover:border-bad/60 hover:bg-bad/20">
             Fechar caixa
-          </button>
+          </ConfirmButton>
         </div>
       </div>
 
@@ -386,8 +389,8 @@ function Caixa({ data, acoes }: { data: DB; acoes: Acoes }) {
             className={inputCls + ' min-w-0 flex-1'} />
           <input type="number" min={0} value={movValor} onChange={e => setMovValor(e.target.value)} placeholder="Valor"
             className={inputCls + ' w-28'} />
-          <button onClick={registrarMov}
-            className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
+          <button onClick={registrarMov} disabled={!movValor.trim() || Number(movValor.replace(',', '.')) <= 0}
+            className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50">
             Registrar
           </button>
         </div>

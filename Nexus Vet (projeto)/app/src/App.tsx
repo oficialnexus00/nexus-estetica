@@ -1,9 +1,19 @@
 import { useCallback, useEffect, useState } from 'react'
 import { clinics as clinicasDemo, db } from './data'
-import type { DB, Tutor, ItemVenda, FormaPagamento } from './data'
+import type { DB, Tutor, Pet, ItemVenda, FormaPagamento } from './data'
 
 export type DadosVenda = {
   clienteNome?: string; petNome?: string; itens: ItemVenda[]; desconto: number; formaPagamento: FormaPagamento; profissional?: string
+}
+
+export type DadosInternacao = {
+  petId: string; motivo: string; box?: string; profissional?: string; previsaoAlta?: string; valorDiaria: number
+}
+export type DadosParametro = {
+  temperatura?: number; fc?: number; fr?: number; mucosas?: string; obs?: string
+}
+export type DadosMedicacao = {
+  medicamento: string; dose: string; via: string; intervaloHoras: number; inicio: string
 }
 import { supabase, MODO_DEMO } from './lib/supabase'
 import { carregarClinica, carregarClinicas, situacaoDa } from './lib/queries'
@@ -11,7 +21,7 @@ import * as mut from './lib/mutations'
 import Modal from './components/Modal'
 import { FormAgendamento, type DadosAgendamento, type DadosDose, type DadosTutorPet,
   type DadosEditarTutor, type DadosEditarPet, type DadosAtendimento,
-  type DadosLancamento, type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional,
+  type DadosLancamento, type DadosFornecedor, type DadosPet, type DadosBox, type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional,
   type DadosEstoque, type DadosEditarEstoque, type DadosMovimento,
   type DadosExame, type DadosResultado, type DadosProtocolo, type DadosModelo } from './components/Formularios'
 import Dashboard from './views/Dashboard'
@@ -23,21 +33,31 @@ import Estoque from './views/Estoque'
 import Exames from './views/Exames'
 import Vendas from './views/Vendas'
 import Comissoes from './views/Comissoes'
+import Internacao from './views/Internacao'
+import Inteligencia from './views/Inteligencia'
 import Reativacao from './views/Reativacao'
 import Bia from './views/Bia'
+import Guia from './views/Guia'
+import Suporte from './views/Suporte'
+import ThemeToggle, { type Tema } from './components/ThemeToggle'
+import DocumentoHost from './components/DocumentoHost'
 
 const NAV = [
-  { id: 'dashboard', label: 'Dashboard', icon: '◧' },
-  { id: 'agenda', label: 'Agenda', icon: '▤' },
-  { id: 'tutores', label: 'Tutores & Pets', icon: '◉' },
-  { id: 'financeiro', label: 'Financeiro', icon: '◈' },
+  { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
+  { id: 'agenda', label: 'Agenda', icon: '📅' },
+  { id: 'tutores', label: 'Tutores & Pets', icon: '🐾' },
+  { id: 'financeiro', label: 'Financeiro', icon: '💰' },
   { id: 'vendas', label: 'Vendas', icon: '🛒' },
   { id: 'comissoes', label: 'Comissões', icon: '💵' },
+  { id: 'internacao', label: 'Internação', icon: '🏥' },
+  { id: 'inteligencia', label: 'Inteligência', icon: '📊' },
   { id: 'estoque', label: 'Estoque', icon: '📦' },
   { id: 'exames', label: 'Exames', icon: '🔬' },
   { id: 'reativacao', label: 'Reativação', icon: '🔔' },
-  { id: 'configuracoes', label: 'Configurações', icon: '⚙' },
+  { id: 'configuracoes', label: 'Configurações', icon: '⚙️' },
   { id: 'bia', label: 'Bia (IA)', icon: '✦' },
+  { id: 'guia', label: 'Guia de uso', icon: '📚' },
+  { id: 'suporte', label: 'Suporte', icon: '🎧' },
 ] as const
 
 type View = (typeof NAV)[number]['id']
@@ -48,14 +68,23 @@ export type Acoes = {
   demo: boolean
   registrarDose: (petId: string, d: DadosDose) => Promise<void>
   criarTutorComPet: (d: DadosTutorPet) => Promise<void>
+  adicionarPet: (tutorId: string, d: DadosPet) => Promise<void>
   criarAgendamento: (d: DadosAgendamento) => Promise<void>
   confirmarPendentes: () => Promise<number>
   editarTutor: (tutorId: string, d: DadosEditarTutor) => Promise<void>
   editarPet: (petId: string, d: DadosEditarPet) => Promise<void>
   registrarAtendimento: (petId: string, d: DadosAtendimento) => Promise<void>
   registrarNotaClinica: (petId: string, d: { tipo: 'observacao' | 'patologia'; texto: string }) => Promise<void>
+  adicionarCondicao: (petId: string, texto: string) => Promise<void>
+  removerCondicao: (petId: string, index: number) => Promise<void>
   criarLancamento: (d: DadosLancamento) => Promise<void>
   baixarLancamento: (id: string) => Promise<void>
+  criarFornecedor: (d: DadosFornecedor) => Promise<void>
+  atualizarFornecedor: (id: string, d: DadosFornecedor) => Promise<void>
+  deletarFornecedor: (id: string) => Promise<void>
+  criarBox: (d: DadosBox) => Promise<void>
+  atualizarBox: (id: string, d: DadosBox) => Promise<void>
+  deletarBox: (id: string) => Promise<void>
   criarServico: (d: DadosServico) => Promise<void>
   atualizarServico: (id: string, d: DadosEditarServico) => Promise<void>
   deletarServico: (id: string) => Promise<void>
@@ -85,7 +114,50 @@ export type Acoes = {
   abrirCaixa: (valorInicial: number) => Promise<void>
   registrarMovimentoCaixa: (d: { tipo: 'entrada' | 'saida'; descricao: string; valor: number }) => Promise<void>
   fecharCaixa: () => Promise<void>
+  internarPet: (d: DadosInternacao) => Promise<void>
+  registrarParametro: (internacaoId: string, d: DadosParametro) => Promise<void>
+  adicionarMedicacao: (internacaoId: string, d: DadosMedicacao) => Promise<void>
+  removerMedicacao: (internacaoId: string, medId: string) => Promise<void>
+  alternarAplicacao: (internacaoId: string, medId: string, idx: number) => Promise<void>
+  darAlta: (internacaoId: string) => Promise<void>
   clinicaNome: string
+}
+
+/** Gera o aprazamento (horários previstos) de uma medicação nas próximas 24h. */
+function gerarHorarios(inicio: string, intervaloHoras: number): { hora: string; aplicado: boolean }[] {
+  const [h, m] = inicio.split(':').map(Number)
+  const base = h * 60 + (m || 0)
+  const intervalo = Math.max(1, intervaloHoras)
+  const n = Math.max(1, Math.floor(24 / intervalo))
+  return Array.from({ length: n }, (_, i) => {
+    const t = (base + i * intervalo * 60) % (24 * 60)
+    const hh = String(Math.floor(t / 60)).padStart(2, '0')
+    const mm = String(t % 60).padStart(2, '0')
+    return { hora: `${hh}:${mm}`, aplicado: false }
+  })
+}
+
+/** Ícone da Bia: bonequinha colorida (vestido teal) com a estrelinha de IA na base. */
+function BiaIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 -my-1" aria-hidden="true">
+      {/* corpo alargado horizontalmente (mesma altura) */}
+      <g transform="matrix(1.28 0 0 1 -3.36 0)">
+        {/* cabelo (atrás) */}
+        <circle cx="12" cy="6" r="4.1" fill="#5D4037" />
+        {/* rosto */}
+        <circle cx="12" cy="6.5" r="3.1" fill="#F3C892" />
+        {/* franja */}
+        <path fill="#5D4037" d="M8.9 5.4c.9-1.3 5.3-1.3 6.2 0 .2.6.2 1.2.1 1.8-.6-1-1.7-1.4-3.2-1.4s-2.6.4-3.2 1.4c-.1-.6-.1-1.2.1-1.8z" />
+        {/* laço */}
+        <path fill="#00BFA5" d="M14.8 3.1c.7-.2 1.5.1 1.6.7.1.6-.5 1.1-1.2 1.2z" />
+        {/* vestido (teal da marca) */}
+        <path fill="#00BFA5" d="M12 9.4c-2.2 0-3.5 1.7-4 4-.22 1 .5 1.9 1.5 1.9h5c1 0 1.72-.9 1.5-1.9-.5-2.3-1.8-4-4-4z" />
+      </g>
+      {/* estrelinha de IA — base, centro (simétrica) */}
+      <path fill="#FFCA28" d="M12 15.3c.34 1.66.9 2.22 2.56 2.56-1.66.34-2.22.9-2.56 2.56-.34-1.66-.9-2.22-2.56-2.56 1.66-.34 2.22-.9 2.56-2.56z" />
+    </svg>
+  )
 }
 
 function Logo() {
@@ -109,7 +181,23 @@ export default function App() {
   const [view, setView] = useState<View>('dashboard')
   const [menuOpen, setMenuOpen] = useState(false)
   const [agendando, setAgendando] = useState(false)
+  const [agendarData, setAgendarData] = useState<string | undefined>(undefined)
+  const [agendarHora, setAgendarHora] = useState<string | undefined>(undefined)
   const [aviso, setAviso] = useState<string | null>(null)
+
+  // Tema dia/noite — persiste a escolha e aplica no <html> via data-theme.
+  const [tema, setTema] = useState<Tema>(() => {
+    if (typeof localStorage !== 'undefined') {
+      const salvo = localStorage.getItem('nexus-tema')
+      if (salvo === 'light' || salvo === 'dark') return salvo
+    }
+    return 'dark'
+  })
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', tema)
+    try { localStorage.setItem('nexus-tema', tema) } catch { /* ignora */ }
+  }, [tema])
+  const alternarTema = () => setTema(t => (t === 'dark' ? 'light' : 'dark'))
 
   const [clinicas, setClinicas] = useState<Clinica[]>(MODO_DEMO ? clinicasDemo.map(c => ({ ...c })) : [])
   const [clinicId, setClinicId] = useState<string>(MODO_DEMO ? 'c1' : '')
@@ -155,6 +243,7 @@ export default function App() {
             id: 'f' + Date.now(), tipo: d.tipo, descricao: d.descricao,
             categoria: d.categoria, valor: d.valor, vencimento: d.vencimento,
             tutorNome: d.tutorNome,
+            fornecedorId: d.fornecedorId, fornecedorNome: d.fornecedorNome, documento: d.documento,
           }, ...atual.lancamentos],
         }))
       } else {
@@ -177,6 +266,75 @@ export default function App() {
         await recarregar()
       }
       notificar('Baixa registrada.')
+    },
+
+    async criarFornecedor(d) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({
+          ...atual,
+          fornecedores: [{ id: 'fo' + Date.now(), ...d, ativo: true }, ...atual.fornecedores],
+        }))
+      } else {
+        await mut.criarFornecedor(clinicId, d)
+        await recarregar()
+      }
+      notificar(`Fornecedor ${d.nomeFantasia || d.razaoSocial} cadastrado.`)
+    },
+
+    async atualizarFornecedor(id, d) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({
+          ...atual,
+          fornecedores: atual.fornecedores.map(fo => fo.id === id ? { ...fo, ...d } : fo),
+        }))
+      } else {
+        await mut.atualizarFornecedor(id, d)
+        await recarregar()
+      }
+      notificar('Fornecedor atualizado.')
+    },
+
+    async deletarFornecedor(id) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({
+          ...atual,
+          fornecedores: atual.fornecedores.filter(fo => fo.id !== id),
+        }))
+      } else {
+        await mut.deletarFornecedor(id)
+        await recarregar()
+      }
+      notificar('Fornecedor removido.')
+    },
+
+    async criarBox(d) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({ ...atual, boxes: [...atual.boxes, { id: 'bx' + Date.now(), nome: d.nome, especie: d.especie, finalidade: d.finalidade, observacao: d.observacao }] }))
+      } else {
+        await mut.criarBox(clinicId, d)
+        await recarregar()
+      }
+      notificar(`${d.nome} adicionado.`)
+    },
+
+    async atualizarBox(id, d) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({ ...atual, boxes: atual.boxes.map(b => b.id === id ? { ...b, nome: d.nome, especie: d.especie, finalidade: d.finalidade, observacao: d.observacao } : b) }))
+      } else {
+        await mut.atualizarBox(id, d)
+        await recarregar()
+      }
+      notificar('Box atualizado.')
+    },
+
+    async deletarBox(id) {
+      if (MODO_DEMO) {
+        setData(atual => atual && ({ ...atual, boxes: atual.boxes.filter(b => b.id !== id) }))
+      } else {
+        await mut.deletarBox(id)
+        await recarregar()
+      }
+      notificar('Box removido.')
     },
 
     async registrarAtendimento(petId, d) {
@@ -215,6 +373,30 @@ export default function App() {
       notificar(d.tipo === 'patologia' ? 'Diagnóstico registrado.' : 'Observação registrada.')
     },
 
+    async adicionarCondicao(petId, texto) {
+      const t = texto.trim()
+      if (!t) return
+      setData(atual => atual && ({
+        ...atual,
+        tutores: atual.tutores.map(tu => ({
+          ...tu,
+          pets: tu.pets.map(p => p.id !== petId ? p : ({ ...p, condicoes: [...(p.condicoes ?? []), t] })),
+        })),
+      }))
+      notificar('Condição adicionada ao quadro clínico.')
+    },
+
+    async removerCondicao(petId, index) {
+      setData(atual => atual && ({
+        ...atual,
+        tutores: atual.tutores.map(tu => ({
+          ...tu,
+          pets: tu.pets.map(p => p.id !== petId ? p : ({ ...p, condicoes: (p.condicoes ?? []).filter((_, i) => i !== index) })),
+        })),
+      }))
+      notificar('Condição removida.')
+    },
+
     async registrarDose(petId, d) {
       const proxima = mut.calcularProximaDose(d.dataAplicacao, d)
       if (MODO_DEMO) {
@@ -240,11 +422,14 @@ export default function App() {
       if (MODO_DEMO) {
         const novo: Tutor = {
           id: 't' + Date.now(), nome: d.nome, telefone: d.telefone, origem: 'Cadastro manual',
+          email: d.email, nascimento: d.nascimento, endereco: d.endereco,
           etapa: 'lead', desde: new Date().toISOString().slice(0, 10),
           pets: [{
             id: 'p' + Date.now(), nome: d.pet.nome, especie: d.pet.especie,
             raca: d.pet.raca ?? '—', nascimento: d.pet.nascimento ?? new Date().toISOString().slice(0, 10),
-            peso: 0, castrado: false, vacinas: [], atendimentos: [],
+            peso: 0, castrado: false, microchip: d.pet.microchip, pedigree: d.pet.pedigree,
+            sexo: d.pet.sexo, pelagem: d.pet.pelagem, condicoes: [],
+            vacinas: [], atendimentos: [],
           }],
         }
         setData(atual => atual && ({ ...atual, tutores: [novo, ...atual.tutores] }))
@@ -256,22 +441,39 @@ export default function App() {
       notificar(`${d.nome} e ${d.pet.nome} cadastrados.`)
     },
 
+    async adicionarPet(tutorId, d) {
+      if (MODO_DEMO) {
+        const novoPet: Pet = {
+          id: 'p' + Date.now(), nome: d.nome, especie: d.especie,
+          raca: d.raca ?? '—', nascimento: d.nascimento ?? new Date().toISOString().slice(0, 10),
+          peso: 0, castrado: false, microchip: d.microchip, pedigree: d.pedigree,
+          sexo: d.sexo, pelagem: d.pelagem, condicoes: [],
+          vacinas: [], atendimentos: [],
+        }
+        setData(atual => atual && ({
+          ...atual,
+          tutores: atual.tutores.map(t => t.id !== tutorId ? t : ({ ...t, pets: [...t.pets, novoPet] })),
+        }))
+      } else {
+        await mut.criarPet(clinicId, { tutorId, ...d })
+        await recarregar()
+      }
+      notificar(`${d.nome} adicionado à família.`)
+    },
+
     async criarAgendamento(d) {
       const pet = data?.tutores.flatMap(t => t.pets).find(p => p.id === d.petId)
       const servico = data?.servicos.find(s => s.id === d.serviceId)
       if (MODO_DEMO) {
         const tutor = data?.tutores.find(t => t.pets.some(p => p.id === d.petId))
-        const hoje = new Date().toISOString().slice(0, 10)
-        if (d.data === hoje) {
-          setData(atual => atual && ({
-            ...atual,
-            agenda: [...atual.agenda, {
-              id: 'a' + Date.now(), hora: d.hora, pet: pet?.nome ?? '—', tutor: tutor?.nome ?? '—',
-              servico: servico?.nome ?? '—', profissional: d.profissional,
-              status: 'pendente' as const, canal: 'recepcao' as const,
-            }].sort((a, b) => a.hora.localeCompare(b.hora)),
-          }))
-        }
+        setData(atual => atual && ({
+          ...atual,
+          agenda: [...atual.agenda, {
+            id: 'a' + Date.now(), data: d.data, hora: d.hora, pet: pet?.nome ?? '—', tutor: tutor?.nome ?? '—',
+            servico: servico?.nome ?? '—', profissional: d.profissional,
+            status: 'pendente' as const, canal: 'recepcao' as const,
+          }].sort((a, b) => (a.data + a.hora).localeCompare(b.data + b.hora)),
+        }))
       } else {
         await mut.criarAgendamento(clinicId, {
           tutorId: d.tutorId, petId: d.petId, serviceId: d.serviceId,
@@ -287,7 +489,8 @@ export default function App() {
         setData(atual => atual && ({
           ...atual,
           tutores: atual.tutores.map(t => t.id !== tutorId ? t
-            : ({ ...t, nome: d.nome, telefone: d.telefone, etapa: d.etapa })),
+            : ({ ...t, nome: d.nome, telefone: d.telefone, etapa: d.etapa,
+                 email: d.email, nascimento: d.nascimento, endereco: d.endereco })),
         }))
       } else {
         await mut.atualizarTutor(tutorId, {
@@ -300,16 +503,30 @@ export default function App() {
 
     async editarPet(petId, d) {
       if (MODO_DEMO) {
+        const hojeISO = new Date().toISOString().slice(0, 10)
         setData(atual => atual && ({
           ...atual,
           tutores: atual.tutores.map(t => ({
             ...t,
-            pets: t.pets.map(p => p.id !== petId ? p : ({
-              ...p,
-              nome: d.nome, especie: d.especie, raca: d.raca ?? '—',
-              nascimento: d.nascimento ?? p.nascimento,
-              peso: d.pesoKg ?? p.peso, castrado: d.castrado, alerta: d.alertaSaude,
-            })),
+            pets: t.pets.map(p => {
+              if (p.id !== petId) return p
+              // Se o peso mudou aqui, registra um ponto na curva de evolução (mesmo
+              // efeito de uma pesagem) — assim qualquer novo peso alimenta o gráfico.
+              const pesoMudou = d.pesoKg != null && d.pesoKg !== p.peso
+              const atendimentos = pesoMudou
+                ? [{ id: 'c' + Date.now(), data: hojeISO, profissional: '—', tipo: 'Pesagem', motivo: 'Atualização de peso', peso: d.pesoKg }, ...p.atendimentos]
+                : p.atendimentos
+              return {
+                ...p,
+                nome: d.nome, especie: d.especie, raca: d.raca ?? '—',
+                nascimento: d.nascimento ?? p.nascimento,
+                peso: d.pesoKg ?? p.peso, castrado: d.castrado, alerta: d.alertaSaude,
+                microchip: d.microchip, pedigree: d.pedigree,
+                sexo: d.sexo, pelagem: d.pelagem,
+                porte: d.porte, temperamento: d.temperamento, rga: d.rga, observacoes: d.observacoes,
+                atendimentos,
+              }
+            }),
           })),
         }))
       } else {
@@ -340,6 +557,7 @@ export default function App() {
           ...atual,
           servicos: [...atual.servicos, {
             id: 's' + Date.now(), nome: d.nome, categoria: d.categoria, preco: d.preco, duracao: d.duracao,
+            descricao: d.descricao, observacao: d.observacao,
           }],
         }))
       } else {
@@ -724,6 +942,99 @@ export default function App() {
       }))
       notificar('Caixa fechado.')
     },
+
+    async internarPet(d) {
+      const pet = data?.tutores.flatMap(t => t.pets.map(p => ({ p, tutor: t }))).find(x => x.p.id === d.petId)
+      if (!pet) return
+      const hoje = new Date().toISOString().slice(0, 10)
+      const nova = {
+        id: 'int' + Date.now(), petId: d.petId, petNome: pet.p.nome, tutorNome: pet.tutor.nome,
+        especie: pet.p.especie, box: d.box, motivo: d.motivo, profissional: d.profissional,
+        entrada: hoje, previsaoAlta: d.previsaoAlta, valorDiaria: d.valorDiaria,
+        status: 'internado' as const, parametros: [], medicacoes: [],
+      }
+      setData(atual => atual && ({ ...atual, internacoes: [nova, ...(atual.internacoes ?? [])] }))
+      notificar(`${pet.p.nome} internado.`)
+    },
+
+    async registrarParametro(internacaoId, d) {
+      const agora = new Date()
+      const hoje = agora.toISOString().slice(0, 10)
+      const hora = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+      setData(atual => atual && ({
+        ...atual,
+        internacoes: (atual.internacoes ?? []).map(i => i.id !== internacaoId ? i : ({
+          ...i,
+          parametros: [...i.parametros, { id: 'pc' + Date.now(), data: hoje, hora, ...d }],
+        })),
+      }))
+      notificar('Parâmetros clínicos registrados.')
+    },
+
+    async adicionarMedicacao(internacaoId, d) {
+      setData(atual => atual && ({
+        ...atual,
+        internacoes: (atual.internacoes ?? []).map(i => i.id !== internacaoId ? i : ({
+          ...i,
+          medicacoes: [...i.medicacoes, {
+            id: 'md-int' + Date.now(), medicamento: d.medicamento, dose: d.dose, via: d.via,
+            intervaloHoras: d.intervaloHoras, horarios: gerarHorarios(d.inicio, d.intervaloHoras),
+          }],
+        })),
+      }))
+      notificar(`${d.medicamento} adicionado ao aprazamento.`)
+    },
+
+    async removerMedicacao(internacaoId, medId) {
+      setData(atual => atual && ({
+        ...atual,
+        internacoes: (atual.internacoes ?? []).map(i => i.id !== internacaoId ? i : ({
+          ...i,
+          medicacoes: i.medicacoes.filter(m => m.id !== medId),
+        })),
+      }))
+      notificar('Medicação removida do aprazamento.')
+    },
+
+    async alternarAplicacao(internacaoId, medId, idx) {
+      setData(atual => atual && ({
+        ...atual,
+        internacoes: (atual.internacoes ?? []).map(i => i.id !== internacaoId ? i : ({
+          ...i,
+          medicacoes: i.medicacoes.map(m => m.id !== medId ? m : ({
+            ...m,
+            horarios: m.horarios.map((h, n) => n === idx ? { ...h, aplicado: !h.aplicado } : h),
+          })),
+        })),
+      }))
+    },
+
+    async darAlta(internacaoId) {
+      const hoje = new Date().toISOString().slice(0, 10)
+      const alvo = (data?.internacoes ?? []).find(i => i.id === internacaoId)
+      const dias = alvo
+        ? Math.max(1, Math.round((new Date(hoje + 'T00:00:00').getTime() - new Date(alvo.entrada + 'T00:00:00').getTime()) / 86400000))
+        : 1
+      const valor = alvo ? dias * alvo.valorDiaria : 0
+      setData(atual => {
+        if (!atual) return atual
+        const i = (atual.internacoes ?? []).find(x => x.id === internacaoId)
+        if (!i) return atual
+        return {
+          ...atual,
+          internacoes: atual.internacoes.map(x => x.id === internacaoId ? { ...x, status: 'alta' as const, saida: hoje } : x),
+          lancamentos: [{
+            id: 'f' + Date.now(), tipo: 'receber' as const,
+            descricao: `Internação — ${dias} ${dias === 1 ? 'diária' : 'diárias'} (${i.petNome})`,
+            categoria: 'internacao', valor, vencimento: hoje,
+            tutorNome: i.tutorNome, petNome: i.petNome,
+          }, ...atual.lancamentos],
+        }
+      })
+      notificar(alvo
+        ? `Alta de ${alvo.petNome}. ${dias} ${dias === 1 ? 'diária' : 'diárias'} → ${valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} lançados a receber.`
+        : 'Alta registrada.')
+    },
   }
 
   const clinic = clinicas.find(c => c.id === clinicId)
@@ -754,7 +1065,9 @@ export default function App() {
           <button key={item.id} onClick={() => go(item.id)}
             className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-[13.5px] font-medium transition
               ${view === item.id ? 'bg-brand/12 text-brand' : 'text-ink-2 hover:bg-surface-2 hover:text-ink'}`}>
-            <span className="text-[15px] leading-none">{item.icon}</span>
+            {item.id === 'bia'
+              ? <BiaIcon />
+              : <span className="text-[15px] leading-none">{item.icon}</span>}
             {item.label}
           </button>
         ))}
@@ -800,10 +1113,14 @@ export default function App() {
               </div>
             </div>
           </div>
-          <button onClick={() => setAgendando(true)} disabled={!data}
-            className="shrink-0 whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50 md:px-3.5 md:text-[13px]">
-            + Agendar
-          </button>
+          <div className="flex shrink-0 items-center gap-2">
+            <ThemeToggle tema={tema} onToggle={alternarTema} />
+            <button onClick={() => go('suporte')}
+              className={`whitespace-nowrap rounded-lg border px-3 py-2 text-[12.5px] font-medium transition md:px-3.5 md:text-[13px] ${
+                view === 'suporte' ? 'border-brand/50 bg-brand/12 text-brand' : 'border-line bg-surface-2 text-ink-2 hover:border-brand/50 hover:text-ink'}`}>
+              🎧 Suporte
+            </button>
+          </div>
         </header>
 
         {aviso && (
@@ -831,27 +1148,36 @@ export default function App() {
           {!erro && data && (
             <>
               {view === 'dashboard' && <Dashboard data={data} ir={(v) => setView(v)} />}
-              {view === 'agenda' && <Agenda data={data} acoes={acoes} />}
+              {view === 'agenda' && <Agenda data={data} acoes={acoes}
+                onAgendar={(d, h) => { setAgendarData(d); setAgendarHora(h); setAgendando(true) }} />}
               {view === 'tutores' && <Tutores data={data} acoes={acoes} />}
               {view === 'financeiro' && <Financeiro data={data} acoes={acoes} />}
               {view === 'vendas' && <Vendas data={data} acoes={acoes} />}
               {view === 'comissoes' && <Comissoes data={data} acoes={acoes} />}
+              {view === 'internacao' && <Internacao data={data} acoes={acoes} />}
+              {view === 'inteligencia' && <Inteligencia data={data} />}
               {view === 'estoque' && <Estoque itens={data.estoque ?? []} acoes={acoes} />}
               {view === 'exames' && <Exames exames={data.exames ?? []} pets={data.tutores.flatMap(t => t.pets)} acoes={acoes} />}
               {view === 'reativacao' && <Reativacao data={data} />}
               {view === 'configuracoes' && <Configuracoes data={data} acoes={acoes} />}
               {view === 'bia' && <Bia />}
+              {view === 'guia' && <Guia />}
+              {view === 'suporte' && <Suporte />}
             </>
           )}
         </div>
       </main>
 
       {data && (
-        <Modal titulo="Novo agendamento" aberto={agendando} onFechar={() => setAgendando(false)}>
-          <FormAgendamento dados={data} onCancelar={() => setAgendando(false)}
-            onSalvar={async d => { await acoes.criarAgendamento(d); setAgendando(false) }} />
+        <Modal titulo="Novo agendamento" aberto={agendando}
+          onFechar={() => { setAgendando(false); setAgendarData(undefined); setAgendarHora(undefined) }}>
+          <FormAgendamento dados={data} dataInicial={agendarData} horaInicial={agendarHora}
+            onCancelar={() => { setAgendando(false); setAgendarData(undefined); setAgendarHora(undefined) }}
+            onSalvar={async d => { await acoes.criarAgendamento(d); setAgendando(false); setAgendarData(undefined); setAgendarHora(undefined) }} />
         </Modal>
       )}
+
+      <DocumentoHost />
     </div>
   )
 }

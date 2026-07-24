@@ -163,6 +163,7 @@ export async function carregarClinica(clinicId: string): Promise<DB> {
     .filter(a => a.inicio.slice(0, 10) === hoje)
     .map(a => ({
       id: a.id,
+      data: a.inicio.slice(0, 10),
       hora: new Date(a.inicio).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
       pet: a.pets?.nome ?? '—',
       tutor: a.tutors?.nome ?? '—',
@@ -188,6 +189,9 @@ export async function carregarClinica(clinicId: string): Promise<DB> {
     vendas: [], // TODO: ler de uma tabela sales quando o Supabase entrar
     orcamentos: [], // TODO: ler de uma tabela quotes quando o Supabase entrar
     caixa: null, // TODO: ler de uma tabela cash_register quando o Supabase entrar
+    boxes: [], // TODO: ler de uma tabela boarding_boxes quando o Supabase entrar
+    internacoes: [], // TODO: ler de uma tabela hospitalizations quando o Supabase entrar
+    fornecedores: [], // TODO: ler de uma tabela suppliers quando o Supabase entrar
     lancamentos,
     kpis: calcularKpis(linhasAgenda, tutores, servicos),
     receitaSemana: calcularReceitaSemana(linhasAgenda, servicos),

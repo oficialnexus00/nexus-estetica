@@ -203,6 +203,87 @@ export async function baixarLancamento(id: string, forma: string = 'outro', quan
   if (error) throw error
 }
 
+/* ---------------------------------------------------------------- fornecedores */
+
+type DadosFornecedor = {
+  razaoSocial: string; nomeFantasia?: string; cnpj?: string; inscricaoEstadual?: string
+  contato?: string; telefone?: string; email?: string; endereco?: string
+  categoria?: string; observacoes?: string
+}
+
+export async function criarFornecedor(clinicId: string, dados: DadosFornecedor) {
+  const { data, error } = await cliente()
+    .from('suppliers')
+    .insert({
+      clinic_id: clinicId,
+      razao_social: dados.razaoSocial,
+      nome_fantasia: dados.nomeFantasia || null,
+      cnpj: dados.cnpj || null,
+      inscricao_estadual: dados.inscricaoEstadual || null,
+      contato: dados.contato || null,
+      telefone: dados.telefone || null,
+      email: dados.email || null,
+      endereco: dados.endereco || null,
+      categoria: dados.categoria || null,
+      observacoes: dados.observacoes || null,
+      ativo: true,
+    })
+    .select('id')
+    .single()
+  if (error) throw error
+  return data.id as string
+}
+
+export async function atualizarFornecedor(id: string, dados: DadosFornecedor) {
+  const { error } = await cliente().from('suppliers').update(limpar({
+    razao_social: dados.razaoSocial,
+    nome_fantasia: dados.nomeFantasia,
+    cnpj: dados.cnpj,
+    inscricao_estadual: dados.inscricaoEstadual,
+    contato: dados.contato,
+    telefone: dados.telefone,
+    email: dados.email,
+    endereco: dados.endereco,
+    categoria: dados.categoria,
+    observacoes: dados.observacoes,
+  })).eq('id', id)
+  if (error) throw error
+}
+
+export async function deletarFornecedor(id: string) {
+  const { error } = await cliente().from('suppliers').update({ ativo: false }).eq('id', id)
+  if (error) throw error
+}
+
+/* ---------------------------------------------------------- boxes / leitos */
+
+type DadosBox = {
+  nome: string; especie: 'cao' | 'gato' | 'ambos'
+  finalidade: 'comum' | 'uti' | 'isolamento' | 'semi'; observacao?: string
+}
+
+export async function criarBox(clinicId: string, dados: DadosBox) {
+  const { data, error } = await cliente()
+    .from('boarding_boxes')
+    .insert({ clinic_id: clinicId, nome: dados.nome, especie: dados.especie, finalidade: dados.finalidade, observacao: dados.observacao || null })
+    .select('id')
+    .single()
+  if (error) throw error
+  return data.id as string
+}
+
+export async function atualizarBox(id: string, dados: DadosBox) {
+  const { error } = await cliente().from('boarding_boxes')
+    .update({ nome: dados.nome, especie: dados.especie, finalidade: dados.finalidade, observacao: dados.observacao || null })
+    .eq('id', id)
+  if (error) throw error
+}
+
+export async function deletarBox(id: string) {
+  const { error } = await cliente().from('boarding_boxes').delete().eq('id', id)
+  if (error) throw error
+}
+
 /* --------------------------------------------------------------- agendamento */
 
 export async function criarAgendamento(clinicId: string, dados: {
@@ -253,7 +334,7 @@ export async function confirmarPendentes(clinicId: string, dia: string) {
 /* ---------------------------------------------------------------- serviços */
 
 export async function criarServico(clinicId: string, dados: {
-  nome: string; categoria: string; preco: number; duracao: number
+  nome: string; categoria: string; preco: number; duracao: number; descricao?: string; observacao?: string
 }) {
   const { data, error } = await cliente()
     .from('services')
@@ -263,6 +344,8 @@ export async function criarServico(clinicId: string, dados: {
       categoria: dados.categoria,
       preco: dados.preco,
       duracao_min: dados.duracao,
+      descricao: dados.descricao ?? null,
+      observacao: dados.observacao ?? null,
       ativo: true,
     })
     .select('id')
@@ -272,13 +355,15 @@ export async function criarServico(clinicId: string, dados: {
 }
 
 export async function atualizarServico(id: string, dados: {
-  nome?: string; categoria?: string; preco?: number; duracao?: number
+  nome?: string; categoria?: string; preco?: number; duracao?: number; descricao?: string; observacao?: string
 }) {
   const campos: Record<string, unknown> = {}
   if (dados.nome !== undefined) campos.nome = dados.nome
   if (dados.categoria !== undefined) campos.categoria = dados.categoria
   if (dados.preco !== undefined) campos.preco = dados.preco
   if (dados.duracao !== undefined) campos.duracao_min = dados.duracao
+  if (dados.descricao !== undefined) campos.descricao = dados.descricao
+  if (dados.observacao !== undefined) campos.observacao = dados.observacao
 
   const { error } = await cliente().from('services').update(campos).eq('id', id)
   if (error) throw error

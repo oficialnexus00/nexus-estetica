@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Exame, Pet } from '../data'
 import Modal from '../components/Modal'
+import ConfirmButton from '../components/ConfirmButton'
 import { FormExame, FormResultado, type DadosExame, type DadosResultado } from '../components/Formularios'
 import type { Acoes } from '../App'
 
@@ -47,11 +48,6 @@ export default function Exames({ exames, pets, acoes }: Props) {
     await acoes.atualizarExame(exameEditando.id, d)
     setModalResultadoAberto(false)
     setExameEditando(null)
-  }
-
-  const handleDeletarExame = async (id: string) => {
-    if (!confirm('Tem certeza que deseja deletar este exame?')) return
-    await acoes.deletarExame(id)
   }
 
   const filtros: [Filtro, string][] = [
@@ -106,10 +102,11 @@ export default function Exames({ exames, pets, acoes }: Props) {
                         Adicionar resultado
                       </button>
                     )}
-                    <button onClick={() => handleDeletarExame(exame.id)}
+                    <ConfirmButton titulo="Deletar exame" mensagem={`Deletar o exame "${exame.tipo}"?`}
+                      confirmLabel="Deletar" danger onConfirm={() => acoes.deletarExame(exame.id)}
                       className="rounded-lg border border-bad/40 bg-bad/10 px-2.5 py-1 text-[11.5px] font-medium text-bad transition hover:border-bad/60 hover:bg-bad/20">
                       Deletar
-                    </button>
+                    </ConfirmButton>
                   </div>
                 </div>
 

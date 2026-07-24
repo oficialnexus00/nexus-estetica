@@ -70,7 +70,16 @@ export type Pet = {
   nascimento: string
   peso: number
   castrado: boolean
+  sexo?: 'macho' | 'femea'
+  porte?: 'pequeno' | 'medio' | 'grande' | 'gigante'
+  pelagem?: string
+  temperamento?: string       // dócil, agitado, medroso… orienta o manejo seguro
+  microchip?: string
+  rga?: string                // registro em associação de raça (animal com pedigree)
+  pedigree?: boolean
   alerta?: string
+  observacoes?: string        // anotações gerais (não é alerta clínico)
+  condicoes?: string[]        // quadro clínico: condições crônicas/contínuas
   vacinas: Vacina[]
   atendimentos: Atendimento[]
   registros?: RegistroClinico[]
@@ -80,6 +89,9 @@ export type Tutor = {
   id: string
   nome: string
   telefone: string
+  email?: string
+  nascimento?: string
+  endereco?: string
   origem: string
   etapa: 'lead' | 'agendado' | 'cliente' | 'inativo'
   desde: string
@@ -88,6 +100,7 @@ export type Tutor = {
 
 export type Agendamento = {
   id: string
+  data: string            // AAAA-MM-DD
   hora: string
   pet: string
   tutor: string
@@ -97,7 +110,7 @@ export type Agendamento = {
   canal: 'ia' | 'recepcao'
 }
 
-export type Servico = { id: string; nome: string; categoria: string; preco: number; duracao: number }
+export type Servico = { id: string; nome: string; categoria: string; preco: number; duracao: number; descricao?: string; observacao?: string }
 
 export type Profissional = { id: string; nome: string; especialidade?: string; telefone?: string; comissaoPct?: number }
 
@@ -183,20 +196,53 @@ export type ParametroClinico = {
   temperatura?: number
   fc?: number             // frequência cardíaca (bpm)
   fr?: number             // frequência respiratória (mpm)
+  mucosas?: string        // coloração das mucosas (normocoradas, pálidas…)
   obs?: string
 }
+
+// Mapa de execução (aprazamento) — cada horário previsto de uma medicação, marcável
+export type HorarioAprazado = { hora: string; aplicado: boolean }
+export type MedicacaoInternacao = {
+  id: string
+  medicamento: string
+  dose: string            // "20mg", "1 comprimido"
+  via: string             // IV, IM, SC, VO
+  intervaloHoras: number  // de quantas em quantas horas
+  horarios: HorarioAprazado[]
+}
+
+// Leito/baia da clínica — ocupação derivada das internações ativas
+export type EspecieBox = 'cao' | 'gato' | 'ambos'
+export type FinalidadeBox = 'comum' | 'uti' | 'isolamento' | 'semi'
+export type Box = {
+  id: string
+  nome: string
+  especie: EspecieBox        // tipo de animal que o box atende
+  finalidade: FinalidadeBox  // internação comum, UTI, isolamento, semi-intensiva
+  observacao?: string
+}
+
+export const ESPECIE_BOX: Record<EspecieBox, string> = { cao: 'Cão', gato: 'Gato', ambos: 'Cão e gato' }
+export const FINALIDADE_BOX: Record<FinalidadeBox, string> = {
+  comum: 'Internação comum', uti: 'UTI', isolamento: 'Isolamento', semi: 'Semi-intensiva',
+}
+
 export type Internacao = {
   id: string
   petId: string
   petNome: string
   tutorNome: string
   especie: Especie
-  box?: string
+  box?: string            // id do box
   motivo: string
+  profissional?: string
   entrada: string         // AAAA-MM-DD
   previsaoAlta?: string
+  saida?: string          // AAAA-MM-DD (preenchido na alta)
+  valorDiaria: number     // R$/dia — base do lançamento gerado na alta
   status: 'internado' | 'alta'
   parametros: ParametroClinico[]
+  medicacoes: MedicacaoInternacao[]
 }
 
 // Movimentos de caixa (abertura, suprimento, sangria, fechamento)
@@ -214,6 +260,23 @@ export type Caixa = {
   movimentos: MovimentoCaixa[]
 }
 
+// Fornecedor (PJ) — empresa que fornece produtos/serviços para a clínica.
+// É a contraparte B2B: a clínica atende tutores (PF/CPF) mas compra de empresas (PJ/CNPJ).
+export type Fornecedor = {
+  id: string
+  razaoSocial: string          // razão social (identidade jurídica) — obrigatório
+  nomeFantasia?: string        // como é conhecido no dia a dia
+  cnpj?: string                // 00.000.000/0000-00
+  inscricaoEstadual?: string
+  contato?: string             // pessoa de contato
+  telefone?: string
+  email?: string
+  endereco?: string
+  categoria?: string           // insumos, medicamentos, ração, serviços…
+  observacoes?: string
+  ativo: boolean
+}
+
 export type Lancamento = {
   id: string
   tipo: 'receber' | 'pagar'
@@ -225,6 +288,9 @@ export type Lancamento = {
   formaPagamento?: FormaPagamento
   tutorNome?: string
   petNome?: string
+  fornecedorId?: string       // vínculo com a empresa fornecedora (contas a pagar)
+  fornecedorNome?: string
+  documento?: string          // nº da nota fiscal / boleto
 }
 
 export type DB = {
@@ -240,9 +306,20 @@ export type DB = {
   vendas: Venda[]
   orcamentos: Orcamento[]
   caixa: Caixa | null
+  boxes: Box[]
+  internacoes: Internacao[]
   lancamentos: Lancamento[]
+  fornecedores: Fornecedor[]
   kpis: { faturamentoMes: number; noShowPct: number; ocupacaoPct: number; vacinasAtrasadas: number; agendadosPelaIA: number; ticketMedio: number }
   receitaSemana: { dia: string; valor: number }[]
+}
+
+/** Formata um CNPJ (só dígitos ou já formatado) como 00.000.000/0000-00.
+ *  Se não tiver 14 dígitos, devolve o que veio (deixa o usuário preencher parcial). */
+export const formatarCNPJ = (v: string) => {
+  const d = v.replace(/\D/g, '').slice(0, 14)
+  if (d.length !== 14) return v
+  return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`
 }
 
 /** Dias de atraso de um lançamento em aberto (negativo = ainda vai vencer). */
@@ -258,11 +335,11 @@ const hojeMenos = (d: number) => desloca(-d)
 const hojeMais = (d: number) => desloca(d)
 
 const servicos: Servico[] = [
-  { id: 's1', nome: 'Consulta clínica', categoria: 'consulta', preco: 150, duracao: 30 },
-  { id: 's2', nome: 'Vacina V10', categoria: 'vacina', preco: 90, duracao: 15 },
+  { id: 's1', nome: 'Consulta clínica', categoria: 'consulta', preco: 150, duracao: 30, descricao: 'Avaliação clínica geral do pet, com exame físico e orientações ao tutor.' },
+  { id: 's2', nome: 'Vacina V10', categoria: 'vacina', preco: 90, duracao: 15, descricao: 'Vacina múltipla para cães (V10). Protege contra cinomose, parvovirose, leptospirose e outras.' },
   { id: 's3', nome: 'Vacina antirrábica', categoria: 'vacina', preco: 70, duracao: 15 },
-  { id: 's4', nome: 'Banho e tosa', categoria: 'banho_tosa', preco: 80, duracao: 60 },
-  { id: 's5', nome: 'Castração', categoria: 'cirurgia', preco: 850, duracao: 120 },
+  { id: 's4', nome: 'Banho e tosa', categoria: 'banho_tosa', preco: 80, duracao: 60, observacao: 'Confirmar porte do animal para ajustar o valor.' },
+  { id: 's5', nome: 'Castração', categoria: 'cirurgia', preco: 850, duracao: 120, descricao: 'Cirurgia de castração com anestesia e acompanhamento pós-operatório.', observacao: 'Jejum de 8h antes do procedimento.' },
   { id: 's6', nome: 'Hemograma', categoria: 'exame', preco: 120, duracao: 20 },
 ]
 
@@ -279,10 +356,16 @@ export const db: Record<'c1' | 'c2', DB> = {
     tutores: [
       {
         id: 't1', nome: 'Marina Costa', telefone: '47 99812-4455', origem: 'Instagram Ads',
+        email: 'marina.costa@email.com', nascimento: '1990-05-14',
+        endereco: 'Rua das Flores, 123 — Balneário Camboriú/SC',
         etapa: 'cliente', desde: '2024-03-12',
         pets: [{
           id: 'p1', nome: 'Thor', especie: 'cao', raca: 'Golden Retriever',
           nascimento: '2021-06-04', peso: 32.4, castrado: true, alerta: 'Alergia a carrapaticida',
+          sexo: 'macho', pelagem: 'Dourada', microchip: '981098201234567', pedigree: true,
+          porte: 'grande', temperamento: 'Dócil', rga: 'CBKC-0553120',
+          observacoes: 'Tranquilo no banho. Chega puxando pela guia. Prefere ser atendido pela manhã.',
+          condicoes: ['Dermatite alérgica crônica', 'Sensibilidade a carrapaticida'],
           vacinas: [
             { vacina: 'V10', aplicacao: '2025-07-10', proximaDose: '2026-07-10', situacao: 'atrasada' },
             { vacina: 'Antirrábica', aplicacao: '2025-08-02', proximaDose: '2026-08-02', situacao: 'proxima' },
@@ -358,12 +441,21 @@ export const db: Record<'c1' | 'c2', DB> = {
       },
     ],
     agenda: [
-      { id: 'a1', hora: '08:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Vacina V10', profissional: 'Dra. Helena', status: 'confirmada', canal: 'ia' },
-      { id: 'a2', hora: '09:00', pet: 'Mel', tutor: 'Ricardo Alves', servico: 'Consulta clínica', profissional: 'Dra. Helena', status: 'atendida', canal: 'recepcao' },
-      { id: 'a3', hora: '10:00', pet: 'Amora', tutor: 'Felipe Moraes', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'confirmada', canal: 'ia' },
-      { id: 'a4', hora: '11:00', pet: 'Bidu', tutor: 'Ricardo Alves', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'pendente', canal: 'ia' },
-      { id: 'a5', hora: '14:00', pet: 'Nina', tutor: 'Juliana Prado', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'falta', canal: 'recepcao' },
-      { id: 'a6', hora: '15:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Hemograma', profissional: 'Dra. Helena', status: 'pendente', canal: 'ia' },
+      // hoje
+      { id: 'a1', data: hojeMais(0), hora: '08:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Vacina V10', profissional: 'Dra. Helena', status: 'confirmada', canal: 'ia' },
+      { id: 'a2', data: hojeMais(0), hora: '09:00', pet: 'Mel', tutor: 'Ricardo Alves', servico: 'Consulta clínica', profissional: 'Dra. Helena', status: 'atendida', canal: 'recepcao' },
+      { id: 'a3', data: hojeMais(0), hora: '10:00', pet: 'Amora', tutor: 'Felipe Moraes', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'confirmada', canal: 'ia' },
+      { id: 'a4', data: hojeMais(0), hora: '11:00', pet: 'Bidu', tutor: 'Ricardo Alves', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'pendente', canal: 'ia' },
+      { id: 'a5', data: hojeMais(0), hora: '14:00', pet: 'Nina', tutor: 'Juliana Prado', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'falta', canal: 'recepcao' },
+      { id: 'a6', data: hojeMais(0), hora: '15:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Hemograma', profissional: 'Dra. Helena', status: 'pendente', canal: 'ia' },
+      // resto da semana
+      { id: 'a20', data: hojeMais(1), hora: '09:30', pet: 'Thor', tutor: 'Marina Costa', servico: 'Retorno', profissional: 'Dra. Helena', status: 'confirmada', canal: 'ia' },
+      { id: 'a21', data: hojeMais(1), hora: '11:00', pet: 'Mel', tutor: 'Ricardo Alves', servico: 'Vacina antirrábica', profissional: 'Dra. Helena', status: 'pendente', canal: 'ia' },
+      { id: 'a22', data: hojeMais(2), hora: '10:00', pet: 'Nina', tutor: 'Juliana Prado', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'confirmada', canal: 'recepcao' },
+      { id: 'a23', data: hojeMais(3), hora: '14:30', pet: 'Bidu', tutor: 'Ricardo Alves', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'pendente', canal: 'ia' },
+      // mais adiante no mês
+      { id: 'a24', data: hojeMais(9), hora: '10:00', pet: 'Amora', tutor: 'Felipe Moraes', servico: 'Vacina V10', profissional: 'Dra. Helena', status: 'confirmada', canal: 'ia' },
+      { id: 'a25', data: hojeMais(16), hora: '15:00', pet: 'Thor', tutor: 'Marina Costa', servico: 'Consulta clínica', profissional: 'Dr. Bruno', status: 'pendente', canal: 'ia' },
     ],
     lancamentos: [
       // a receber — em aberto e vencidos (alimentam a régua de cobrança)
@@ -380,9 +472,34 @@ export const db: Record<'c1' | 'c2', DB> = {
         vencimento: hojeMenos(6), pagoEm: hojeMenos(6), formaPagamento: 'credito', tutorNome: 'Ricardo Alves', petNome: 'Mel' },
       // a pagar
       { id: 'f6', tipo: 'pagar', descricao: 'Aluguel da clínica', categoria: 'fixo', valor: 4200, vencimento: hojeMais(6) },
-      { id: 'f7', tipo: 'pagar', descricao: 'Fornecedor — vacinas', categoria: 'insumo', valor: 1380, vencimento: hojeMais(2) },
+      { id: 'f7', tipo: 'pagar', descricao: 'Compra de vacinas V10 e antirrábica', categoria: 'insumo', valor: 1380,
+        vencimento: hojeMais(2), fornecedorId: 'fo2', fornecedorNome: 'LaborXYZ Biológicos Ltda', documento: 'NF 45872' },
       { id: 'f8', tipo: 'pagar', descricao: 'Energia elétrica', categoria: 'fixo', valor: 640,
         vencimento: hojeMenos(3), pagoEm: hojeMenos(3), formaPagamento: 'boleto' },
+      { id: 'f11', tipo: 'pagar', descricao: 'Antibióticos e analgésicos', categoria: 'insumo', valor: 920,
+        vencimento: hojeMenos(4), fornecedorId: 'fo1', fornecedorNome: 'FarmaXYZ Distribuidora Ltda', documento: 'NF 12043' },
+    ],
+    fornecedores: [
+      { id: 'fo1', razaoSocial: 'FarmaXYZ Distribuidora de Medicamentos Ltda', nomeFantasia: 'FarmaXYZ',
+        cnpj: '12.345.678/0001-90', inscricaoEstadual: '251.234.567', contato: 'Roberto Lima',
+        telefone: '47 3344-5566', email: 'vendas@farmaxyz.com.br',
+        endereco: 'Rua Industrial, 800 — Joinville/SC', categoria: 'Medicamentos', ativo: true },
+      { id: 'fo2', razaoSocial: 'LaborXYZ Produtos Biológicos Ltda', nomeFantasia: 'LaborXYZ',
+        cnpj: '23.456.789/0001-01', inscricaoEstadual: '252.345.678', contato: 'Fernanda Souza',
+        telefone: '47 3365-7788', email: 'comercial@laborxyz.com.br',
+        endereco: 'Av. das Indústrias, 1200 — Blumenau/SC', categoria: 'Vacinas', ativo: true },
+      { id: 'fo3', razaoSocial: 'MedicSupply Materiais Hospitalares Ltda', nomeFantasia: 'MedicSupply',
+        cnpj: '34.567.890/0001-12', contato: 'Paulo Andrade',
+        telefone: '47 3322-9900', email: 'atendimento@medicsupply.com.br',
+        endereco: 'Rua do Comércio, 450 — Itajaí/SC', categoria: 'Materiais', ativo: true },
+      { id: 'fo4', razaoSocial: 'Quality Lab Diagnósticos Ltda', nomeFantasia: 'QualityLab',
+        cnpj: '45.678.901/0001-23', contato: 'Dra. Camila Reis',
+        telefone: '47 3311-2233', email: 'lab@qualitylab.com.br',
+        endereco: 'Rua Sete de Setembro, 90 — Balneário Camboriú/SC', categoria: 'Laboratório', ativo: true },
+      { id: 'fo5', razaoSocial: 'Ração Brasil Comércio de Alimentos Ltda', nomeFantasia: 'RaçãoBrasil',
+        cnpj: '56.789.012/0001-34', contato: 'Marcos Vinícius',
+        telefone: '47 3300-4455', email: 'pedidos@racaobrasil.com.br',
+        endereco: 'BR-101, km 120 — Tijucas/SC', categoria: 'Alimentos', ativo: true },
     ],
     estoque: [
       { id: 'inv1', nome: 'Amoxicilina 500mg', categoria: 'medicamento', codigo: 'AMX500', quantidade_estoque: 45, quantidade_minima: 10, quantidade_maxima: 100, data_validade: '2026-12-31', lote: 'LOTE123456', fornecedor_nome: 'FarmaXYZ', fornecedor_contato: '47 3344-5566', preco_custo: 2.50, preco_venda: 8.90, ativo: true },
@@ -448,6 +565,70 @@ export const db: Record<'c1' | 'c2', DB> = {
         { id: 'mc3', tipo: 'saida', descricao: 'Compra de material (sangria)', valor: 35, hora: '11:15' },
       ],
     },
+    boxes: [
+      { id: 'bx1', nome: 'Box 1', especie: 'cao', finalidade: 'comum' },
+      { id: 'bx2', nome: 'Box 2', especie: 'cao', finalidade: 'comum', observacao: 'Cabe porte grande' },
+      { id: 'bx3', nome: 'Box 3', especie: 'gato', finalidade: 'comum', observacao: 'Ambiente silencioso, longe dos cães' },
+      { id: 'bx4', nome: 'Box 4', especie: 'ambos', finalidade: 'uti', observacao: 'Monitor multiparamétrico e oxigênio' },
+      { id: 'bx5', nome: 'Box 5', especie: 'ambos', finalidade: 'isolamento', observacao: 'Antessala para paramentação' },
+    ],
+    internacoes: [
+      {
+        id: 'int1', petId: 'p2', petNome: 'Mel', tutorNome: 'Ricardo Alves', especie: 'gato',
+        box: 'bx3', motivo: 'Pós-operatório de castração — observação de 24h',
+        profissional: 'Dr. Bruno', entrada: hojeMenos(1), previsaoAlta: hojeMais(0),
+        valorDiaria: 120, status: 'internado',
+        parametros: [
+          { id: 'pc1', data: hojeMenos(1), hora: '15:00', temperatura: 38.4, fc: 140, fr: 28, mucosas: 'Normocoradas', obs: 'Recuperação anestésica tranquila.' },
+          { id: 'pc2', data: hojeMenos(1), hora: '21:00', temperatura: 38.1, fc: 132, fr: 26, mucosas: 'Normocoradas' },
+          { id: 'pc3', data: hojeMenos(0), hora: '07:00', temperatura: 38.3, fc: 136, fr: 24, mucosas: 'Normocoradas', obs: 'Aceitou alimentação. Ferida sem secreção.' },
+        ],
+        medicacoes: [
+          { id: 'md-int1', medicamento: 'Meloxicam', dose: '0,1 mg/kg', via: 'SC', intervaloHoras: 24,
+            horarios: [{ hora: '16:00', aplicado: true }, { hora: '16:00', aplicado: false }] },
+          { id: 'md-int2', medicamento: 'Dipirona', dose: '25 mg/kg', via: 'IV', intervaloHoras: 8,
+            horarios: [{ hora: '16:00', aplicado: true }, { hora: '00:00', aplicado: true }, { hora: '08:00', aplicado: true }, { hora: '16:00', aplicado: false }] },
+        ],
+      },
+      {
+        id: 'int2', petId: 'p4', petNome: 'Nina', tutorNome: 'Juliana Prado', especie: 'cao',
+        box: 'bx4', motivo: 'Gastroenterite com desidratação — fluidoterapia',
+        profissional: 'Dra. Helena', entrada: hojeMenos(2), previsaoAlta: hojeMais(1),
+        valorDiaria: 180, status: 'internado',
+        parametros: [
+          { id: 'pc4', data: hojeMenos(2), hora: '10:00', temperatura: 39.6, fc: 120, fr: 40, mucosas: 'Pálidas', obs: 'Desidratação ~7%. Iniciada fluidoterapia.' },
+          { id: 'pc5', data: hojeMenos(1), hora: '10:00', temperatura: 39.0, fc: 108, fr: 32, mucosas: 'Levemente pálidas', obs: 'Reduziu vômitos. Segue no soro.' },
+          { id: 'pc6', data: hojeMenos(0), hora: '08:00', temperatura: 38.5, fc: 96, fr: 28, mucosas: 'Normocoradas', obs: 'Hidratação recuperada. Aceitando água.' },
+        ],
+        medicacoes: [
+          { id: 'md-int3', medicamento: 'Ringer com lactato', dose: '250 ml', via: 'IV', intervaloHoras: 6,
+            horarios: [{ hora: '12:00', aplicado: true }, { hora: '18:00', aplicado: true }, { hora: '00:00', aplicado: true }, { hora: '06:00', aplicado: true }, { hora: '12:00', aplicado: false }] },
+          { id: 'md-int4', medicamento: 'Ondansetrona', dose: '0,5 mg/kg', via: 'IV', intervaloHoras: 12,
+            horarios: [{ hora: '12:00', aplicado: true }, { hora: '00:00', aplicado: true }, { hora: '12:00', aplicado: false }] },
+          { id: 'md-int5', medicamento: 'Omeprazol', dose: '1 mg/kg', via: 'IV', intervaloHoras: 24,
+            horarios: [{ hora: '10:00', aplicado: true }, { hora: '10:00', aplicado: false }] },
+        ],
+      },
+      // encerradas (histórico) — datas de alta espalhadas para o filtro por período
+      {
+        id: 'int3', petId: 'p1', petNome: 'Thor', tutorNome: 'Marina Costa', especie: 'cao',
+        box: 'bx1', motivo: 'Observação pós-crise alérgica', profissional: 'Dra. Helena',
+        entrada: hojeMenos(6), previsaoAlta: hojeMenos(4), saida: hojeMenos(4),
+        valorDiaria: 150, status: 'alta', parametros: [], medicacoes: [],
+      },
+      {
+        id: 'int4', petId: 'p3', petNome: 'Bidu', tutorNome: 'Ricardo Alves', especie: 'cao',
+        box: 'bx2', motivo: 'Pós-operatório de cálculo urinário', profissional: 'Dr. Bruno',
+        entrada: hojeMenos(38), previsaoAlta: hojeMenos(35), saida: hojeMenos(35),
+        valorDiaria: 160, status: 'alta', parametros: [], medicacoes: [],
+      },
+      {
+        id: 'int5', petId: 'p4', petNome: 'Nina', tutorNome: 'Juliana Prado', especie: 'cao',
+        box: 'bx4', motivo: 'Parvovirose — isolamento e suporte', profissional: 'Dra. Helena',
+        entrada: hojeMenos(102), previsaoAlta: hojeMenos(96), saida: hojeMenos(96),
+        valorDiaria: 200, status: 'alta', parametros: [], medicacoes: [],
+      },
+    ],
     kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 2, agendadosPelaIA: 4, ticketMedio: 187 },
     receitaSemana: [
       { dia: 'Seg', valor: 2100 }, { dia: 'Ter', valor: 2680 }, { dia: 'Qua', valor: 1980 },
@@ -470,7 +651,8 @@ export const db: Record<'c1' | 'c2', DB> = {
       },
     ],
     agenda: [
-      { id: 'a7', hora: '09:30', pet: 'Pipoca', tutor: 'Carla Menezes', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'confirmada', canal: 'ia' },
+      { id: 'a7', data: hojeMais(0), hora: '09:30', pet: 'Pipoca', tutor: 'Carla Menezes', servico: 'Banho e tosa', profissional: 'Equipe banho', status: 'confirmada', canal: 'ia' },
+      { id: 'a26', data: hojeMais(2), hora: '11:00', pet: 'Pipoca', tutor: 'Carla Menezes', servico: 'Consulta clínica', profissional: 'Dra. Helena', status: 'pendente', canal: 'recepcao' },
     ],
     estoque: [
       { id: 'inv11', nome: 'Amoxicilina 500mg', categoria: 'medicamento', codigo: 'AMX500', quantidade_estoque: 30, quantidade_minima: 10, quantidade_maxima: 100, data_validade: '2026-11-20', lote: 'LOTE654321', fornecedor_nome: 'FarmaXYZ', fornecedor_contato: '47 3344-5566', preco_custo: 2.50, preco_venda: 8.90, ativo: true },
@@ -496,10 +678,27 @@ export const db: Record<'c1' | 'c2', DB> = {
     vendas: [],
     orcamentos: [],
     caixa: null,
+    boxes: [
+      { id: 'bx6', nome: 'Box 1', especie: 'cao', finalidade: 'comum' },
+      { id: 'bx7', nome: 'Box 2', especie: 'gato', finalidade: 'comum' },
+      { id: 'bx8', nome: 'Box 3', especie: 'ambos', finalidade: 'isolamento' },
+    ],
+    internacoes: [],
     lancamentos: [
       { id: 'f9', tipo: 'receber', descricao: 'Banho e tosa', categoria: 'banho_tosa', valor: 80,
         vencimento: hojeMenos(1), pagoEm: hojeMenos(1), formaPagamento: 'debito', tutorNome: 'Carla Menezes', petNome: 'Pipoca' },
-      { id: 'f10', tipo: 'pagar', descricao: 'Fornecedor — ração', categoria: 'insumo', valor: 890, vencimento: hojeMais(9) },
+      { id: 'f10', tipo: 'pagar', descricao: 'Compra de ração premium', categoria: 'insumo', valor: 890,
+        vencimento: hojeMais(9), fornecedorId: 'fo6', fornecedorNome: 'RaçãoBrasil', documento: 'NF 8891' },
+    ],
+    fornecedores: [
+      { id: 'fo6', razaoSocial: 'Ração Brasil Comércio de Alimentos Ltda', nomeFantasia: 'RaçãoBrasil',
+        cnpj: '56.789.012/0001-34', contato: 'Marcos Vinícius',
+        telefone: '47 3300-4455', email: 'pedidos@racaobrasil.com.br',
+        endereco: 'BR-101, km 120 — Tijucas/SC', categoria: 'Alimentos', ativo: true },
+      { id: 'fo7', razaoSocial: 'FarmaXYZ Distribuidora de Medicamentos Ltda', nomeFantasia: 'FarmaXYZ',
+        cnpj: '12.345.678/0001-90', contato: 'Roberto Lima',
+        telefone: '47 3344-5566', email: 'vendas@farmaxyz.com.br',
+        endereco: 'Rua Industrial, 800 — Joinville/SC', categoria: 'Medicamentos', ativo: true },
     ],
     kpis: { faturamentoMes: 15340, noShowPct: 12, ocupacaoPct: 54, vacinasAtrasadas: 0, agendadosPelaIA: 1, ticketMedio: 142 },
     receitaSemana: [

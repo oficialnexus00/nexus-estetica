@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { DB, Lancamento } from '../data'
+import type { DB, Lancamento, Fornecedor } from '../data'
 import { brl, diasAtraso } from '../data'
 import type { Acoes } from '../App'
 import Modal from '../components/Modal'
@@ -191,22 +191,26 @@ function Card({ label, valor, hint, tom }: {
   )
 }
 
-function Linha({ l, onBaixar, onRecibo }: {
-  l: Lancamento; onBaixar?: (l: Lancamento) => void; onRecibo?: (l: Lancamento) => void
+function Linha({ l, onBaixar, onRecibo, fornecedor }: {
+  l: Lancamento; onBaixar?: (l: Lancamento) => void; onRecibo?: (l: Lancamento) => void; fornecedor?: Fornecedor
 }) {
   const atraso = diasAtraso(l)
   const aberto = !l.pagoEm
   const vencido = aberto && atraso > 0
 
+  // Sub-linha: no "a receber" mostra tutor/pet; no "a pagar" mostra a empresa fornecedora
+  const nomeFornecedor = l.fornecedorNome ?? fornecedor?.nomeFantasia ?? fornecedor?.razaoSocial
+  const subInfo = l.tipo === 'pagar' && nomeFornecedor
+    ? [nomeFornecedor, fornecedor?.cnpj && `CNPJ ${fornecedor.cnpj}`, l.documento].filter(Boolean).join(' · ')
+    : l.tutorNome
+      ? `${l.tutorNome}${l.petNome ? ` · ${l.petNome}` : ''}`
+      : l.categoria
+
   return (
     <tr className="border-b border-line/60 last:border-0 hover:bg-surface-2/60">
       <td className="px-3 py-2.5">
         <div className="text-[13.5px] font-medium">{l.descricao}</div>
-        {(l.tutorNome || l.categoria) && (
-          <div className="text-[11.5px] text-ink-3">
-            {l.tutorNome ? `${l.tutorNome}${l.petNome ? ` · ${l.petNome}` : ''}` : l.categoria}
-          </div>
-        )}
+        {subInfo && <div className="text-[11.5px] text-ink-3">{subInfo}</div>}
       </td>
       <td className="whitespace-nowrap px-3 py-2.5 text-[13px] tabular-nums">
         {fmt(l.vencimento)}
@@ -237,10 +241,12 @@ function Linha({ l, onBaixar, onRecibo }: {
   )
 }
 
-function Tabela({ itens, onBaixar, onRecibo, vazio }: {
+function Tabela({ itens, onBaixar, onRecibo, vazio, fornecedores }: {
   itens: Lancamento[]; onBaixar?: (l: Lancamento) => void; onRecibo?: (l: Lancamento) => void; vazio: string
+  fornecedores?: Fornecedor[]
 }) {
   if (itens.length === 0) return <p className="py-10 text-center text-[13.5px] text-ink-3">{vazio}</p>
+  const porId = new Map((fornecedores ?? []).map(fo => [fo.id, fo]))
   return (
     <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
       <table className="w-full min-w-[520px]">
@@ -252,7 +258,10 @@ function Tabela({ itens, onBaixar, onRecibo, vazio }: {
             <th className="px-3 py-2.5 text-right font-medium">Situação</th>
           </tr>
         </thead>
-        <tbody>{itens.map(l => <Linha key={l.id} l={l} onBaixar={onBaixar} onRecibo={onRecibo} />)}</tbody>
+        <tbody>{itens.map(l => (
+          <Linha key={l.id} l={l} onBaixar={onBaixar} onRecibo={onRecibo}
+            fornecedor={l.fornecedorId ? porId.get(l.fornecedorId) : undefined} />
+        ))}</tbody>
       </table>
     </div>
   )
@@ -399,7 +408,7 @@ export default function Financeiro({ data, acoes }: { data: DB; acoes: Acoes }) 
 
       {aba === 'pagar' && (
         <Tabela itens={[...emAberto('pagar'), ...pagosNoMes('pagar')]} onBaixar={baixar}
-          vazio="Nenhuma conta a pagar." />
+          fornecedores={data.fornecedores} vazio="Nenhuma conta a pagar." />
       )}
 
       {aba === 'atraso' && (
@@ -474,7 +483,8 @@ export default function Financeiro({ data, acoes }: { data: DB; acoes: Acoes }) 
 
           <GraficoBarras dados={gerarDadosGrafico()} />
 
-          <Tabela itens={lancamentosNoPeriodo} onBaixar={baixar} onRecibo={emitirRecibo} vazio="Nenhum lançamento neste período." />
+          <Tabela itens={lancamentosNoPeriodo} onBaixar={baixar} onRecibo={emitirRecibo}
+            fornecedores={data.fornecedores} vazio="Nenhum lançamento neste período." />
         </div>
       )}
 

@@ -5,6 +5,13 @@ import Login from './views/Login.tsx'
 import { supabase, MODO_DEMO } from './lib/supabase'
 import './index.css'
 
+// Aplica o tema salvo antes do React montar — sem flash e já valendo na tela
+// de login. O toggle dentro do app cuida das trocas em tempo real.
+try {
+  const t = localStorage.getItem('nexus-tema')
+  document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark')
+} catch { document.documentElement.setAttribute('data-theme', 'dark') }
+
 function Root() {
   const [pronto, setPronto] = useState(MODO_DEMO)
   const [logado, setLogado] = useState(false)

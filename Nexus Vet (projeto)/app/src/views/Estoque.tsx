@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { InventoryItem } from '../data'
 import { brl } from '../data'
 import Modal from '../components/Modal'
+import ConfirmButton from '../components/ConfirmButton'
 import { FormEstoque, FormEditarEstoque, FormMovimentoEstoque, type DadosEstoque, type DadosEditarEstoque, type DadosMovimento } from '../components/Formularios'
 import type { Acoes } from '../App'
 
@@ -54,11 +55,6 @@ export default function Estoque({ itens, acoes }: Props) {
     await acoes.atualizarItemEstoque(itemEditando.id, d)
     setModalEditarAberto(false)
     setItemEditando(null)
-  }
-
-  const handleDeletarItem = async (id: string) => {
-    if (!confirm('Tem certeza que deseja deletar este item?')) return
-    await acoes.deletarItemEstoque(id)
   }
 
   const handleRegistrarMovimento = async (d: DadosMovimento) => {
@@ -125,10 +121,11 @@ export default function Estoque({ itens, acoes }: Props) {
                       className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
                       Editar
                     </button>
-                    <button onClick={() => handleDeletarItem(item.id)}
+                    <ConfirmButton titulo="Deletar item" mensagem={`Deletar "${item.nome}" do estoque?`}
+                      confirmLabel="Deletar" danger onConfirm={() => acoes.deletarItemEstoque(item.id)}
                       className="rounded-lg border border-bad/40 bg-bad/10 px-2.5 py-1 text-[11.5px] font-medium text-bad transition hover:border-bad/60 hover:bg-bad/20">
                       Deletar
-                    </button>
+                    </ConfirmButton>
                   </div>
                 </div>
 

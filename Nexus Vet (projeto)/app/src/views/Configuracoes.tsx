@@ -5,8 +5,8 @@ import Modal from '../components/Modal'
 import ConfirmButton from '../components/ConfirmButton'
 import { FormServico, FormProfissional, FormEditarServico, FormEditarProfissional, FormProtocolo, FormModelo, FormFornecedor, FormBox,
   type DadosServico, type DadosProfissional, type DadosEditarServico, type DadosEditarProfissional } from '../components/Formularios'
-import type { ProtocoloVacina, ModeloDocumento, Fornecedor, Box, FinalidadeBox } from '../data'
-import { ESPECIE_BOX, FINALIDADE_BOX } from '../data'
+import type { ProtocoloVacina, ModeloDocumento, Fornecedor, Box, FinalidadeBox, ConfigComissao } from '../data'
+import { ESPECIE_BOX, FINALIDADE_BOX, CONFIG_COMISSAO_PADRAO } from '../data'
 
 const FINAL_CLS: Record<FinalidadeBox, string> = {
   comum: 'border-s1/40 bg-s1/10 text-s1',
@@ -35,8 +35,25 @@ const descreveProtocolo = (p: ProtocoloVacina) => {
   return reforco + filhote
 }
 
+// Segmento (toggle de opções) tipado, usado na aba de Comissões
+function SegmentoConfig<T extends string>({ valor, onMudar, opcoes }: {
+  valor: T; onMudar: (v: T) => void; opcoes: [T, string][]
+}) {
+  return (
+    <div className="flex rounded-lg border border-line bg-surface-2 p-0.5">
+      {opcoes.map(([v, rotulo]) => (
+        <button key={v} onClick={() => onMudar(v)}
+          className={`flex-1 rounded-md px-2.5 py-1.5 text-[12px] font-medium transition ${
+            valor === v ? 'bg-brand/12 text-brand' : 'text-ink-2 hover:text-ink'}`}>
+          {rotulo}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes }) {
-  const [aba, setAba] = useState<'servicos' | 'profissionais' | 'fornecedores' | 'boxes' | 'protocolos' | 'tipos' | 'modelos'>('servicos')
+  const [aba, setAba] = useState<'servicos' | 'profissionais' | 'comissoes' | 'fornecedores' | 'boxes' | 'protocolos' | 'tipos' | 'modelos'>('servicos')
   const [adicionandoServico, setAdicionandoServico] = useState(false)
   const [editandoServico, setEditandoServico] = useState<DB['servicos'][0] | null>(null)
   const [adicionandoProfissional, setAdicionandoProfissional] = useState(false)
@@ -54,6 +71,7 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
   const ABAS = [
     ['servicos', '💼 Serviços'],
     ['profissionais', '👨‍⚕️ Profissionais'],
+    ['comissoes', '💵 Comissões'],
     ['fornecedores', '🏢 Fornecedores'],
     ['boxes', '🏥 Boxes de internação'],
     ['protocolos', '💉 Protocolo de vacinas'],
@@ -187,6 +205,65 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
           )}
         </div>
       )}
+
+      {aba === 'comissoes' && (() => {
+        const cfg = data.comissao ?? CONFIG_COMISSAO_PADRAO
+        const profs = data.profissionais ?? []
+        return (
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-[15px] font-semibold">Comissões</h2>
+              <p className="mt-0.5 text-[12.5px] text-ink-3">Defina como a clínica remunera veterinários e vendedores. A regra e as margens abaixo valem para toda a apuração.</p>
+            </div>
+
+            {/* Regra de cálculo da clínica */}
+            <div className="rounded-xl border border-line bg-surface-1 p-4">
+              <div className="mb-1 text-[13.5px] font-semibold">Regra de cálculo</div>
+              <p className="mb-3 text-[11.5px] text-ink-3">Como a base da comissão é apurada — normalmente definida por contrato.</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <div className="mb-1.5 text-[11.5px] text-ink-3">Comissão incide sobre</div>
+                  <SegmentoConfig valor={cfg.incideSobre} onMudar={v => acoes.atualizarRegraComissao({ ...cfg, incideSobre: v })}
+                    opcoes={[['servicos', 'Somente serviços'], ['tudo', 'Serviços e produtos']]} />
+                </div>
+                <div>
+                  <div className="mb-1.5 text-[11.5px] text-ink-3">Calcular sobre</div>
+                  <SegmentoConfig valor={cfg.base} onMudar={v => acoes.atualizarRegraComissao({ ...cfg, base: v })}
+                    opcoes={[['liquido', 'Valor cobrado (com desconto)'], ['bruto', 'Valor de tabela']]} />
+                </div>
+              </div>
+            </div>
+
+            {/* Margem por profissional */}
+            <div className="rounded-xl border border-line bg-surface-1 p-4">
+              <div className="mb-1 text-[13.5px] font-semibold">Margem por profissional</div>
+              <p className="mb-3 text-[11.5px] text-ink-3">O percentual que cada veterinário ou vendedor recebe sobre a base.</p>
+              {profs.length === 0 ? (
+                <p className="py-4 text-center text-[13px] text-ink-3">Cadastre profissionais na aba “Profissionais”.</p>
+              ) : (
+                <div className="space-y-2">
+                  {profs.map(p => (
+                    <div key={p.id} className="flex items-center justify-between gap-3 rounded-lg border border-line bg-surface-2 px-3 py-2.5">
+                      <div className="min-w-0">
+                        <div className="truncate text-[13.5px] font-medium">{p.nome}</div>
+                        {p.especialidade && <div className="text-[11.5px] text-ink-3">{p.especialidade}</div>}
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <input type="number" min={0} max={100} value={p.comissaoPct ?? 0}
+                          onChange={e => acoes.atualizarComissao(p.id, Number(e.target.value))}
+                          className="w-16 rounded-lg border border-line bg-surface-1 px-3 py-2 text-[13px] text-right outline-none focus:border-brand/60"
+                          aria-label={`Comissão de ${p.nome}`} />
+                        <span className="text-[13px] text-ink-3">%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <p className="mt-3 text-[11.5px] text-ink-3">A apuração (valores a pagar e extratos) fica na tela <span className="font-medium text-ink-2">Comissões</span> do menu.</p>
+            </div>
+          </div>
+        )
+      })()}
 
       {aba === 'fornecedores' && (
         <div className="space-y-4">

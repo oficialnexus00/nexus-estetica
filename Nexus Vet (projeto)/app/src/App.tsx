@@ -110,6 +110,7 @@ export type Acoes = {
   registrarVenda: (d: DadosVenda) => Promise<void>
   atualizarComissao: (profId: string, pct: number) => Promise<void>
   atualizarRegraComissao: (cfg: ConfigComissao) => Promise<void>
+  fecharComissoes: (d: { periodo: string; itens: { profNome: string; valor: number }[] }) => Promise<void>
   criarOrcamento: (d: Omit<DadosVenda, 'formaPagamento'>) => Promise<void>
   converterOrcamento: (id: string, formaPagamento: FormaPagamento) => Promise<void>
   recusarOrcamento: (id: string) => Promise<void>
@@ -874,6 +875,19 @@ export default function App() {
       // config da clínica; hoje demo-only (vai pra uma tabela clinic_settings quando o Supabase entrar)
       setData(atual => atual && ({ ...atual, comissao: cfg }))
       notificar('Regra de comissão atualizada.')
+    },
+
+    async fecharComissoes(d) {
+      const hoje = new Date().toISOString().slice(0, 10)
+      const total = d.itens.reduce((s, i) => s + i.valor, 0)
+      // cada profissional vira uma conta a pagar (categoria 'comissao' → entra no DRE como despesa)
+      const novos = d.itens.map((it, n) => ({
+        id: 'fc' + Date.now() + n, tipo: 'pagar' as const,
+        descricao: `Comissão — ${it.profNome} (${d.periodo})`, categoria: 'comissao',
+        valor: it.valor, vencimento: hoje,
+      }))
+      setData(atual => atual && ({ ...atual, lancamentos: [...novos, ...atual.lancamentos] }))
+      notificar(`Comissão fechada: ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} lançados a pagar.`)
     },
 
     async criarOrcamento(d) {

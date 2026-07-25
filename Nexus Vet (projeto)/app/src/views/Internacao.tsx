@@ -76,7 +76,7 @@ export default function Internacao({ data, acoes }: { data: DB; acoes: Acoes }) 
         internados.length === 0
           ? <p className="py-10 text-center text-[13.5px] text-ink-3">Nenhum animal internado agora. 🐾</p>
           : <div className="grid gap-3 md:grid-cols-2">
-              {internados.map(i => <CardInternado key={i.id} i={i} boxes={boxes} onAbrir={() => setSelId(i.id)} />)}
+              {internados.map(i => <CardInternado key={i.id} i={i} boxes={boxes} exames={data.exames ?? []} onAbrir={() => setSelId(i.id)} />)}
             </div>
       )}
 
@@ -105,10 +105,11 @@ export default function Internacao({ data, acoes }: { data: DB; acoes: Acoes }) 
   )
 }
 
-function CardInternado({ i, boxes, onAbrir }: { i: TInternacao; boxes: Box[]; onAbrir: () => void }) {
+function CardInternado({ i, boxes, exames, onAbrir }: { i: TInternacao; boxes: Box[]; exames: Exame[]; onAbrir: () => void }) {
   const box = boxes.find(b => b.id === i.box)
   const pendentes = i.medicacoes.reduce((s, m) => s + m.horarios.filter(h => !h.aplicado).length, 0)
   const ultimo = i.parametros[i.parametros.length - 1]
+  const examesAbertos = exames.filter(e => e.pet_id === i.petId && e.status === 'solicitado').length
 
   return (
     <button onClick={onAbrir} className="rounded-xl border border-line bg-surface-1 p-4 text-left transition hover:border-brand/50">
@@ -117,6 +118,11 @@ function CardInternado({ i, boxes, onAbrir }: { i: TInternacao; boxes: Box[]; on
           <div className="flex items-center gap-2">
             <span className="text-[14.5px] font-semibold">{i.petNome}</span>
             <span className="text-[11.5px]">{i.especie === 'gato' ? '🐱' : '🐶'}</span>
+            {examesAbertos > 0 && (
+              <span className="shrink-0 rounded-md border border-warn/40 bg-warn/10 px-1.5 py-0.5 text-[10px] font-medium text-warn">
+                🔬 exame em aberto
+              </span>
+            )}
           </div>
           <div className="mt-0.5 text-[12px] text-ink-3">{i.tutorNome}</div>
         </div>
@@ -250,6 +256,7 @@ function Ficha({ internacao: i, boxes, exames, acoes, onVoltar }: {
   // exames deste pet, mais recentes primeiro
   const examesDoPet = exames.filter(e => e.pet_id === i.petId)
     .sort((a, b) => b.data_solicitacao.localeCompare(a.data_solicitacao))
+  const examesAbertos = examesDoPet.filter(e => e.status === 'solicitado').length
 
   return (
     <div className="space-y-4">
@@ -258,13 +265,24 @@ function Ficha({ internacao: i, boxes, exames, acoes, onVoltar }: {
       <div className="rounded-xl border border-line bg-surface-1 p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-[17px] font-semibold">{i.petNome}</span>
               <span>{i.especie === 'gato' ? '🐱' : '🐶'}</span>
               {box && <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${FINAL_CLS[box.finalidade]}`}>{box.nome}</span>}
+              {examesAbertos > 0 && (
+                <span className="rounded-md border border-warn/50 bg-warn/15 px-2 py-0.5 text-[10.5px] font-semibold text-warn">
+                  🔬 {examesAbertos} exame{examesAbertos === 1 ? '' : 's'} em aberto
+                </span>
+              )}
             </div>
             <div className="mt-0.5 text-[12.5px] text-ink-3">{i.tutorNome}</div>
             <div className="mt-2 text-[13px] text-ink-2">{i.motivo}</div>
+            {examesAbertos > 0 && (
+              <div className="mt-2 flex items-center gap-2 rounded-lg border border-warn/40 bg-warn/10 px-3 py-1.5 text-[12px] text-warn">
+                <span>🔬</span>
+                <span>Este animal tem {examesAbertos} exame{examesAbertos === 1 ? '' : 's'} aguardando resultado. Veja em “Exames” abaixo.</span>
+              </div>
+            )}
           </div>
           <div className="shrink-0 text-right text-[11.5px] text-ink-3">
             <div>{diaDeInternacao(i)}º dia de internação</div>

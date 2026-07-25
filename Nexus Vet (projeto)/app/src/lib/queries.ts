@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import type { DB, Tutor, Pet, Vacina, SituacaoVacina, Agendamento, Servico, Especie, StatusAgenda, Atendimento, Lancamento, FormaPagamento, InventoryItem, Exame } from '../data'
+import { CONFIG_COMISSAO_PADRAO } from '../data'
 
 // Camada de acesso a dados. Devolve exatamente o mesmo formato `DB` que o modo
 // demo usa — assim as telas não sabem (nem precisam saber) de onde vêm os dados.
@@ -192,6 +193,7 @@ export async function carregarClinica(clinicId: string): Promise<DB> {
     boxes: [], // TODO: ler de uma tabela boarding_boxes quando o Supabase entrar
     internacoes: [], // TODO: ler de uma tabela hospitalizations quando o Supabase entrar
     fornecedores: [], // TODO: ler de uma tabela suppliers quando o Supabase entrar
+    comissao: CONFIG_COMISSAO_PADRAO, // TODO: ler de uma config da clínica quando o Supabase entrar
     lancamentos,
     kpis: calcularKpis(linhasAgenda, tutores, servicos),
     receitaSemana: calcularReceitaSemana(linhasAgenda, servicos),

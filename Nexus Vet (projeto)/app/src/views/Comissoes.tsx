@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import type { DB } from '../data'
-import { brl } from '../data'
+import type { DB, ConfigComissao } from '../data'
+import { brl, baseComissaoVenda, CONFIG_COMISSAO_PADRAO } from '../data'
 import type { Acoes } from '../App'
 import { extratoComissao } from '../lib/imprimir'
 
@@ -15,12 +15,13 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
   const [de, setDe] = useState(inicioDoMes())
   const [ate, setAte] = useState(hoje())
 
+  const cfg = data.comissao ?? CONFIG_COMISSAO_PADRAO
   const profissionais = data.profissionais ?? []
   const vendas = (data.vendas ?? []).filter(v => v.data >= de && v.data <= ate)
 
   const linhas = profissionais.map(p => {
     const suas = vendas.filter(v => v.profissional === p.nome)
-    const base = suas.reduce((s, v) => s + v.total, 0)
+    const base = suas.reduce((s, v) => s + baseComissaoVenda(v, cfg), 0)
     const pct = p.comissaoPct ?? 0
     const comissao = base * pct / 100
     return { prof: p, suas, base, pct, comissao }
@@ -33,11 +34,14 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
 
   const emitirExtrato = (l: typeof linhas[number]) => extratoComissao({
     clinica: acoes.clinicaNome, profissional: l.prof.nome, pct: l.pct, periodo: periodoTxt,
-    linhas: l.suas.map(v => ({
-      data: v.data,
-      descricao: v.itens.map(i => `${i.quantidade}× ${i.nome}`).join(', '),
-      base: v.total, comissao: v.total * l.pct / 100,
-    })),
+    linhas: l.suas.map(v => {
+      const baseV = baseComissaoVenda(v, cfg)
+      return {
+        data: v.data,
+        descricao: v.itens.map(i => `${i.quantidade}× ${i.nome}`).join(', '),
+        base: baseV, comissao: baseV * l.pct / 100,
+      }
+    }),
     totalBase: l.base, totalComissao: l.comissao,
   })
 
@@ -64,6 +68,24 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
               className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
               Este mês
             </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Regra de comissão da clínica */}
+      <div className="rounded-xl border border-line bg-surface-1 p-4">
+        <div className="mb-1 text-[13px] font-medium">Regra de comissão da clínica</div>
+        <p className="mb-3 text-[11.5px] text-ink-3">Definida por contrato — muda a base do cálculo de todos os profissionais.</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <div className="mb-1.5 text-[11.5px] text-ink-3">Comissão incide sobre</div>
+            <Segmento valor={cfg.incideSobre} onMudar={v => acoes.atualizarRegraComissao({ ...cfg, incideSobre: v })}
+              opcoes={[['servicos', 'Somente serviços'], ['tudo', 'Serviços e produtos']]} />
+          </div>
+          <div>
+            <div className="mb-1.5 text-[11.5px] text-ink-3">Calcular sobre</div>
+            <Segmento valor={cfg.base} onMudar={v => acoes.atualizarRegraComissao({ ...cfg, base: v })}
+              opcoes={[['liquido', 'Valor cobrado (com desconto)'], ['bruto', 'Valor de tabela']]} />
           </div>
         </div>
       </div>
@@ -115,9 +137,26 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
       </div>
 
       <p className="text-[11.5px] text-ink-3">
-        A comissão é calculada sobre as vendas atribuídas a cada profissional no Ponto de venda.
-        Ajuste o % direto aqui — vale para os próximos cálculos.
+        A comissão é calculada sobre as vendas atribuídas a cada profissional no Ponto de venda,
+        seguindo a regra da clínica acima. Ajuste o % direto aqui — vale para os próximos cálculos.
       </p>
+    </div>
+  )
+}
+
+// Segmento (toggle de opções) reutilizável e tipado
+function Segmento<T extends string>({ valor, onMudar, opcoes }: {
+  valor: T; onMudar: (v: T) => void; opcoes: [T, string][]
+}) {
+  return (
+    <div className="flex rounded-lg border border-line bg-surface-2 p-0.5">
+      {opcoes.map(([v, rotulo]) => (
+        <button key={v} onClick={() => onMudar(v)}
+          className={`flex-1 rounded-md px-2.5 py-1.5 text-[12px] font-medium transition ${
+            valor === v ? 'bg-brand/12 text-brand' : 'text-ink-2 hover:text-ink'}`}>
+          {rotulo}
+        </button>
+      ))}
     </div>
   )
 }

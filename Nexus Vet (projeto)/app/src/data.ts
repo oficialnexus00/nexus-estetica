@@ -293,6 +293,13 @@ export type Lancamento = {
   documento?: string          // nº da nota fiscal / boleto
 }
 
+// Regra de comissão definida pela clínica contratante (varia por contrato).
+export type ConfigComissao = {
+  incideSobre: 'servicos' | 'tudo'   // só serviços (padrão) ou serviços + produtos
+  base: 'liquido' | 'bruto'          // sobre o valor cobrado após desconto (padrão) ou valor de tabela
+}
+export const CONFIG_COMISSAO_PADRAO: ConfigComissao = { incideSobre: 'servicos', base: 'liquido' }
+
 export type DB = {
   tutores: Tutor[]
   agenda: Agendamento[]
@@ -310,8 +317,25 @@ export type DB = {
   internacoes: Internacao[]
   lancamentos: Lancamento[]
   fornecedores: Fornecedor[]
+  comissao: ConfigComissao
   kpis: { faturamentoMes: number; noShowPct: number; ocupacaoPct: number; vacinasAtrasadas: number; agendadosPelaIA: number; ticketMedio: number }
   receitaSemana: { dia: string; valor: number }[]
+}
+
+/**
+ * Base de comissão de uma venda conforme a regra da clínica.
+ * - incideSobre: filtra só serviços ou serviços + produtos
+ * - base 'liquido': distribui o desconto proporcionalmente sobre a parte comissionável
+ */
+export const baseComissaoVenda = (v: Venda, cfg: ConfigComissao): number => {
+  const comissionaveis = cfg.incideSobre === 'servicos'
+    ? v.itens.filter(i => i.tipo === 'servico')
+    : v.itens
+  const brutoComissionavel = comissionaveis.reduce((s, i) => s + i.quantidade * i.precoUnit, 0)
+  if (cfg.base === 'bruto') return brutoComissionavel
+  const brutoTotal = v.itens.reduce((s, i) => s + i.quantidade * i.precoUnit, 0)
+  const fator = brutoTotal > 0 ? v.total / brutoTotal : 1 // v.total = bruto − desconto
+  return brutoComissionavel * fator
 }
 
 /** Formata um CNPJ (só dígitos ou já formatado) como 00.000.000/0000-00.
@@ -357,6 +381,7 @@ const servicos: Servico[] = [
   { id: 's4', nome: 'Banho e tosa', categoria: 'banho_tosa', preco: 80, duracao: 60, observacao: 'Confirmar porte do animal para ajustar o valor.' },
   { id: 's5', nome: 'Castração', categoria: 'cirurgia', preco: 850, duracao: 120, descricao: 'Cirurgia de castração com anestesia e acompanhamento pós-operatório.', observacao: 'Jejum de 8h antes do procedimento.' },
   { id: 's6', nome: 'Hemograma', categoria: 'exame', preco: 120, duracao: 20 },
+  { id: 's7', nome: 'Retorno', categoria: 'consulta', preco: 0, duracao: 20, descricao: 'Retorno / revisão de consulta — sem custo em até 15 dias do atendimento.', observacao: 'Ajuste o valor se a clínica cobrar pelo retorno.' },
 ]
 
 const profissionais: Profissional[] = [
@@ -655,6 +680,7 @@ export const db: Record<'c1' | 'c2', DB> = {
         valorDiaria: 200, status: 'alta', parametros: [], medicacoes: [],
       },
     ],
+    comissao: { incideSobre: 'servicos', base: 'liquido' },
     kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 2, agendadosPelaIA: 4, ticketMedio: 187 },
     receitaSemana: [
       { dia: 'Seg', valor: 2100 }, { dia: 'Ter', valor: 2680 }, { dia: 'Qua', valor: 1980 },
@@ -726,6 +752,7 @@ export const db: Record<'c1' | 'c2', DB> = {
         telefone: '47 3344-5566', email: 'vendas@farmaxyz.com.br',
         endereco: 'Rua Industrial, 800 — Joinville/SC', categoria: 'Medicamentos', ativo: true },
     ],
+    comissao: { incideSobre: 'tudo', base: 'liquido' },
     kpis: { faturamentoMes: 15340, noShowPct: 12, ocupacaoPct: 54, vacinasAtrasadas: 0, agendadosPelaIA: 1, ticketMedio: 142 },
     receitaSemana: [
       { dia: 'Seg', valor: 620 }, { dia: 'Ter', valor: 880 }, { dia: 'Qua', valor: 540 },

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { clinics as clinicasDemo, db } from './data'
-import type { DB, Tutor, Pet, ItemVenda, FormaPagamento } from './data'
+import type { DB, Tutor, Pet, ItemVenda, FormaPagamento, ConfigComissao } from './data'
 
 export type DadosVenda = {
   clienteNome?: string; petNome?: string; itens: ItemVenda[]; desconto: number; formaPagamento: FormaPagamento; profissional?: string
@@ -108,6 +108,7 @@ export type Acoes = {
   deletarModelo: (id: string) => Promise<void>
   registrarVenda: (d: DadosVenda) => Promise<void>
   atualizarComissao: (profId: string, pct: number) => Promise<void>
+  atualizarRegraComissao: (cfg: ConfigComissao) => Promise<void>
   criarOrcamento: (d: Omit<DadosVenda, 'formaPagamento'>) => Promise<void>
   converterOrcamento: (id: string, formaPagamento: FormaPagamento) => Promise<void>
   recusarOrcamento: (id: string) => Promise<void>
@@ -861,6 +862,12 @@ export default function App() {
         profissionais: (atual.profissionais ?? []).map(p => p.id === profId ? { ...p, comissaoPct: Math.max(0, pct) } : p),
       }))
       notificar('Comissão atualizada.')
+    },
+
+    async atualizarRegraComissao(cfg) {
+      // config da clínica; hoje demo-only (vai pra uma tabela clinic_settings quando o Supabase entrar)
+      setData(atual => atual && ({ ...atual, comissao: cfg }))
+      notificar('Regra de comissão atualizada.')
     },
 
     async criarOrcamento(d) {

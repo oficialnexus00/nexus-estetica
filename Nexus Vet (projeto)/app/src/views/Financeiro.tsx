@@ -241,6 +241,22 @@ function Linha({ l, onBaixar, onRecibo, fornecedor }: {
   )
 }
 
+// Seção rotulada com contador — o número no título sempre bate com as linhas listadas
+function SecaoLancamentos({ titulo, itens, onBaixar, onRecibo, vazio, fornecedores }: {
+  titulo: string; itens: Lancamento[]; onBaixar?: (l: Lancamento) => void
+  onRecibo?: (l: Lancamento) => void; vazio: string; fornecedores?: Fornecedor[]
+}) {
+  return (
+    <div className="space-y-2">
+      <div className="flex items-baseline gap-2">
+        <h3 className="text-[13.5px] font-semibold">{titulo}</h3>
+        <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[11px] font-medium text-ink-3">{itens.length}</span>
+      </div>
+      <Tabela itens={itens} onBaixar={onBaixar} onRecibo={onRecibo} vazio={vazio} fornecedores={fornecedores} />
+    </div>
+  )
+}
+
 function Tabela({ itens, onBaixar, onRecibo, vazio, fornecedores }: {
   itens: Lancamento[]; onBaixar?: (l: Lancamento) => void; onRecibo?: (l: Lancamento) => void; vazio: string
   fornecedores?: Fornecedor[]
@@ -406,13 +422,25 @@ export default function Financeiro({ data, acoes }: { data: DB; acoes: Acoes }) 
       )}
 
       {aba === 'receber' && (
-        <Tabela itens={[...emAberto('receber'), ...pagosNoMes('receber')]} onBaixar={baixar} onRecibo={emitirRecibo}
-          vazio="Nenhuma conta a receber." />
+        <div className="space-y-5">
+          <SecaoLancamentos titulo="Em aberto" itens={emAberto('receber')}
+            onBaixar={baixar} onRecibo={emitirRecibo} vazio="Nada a receber em aberto. 🐾" />
+          {pagosNoMes('receber').length > 0 && (
+            <SecaoLancamentos titulo="Recebidas este mês" itens={pagosNoMes('receber')}
+              onRecibo={emitirRecibo} vazio="" />
+          )}
+        </div>
       )}
 
       {aba === 'pagar' && (
-        <Tabela itens={[...emAberto('pagar'), ...pagosNoMes('pagar')]} onBaixar={baixar}
-          fornecedores={data.fornecedores} vazio="Nenhuma conta a pagar." />
+        <div className="space-y-5">
+          <SecaoLancamentos titulo="Em aberto" itens={emAberto('pagar')}
+            onBaixar={baixar} fornecedores={data.fornecedores} vazio="Nada a pagar em aberto. 🐾" />
+          {pagosNoMes('pagar').length > 0 && (
+            <SecaoLancamentos titulo="Pagas este mês" itens={pagosNoMes('pagar')}
+              fornecedores={data.fornecedores} vazio="" />
+          )}
+        </div>
       )}
 
       {aba === 'atraso' && (

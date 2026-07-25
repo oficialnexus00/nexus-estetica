@@ -3,7 +3,8 @@ import { clinics as clinicasDemo, db } from './data'
 import type { DB, Tutor, Pet, ItemVenda, FormaPagamento, ConfigComissao } from './data'
 
 export type DadosVenda = {
-  clienteNome?: string; petNome?: string; itens: ItemVenda[]; desconto: number; formaPagamento: FormaPagamento; profissional?: string
+  clienteNome?: string; petNome?: string; itens: ItemVenda[]; desconto: number
+  formaPagamento?: FormaPagamento; naConta?: boolean; profissional?: string
 }
 
 export type DadosInternacao = {
@@ -824,10 +825,12 @@ export default function App() {
       const descricao = d.itens.length === 1
         ? d.itens[0].nome
         : `Venda (${d.itens.length} itens)`
+      const naConta = !!d.naConta
       const venda = {
         id: 'vd' + Date.now(), data: hoje,
         clienteNome: d.clienteNome, petNome: d.petNome,
-        itens: d.itens, desconto: d.desconto, total, formaPagamento: d.formaPagamento, profissional: d.profissional,
+        itens: d.itens, desconto: d.desconto, total,
+        formaPagamento: naConta ? undefined : d.formaPagamento, naConta, profissional: d.profissional,
       }
       setData(atual => atual && ({
         ...atual,
@@ -838,14 +841,15 @@ export default function App() {
             .reduce((s, x) => s + x.quantidade, 0)
           return vendido ? { ...it, quantidade_estoque: Math.max(0, it.quantidade_estoque - vendido) } : it
         }),
-        // lançamento no financeiro (recebido)
+        // lançamento no financeiro — pago na hora, ou em aberto se for na conta do cliente (fiado)
         lancamentos: [{
           id: 'f' + Date.now(), tipo: 'receber' as const, descricao, categoria: 'venda',
-          valor: total, vencimento: hoje, pagoEm: hoje, formaPagamento: d.formaPagamento,
+          valor: total, vencimento: hoje,
+          ...(naConta ? {} : { pagoEm: hoje, formaPagamento: d.formaPagamento }),
           tutorNome: d.clienteNome, petNome: d.petNome,
         }, ...atual.lancamentos],
-        // venda em dinheiro entra no caixa físico (só se o caixa estiver aberto)
-        caixa: (d.formaPagamento === 'dinheiro' && atual.caixa?.aberto)
+        // venda em dinheiro entra no caixa físico (só à vista e com caixa aberto)
+        caixa: (!naConta && d.formaPagamento === 'dinheiro' && atual.caixa?.aberto)
           ? { ...atual.caixa, movimentos: [...atual.caixa.movimentos, {
               id: 'mc' + Date.now(), tipo: 'entrada' as const,
               descricao: `${descricao} (dinheiro)`, valor: total,
@@ -853,7 +857,9 @@ export default function App() {
             }] }
           : atual.caixa,
       }))
-      notificar(`Venda de ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} registrada.`)
+      notificar(naConta
+        ? `Adicionado à conta de ${d.clienteNome ?? 'cliente'}: ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}.`
+        : `Venda de ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} registrada.`)
     },
 
     async atualizarComissao(profId, pct) {

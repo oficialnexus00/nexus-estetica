@@ -91,8 +91,9 @@ function Clinico({ data, ir }: { data: DB; ir: Ir }) {
   const aConfirmar = agenda.filter(a => a.status === 'pendente').length
   const examesPendentes = (data.exames ?? []).filter(e => e.status === 'solicitado')
   const petsPorId = new Map(data.tutores.flatMap(t => t.pets.map(p => [p.id, p.nome] as const)))
+  // conta PETS a chamar (não vacinas): pet com ao menos 1 dose atrasada ou vencendo em ≤7 dias
   const aChamar = data.tutores.reduce((n, t) =>
-    n + t.pets.reduce((m, p) => m + p.vacinas.filter(v => diasAte(v.proximaDose) <= 7).length, 0), 0)
+    n + t.pets.filter(p => p.vacinas.some(v => diasAte(v.proximaDose) <= 7)).length, 0)
   const alertas = data.tutores.flatMap(t => t.pets.filter(p => p.alerta).map(p => ({ pet: p.nome, tutor: t.nome, alerta: p.alerta! })))
 
   return (

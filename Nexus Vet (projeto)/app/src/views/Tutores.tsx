@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { DB, Tutor, Pet } from '../data'
-import { idadeDe } from '../data'
+import { idadeDe, situacaoVacina } from '../data'
 import type { Acoes } from '../App'
 import Vacinacao from '../components/Vacinacao'
 import Prontuario from '../components/Prontuario'
@@ -21,9 +21,10 @@ const PORTE_LABEL: Record<string, string> = {
   pequeno: 'pequeno', medio: 'médio', grande: 'grande', gigante: 'gigante',
 }
 
+// situação recalculada pela data (não confiar no campo gravado, que envelhece)
 const alerta = (p: Pet) =>
-  p.vacinas.some(v => v.situacao === 'atrasada') ? 'atrasada'
-  : p.vacinas.some(v => v.situacao === 'proxima') ? 'proxima' : null
+  p.vacinas.some(v => situacaoVacina(v.proximaDose) === 'atrasada') ? 'atrasada'
+  : p.vacinas.some(v => situacaoVacina(v.proximaDose) === 'proxima') ? 'proxima' : null
 
 export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
   const [busca, setBusca] = useState('')

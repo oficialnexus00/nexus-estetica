@@ -1653,7 +1653,10 @@ export function FormMovimentoEstoque({ item, onSubmit, onCancel }: {
 
   async function enviar(e: FormEvent) {
     e.preventDefault()
-    if (f.quantidade <= 0) { setErro('Quantidade deve ser maior que 0'); return }
+    const qtd = Number(f.quantidade)
+    if (f.tipo === 'ajuste') {
+      if (qtd < 0 || Number.isNaN(qtd)) { setErro('Informe o saldo real (0 ou mais)'); return }
+    } else if (qtd <= 0) { setErro('Quantidade deve ser maior que 0'); return }
     setEnviando(true); setErro(null)
     try {
       await onSubmit({
@@ -1691,8 +1694,11 @@ export function FormMovimentoEstoque({ item, onSubmit, onCancel }: {
         </select>
       </Campo>
 
-      <Campo label="Quantidade">
-        <input value={f.quantidade} onChange={set('quantidade')} type="number" required min="1" className={inputCls} />
+      <Campo label={f.tipo === 'ajuste' ? 'Novo saldo (contagem real)' : 'Quantidade'}>
+        <input value={f.quantidade} onChange={set('quantidade')} type="number" required min={f.tipo === 'ajuste' ? '0' : '1'} className={inputCls} />
+        {f.tipo === 'ajuste' && (
+          <p className="mt-1 text-[11px] text-ink-3">O estoque passa a ser exatamente este valor (recontagem).</p>
+        )}
       </Campo>
 
       <Campo label="Motivo">

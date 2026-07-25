@@ -18,7 +18,8 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
 
   const cfg = data.comissao ?? CONFIG_COMISSAO_PADRAO
   const profissionais = data.profissionais ?? []
-  const vendas = (data.vendas ?? []).filter(v => v.data >= de && v.data <= ate)
+  // só comissões ainda NÃO fechadas (as fechadas já viraram conta a pagar no Financeiro)
+  const vendas = (data.vendas ?? []).filter(v => v.data >= de && v.data <= ate && !v.comissaoFechada)
 
   const linhas = profissionais.map(p => {
     const suas = vendas.filter(v => v.profissional === p.nome)
@@ -106,6 +107,7 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
             onConfirm={() => acoes.fecharComissoes({
               periodo: periodoTxt,
               itens: linhas.filter(l => l.comissao > 0).map(l => ({ profNome: l.prof.nome, valor: l.comissao })),
+              vendaIds: vendas.map(v => v.id),
             })}
             className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
             Fechar comissão · {brl(totalComissoes)}

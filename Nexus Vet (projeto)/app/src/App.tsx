@@ -110,7 +110,7 @@ export type Acoes = {
   registrarVenda: (d: DadosVenda) => Promise<void>
   atualizarComissao: (profId: string, pct: number) => Promise<void>
   atualizarRegraComissao: (cfg: ConfigComissao) => Promise<void>
-  fecharComissoes: (d: { periodo: string; itens: { profNome: string; valor: number }[] }) => Promise<void>
+  fecharComissoes: (d: { periodo: string; itens: { profNome: string; valor: number }[]; vendaIds: string[] }) => Promise<void>
   criarOrcamento: (d: Omit<DadosVenda, 'formaPagamento'>) => Promise<void>
   converterOrcamento: (id: string, formaPagamento: FormaPagamento) => Promise<void>
   recusarOrcamento: (id: string) => Promise<void>
@@ -263,6 +263,8 @@ export default function App() {
           ...atual,
           lancamentos: atual.lancamentos.map(l =>
             l.id === id ? { ...l, pagoEm: hoje, formaPagamento: 'pix' as const } : l),
+          // se era uma venda fiada, deixa de estar "na conta" (foi quitada)
+          vendas: (atual.vendas ?? []).map(v => v.lancamentoId === id ? { ...v, naConta: false } : v),
         }))
       } else {
         await mut.baixarLancamento(id)
@@ -827,11 +829,13 @@ export default function App() {
         ? d.itens[0].nome
         : `Venda (${d.itens.length} itens)`
       const naConta = !!d.naConta
+      const lancId = 'f' + Date.now()
       const venda = {
         id: 'vd' + Date.now(), data: hoje,
         clienteNome: d.clienteNome, petNome: d.petNome,
         itens: d.itens, desconto: d.desconto, total,
         formaPagamento: naConta ? undefined : d.formaPagamento, naConta, profissional: d.profissional,
+        lancamentoId: naConta ? lancId : undefined, // vínculo p/ quitar o fiado depois
       }
       setData(atual => atual && ({
         ...atual,
@@ -844,7 +848,7 @@ export default function App() {
         }),
         // lançamento no financeiro — pago na hora, ou em aberto se for na conta do cliente (fiado)
         lancamentos: [{
-          id: 'f' + Date.now(), tipo: 'receber' as const, descricao, categoria: 'venda',
+          id: lancId, tipo: 'receber' as const, descricao, categoria: 'venda',
           valor: total, vencimento: hoje,
           ...(naConta ? {} : { pagoEm: hoje, formaPagamento: d.formaPagamento }),
           tutorNome: d.clienteNome, petNome: d.petNome,
@@ -866,7 +870,7 @@ export default function App() {
     async atualizarComissao(profId, pct) {
       setData(atual => atual && ({
         ...atual,
-        profissionais: (atual.profissionais ?? []).map(p => p.id === profId ? { ...p, comissaoPct: Math.max(0, pct) } : p),
+        profissionais: (atual.profissionais ?? []).map(p => p.id === profId ? { ...p, comissaoPct: Math.min(100, Math.max(0, pct)) } : p),
       }))
       notificar('Comissão atualizada.')
     },
@@ -880,13 +884,20 @@ export default function App() {
     async fecharComissoes(d) {
       const hoje = new Date().toISOString().slice(0, 10)
       const total = d.itens.reduce((s, i) => s + i.valor, 0)
+      if (total <= 0 || d.vendaIds.length === 0) { notificar('Nenhuma comissão em aberto para fechar.'); return }
       // cada profissional vira uma conta a pagar (categoria 'comissao' → entra no DRE como despesa)
       const novos = d.itens.map((it, n) => ({
         id: 'fc' + Date.now() + n, tipo: 'pagar' as const,
         descricao: `Comissão — ${it.profNome} (${d.periodo})`, categoria: 'comissao',
         valor: it.valor, vencimento: hoje,
       }))
-      setData(atual => atual && ({ ...atual, lancamentos: [...novos, ...atual.lancamentos] }))
+      const alvo = new Set(d.vendaIds)
+      setData(atual => atual && ({
+        ...atual,
+        lancamentos: [...novos, ...atual.lancamentos],
+        // marca as vendas como já apuradas para não fechar de novo (idempotência)
+        vendas: (atual.vendas ?? []).map(v => alvo.has(v.id) ? { ...v, comissaoFechada: true } : v),
+      }))
       notificar(`Comissão fechada: ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} lançados a pagar.`)
     },
 
@@ -933,6 +944,14 @@ export default function App() {
             valor: o.total, vencimento: hoje, pagoEm: hoje, formaPagamento,
             tutorNome: o.clienteNome, petNome: o.petNome,
           }, ...atual.lancamentos],
+          // se convertido em dinheiro e caixa aberto, entra no caixa físico (igual à venda direta)
+          caixa: (formaPagamento === 'dinheiro' && atual.caixa?.aberto)
+            ? { ...atual.caixa, movimentos: [...atual.caixa.movimentos, {
+                id: 'mc' + Date.now(), tipo: 'entrada' as const,
+                descricao: `${descricao} (dinheiro)`, valor: o.total,
+                hora: new Date().toTimeString().slice(0, 5),
+              }] }
+            : atual.caixa,
         }
       })
       notificar(`Orçamento convertido em venda${orc ? ` de ${orc.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}` : ''}.`)

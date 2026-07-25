@@ -9,9 +9,15 @@ type Aba = 'internados' | 'boxes' | 'historico'
 
 const fmt = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('pt-BR')
 const hojeStr = () => new Date().toISOString().slice(0, 10)
+// nº de diárias (noites) — base do faturamento; mínimo 1
 const diasInternado = (i: TInternacao) => {
   const fim = i.saida ?? hojeStr()
   return Math.max(1, Math.round((new Date(fim + 'T00:00:00').getTime() - new Date(i.entrada + 'T00:00:00').getTime()) / 86400000))
+}
+// dia-corrido de internação (ordinal): entrou hoje = 1º dia, ontem = 2º dia...
+const diaDeInternacao = (i: TInternacao) => {
+  const fim = i.saida ?? hojeStr()
+  return Math.round((new Date(fim + 'T00:00:00').getTime() - new Date(i.entrada + 'T00:00:00').getTime()) / 86400000) + 1
 }
 
 const inputCls = 'rounded-lg border border-line bg-surface-2 px-3 py-2 text-[13px] outline-none focus:border-brand/60'
@@ -117,7 +123,7 @@ function CardInternado({ i, boxes, onAbrir }: { i: TInternacao; boxes: Box[]; on
       </div>
       <div className="mt-2 line-clamp-2 text-[12.5px] text-ink-2">{i.motivo}</div>
       <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line pt-2.5 text-[11.5px] text-ink-3">
-        <span>{diasInternado(i)}º dia · desde {fmt(i.entrada)}</span>
+        <span>{diaDeInternacao(i)}º dia · desde {fmt(i.entrada)}</span>
         {ultimo?.temperatura != null && <span>T {ultimo.temperatura}°C</span>}
         {pendentes > 0
           ? <span className="text-warn">● {pendentes} med. pendente{pendentes === 1 ? '' : 's'}</span>
@@ -220,7 +226,7 @@ function MapaBoxes({ boxes, internados }: { boxes: Box[]; internados: TInternaca
                 ? <div className="mt-2 text-[12.5px]">
                     <span className="font-medium">{ocupante.petNome}</span>
                     <span className="text-ink-3"> · {ocupante.tutorNome}</span>
-                    <div className="mt-0.5 text-[11.5px] text-ink-3">{diasInternado(ocupante)}º dia</div>
+                    <div className="mt-0.5 text-[11.5px] text-ink-3">{diaDeInternacao(ocupante)}º dia</div>
                   </div>
                 : <div className="mt-2 text-[12.5px] text-ink-3">Livre</div>}
             </div>
@@ -256,10 +262,10 @@ function Ficha({ internacao: i, boxes, acoes, onVoltar }: {
             <div className="mt-2 text-[13px] text-ink-2">{i.motivo}</div>
           </div>
           <div className="shrink-0 text-right text-[11.5px] text-ink-3">
-            <div>{dias}º dia de internação</div>
+            <div>{diaDeInternacao(i)}º dia de internação</div>
             <div>desde {fmt(i.entrada)}{i.previsaoAlta ? ` · previsão ${fmt(i.previsaoAlta)}` : ''}</div>
             {i.profissional && <div className="text-ink-2">{i.profissional}</div>}
-            <div className="mt-1 text-ink-2">{brl(dias * i.valorDiaria)} em diárias</div>
+            <div className="mt-1 text-ink-2">{dias} {dias === 1 ? 'diária' : 'diárias'} · {brl(dias * i.valorDiaria)}</div>
           </div>
         </div>
         <div className="mt-3 flex justify-end border-t border-line pt-3">

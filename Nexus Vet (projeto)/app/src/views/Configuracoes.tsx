@@ -125,7 +125,7 @@ export default function Configuracoes({ data, acoes }: { data: DB; acoes: Acoes 
                   <div className="mt-3 flex items-center justify-between">
                     <div className="space-y-0.5">
                       <p className="text-[12px] text-ink-3">Valor</p>
-                      <p className="text-[14px] font-semibold">R$ {s.preco.toLocaleString('pt-BR')}</p>
+                      <p className="text-[14px] font-semibold">{s.preco > 0 ? `R$ ${s.preco.toLocaleString('pt-BR')}` : 'Grátis'}</p>
                     </div>
                     <div className="space-y-0.5 text-right">
                       <p className="text-[12px] text-ink-3">Duração</p>

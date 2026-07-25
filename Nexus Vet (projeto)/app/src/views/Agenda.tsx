@@ -92,8 +92,10 @@ export default function Agenda({ data, acoes, onAgendar }: {
   const pendentesVisiveisList = diasVisiveis().flatMap(d => doDia(d)).filter(a => a.status === 'pendente')
   const pendentesVisiveis = pendentesVisiveisList.length
 
-  // Receita agendada do período visível (exclui cancelados) — ideia do NEXUS Health
-  const agsPeriodo = diasVisiveis().flatMap(d => doDia(d)).filter(a => a.status !== 'cancelada')
+  // Receita agendada do período visível — só conta o que ainda pode gerar receita.
+  // Exclui cancelados E faltas (no-show): cliente que não veio não entra na projeção
+  // de lucro; só volta se for remarcado (vira um novo agendamento).
+  const agsPeriodo = diasVisiveis().flatMap(d => doDia(d)).filter(a => a.status !== 'cancelada' && a.status !== 'falta')
   const receita = agsPeriodo.reduce((s, a) => s + (preco.get(a.servico) ?? 0), 0)
   const qtdAgendados = agsPeriodo.length
 

@@ -304,18 +304,22 @@ export default function Financeiro({ data, acoes }: { data: DB; acoes: Acoes }) 
     data: l.pagoEm!, forma: l.formaPagamento, tutor: l.tutorNome, pet: l.petNome,
   })
 
-  // Análise por período
-  const lancamentosNoPeriodo = L.filter(l => l.vencimento >= dataInicio && l.vencimento <= dataFim)
-  const recebidoPeriodo = soma(lancamentosNoPeriodo.filter(l => l.tipo === 'receber' && l.pagoEm))
-  const pagoPeriodo = soma(lancamentosNoPeriodo.filter(l => l.tipo === 'pagar' && l.pagoEm))
+  // Um lançamento entra no período pela data certa conforme o regime:
+  //  · caixa (realizado) → data de pagamento (pagoEm)
+  //  · competência (previsto/em aberto) → vencimento
+  const dentroDoPeriodo = (d?: string) => !!d && d >= dataInicio && d <= dataFim
+  const lancamentosNoPeriodo = L.filter(l => dentroDoPeriodo(l.vencimento)) // por vencimento
+  const pagosNoPeriodo = L.filter(l => dentroDoPeriodo(l.pagoEm))           // por data de pagamento (caixa)
+
+  // Análise por período — recebido/pago é regime de caixa; a receber/pagar é por vencimento
+  const recebidoPeriodo = soma(pagosNoPeriodo.filter(l => l.tipo === 'receber'))
+  const pagoPeriodo = soma(pagosNoPeriodo.filter(l => l.tipo === 'pagar'))
   const aReceberlPeriodo = soma(lancamentosNoPeriodo.filter(l => l.tipo === 'receber' && !l.pagoEm))
   const aPagerlPeriodo = soma(lancamentosNoPeriodo.filter(l => l.tipo === 'pagar' && !l.pagoEm))
 
-  // DRE (Demonstrativo) — no regime 'realizado' conta só o que foi baixado;
+  // DRE (Demonstrativo) — no regime 'realizado' conta o que foi pago/recebido no período (caixa);
   // no 'previsto' conta tudo que vence no período, pago ou não.
-  const baseDRE = regimeDRE === 'realizado'
-    ? lancamentosNoPeriodo.filter(l => l.pagoEm)
-    : lancamentosNoPeriodo
+  const baseDRE = regimeDRE === 'realizado' ? pagosNoPeriodo : lancamentosNoPeriodo
   const receitasDRE = agruparPorCategoria(baseDRE.filter(l => l.tipo === 'receber'))
   const despesasDRE = agruparPorCategoria(baseDRE.filter(l => l.tipo === 'pagar'))
   const totalReceitasDRE = soma(baseDRE.filter(l => l.tipo === 'receber'))

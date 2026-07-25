@@ -3,6 +3,7 @@ import type { DB } from '../data'
 import { brl, baseComissaoVenda, CONFIG_COMISSAO_PADRAO } from '../data'
 import type { Acoes } from '../App'
 import { extratoComissao } from '../lib/imprimir'
+import ConfirmButton from '../components/ConfirmButton'
 
 const hoje = () => new Date().toISOString().slice(0, 10)
 const dataHaXDias = (x: number) => { const d = new Date(); d.setDate(d.getDate() - x); return d.toISOString().slice(0, 10) }
@@ -92,6 +93,25 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
           <div className="mt-0.5 text-[11.5px] text-ink-3">vendas com profissional</div>
         </div>
       </div>
+
+      {/* Fechamento — lança as comissões como conta a pagar no Financeiro */}
+      {totalComissoes > 0 && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-brand/40 bg-brand/8 px-4 py-3">
+          <div className="text-[12.5px] text-ink-2">
+            Fechar o período lança <span className="font-semibold text-ink">{brl(totalComissoes)}</span> como contas a pagar no Financeiro (uma por profissional) — entram no DRE como despesa de comissões.
+          </div>
+          <ConfirmButton titulo="Fechar comissão do período"
+            mensagem={`Lançar ${brl(totalComissoes)} em comissões a pagar no Financeiro (${periodoTxt})? Cada profissional vira uma conta a pagar.`}
+            confirmLabel="Fechar e lançar"
+            onConfirm={() => acoes.fecharComissoes({
+              periodo: periodoTxt,
+              itens: linhas.filter(l => l.comissao > 0).map(l => ({ profNome: l.prof.nome, valor: l.comissao })),
+            })}
+            className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
+            Fechar comissão · {brl(totalComissoes)}
+          </ConfirmButton>
+        </div>
+      )}
 
       {/* Por profissional */}
       <div className="space-y-3">

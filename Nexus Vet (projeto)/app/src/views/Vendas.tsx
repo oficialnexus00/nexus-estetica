@@ -552,12 +552,12 @@ function SaldoClientes({ data, acoes }: { data: DB; acoes: Acoes }) {
 }
 
 function Ranking({ data }: { data: DB }) {
-  // Faturamento por cliente a partir dos lançamentos a receber (pagos ou não)
+  // Faturamento por cliente a partir das VENDAS efetivadas (não de contas a receber)
   const mapa = new Map<string, { total: number; qtd: number }>()
-  for (const l of data.lancamentos) {
-    if (l.tipo !== 'receber' || !l.tutorNome) continue
-    const atual = mapa.get(l.tutorNome) ?? { total: 0, qtd: 0 }
-    mapa.set(l.tutorNome, { total: atual.total + l.valor, qtd: atual.qtd + 1 })
+  for (const v of data.vendas ?? []) {
+    if (!v.clienteNome) continue
+    const atual = mapa.get(v.clienteNome) ?? { total: 0, qtd: 0 }
+    mapa.set(v.clienteNome, { total: atual.total + v.total, qtd: atual.qtd + 1 })
   }
   const ranking = [...mapa.entries()]
     .map(([nome, v]) => ({ nome, ...v }))
@@ -571,7 +571,7 @@ function Ranking({ data }: { data: DB }) {
 
   return (
     <div className="rounded-xl border border-line bg-surface-1 p-5">
-      <h3 className="mb-4 text-[14px] font-semibold">Clientes que mais compram</h3>
+      <h3 className="mb-4 text-[14px] font-semibold">Clientes que mais compram <span className="font-normal text-ink-3">· por vendas realizadas</span></h3>
       <div className="space-y-3">
         {ranking.map((c, i) => (
           <div key={c.nome}>
@@ -580,7 +580,7 @@ function Ranking({ data }: { data: DB }) {
                 <span className="mr-1.5 text-ink-3 tabular-nums">{i + 1}.</span>{c.nome}
               </span>
               <span className="tabular-nums text-ink-2">
-                {brl(c.total)} <span className="text-ink-3">· {c.qtd} {c.qtd === 1 ? 'lançamento' : 'lançamentos'}</span>
+                {brl(c.total)} <span className="text-ink-3">· {c.qtd} {c.qtd === 1 ? 'venda' : 'vendas'}</span>
               </span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-surface-2">

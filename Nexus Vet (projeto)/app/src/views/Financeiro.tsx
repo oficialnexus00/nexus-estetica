@@ -27,6 +27,7 @@ const LABEL_CATEGORIA: Record<string, string> = {
   fixo: 'Custos fixos',
   insumo: 'Insumos e fornecedores',
   produto: 'Produtos',
+  comissao: 'Comissões',
   outro: 'Outros',
 }
 const rotuloCategoria = (c?: string) => c ? (LABEL_CATEGORIA[c] ?? c.charAt(0).toUpperCase() + c.slice(1)) : 'Sem categoria'

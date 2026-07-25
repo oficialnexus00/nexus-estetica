@@ -171,7 +171,8 @@ export type Venda = {
   itens: ItemVenda[]
   desconto: number
   total: number
-  formaPagamento: FormaPagamento
+  formaPagamento?: FormaPagamento   // undefined quando lançada na conta do cliente (fiado)
+  naConta?: boolean                 // true = adicionada à conta do cliente, em aberto
   profissional?: string
 }
 

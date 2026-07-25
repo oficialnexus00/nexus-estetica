@@ -57,6 +57,8 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
   const [forma, setForma] = useState<FormaPagamento>('pix')
   const [profissional, setProfissional] = useState('')
   const [enviando, setEnviando] = useState(false)
+  const [codigo, setCodigo] = useState('')
+  const [aviso, setAviso] = useState<string | null>(null)
 
   const servicos = data.servicos.map(s => ({ id: s.id, nome: s.nome, preco: s.preco }))
   const produtos = (data.estoque ?? []).filter(i => i.preco_venda != null && i.ativo)
@@ -82,6 +84,34 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
   const remover = (idx: number) => setCarrinho(atual => atual.filter((_, i) => i !== idx))
   const mudarQtd = (idx: number, q: number) =>
     setCarrinho(atual => atual.map((i, n) => n === idx ? { ...i, quantidade: Math.max(1, q) } : i))
+
+  // Bipar: acha o produto pelo código de barras e joga no carrinho
+  const bipar = () => {
+    const cod = codigo.trim().toLowerCase()
+    if (!cod) return
+    const item = (data.estoque ?? []).find(i =>
+      i.ativo && i.preco_venda != null && (i.codigo ?? '').toLowerCase() === cod)
+    if (!item) { setAviso(`Código "${codigo.trim()}" não encontrado no estoque.`); return }
+    setCarrinho(atual => {
+      const existe = atual.find(i => i.refId === item.id && i.tipo === 'produto')
+      if (existe) return atual.map(i => i === existe ? { ...i, quantidade: i.quantidade + 1 } : i)
+      return [...atual, { refId: item.id, tipo: 'produto', nome: item.nome, quantidade: 1, precoUnit: item.preco_venda as number }]
+    })
+    setCodigo(''); setAviso(null)
+  }
+
+  // Lançar na conta do cliente (fiado) — vira saldo em aberto, exige cliente
+  const adicionarNaConta = async () => {
+    if (carrinho.length === 0) return
+    const pet = pets.find(p => `${p.tutorId}|${p.petId}` === petSel)
+    if (!pet) { setAviso('Selecione o cliente (em Cliente / Pet) para lançar na conta dele.'); return }
+    setEnviando(true)
+    await acoes.registrarVenda({
+      clienteNome: pet.tutorNome, petNome: pet.petNome,
+      itens: carrinho, desconto, naConta: true, profissional: profissional || undefined,
+    })
+    setCarrinho([]); setDesconto(0); setPetSel(''); setProfissional(''); setEnviando(false); setAviso(null)
+  }
 
   const finalizar = async () => {
     if (carrinho.length === 0) return
@@ -112,6 +142,22 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
     <div className="grid gap-4 lg:grid-cols-2">
       {/* Coluna esquerda: adicionar itens */}
       <div className="space-y-4">
+        {/* Leitor de código de barras — bipar produtos */}
+        <div className="rounded-xl border border-line bg-surface-1 p-4">
+          <div className="mb-2 flex items-center gap-2">
+            <span className="text-[14px]">📷</span>
+            <h3 className="text-[14px] font-semibold">Bipar produto</h3>
+          </div>
+          <form onSubmit={e => { e.preventDefault(); bipar() }} className="flex gap-2">
+            <input value={codigo} onChange={e => setCodigo(e.target.value)} autoFocus
+              placeholder="Passe o leitor ou digite o código…" className={inputCls + ' flex-1'} aria-label="Código de barras" />
+            <button type="submit" className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
+              Bipar
+            </button>
+          </form>
+          <p className="mt-1.5 text-[11px] text-ink-3">Leitor de código de barras devolve o código e já cai no carrinho.</p>
+        </div>
+
         <div className="rounded-xl border border-line bg-surface-1 p-4">
           <h3 className="mb-3 text-[14px] font-semibold">Adicionar item</h3>
           <div className="flex flex-wrap gap-2">
@@ -191,12 +237,17 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
           </div>
           <button onClick={finalizar} disabled={carrinho.length === 0 || enviando}
             className="mt-2 w-full rounded-lg bg-brand px-4 py-2.5 text-[14px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50">
-            {enviando ? 'Finalizando…' : `Finalizar venda · ${brl(total)}`}
+            {enviando ? 'Processando…' : `Finalizar venda · ${brl(total)}`}
+          </button>
+          <button onClick={adicionarNaConta} disabled={carrinho.length === 0 || enviando}
+            className="w-full rounded-lg border border-brand/50 bg-brand/10 px-4 py-2 text-[13px] font-semibold text-brand transition hover:bg-brand/20 disabled:opacity-50">
+            Adicionar à conta do cliente
           </button>
           <button onClick={salvarOrcamento} disabled={carrinho.length === 0 || enviando}
             className="w-full rounded-lg border border-line bg-surface-2 px-4 py-2 text-[13px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink disabled:opacity-50">
             Salvar como orçamento
           </button>
+          {aviso && <p className="text-[12px] text-warn">{aviso}</p>}
         </div>
       </div>
     </div>
@@ -208,7 +259,7 @@ function Realizadas({ data, clinica }: { data: DB; clinica: string }) {
   const reimprimir = (v: Venda) => cupomVenda({
     clinica, data: v.data, clienteNome: v.clienteNome, petNome: v.petNome,
     itens: v.itens.map(i => ({ nome: i.nome, quantidade: i.quantidade, precoUnit: i.precoUnit })),
-    desconto: v.desconto, total: v.total, formaPagamento: v.formaPagamento,
+    desconto: v.desconto, total: v.total, formaPagamento: v.naConta ? 'Na conta (em aberto)' : (v.formaPagamento ?? 'outro'),
   })
 
   if (vendas.length === 0) {
@@ -223,7 +274,9 @@ function Realizadas({ data, clinica }: { data: DB; clinica: string }) {
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <span className="text-[14.5px] font-semibold tabular-nums">{brl(v.total)}</span>
-                <span className="rounded-md border border-ok/40 bg-ok/10 px-2 py-0.5 text-[10.5px] font-medium capitalize text-ok">{v.formaPagamento}</span>
+                {v.naConta
+                  ? <span className="rounded-md border border-warn/40 bg-warn/10 px-2 py-0.5 text-[10.5px] font-medium text-warn">Na conta</span>
+                  : <span className="rounded-md border border-ok/40 bg-ok/10 px-2 py-0.5 text-[10.5px] font-medium capitalize text-ok">{v.formaPagamento}</span>}
               </div>
               <div className="mt-0.5 text-[12px] text-ink-3">
                 {fmt(v.data)}{v.clienteNome ? ` · ${v.clienteNome}${v.petNome ? ` (${v.petNome})` : ''}` : ' · venda avulsa'}

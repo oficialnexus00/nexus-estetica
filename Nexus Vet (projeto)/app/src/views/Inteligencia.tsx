@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { DB } from '../data'
-import { brl } from '../data'
+import { brl, baseComissaoVenda, CONFIG_COMISSAO_PADRAO } from '../data'
 
 type Aba = 'produtividade' | 'vendas' | 'clientes'
 
@@ -90,26 +90,32 @@ export default function Inteligencia({ data }: { data: DB }) {
 
 function Produtividade({ data }: { data: DB }) {
   const vendas = data.vendas ?? []
+  const cfg = data.comissao ?? CONFIG_COMISSAO_PADRAO
   const linhas = (data.profissionais ?? []).map(prof => {
     const atendimentos = data.tutores.reduce((n, t) =>
       n + t.pets.reduce((m, p) => m + p.atendimentos.filter(a => a.profissional === prof.nome).length, 0), 0)
     const vendasProf = vendas.filter(v => v.profissional === prof.nome)
     const faturamento = vendasProf.reduce((s, v) => s + v.total, 0)
     const ticket = vendasProf.length ? faturamento / vendasProf.length : 0
-    return { prof, atendimentos, nVendas: vendasProf.length, faturamento, ticket }
+    // comissão do profissional cruzando as vendas com a regra da clínica
+    const pct = prof.comissaoPct ?? 0
+    const comissao = vendasProf.reduce((s, v) => s + baseComissaoVenda(v, cfg) * pct / 100, 0)
+    return { prof, atendimentos, nVendas: vendasProf.length, faturamento, ticket, pct, comissao }
   }).sort((a, b) => b.faturamento - a.faturamento)
 
   const totalFat = linhas.reduce((s, l) => s + l.faturamento, 0)
   const totalAt = linhas.reduce((s, l) => s + l.atendimentos, 0)
+  const totalComissao = linhas.reduce((s, l) => s + l.comissao, 0)
 
   const exportar = () => baixarCSV('produtividade-profissionais',
-    ['Profissional', 'Especialidade', 'Atendimentos', 'Vendas', 'Faturamento', 'Ticket medio'],
-    linhas.map(l => [l.prof.nome, l.prof.especialidade ?? '', l.atendimentos, l.nVendas, l.faturamento.toFixed(2), l.ticket.toFixed(2)]))
+    ['Profissional', 'Especialidade', 'Atendimentos', 'Vendas', 'Faturamento', 'Ticket medio', 'Comissao'],
+    linhas.map(l => [l.prof.nome, l.prof.especialidade ?? '', l.atendimentos, l.nVendas, l.faturamento.toFixed(2), l.ticket.toFixed(2), l.comissao.toFixed(2)]))
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Kpi label="Faturamento atribuído" valor={brl(totalFat)} hint="vendas com profissional" />
+        <Kpi label="Comissões a pagar" valor={brl(totalComissao)} hint="pela regra da clínica" />
         <Kpi label="Atendimentos" valor={String(totalAt)} hint="registrados no prontuário" />
         <Kpi label="Profissionais" valor={String(linhas.length)} />
       </div>
@@ -135,6 +141,7 @@ function Produtividade({ data }: { data: DB }) {
                 <th className="px-1 py-2 text-right font-medium">Vendas</th>
                 <th className="px-1 py-2 text-right font-medium">Faturamento</th>
                 <th className="px-1 py-2 text-right font-medium">Ticket médio</th>
+                <th className="px-1 py-2 text-right font-medium">Comissão</th>
               </tr>
             </thead>
             <tbody className="text-[13.5px]">
@@ -145,6 +152,7 @@ function Produtividade({ data }: { data: DB }) {
                   <td className="px-1 py-2 text-right tabular-nums text-ink-2">{l.nVendas}</td>
                   <td className="px-1 py-2 text-right tabular-nums font-medium">{brl(l.faturamento)}</td>
                   <td className="px-1 py-2 text-right tabular-nums text-ink-2">{l.ticket ? brl(l.ticket) : '—'}</td>
+                  <td className="px-1 py-2 text-right tabular-nums font-medium text-brand">{l.comissao > 0 ? brl(l.comissao) : '—'}<span className="block text-[10px] font-normal text-ink-3">{l.pct}%</span></td>
                 </tr>
               ))}
             </tbody>

@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import type { DB, Internacao as TInternacao, Box, FinalidadeBox } from '../data'
+import type { DB, Internacao as TInternacao, Box, FinalidadeBox, Exame } from '../data'
 import { brl, ESPECIE_BOX, FINALIDADE_BOX } from '../data'
 import type { Acoes, DadosInternacao, DadosMedicacao, DadosParametro } from '../App'
 import Modal, { Campo, inputCls as modalInput, Acoes as AcoesForm } from '../components/Modal'
 import ConfirmButton from '../components/ConfirmButton'
+import { FormExame } from '../components/Formularios'
 
 type Aba = 'internados' | 'boxes' | 'historico'
 
@@ -50,7 +51,7 @@ export default function Internacao({ data, acoes }: { data: DB; acoes: Acoes }) 
   const selecionada = internados.find(i => i.id === selId) ?? null
 
   if (selecionada) {
-    return <Ficha internacao={selecionada} boxes={boxes} acoes={acoes} onVoltar={() => setSelId(null)} />
+    return <Ficha internacao={selecionada} boxes={boxes} exames={data.exames ?? []} acoes={acoes} onVoltar={() => setSelId(null)} />
   }
 
   return (
@@ -239,12 +240,16 @@ function MapaBoxes({ boxes, internados }: { boxes: Box[]; internados: TInternaca
 
 // ------------------------------------------------------------- ficha (detalhe)
 
-function Ficha({ internacao: i, boxes, acoes, onVoltar }: {
-  internacao: TInternacao; boxes: Box[]; acoes: Acoes; onVoltar: () => void
+function Ficha({ internacao: i, boxes, exames, acoes, onVoltar }: {
+  internacao: TInternacao; boxes: Box[]; exames: Exame[]; acoes: Acoes; onVoltar: () => void
 }) {
   const [addMed, setAddMed] = useState(false)
+  const [addExame, setAddExame] = useState(false)
   const box = boxes.find(b => b.id === i.box)
   const dias = diasInternado(i)
+  // exames deste pet, mais recentes primeiro
+  const examesDoPet = exames.filter(e => e.pet_id === i.petId)
+    .sort((a, b) => b.data_solicitacao.localeCompare(a.data_solicitacao))
 
   return (
     <div className="space-y-4">
@@ -283,10 +288,59 @@ function Ficha({ internacao: i, boxes, acoes, onVoltar }: {
         <Parametros internacao={i} acoes={acoes} />
       </div>
 
+      <ExamesInternacao exames={examesDoPet} onSolicitar={() => setAddExame(true)} />
+
       <Modal titulo="Adicionar medicação" aberto={addMed} onFechar={() => setAddMed(false)}>
         <FormMedicacao onCancelar={() => setAddMed(false)}
           onSalvar={async d => { await acoes.adicionarMedicacao(i.id, d); setAddMed(false) }} />
       </Modal>
+
+      <Modal titulo={`Solicitar exame — ${i.petNome}`} aberto={addExame} onFechar={() => setAddExame(false)}>
+        <FormExame petIds={[{ id: i.petId, nome: i.petNome }]}
+          onSubmit={async d => { await acoes.criarExame(d); setAddExame(false) }}
+          onCancel={() => setAddExame(false)} />
+      </Modal>
+    </div>
+  )
+}
+
+const EXAME_STATUS: Record<Exame['status'], { label: string; cls: string }> = {
+  solicitado: { label: 'Solicitado', cls: 'border-warn/40 bg-warn/10 text-warn' },
+  'concluído': { label: 'Concluído', cls: 'border-ok/40 bg-ok/10 text-ok' },
+  cancelado: { label: 'Cancelado', cls: 'border-line bg-surface-2 text-ink-3' },
+}
+
+function ExamesInternacao({ exames, onSolicitar }: { exames: Exame[]; onSolicitar: () => void }) {
+  return (
+    <div className="rounded-xl border border-line bg-surface-1 p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className="text-[14px] font-semibold">Exames</h3>
+        <button onClick={onSolicitar} className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11.5px] font-medium text-ink-2 transition hover:border-brand/50 hover:text-ink">
+          + Solicitar exame
+        </button>
+      </div>
+      {exames.length === 0 ? (
+        <p className="py-6 text-center text-[13px] text-ink-3">Nenhum exame para este pet. Solicite um acima.</p>
+      ) : (
+        <div className="space-y-2">
+          {exames.map(e => {
+            const st = EXAME_STATUS[e.status]
+            return (
+              <div key={e.id} className="rounded-lg border border-line bg-surface-2 p-3">
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="text-[13.5px] font-medium">{e.tipo}</span>
+                  <span className={`shrink-0 rounded-md border px-2 py-0.5 text-[10.5px] font-medium ${st.cls}`}>{st.label}</span>
+                </div>
+                <div className="mt-1 text-[11.5px] text-ink-3">
+                  Solicitado {fmt(e.data_solicitacao)}{e.data_resultado ? ` · resultado ${fmt(e.data_resultado)}` : ''}
+                </div>
+                {e.resultado && <div className="mt-1.5 text-[12.5px] text-ink-2">{e.resultado}</div>}
+                {e.observacoes && <div className="mt-0.5 text-[11.5px] text-ink-3">{e.observacoes}</div>}
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

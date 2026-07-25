@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { DB, ConfigComissao } from '../data'
+import type { DB } from '../data'
 import { brl, baseComissaoVenda, CONFIG_COMISSAO_PADRAO } from '../data'
 import type { Acoes } from '../App'
 import { extratoComissao } from '../lib/imprimir'
@@ -72,22 +72,11 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
         </div>
       </div>
 
-      {/* Regra de comissão da clínica */}
-      <div className="rounded-xl border border-line bg-surface-1 p-4">
-        <div className="mb-1 text-[13px] font-medium">Regra de comissão da clínica</div>
-        <p className="mb-3 text-[11.5px] text-ink-3">Definida por contrato — muda a base do cálculo de todos os profissionais.</p>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div>
-            <div className="mb-1.5 text-[11.5px] text-ink-3">Comissão incide sobre</div>
-            <Segmento valor={cfg.incideSobre} onMudar={v => acoes.atualizarRegraComissao({ ...cfg, incideSobre: v })}
-              opcoes={[['servicos', 'Somente serviços'], ['tudo', 'Serviços e produtos']]} />
-          </div>
-          <div>
-            <div className="mb-1.5 text-[11.5px] text-ink-3">Calcular sobre</div>
-            <Segmento valor={cfg.base} onMudar={v => acoes.atualizarRegraComissao({ ...cfg, base: v })}
-              opcoes={[['liquido', 'Valor cobrado (com desconto)'], ['bruto', 'Valor de tabela']]} />
-          </div>
-        </div>
+      {/* Regra atual (só leitura — configura em Configurações → Comissões) */}
+      <div className="rounded-xl border border-line bg-surface-1 px-4 py-3 text-[12px] text-ink-3">
+        Regra atual: comissão sobre <span className="font-medium text-ink-2">{cfg.incideSobre === 'servicos' ? 'somente serviços' : 'serviços e produtos'}</span>,
+        {' '}calculada sobre o <span className="font-medium text-ink-2">{cfg.base === 'liquido' ? 'valor cobrado (com desconto)' : 'valor de tabela'}</span>.
+        {' '}Ajuste a regra e as margens em <span className="font-medium text-ink-2">Configurações → Comissões</span>.
       </div>
 
       {/* Resumo */}
@@ -116,11 +105,9 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <label className="text-[12px] text-ink-3">%</label>
-                  <input type="number" min={0} max={100} value={l.prof.comissaoPct ?? 0}
-                    onChange={e => acoes.atualizarComissao(l.prof.id, Number(e.target.value))}
-                    className={inputCls + ' w-16'} aria-label={`Comissão de ${l.prof.nome}`} />
+                <div className="text-right">
+                  <div className="text-[11px] text-ink-3">Margem</div>
+                  <div className="text-[13.5px] font-semibold tabular-nums">{l.prof.comissaoPct ?? 0}%</div>
                 </div>
                 <div className="text-right">
                   <div className="text-[11px] text-ink-3">Comissão</div>
@@ -138,25 +125,8 @@ export default function Comissoes({ data, acoes }: { data: DB; acoes: Acoes }) {
 
       <p className="text-[11.5px] text-ink-3">
         A comissão é calculada sobre as vendas atribuídas a cada profissional no Ponto de venda,
-        seguindo a regra da clínica acima. Ajuste o % direto aqui — vale para os próximos cálculos.
+        seguindo a regra da clínica. As margens (%) e a regra ficam em Configurações → Comissões.
       </p>
-    </div>
-  )
-}
-
-// Segmento (toggle de opções) reutilizável e tipado
-function Segmento<T extends string>({ valor, onMudar, opcoes }: {
-  valor: T; onMudar: (v: T) => void; opcoes: [T, string][]
-}) {
-  return (
-    <div className="flex rounded-lg border border-line bg-surface-2 p-0.5">
-      {opcoes.map(([v, rotulo]) => (
-        <button key={v} onClick={() => onMudar(v)}
-          className={`flex-1 rounded-md px-2.5 py-1.5 text-[12px] font-medium transition ${
-            valor === v ? 'bg-brand/12 text-brand' : 'text-ink-2 hover:text-ink'}`}>
-          {rotulo}
-        </button>
-      ))}
     </div>
   )
 }

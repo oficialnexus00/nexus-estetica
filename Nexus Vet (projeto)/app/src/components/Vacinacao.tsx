@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Vacina, SituacaoVacina, ProtocoloVacina, Pet } from '../data'
+import { situacaoVacina } from '../data'
 import Modal from './Modal'
 import { FormDose, type DadosDose } from './Formularios'
 
@@ -25,10 +26,13 @@ const STATUS: Record<SituacaoVacina, { label: string; cls: string; dot: string }
 const NUNCA = { label: 'Nunca aplicada', cls: 'border-s2/40 bg-s2/10 text-s2', dot: '#5d6b84' }
 
 function Linha({ nome, sub, v }: { nome: string; sub: string; v?: Vacina }) {
-  const st = v ? STATUS[v.situacao] : NUNCA
-  const prazo = v ? (() => {
+  // situação recalculada pela data de hoje (o campo gravado envelhece)
+  const sit = v ? situacaoVacina(v.proximaDose) : null
+  const st = sit ? STATUS[sit] : NUNCA
+  const prazo = v && sit ? (() => {
     const d = diasAte(v.proximaDose)
-    return v.situacao === 'atrasada' ? `${Math.abs(d)} dias em atraso` : d === 0 ? 'vence hoje' : `em ${d} dias`
+    return sit === 'atrasada' ? `${Math.abs(d)} ${Math.abs(d) === 1 ? 'dia' : 'dias'} em atraso`
+      : d === 0 ? 'vence hoje' : `em ${d} ${d === 1 ? 'dia' : 'dias'}`
   })() : null
 
   return (

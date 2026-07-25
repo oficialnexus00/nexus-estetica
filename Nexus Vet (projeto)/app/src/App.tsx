@@ -70,7 +70,7 @@ export type Acoes = {
   criarTutorComPet: (d: DadosTutorPet) => Promise<void>
   adicionarPet: (tutorId: string, d: DadosPet) => Promise<void>
   criarAgendamento: (d: DadosAgendamento) => Promise<void>
-  confirmarPendentes: () => Promise<number>
+  confirmarPendentes: (ids?: string[]) => Promise<number>
   editarTutor: (tutorId: string, d: DadosEditarTutor) => Promise<void>
   editarPet: (petId: string, d: DadosEditarPet) => Promise<void>
   registrarAtendimento: (petId: string, d: DadosAtendimento) => Promise<void>
@@ -536,15 +536,19 @@ export default function App() {
       notificar(`Cadastro do ${d.nome} atualizado.`)
     },
 
-    async confirmarPendentes() {
-      const pendentes = data?.agenda.filter(a => a.status === 'pendente').length ?? 0
+    async confirmarPendentes(ids) {
+      // se vier lista de ids, confirma só esses (respeita período/filtro visível na Agenda)
+      const alvo = new Set(ids)
+      const ehAlvo = (a: { id: string; status: string }) =>
+        a.status === 'pendente' && (!ids || alvo.has(a.id))
+      const pendentes = data?.agenda.filter(ehAlvo).length ?? 0
       if (MODO_DEMO) {
         setData(atual => atual && ({
           ...atual,
-          agenda: atual.agenda.map(a => a.status === 'pendente' ? { ...a, status: 'confirmada' as const } : a),
+          agenda: atual.agenda.map(a => ehAlvo(a) ? { ...a, status: 'confirmada' as const } : a),
         }))
       } else {
-        await mut.confirmarPendentes(clinicId, new Date().toISOString().slice(0, 10))
+        await mut.confirmarPendentes(clinicId, new Date().toISOString().slice(0, 10), ids)
         await recarregar()
       }
       notificar(`${pendentes} ${pendentes === 1 ? 'agendamento confirmado' : 'agendamentos confirmados'} pela Bia.`)
@@ -677,12 +681,15 @@ export default function App() {
 
     async registrarMovimentoEstoque(id, d) {
       if (MODO_DEMO) {
-        const multiplicador = d.tipo === 'saida' || d.tipo === 'perda' || d.tipo === 'vencimento' ? -1 : 1
         setData(atual => atual && ({
           ...atual,
-          estoque: (atual.estoque ?? []).map(i =>
-            i.id !== id ? i : { ...i, quantidade_estoque: Math.max(0, i.quantidade_estoque + (multiplicador * d.quantidade)) }
-          ),
+          estoque: (atual.estoque ?? []).map(i => {
+            if (i.id !== id) return i
+            // ajuste = recontagem: define o saldo. Os demais somam/subtraem.
+            if (d.tipo === 'ajuste') return { ...i, quantidade_estoque: Math.max(0, d.quantidade) }
+            const multiplicador = d.tipo === 'saida' || d.tipo === 'perda' || d.tipo === 'vencimento' ? -1 : 1
+            return { ...i, quantidade_estoque: Math.max(0, i.quantidade_estoque + (multiplicador * d.quantidade)) }
+          }),
         }))
       } else {
         await mut.registrarMovimentoEstoque(clinicId, { inventory_id: id, ...d })
@@ -836,6 +843,14 @@ export default function App() {
           valor: total, vencimento: hoje, pagoEm: hoje, formaPagamento: d.formaPagamento,
           tutorNome: d.clienteNome, petNome: d.petNome,
         }, ...atual.lancamentos],
+        // venda em dinheiro entra no caixa físico (só se o caixa estiver aberto)
+        caixa: (d.formaPagamento === 'dinheiro' && atual.caixa?.aberto)
+          ? { ...atual.caixa, movimentos: [...atual.caixa.movimentos, {
+              id: 'mc' + Date.now(), tipo: 'entrada' as const,
+              descricao: `${descricao} (dinheiro)`, valor: total,
+              hora: new Date().toTimeString().slice(0, 5),
+            }] }
+          : atual.caixa,
       }))
       notificar(`Venda de ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} registrada.`)
     },

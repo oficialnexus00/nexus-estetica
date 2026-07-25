@@ -316,17 +316,19 @@ export async function mudarStatusAgendamento(id: string, status: StatusAgenda) {
 }
 
 /** Confirma em lote os agendamentos pendentes (o botão "Bia confirma todos"). */
-export async function confirmarPendentes(clinicId: string, dia: string) {
-  const inicio = `${dia}T00:00:00`
-  const fim = `${dia}T23:59:59`
-  const { data, error } = await cliente()
+export async function confirmarPendentes(clinicId: string, dia: string, ids?: string[]) {
+  let q = cliente()
     .from('appointments')
     .update({ status: 'confirmada', lembrete_enviado_em: new Date().toISOString() })
     .eq('clinic_id', clinicId)
     .eq('status', 'pendente')
-    .gte('inicio', inicio)
-    .lte('inicio', fim)
-    .select('id')
+  // se vier lista de ids (período/filtro visível), confirma só esses; senão, o dia todo
+  if (ids && ids.length) {
+    q = q.in('id', ids)
+  } else {
+    q = q.gte('inicio', `${dia}T00:00:00`).lte('inicio', `${dia}T23:59:59`)
+  }
+  const { data, error } = await q.select('id')
   if (error) throw error
   return (data ?? []).length
 }

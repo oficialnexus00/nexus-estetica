@@ -326,6 +326,22 @@ export const formatarCNPJ = (v: string) => {
 export const diasAtraso = (l: Lancamento) =>
   Math.round((new Date().setHours(0, 0, 0, 0) - new Date(l.vencimento + 'T00:00:00').getTime()) / 86400000)
 
+/** Dias até a próxima dose (negativo = já passou). Usa meia-noite local. */
+export const diasAteDose = (proximaDose: string) =>
+  Math.round((new Date(proximaDose + 'T00:00:00').getTime() - new Date().setHours(0, 0, 0, 0)) / 86400000)
+
+/**
+ * Situação da vacina SEMPRE recalculada pela data de hoje — não confiar no
+ * campo `situacao` gravado, que "envelhece" e passa a divergir da data real.
+ * < 0 = atrasada · até 30 dias = vence em breve · resto = em dia.
+ */
+export const situacaoVacina = (proximaDose: string): SituacaoVacina => {
+  const dias = diasAteDose(proximaDose)
+  if (dias < 0) return 'atrasada'
+  if (dias <= 30) return 'proxima'
+  return 'em_dia'
+}
+
 // datas relativas para a demonstração nunca ficar desatualizada
 const desloca = (dias: number) => {
   const d = new Date(); d.setDate(d.getDate() + dias)

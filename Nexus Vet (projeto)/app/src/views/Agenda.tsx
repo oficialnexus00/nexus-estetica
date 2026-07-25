@@ -89,7 +89,8 @@ export default function Agenda({ data, acoes, onAgendar }: {
     const dias = new Date(ref.getFullYear(), ref.getMonth() + 1, 0).getDate()
     return Array.from({ length: dias }, (_, i) => new Date(ref.getFullYear(), ref.getMonth(), i + 1))
   }
-  const pendentesVisiveis = diasVisiveis().reduce((n, d) => n + doDia(d).filter(a => a.status === 'pendente').length, 0)
+  const pendentesVisiveisList = diasVisiveis().flatMap(d => doDia(d)).filter(a => a.status === 'pendente')
+  const pendentesVisiveis = pendentesVisiveisList.length
 
   // Receita agendada do período visível (exclui cancelados) — ideia do NEXUS Health
   const agsPeriodo = diasVisiveis().flatMap(d => doDia(d)).filter(a => a.status !== 'cancelada')
@@ -98,7 +99,7 @@ export default function Agenda({ data, acoes, onAgendar }: {
 
   async function confirmarTodos() {
     setConfirmando(true)
-    try { await acoes.confirmarPendentes() } finally { setConfirmando(false) }
+    try { await acoes.confirmarPendentes(pendentesVisiveisList.map(a => a.id)) } finally { setConfirmando(false) }
   }
 
   const navegar = (dir: 1 | -1) => setRef(r => {

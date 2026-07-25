@@ -173,7 +173,9 @@ export type Venda = {
   total: number
   formaPagamento?: FormaPagamento   // undefined quando lançada na conta do cliente (fiado)
   naConta?: boolean                 // true = adicionada à conta do cliente, em aberto
+  lancamentoId?: string             // vínculo com o lançamento a receber (fiado) p/ quitar depois
   profissional?: string
+  comissaoFechada?: boolean         // true = comissão já apurada/lançada a pagar (não refechar)
 }
 
 // Orçamento — venda ainda não confirmada; vira venda ao ser aprovado
@@ -572,7 +574,7 @@ export const db: Record<'c1' | 'c2', DB> = {
         id: 't11', nome: 'Larissa Rocha', telefone: '47 99845-1290', origem: 'Instagram Ads',
         nascimento: '1992-11-06', etapa: 'cliente', desde: '2024-09-12',
         pets: [{
-          id: 'p13', nome: 'Thor', especie: 'cao', raca: 'Rottweiler', sexo: 'macho',
+          id: 'p13', nome: 'Zeus', especie: 'cao', raca: 'Rottweiler', sexo: 'macho',
           nascimento: '2021-01-25', peso: 41.5, castrado: false, porte: 'gigante', temperamento: 'Agitado',
           observacoes: 'Manejo com focinheira no banho por precaução.',
           vacinas: [{ vacina: 'V10', aplicacao: '2026-06-28', proximaDose: hojeMais(200), situacao: 'em_dia' }],
@@ -700,11 +702,11 @@ export const db: Record<'c1' | 'c2', DB> = {
       { id: 'f5', tipo: 'receber', descricao: 'Castração', categoria: 'cirurgia', valor: 850,
         vencimento: hojeMenos(6), pagoEm: hojeMenos(6), formaPagamento: 'credito', tutorNome: 'Ricardo Alves', petNome: 'Mel' },
       { id: 'f12', tipo: 'receber', descricao: 'Consulta clínica', categoria: 'consulta', valor: 150,
-        vencimento: hojeMenos(12), pagoEm: hojeMenos(12), formaPagamento: 'debito', tutorNome: 'Fernanda Lima', petNome: 'Bob' },
+        vencimento: hojeMenos(12), pagoEm: hojeMenos(12), formaPagamento: 'debito', tutorNome: 'Fernanda Dias', petNome: 'Zeca' },
       { id: 'f13', tipo: 'receber', descricao: 'Vacina múltipla V10', categoria: 'vacina', valor: 90,
-        vencimento: hojeMenos(18), pagoEm: hojeMenos(18), formaPagamento: 'pix', tutorNome: 'André Souza', petNome: 'Luna' },
+        vencimento: hojeMenos(18), pagoEm: hojeMenos(18), formaPagamento: 'pix', tutorNome: 'Diego Souza', petNome: 'Luna' },
       { id: 'f14', tipo: 'receber', descricao: 'Cirurgia — retirada de nódulo', categoria: 'cirurgia', valor: 300,
-        vencimento: hojeMenos(27), pagoEm: hojeMenos(27), formaPagamento: 'credito', tutorNome: 'Patrícia Gomes', petNome: 'Simba' },
+        vencimento: hojeMenos(27), pagoEm: hojeMenos(27), formaPagamento: 'credito', tutorNome: 'Beatriz Lima', petNome: 'Simba' },
       // a pagar
       { id: 'f6', tipo: 'pagar', descricao: 'Aluguel da clínica', categoria: 'fixo', valor: 4200, vencimento: hojeMais(6) },
       { id: 'f7', tipo: 'pagar', descricao: 'Compra de vacinas V10 e antirrábica', categoria: 'insumo', valor: 1380,
@@ -770,7 +772,7 @@ export const db: Record<'c1' | 'c2', DB> = {
       { id: 'inv5', nome: 'Dipirona 500mg', categoria: 'medicamento', codigo: 'DIP500', quantidade_estoque: 60, quantidade_minima: 20, quantidade_maxima: 150, data_validade: '2027-05-15', lote: 'LOTE777888', fornecedor_nome: 'FarmaXYZ', fornecedor_contato: '47 3344-5566', preco_custo: 0.30, preco_venda: 1.50, ativo: true },
       { id: 'inv6', nome: 'Gaze 10x10cm', categoria: 'material', codigo: 'GAZ1010', quantidade_estoque: 200, quantidade_minima: 50, quantidade_maxima: 500, data_validade: '2027-12-31', lote: 'LOTE999000', fornecedor_nome: 'MedicSupply', preco_custo: 0.15, preco_venda: 0.50, ativo: true },
       { id: 'inv7', nome: 'Clorexidina 0.12%', categoria: 'material', codigo: 'CLX012', quantidade_estoque: 8, quantidade_minima: 5, quantidade_maxima: 20, data_validade: '2026-09-10', lote: 'LOTE222333', fornecedor_nome: 'QualityLab', preco_custo: 12.00, preco_venda: 28.00, ativo: true },
-      { id: 'inv8', nome: 'Ração Premium Cão', categoria: 'alimento', codigo: 'RAC-DOG', quantidade_estoque: 15, quantidade_minima: 5, quantidade_maxima: 40, data_validade: '2026-10-20', lote: 'LOTE333444', fornecedor_nome: 'RacãoBrasil', preco_custo: 85.00, preco_venda: 120.00, ativo: true },
+      { id: 'inv8', nome: 'Ração Premium Cão', categoria: 'alimento', codigo: 'RAC-DOG', quantidade_estoque: 15, quantidade_minima: 5, quantidade_maxima: 40, data_validade: '2026-10-20', lote: 'LOTE333444', fornecedor_nome: 'RaçãoBrasil', preco_custo: 85.00, preco_venda: 120.00, ativo: true },
       { id: 'inv9', nome: 'Agulha 25x7', categoria: 'material', codigo: 'AGU257', quantidade_estoque: 150, quantidade_minima: 50, quantidade_maxima: 300, data_validade: '2027-01-30', lote: 'LOTE444555', fornecedor_nome: 'MedicSupply', preco_custo: 0.05, preco_venda: 0.20, ativo: true },
       { id: 'inv10', nome: 'Seringa 3ml', categoria: 'material', codigo: 'SIR3ML', quantidade_estoque: 120, quantidade_minima: 40, quantidade_maxima: 250, data_validade: '2027-08-15', lote: 'LOTE555666', fornecedor_nome: 'MedicSupply', preco_custo: 0.10, preco_venda: 0.35, ativo: true },
     ],
@@ -779,6 +781,7 @@ export const db: Record<'c1' | 'c2', DB> = {
       { id: 'ex2', pet_id: 'p1', atendimento_id: 'c2', tipo: 'Raio-X de tórax', data_solicitacao: hojeMenos(1), status: 'solicitado' },
       { id: 'ex3', pet_id: 'p2', atendimento_id: undefined, tipo: 'Ultrassom abdominal', data_solicitacao: hojeMenos(5), data_resultado: hojeMenos(1), resultado: 'Rim esquerdo: 38mm | Rim direito: 40mm | Bexiga: normal | Baço: normal', observacoes: 'Sem alterações relevantes', status: 'concluído' },
       { id: 'ex4', pet_id: 'p4', atendimento_id: undefined, tipo: 'Hemograma', data_solicitacao: hojeMenos(10), status: 'cancelado' },
+      { id: 'ex6', pet_id: 'p2', atendimento_id: undefined, tipo: 'Raio-X de controle (pós-op)', data_solicitacao: hojeMenos(0), status: 'solicitado' },
     ],
     protocolos: [
       { id: 'pr1', nome: 'V8', especie: 'cao', reforcoMeses: 12, doseFilhoteDias: 21, ativo: true },
@@ -834,7 +837,7 @@ export const db: Record<'c1' | 'c2', DB> = {
       { id: 'vd9', data: hojeMenos(19), clienteNome: 'Gustavo Pereira', petNome: 'Pretinha',
         itens: [{ refId: 's4', tipo: 'servico', nome: 'Banho e tosa', quantidade: 1, precoUnit: 80 }],
         desconto: 0, total: 80, formaPagamento: 'dinheiro', profissional: 'Equipe banho' },
-      { id: 'vd10', data: hojeMenos(18), clienteNome: 'Larissa Rocha', petNome: 'Thor',
+      { id: 'vd10', data: hojeMenos(18), clienteNome: 'Larissa Rocha', petNome: 'Zeus',
         itens: [{ refId: 's3', tipo: 'servico', nome: 'Vacina antirrábica', quantidade: 1, precoUnit: 70 }],
         desconto: 0, total: 70, formaPagamento: 'pix', profissional: 'Dra. Helena' },
       { id: 'vd11', data: hojeMenos(16), clienteNome: 'Fernanda Dias', petNome: 'Zeca',
@@ -879,7 +882,7 @@ export const db: Record<'c1' | 'c2', DB> = {
           { refId: 'inv7', tipo: 'produto', nome: 'Clorexidina 0.12%', quantidade: 1, precoUnit: 28 },
           { refId: 'inv6', tipo: 'produto', nome: 'Gaze 10x10cm', quantidade: 5, precoUnit: 0.50 },
         ], desconto: 0, total: 30.50, formaPagamento: 'dinheiro', profissional: 'Dra. Helena' },
-      { id: 'vd23', data: hojeMenos(2), clienteNome: 'Larissa Rocha', petNome: 'Thor',
+      { id: 'vd23', data: hojeMenos(2), clienteNome: 'Larissa Rocha', petNome: 'Zeus',
         itens: [{ refId: 's4', tipo: 'servico', nome: 'Banho e tosa', quantidade: 1, precoUnit: 80 }],
         desconto: 0, total: 80, formaPagamento: 'pix', profissional: 'Equipe banho' },
       { id: 'vd24', data: hojeMenos(1), clienteNome: 'Camila Ferreira', petNome: 'Amendoim',
@@ -967,7 +970,7 @@ export const db: Record<'c1' | 'c2', DB> = {
       },
     ],
     comissao: { incideSobre: 'servicos', base: 'liquido' },
-    kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 2, agendadosPelaIA: 4, ticketMedio: 187 },
+    kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 6, agendadosPelaIA: 4, ticketMedio: 187 },
     receitaSemana: [
       { dia: 'Seg', valor: 2100 }, { dia: 'Ter', valor: 2680 }, { dia: 'Qua', valor: 1980 },
       { dia: 'Qui', valor: 3120 }, { dia: 'Sex', valor: 2890 }, { dia: 'Sáb', valor: 1450 },

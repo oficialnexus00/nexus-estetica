@@ -563,7 +563,7 @@ function Ranking({ data }: { data: DB }) {
     .map(([nome, v]) => ({ nome, ...v }))
     .sort((a, b) => b.total - a.total)
 
-  const maxTotal = ranking.length ? ranking[0].total : 1
+  const maxTotal = ranking[0]?.total || 1 // evita divisão por zero se o topo for R$ 0
 
   if (ranking.length === 0) {
     return <p className="py-10 text-center text-[13.5px] text-ink-3">Ainda não há vendas registradas por cliente.</p>

@@ -296,6 +296,22 @@ export type Lancamento = {
   documento?: string          // nº da nota fiscal / boleto
 }
 
+// Conversa da Bia no WhatsApp. O motor roda FORA (GPTMaker/n8n), mas a clínica
+// vê, assume e responde de DENTRO do sistema — a Bia é um funcionário supervisionado.
+export type MensagemBia = { de: 'bia' | 'tutor' | 'humano'; txt: string; hora: string }
+export type StatusConversa = 'bia' | 'humano' | 'resolvida' // Bia atendendo / assumida por humano / resolvida
+export type ConversaBia = {
+  id: string
+  tutorNome: string
+  petNome?: string
+  telefone: string
+  status: StatusConversa
+  motivo: string                 // ex.: lembrete de vacina, agendamento, dúvida, emergência
+  precisaHumano?: boolean        // Bia pediu para um humano assumir
+  ultimaHora: string             // HH:MM
+  mensagens: MensagemBia[]
+}
+
 // Regra de comissão definida pela clínica contratante (varia por contrato).
 export type ConfigComissao = {
   incideSobre: 'servicos' | 'tudo'   // só serviços (padrão) ou serviços + produtos
@@ -320,6 +336,7 @@ export type DB = {
   internacoes: Internacao[]
   lancamentos: Lancamento[]
   fornecedores: Fornecedor[]
+  conversas?: ConversaBia[]
   comissao: ConfigComissao
   kpis: { faturamentoMes: number; noShowPct: number; ocupacaoPct: number; vacinasAtrasadas: number; agendadosPelaIA: number; ticketMedio: number }
   receitaSemana: { dia: string; valor: number }[]
@@ -968,6 +985,42 @@ export const db: Record<'c1' | 'c2', DB> = {
         entrada: hojeMenos(102), previsaoAlta: hojeMenos(96), saida: hojeMenos(96),
         valorDiaria: 200, status: 'alta', parametros: [], medicacoes: [],
       },
+    ],
+    conversas: [
+      { id: 'cv1', tutorNome: 'Marina Costa', petNome: 'Thor', telefone: '47 99812-4455', status: 'resolvida', motivo: 'Lembrete de vacina → agendou', ultimaHora: '08:12',
+        mensagens: [
+          { de: 'bia', txt: 'Oi, Marina! Chegando a época da vacina do Thor: a V10 está prevista pra 10/07. Quer que eu já separe um horário?', hora: '08:05' },
+          { de: 'tutor', txt: 'Oi! Quero sim. Quanto custa?', hora: '08:08' },
+          { de: 'bia', txt: 'A V10 fica R$ 90. Tenho quinta às 8h30 ou sexta às 10h — qual fica melhor?', hora: '08:09' },
+          { de: 'tutor', txt: 'Quinta 8h30 tá ótimo', hora: '08:11' },
+          { de: 'bia', txt: 'Prontinho! ✅ Agendei o Thor pra V10 na quinta às 8h30 com a Dra. Helena. Até lá! 🐾', hora: '08:12' },
+        ] },
+      { id: 'cv2', tutorNome: 'Camila Ferreira', petNome: 'Amendoim', telefone: '47 99735-6621', status: 'bia', motivo: 'Dúvida sobre banho e tosa', ultimaHora: '09:41',
+        mensagens: [
+          { de: 'tutor', txt: 'Oi, vcs fazem tosa higiênica em poodle?', hora: '09:38' },
+          { de: 'bia', txt: 'Fazemos sim, Camila! 🐩 A tosa higiênica do Amendoim fica R$ 80 e leva cerca de 1h. Quer que eu veja um horário essa semana?', hora: '09:41' },
+        ] },
+      { id: 'cv3', tutorNome: 'Rafael Nunes', petNome: 'Frida', telefone: '47 99188-2044', status: 'humano', precisaHumano: true, motivo: 'Dúvida clínica pós-consulta', ultimaHora: '10:05',
+        mensagens: [
+          { de: 'tutor', txt: 'A Frida tomou o remédio ontem mas ainda tá meio abatida, é normal?', hora: '10:01' },
+          { de: 'bia', txt: 'Entendi, Rafael. Como é sobre a saúde da Frida, vou chamar a equipe pra te responder com segurança — só um instante. 🙏', hora: '10:02' },
+          { de: 'bia', txt: '⚠️ Encaminhei para um humano assumir (dúvida clínica).', hora: '10:05' },
+        ] },
+      { id: 'cv4', tutorNome: 'Diego Souza', petNome: 'Luna', telefone: '47 98471-9012', status: 'bia', motivo: 'Reativação — vacina atrasada', ultimaHora: '11:20',
+        mensagens: [
+          { de: 'bia', txt: 'Oi, Diego! Passando pra lembrar que a vacina da Luna está um pouquinho atrasada. Quer que eu já reserve um horário pra deixar em dia? 🐾', hora: '11:20' },
+        ] },
+      { id: 'cv5', tutorNome: 'Patrícia Gomes', petNome: 'Bob', telefone: '47 99560-7745', status: 'humano', precisaHumano: true, motivo: '🚨 Emergência — encaminhada', ultimaHora: '11:47',
+        mensagens: [
+          { de: 'tutor', txt: 'Socorro, o Bob comeu chocolate agora, o que faço??', hora: '11:45' },
+          { de: 'bia', txt: 'Patrícia, isso é urgente — traga o Bob AGORA à clínica ou ligue já no (47) 3344-0000. Não espere. Já avisei a equipe que vocês estão chegando. 🚨', hora: '11:46' },
+          { de: 'bia', txt: '⚠️ Emergência encaminhada — equipe avisada.', hora: '11:47' },
+        ] },
+      { id: 'cv6', tutorNome: 'Beatriz Lima', petNome: 'Simba', telefone: '47 99902-3388', status: 'bia', motivo: 'Agendamento de castração', ultimaHora: '12:10',
+        mensagens: [
+          { de: 'tutor', txt: 'Queria marcar a castração do Simba', hora: '12:06' },
+          { de: 'bia', txt: 'Claro, Beatriz! A castração é feita pelo Dr. Bruno. Antes preciso confirmar: o Simba está com as vacinas em dia e fez jejum? Posso te passar as orientações e já reservar um dia. 🐶', hora: '12:10' },
+        ] },
     ],
     comissao: { incideSobre: 'servicos', base: 'liquido' },
     kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 6, agendadosPelaIA: 4, ticketMedio: 187 },

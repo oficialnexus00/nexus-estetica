@@ -1221,7 +1221,7 @@ export default function App() {
               {view === 'exames' && <Exames exames={data.exames ?? []} pets={data.tutores.flatMap(t => t.pets)} acoes={acoes} />}
               {view === 'reativacao' && <Reativacao data={data} />}
               {view === 'configuracoes' && <Configuracoes data={data} acoes={acoes} />}
-              {view === 'bia' && <Bia />}
+              {view === 'bia' && <Bia data={data} />}
               {view === 'guia' && <Guia />}
               {view === 'suporte' && <Suporte />}
             </>

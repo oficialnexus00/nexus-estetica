@@ -242,7 +242,12 @@ function PlanoDoPet({ pet, tutorNome, data, acoes }: { pet: Pet; tutorNome: stri
           <div className="flex items-center gap-2">
             <span className={`h-2.5 w-2.5 rounded-full ${PLANO_COR[plano.cor]}`} />
             <div>
-              <h3 className="text-[14px] font-semibold">Plano {plano.nome}</h3>
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-[14px] font-semibold">Plano {plano.nome}</h3>
+                {assinatura.pagamento === 'atrasada' && (
+                  <span className="rounded-md border border-bad/40 bg-bad/10 px-2 py-0.5 text-[10.5px] font-medium text-bad">⚠ Mensalidade atrasada</span>
+                )}
+              </div>
               <p className="text-[12px] text-ink-3">R$ {plano.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês · desde {new Date(assinatura.inicio + 'T00:00:00').toLocaleDateString('pt-BR')}</p>
             </div>
           </div>

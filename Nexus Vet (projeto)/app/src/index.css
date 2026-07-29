@@ -30,26 +30,28 @@
 :root[data-theme="light"] {
   color-scheme: light;
   --color-brand: #009e88;
-  --color-brand-dim: #007e6d;
-  /* Superfícies com separação clara: fundo cinza-claro → cards brancos →
-     chips/insets mais fechados. Sem isso, tudo vira branco-sobre-branco e as
-     caixas com opacidade (/50, /10) somem. */
-  --color-surface-0: #eaeef4;  /* fundo do app — cinza-claro frio */
-  --color-surface-1: #ffffff;  /* cards — branco puro, destacam do fundo */
-  --color-surface-2: #e3e9f1;  /* chips / campos / insets — distintos do branco */
-  --color-surface-3: #d4dded;
-  --color-line: #cbd4e1;       /* borda firme o bastante para desenhar a caixa */
-  --color-ink: #0d1626;
-  --color-ink-2: #48546a;      /* texto secundário mais escuro = mais legível */
-  --color-ink-3: #74809a;
-  --color-s1: #10814f;
-  --color-s2: #245fc4;
-  --color-s3: #916000;
-  --color-s4: #5b4ec2;
-  --color-ok: #12894f;
-  --color-warn: #9a6912;
-  --color-bad: #ce3d3d;
-  --scroll-thumb: #bfc9d9;
+  --color-brand-dim: #00806f;
+  /* Paleta clara "papel" — neutro quente sutil (tendência off-white orgânico,
+     Pantone Cloud Dancer 2026) em vez do cinza-azulado frio. Bordas leves +
+     degradê suave de superfícies dão profundidade sem peso, ao estilo
+     Linear/Vercel/Radix. Ainda com separação clara: canvas → card branco →
+     chips/insets, para as caixas com opacidade (/50, /10) não sumirem. */
+  --color-surface-0: #f4f4f2;  /* canvas do app — off-white papel, neutro quente */
+  --color-surface-1: #ffffff;  /* cards — branco puro, flutuam sobre o canvas */
+  --color-surface-2: #eeeeeb;  /* chips / campos / insets — distintos do branco */
+  --color-surface-3: #e4e4e0;
+  --color-line: #e3e2dd;       /* borda suave — desenha o card sem pesar */
+  --color-ink: #1a1a17;        /* quase-preto quente, alto contraste */
+  --color-ink-2: #55534c;      /* secundário legível */
+  --color-ink-3: #85837a;      /* terciário / labels */
+  --color-s1: #0f7d4d;
+  --color-s2: #2760c0;
+  --color-s3: #8a5a0a;
+  --color-s4: #5a4ec0;
+  --color-ok: #0f8a4d;
+  --color-warn: #a86412;
+  --color-bad: #cf3d3d;
+  --scroll-thumb: #cfcec8;
 }
 
 html, body, #root { height: 100%; }

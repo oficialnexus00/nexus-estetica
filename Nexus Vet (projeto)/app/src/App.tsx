@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { clinics as clinicasDemo, db } from './data'
-import type { DB, Tutor, Pet, ItemVenda, FormaPagamento, ConfigComissao } from './data'
+import type { DB, Tutor, Pet, ItemVenda, FormaPagamento, ConfigComissao, PlanoBemEstar, Assinatura } from './data'
 
 export type DadosVenda = {
   clienteNome?: string; petNome?: string; itens: ItemVenda[]; desconto: number
   formaPagamento?: FormaPagamento; naConta?: boolean; profissional?: string
+  assinaturaId?: string; beneficiosConsumidos?: string[] // cotas do plano consumidas nesta venda
 }
 
 export type DadosInternacao = {
@@ -111,6 +112,11 @@ export type Acoes = {
   atualizarComissao: (profId: string, pct: number) => Promise<void>
   atualizarRegraComissao: (cfg: ConfigComissao) => Promise<void>
   fecharComissoes: (d: { periodo: string; itens: { profNome: string; valor: number }[]; vendaIds: string[] }) => Promise<void>
+  criarPlano: (p: Omit<PlanoBemEstar, 'id'>) => Promise<void>
+  atualizarPlano: (id: string, p: Omit<PlanoBemEstar, 'id'>) => Promise<void>
+  deletarPlano: (id: string) => Promise<void>
+  assinarPet: (d: { petId: string; petNome: string; tutorNome: string; planoId: string }) => Promise<void>
+  cancelarAssinatura: (assinaturaId: string) => Promise<void>
   criarOrcamento: (d: Omit<DadosVenda, 'formaPagamento'>) => Promise<void>
   converterOrcamento: (id: string, formaPagamento: FormaPagamento) => Promise<void>
   recusarOrcamento: (id: string) => Promise<void>
@@ -861,6 +867,12 @@ export default function App() {
               hora: new Date().toTimeString().slice(0, 5),
             }] }
           : atual.caixa,
+        // consome as cotas do plano usadas nesta venda (mantém saldo do assinante em dia)
+        assinaturas: (d.assinaturaId && d.beneficiosConsumidos?.length)
+          ? (atual.assinaturas ?? []).map(a => a.id !== d.assinaturaId ? a : {
+              ...a, consumo: d.beneficiosConsumidos!.reduce((c, bid) => ({ ...c, [bid]: (c[bid] ?? 0) + 1 }), { ...a.consumo }),
+            })
+          : (atual.assinaturas ?? []),
       }))
       notificar(naConta
         ? `Adicionado à conta de ${d.clienteNome ?? 'cliente'}: ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}.`
@@ -899,6 +911,48 @@ export default function App() {
         vendas: (atual.vendas ?? []).map(v => alvo.has(v.id) ? { ...v, comissaoFechada: true } : v),
       }))
       notificar(`Comissão fechada: ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} lançados a pagar.`)
+    },
+
+    async criarPlano(p) {
+      setData(atual => atual && ({ ...atual, planos: [...(atual.planos ?? []), { id: 'pl' + Date.now(), ...p }] }))
+      notificar(`Plano "${p.nome}" criado.`)
+    },
+    async atualizarPlano(id, p) {
+      setData(atual => atual && ({ ...atual, planos: (atual.planos ?? []).map(x => x.id === id ? { id, ...p } : x) }))
+      notificar('Plano atualizado.')
+    },
+    async deletarPlano(id) {
+      setData(atual => atual && ({
+        ...atual,
+        planos: (atual.planos ?? []).filter(x => x.id !== id),
+        // cancela assinaturas do plano removido (mantém integridade)
+        assinaturas: (atual.assinaturas ?? []).map(a => a.planoId === id ? { ...a, status: 'cancelada' as const } : a),
+      }))
+      notificar('Plano removido.')
+    },
+    async assinarPet(d) {
+      // se o pet já tem assinatura ativa, substitui; senão cria
+      setData(atual => {
+        if (!atual) return atual
+        const jaTem = (atual.assinaturas ?? []).some(a => a.petId === d.petId && a.status === 'ativa')
+        const assinaturas = jaTem
+          ? (atual.assinaturas ?? []).map(a => a.petId === d.petId && a.status === 'ativa'
+              ? { ...a, planoId: d.planoId, inicio: new Date().toISOString().slice(0, 10), consumo: {} } : a)
+          : [...(atual.assinaturas ?? []), {
+              id: 'as' + Date.now(), petId: d.petId, petNome: d.petNome, tutorNome: d.tutorNome,
+              planoId: d.planoId, status: 'ativa' as const, inicio: new Date().toISOString().slice(0, 10), consumo: {},
+            }]
+        return { ...atual, assinaturas }
+      })
+      const plano = data?.planos?.find(p => p.id === d.planoId)
+      notificar(`${d.petNome} assinou o plano ${plano?.nome ?? ''}.`)
+    },
+    async cancelarAssinatura(assinaturaId) {
+      setData(atual => atual && ({
+        ...atual,
+        assinaturas: (atual.assinaturas ?? []).map(a => a.id === assinaturaId ? { ...a, status: 'cancelada' as const } : a),
+      }))
+      notificar('Assinatura cancelada.')
     },
 
     async criarOrcamento(d) {

@@ -345,10 +345,25 @@ export type Assinatura = {
   petId: string
   petNome: string
   tutorNome: string
+  telefone?: string
   planoId: string
   status: 'ativa' | 'suspensa' | 'cancelada'
   inicio: string           // AAAA-MM-DD
+  pagamento: 'em_dia' | 'atrasada'  // status da mensalidade
+  vencimento: string       // AAAA-MM-DD — vencimento da mensalidade do ciclo atual
   consumo: Record<string, number> // beneficioId -> quantidade usada no ciclo atual
+}
+
+/** Dias de atraso da mensalidade (positivo = vencida há N dias). */
+export const diasAtrasoMensalidade = (vencimento: string): number =>
+  Math.round((new Date().setHours(0, 0, 0, 0) - new Date(vencimento + 'T00:00:00').getTime()) / 86400000)
+
+/** Mensagem de recuperação que a Bia envia ao assinante inadimplente. */
+export const mensagemCobrancaPlano = (tutor: string, pet: string, plano: string, valor: number): string => {
+  const nome = tutor.split(' ')[0]
+  const v = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+  return `Oi, ${nome}! Passando pra avisar com carinho que a mensalidade do plano ${plano} do ${pet} (${v}) está em aberto. `
+    + `Quer que eu te mande o link de pagamento por aqui pra manter os benefícios ativos? 🐾`
 }
 
 // Resultado da aplicação do plano a um item de venda/atendimento.
@@ -1109,10 +1124,10 @@ export const db: Record<'c1' | 'c2', DB> = {
       ] },
     ],
     assinaturas: [
-      { id: 'as1', petId: 'p1', petNome: 'Thor', tutorNome: 'Marina Costa', planoId: 'pl3', status: 'ativa', inicio: hojeMenos(120), consumo: { b8: 1 } },
-      { id: 'as2', petId: 'p6', petNome: 'Amendoim', tutorNome: 'Camila Ferreira', planoId: 'pl2', status: 'ativa', inicio: hojeMenos(80), consumo: { b4: 1 } },
-      { id: 'as3', petId: 'p11', petNome: 'Bob', tutorNome: 'Patrícia Gomes', planoId: 'pl1', status: 'ativa', inicio: hojeMenos(40), consumo: {} },
-      { id: 'as4', petId: 'p17', petNome: 'Mia', tutorNome: 'Aline Ribeiro', planoId: 'pl2', status: 'ativa', inicio: hojeMenos(20), consumo: {} },
+      { id: 'as1', petId: 'p1', petNome: 'Thor', tutorNome: 'Marina Costa', telefone: '47 99812-4455', planoId: 'pl3', status: 'ativa', inicio: hojeMenos(120), pagamento: 'em_dia', vencimento: hojeMais(6), consumo: { b8: 1 } },
+      { id: 'as2', petId: 'p6', petNome: 'Amendoim', tutorNome: 'Camila Ferreira', telefone: '47 99735-6621', planoId: 'pl2', status: 'ativa', inicio: hojeMenos(80), pagamento: 'em_dia', vencimento: hojeMais(11), consumo: { b4: 1 } },
+      { id: 'as3', petId: 'p11', petNome: 'Bob', tutorNome: 'Patrícia Gomes', telefone: '47 99560-7745', planoId: 'pl1', status: 'ativa', inicio: hojeMenos(40), pagamento: 'atrasada', vencimento: hojeMenos(8), consumo: {} },
+      { id: 'as4', petId: 'p17', petNome: 'Mia', tutorNome: 'Aline Ribeiro', telefone: '47 99254-7789', planoId: 'pl2', status: 'ativa', inicio: hojeMenos(20), pagamento: 'atrasada', vencimento: hojeMenos(3), consumo: {} },
     ],
     comissao: { incideSobre: 'servicos', base: 'liquido' },
     kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 6, agendadosPelaIA: 4, ticketMedio: 187 },

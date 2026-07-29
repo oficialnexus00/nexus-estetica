@@ -37,6 +37,7 @@ import Vendas from './views/Vendas'
 import Comissoes from './views/Comissoes'
 import Internacao from './views/Internacao'
 import Inteligencia from './views/Inteligencia'
+import Planos from './views/Planos'
 import Reativacao from './views/Reativacao'
 import Bia from './views/Bia'
 import Guia from './views/Guia'
@@ -53,6 +54,7 @@ const NAV = [
   { id: 'comissoes', label: 'Comissões', icon: '💵' },
   { id: 'internacao', label: 'Internação', icon: '🏥' },
   { id: 'inteligencia', label: 'Inteligência', icon: '📊' },
+  { id: 'planos', label: 'Planos', icon: '⭐' },
   { id: 'estoque', label: 'Estoque', icon: '📦' },
   { id: 'exames', label: 'Exames', icon: '🔬' },
   { id: 'reativacao', label: 'Reativação', icon: '🔔' },
@@ -934,13 +936,15 @@ export default function App() {
       // se o pet já tem assinatura ativa, substitui; senão cria
       setData(atual => {
         if (!atual) return atual
+        const hoje = new Date().toISOString().slice(0, 10)
+        const venc = new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10)
         const jaTem = (atual.assinaturas ?? []).some(a => a.petId === d.petId && a.status === 'ativa')
         const assinaturas = jaTem
           ? (atual.assinaturas ?? []).map(a => a.petId === d.petId && a.status === 'ativa'
-              ? { ...a, planoId: d.planoId, inicio: new Date().toISOString().slice(0, 10), consumo: {} } : a)
+              ? { ...a, planoId: d.planoId, inicio: hoje, pagamento: 'em_dia' as const, vencimento: venc, consumo: {} } : a)
           : [...(atual.assinaturas ?? []), {
               id: 'as' + Date.now(), petId: d.petId, petNome: d.petNome, tutorNome: d.tutorNome,
-              planoId: d.planoId, status: 'ativa' as const, inicio: new Date().toISOString().slice(0, 10), consumo: {},
+              planoId: d.planoId, status: 'ativa' as const, inicio: hoje, pagamento: 'em_dia' as const, vencimento: venc, consumo: {},
             }]
         return { ...atual, assinaturas }
       })
@@ -1271,6 +1275,7 @@ export default function App() {
               {view === 'comissoes' && <Comissoes data={data} acoes={acoes} />}
               {view === 'internacao' && <Internacao data={data} acoes={acoes} />}
               {view === 'inteligencia' && <Inteligencia data={data} />}
+              {view === 'planos' && <Planos data={data} acoes={acoes} />}
               {view === 'estoque' && <Estoque itens={data.estoque ?? []} acoes={acoes} />}
               {view === 'exames' && <Exames exames={data.exames ?? []} pets={data.tutores.flatMap(t => t.pets)} acoes={acoes} />}
               {view === 'reativacao' && <Reativacao data={data} />}

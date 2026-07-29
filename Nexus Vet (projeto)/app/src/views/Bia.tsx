@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { DB, ConversaBia, MensagemBia, StatusConversa } from '../data'
-import { situacaoVacina, diasAteDose } from '../data'
+import { situacaoVacina, diasAteDose, diasAtrasoMensalidade, mensagemCobrancaPlano, brl } from '../data'
 
 // Central da Bia — o motor roda FORA (GPTMaker/n8n), mas a clínica vê, assume e
 // responde de DENTRO do sistema. A Bia é um funcionário supervisionado pela tela.
@@ -21,7 +21,9 @@ function Stat({ n, label, tom }: { n: string; label: string; tom?: 'warn' }) {
 }
 
 export default function Bia({ data }: { data: DB }) {
-  const [aba, setAba] = useState<'conversas' | 'recorrencia'>('conversas')
+  const [aba, setAba] = useState<'conversas' | 'recorrencia' | 'cobranca'>('conversas')
+  const [cobrados, setCobrados] = useState<Set<string>>(new Set())
+  const [avisoCobranca, setAvisoCobranca] = useState<string | null>(null)
 
   // conversas em estado local (o app é demo; em produção vêm do GPTMaker/Evolution)
   const [conversas, setConversas] = useState<ConversaBia[]>(() =>
@@ -59,6 +61,20 @@ export default function Bia({ data }: { data: DB }) {
   }, [data])
   const atrasados = fila.filter(f => f.sit === 'atrasada').length
 
+  // fila de cobrança: assinantes com a mensalidade do plano atrasada (dunning)
+  const inadimplentes = useMemo(() => {
+    const planos = data.planos ?? []
+    return (data.assinaturas ?? [])
+      .filter(a => a.status === 'ativa' && a.pagamento === 'atrasada')
+      .map(a => {
+        const plano = planos.find(p => p.id === a.planoId)
+        return { a, plano, valor: plano?.preco ?? 0, dias: diasAtrasoMensalidade(a.vencimento) }
+      })
+      .sort((x, y) => y.dias - x.dias)
+  }, [data])
+  const valorEmAtraso = inadimplentes.reduce((s, i) => s + i.valor, 0)
+  const cobrar = (id: string) => setCobrados(s => new Set(s).add(id))
+
   return (
     <div className="space-y-4">
       {/* status + indicadores */}
@@ -70,12 +86,12 @@ export default function Bia({ data }: { data: DB }) {
             <p className="text-[11.5px] text-ink-3">O atendimento roda 24h por fora — você acompanha, assume e responde por aqui.</p>
           </div>
         </div>
-        <div className="flex gap-2">
-          {(['conversas', 'recorrencia'] as const).map(t => (
+        <div className="flex flex-wrap gap-2">
+          {([['conversas', 'Conversas'], ['recorrencia', 'Central de recorrência'], ['cobranca', 'Cobrança de planos']] as const).map(([t, r]) => (
             <button key={t} onClick={() => setAba(t)}
               className={`rounded-lg px-3.5 py-1.5 text-[12.5px] font-medium transition ${
                 aba === t ? 'bg-brand/12 text-brand' : 'border border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
-              {t === 'conversas' ? 'Conversas' : 'Central de recorrência'}
+              {r}{t === 'cobranca' && inadimplentes.length > 0 && <span className="ml-1 text-warn">({inadimplentes.length})</span>}
             </button>
           ))}
         </div>
@@ -83,9 +99,9 @@ export default function Bia({ data }: { data: DB }) {
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat n={String(data.kpis?.agendadosPelaIA ?? 0)} label="agendados pela Bia hoje" />
-        <Stat n="12s" label="1ª resposta média" />
         <Stat n={String(aguardando)} label="aguardando você" tom={aguardando > 0 ? 'warn' : undefined} />
         <Stat n={String(fila.length)} label="na fila de recorrência" />
+        <Stat n={String(inadimplentes.length)} label="mensalidades atrasadas" tom={inadimplentes.length > 0 ? 'warn' : undefined} />
       </div>
 
       {aba === 'conversas' && (
@@ -220,6 +236,56 @@ export default function Bia({ data }: { data: DB }) {
               <li>✅ Emergência não vira agendamento: orienta e encaminha na hora</li>
             </ul>
           </div>
+        </div>
+      )}
+
+      {aba === 'cobranca' && (
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-warn/40 bg-warn/10 px-4 py-3">
+            <div className="text-[12.5px] text-ink-2">
+              <span className="font-semibold text-ink">{inadimplentes.length}</span> assinante{inadimplentes.length === 1 ? '' : 's'} com a mensalidade atrasada
+              {inadimplentes.length > 0 && <> · <span className="font-medium text-warn">{brl(valorEmAtraso)}/mês em risco</span></>}. A Bia recupera pelo WhatsApp.
+            </div>
+            {inadimplentes.length > 0 && (
+              <button onClick={() => { inadimplentes.forEach(i => cobrar(i.a.id)); setAvisoCobranca(`Cobrança disparada para ${inadimplentes.length} assinantes — lote de ~20, intervalo 40–100s. A Bia envia o link de pagamento e faz o follow-up.`) }}
+                className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim">
+                Disparar cobranças
+              </button>
+            )}
+          </div>
+          {avisoCobranca && <p className="rounded-lg border border-ok/40 bg-ok/10 px-3 py-2 text-[12px] text-ok">✅ {avisoCobranca}</p>}
+
+          {inadimplentes.length === 0 ? (
+            <p className="rounded-xl border border-line bg-surface-1 py-10 text-center text-[13.5px] text-ink-3">Nenhuma mensalidade atrasada — recorrência em dia. 🐾</p>
+          ) : (
+            <div className="space-y-3">
+              {inadimplentes.map(({ a, plano, valor, dias }) => {
+                const enviado = cobrados.has(a.id)
+                const msg = mensagemCobrancaPlano(a.tutorNome, a.petNome, plano?.nome ?? 'bem-estar', valor)
+                return (
+                  <div key={a.id} className="rounded-xl border border-line bg-surface-1 p-4">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-[14px] font-semibold">{a.tutorNome}</span>
+                          <span className="text-[12px] text-ink-3">· {a.petNome}</span>
+                          <span className="rounded-md border border-warn/40 bg-warn/10 px-2 py-0.5 text-[10.5px] font-medium text-warn">Plano {plano?.nome}</span>
+                          <span className="rounded-md border border-bad/40 bg-bad/10 px-2 py-0.5 text-[10.5px] font-medium text-bad">{dias} {dias === 1 ? 'dia' : 'dias'} em atraso</span>
+                        </div>
+                        <div className="mt-0.5 text-[11.5px] text-ink-3">{a.telefone} · mensalidade {brl(valor)}</div>
+                      </div>
+                      {enviado
+                        ? <span className="shrink-0 rounded-lg border border-ok/40 bg-ok/10 px-3 py-1.5 text-[12px] font-medium text-ok">✓ Cobrança enviada</span>
+                        : <button onClick={() => cobrar(a.id)} className="shrink-0 rounded-lg bg-brand px-3 py-1.5 text-[12px] font-semibold text-surface-0 transition hover:bg-brand-dim">Cobrar pelo WhatsApp</button>}
+                    </div>
+                    <div className="mt-2 rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px] text-ink-2">
+                      <span className="mb-0.5 block text-[10px] font-medium text-brand">Mensagem da Bia</span>{msg}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>

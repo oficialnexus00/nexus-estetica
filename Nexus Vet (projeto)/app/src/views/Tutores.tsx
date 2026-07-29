@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import type { DB, Tutor, Pet } from '../data'
-import { idadeDe, situacaoVacina } from '../data'
+import { idadeDe, situacaoVacina, rotuloBeneficio } from '../data'
 import type { Acoes } from '../App'
+import ConfirmButton from '../components/ConfirmButton'
 import Vacinacao from '../components/Vacinacao'
 import Prontuario from '../components/Prontuario'
 import LinhaDoTempo from '../components/LinhaDoTempo'
@@ -105,6 +106,8 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
             </div>
           )}
         </div>
+
+        <PlanoDoPet pet={pet} tutorNome={tutor.nome} data={data} acoes={acoes} />
 
         <AcoesPet pet={pet} tutorNome={tutor.nome} data={data} acoes={acoes} />
 
@@ -218,6 +221,77 @@ export default function Tutores({ data, acoes }: { data: DB; acoes: Acoes }) {
             onSalvar={async d => { await acoes.adicionarPet(adicionandoPetEm.id, d); setAdicionandoPetEm(null) }} />
         )}
       </Modal>
+    </div>
+  )
+}
+
+/* ---------------------------------------- plano de bem-estar do pet (Pet 360) */
+
+const PLANO_COR: Record<string, string> = { teal: 'bg-brand', blue: 'bg-s2', violet: 'bg-s4' }
+
+function PlanoDoPet({ pet, tutorNome, data, acoes }: { pet: Pet; tutorNome: string; data: DB; acoes: Acoes }) {
+  const [sel, setSel] = useState('')
+  const assinatura = (data.assinaturas ?? []).find(a => a.petId === pet.id && a.status === 'ativa')
+  const plano = assinatura ? (data.planos ?? []).find(p => p.id === assinatura.planoId) : undefined
+  const planosAtivos = (data.planos ?? []).filter(p => p.ativo)
+
+  if (assinatura && plano) {
+    return (
+      <div className="rounded-xl border border-line bg-surface-1 p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className={`h-2.5 w-2.5 rounded-full ${PLANO_COR[plano.cor]}`} />
+            <div>
+              <h3 className="text-[14px] font-semibold">Plano {plano.nome}</h3>
+              <p className="text-[12px] text-ink-3">R$ {plano.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês · desde {new Date(assinatura.inicio + 'T00:00:00').toLocaleDateString('pt-BR')}</p>
+            </div>
+          </div>
+          <ConfirmButton titulo="Cancelar assinatura" mensagem={`Cancelar o plano ${plano.nome} do ${pet.nome}?`}
+            confirmLabel="Cancelar plano" danger onConfirm={() => acoes.cancelarAssinatura(assinatura.id)}
+            className="rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[12px] font-medium text-ink-2 transition hover:border-bad/50 hover:text-bad">
+            Cancelar
+          </ConfirmButton>
+        </div>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          {plano.beneficios.map(b => {
+            const usado = assinatura.consumo[b.id] ?? 0
+            const saldo = b.tipo === 'cota' && b.cota ? `${usado}/${b.cota} usados no ${b.janela === 'mes' ? 'mês' : 'ano'}` : null
+            return (
+              <div key={b.id} className="rounded-lg border border-line bg-surface-2 px-3 py-2">
+                <div className="text-[12.5px] font-medium">✓ {rotuloBeneficio(b)}</div>
+                {saldo && <div className="mt-0.5 text-[11px] text-ink-3">{saldo}</div>}
+              </div>
+            )
+          })}
+        </div>
+        <p className="mt-3 text-[11px] text-ink-3">O benefício é aplicado sozinho no PDV quando você vende um serviço para o {pet.nome}.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="rounded-xl border border-line bg-surface-1 p-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 className="text-[14px] font-semibold">Plano de bem-estar</h3>
+          <p className="text-[12px] text-ink-3">{pet.nome} ainda não é assinante. Ofereça recorrência e desconto ao {tutorNome}.</p>
+        </div>
+        {planosAtivos.length === 0 ? (
+          <span className="text-[12px] text-ink-3">Nenhum plano ativo. Crie em Configurações → Planos.</span>
+        ) : (
+          <div className="flex items-center gap-2">
+            <select value={sel} onChange={e => setSel(e.target.value)}
+              className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[13px] outline-none focus:border-brand/60">
+              <option value="">Escolher plano…</option>
+              {planosAtivos.map(p => <option key={p.id} value={p.id}>{p.nome} — R$ {p.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês</option>)}
+            </select>
+            <button disabled={!sel} onClick={() => { if (sel) { acoes.assinarPet({ petId: pet.id, petNome: pet.nome, tutorNome, planoId: sel }); setSel('') } }}
+              className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 transition hover:bg-brand-dim disabled:opacity-50">
+              Assinar
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import type { DB, ItemVenda, FormaPagamento, Venda, Lancamento, MovimentoCaixa, Orcamento } from '../data'
 import { brl, diasAtraso } from '../data'
 import type { Acoes } from '../App'
@@ -67,8 +67,51 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
 
   const pets = data.tutores.flatMap(t => t.pets.map(p => ({ tutorId: t.id, tutorNome: t.nome, petId: p.id, petNome: p.nome })))
 
+  // categoria de um item (serviço → catálogo; produto → 'produto')
+  const categoriaItem = (i: ItemVenda) =>
+    i.tipo === 'produto' ? 'produto' : (data.servicos.find(s => s.id === i.refId)?.categoria ?? 'outro')
+
+  // plano ativo do pet selecionado
+  const petPlano = useMemo(() => {
+    const petId = petSel.split('|')[1]
+    if (!petId) return null
+    const assin = (data.assinaturas ?? []).find(a => a.petId === petId && a.status === 'ativa')
+    const plano = assin && (data.planos ?? []).find(p => p.id === assin.planoId)
+    return assin && plano ? { assin, plano } : null
+  }, [petSel, data])
+
+  // aplica os benefícios do plano ao carrinho (cota respeita saldo; resto vira desconto)
+  const planoResult = useMemo(() => {
+    if (!petPlano) return null
+    const consumo: Record<string, number> = { ...petPlano.assin.consumo }
+    const consumidos: string[] = []
+    let economia = 0
+    const linhas = carrinho.map(it => {
+      const cat = categoriaItem(it)
+      let restante = it.quantidade
+      let gratis = 0
+      let rotulo = ''
+      const inc = petPlano.plano.beneficios.find(b => b.tipo === 'incluso' && b.categoria === cat)
+      if (inc) { gratis = restante; restante = 0; rotulo = 'Incluso no plano' }
+      const cotaB = petPlano.plano.beneficios.find(b => b.tipo === 'cota' && b.categoria === cat)
+      if (restante > 0 && cotaB?.cota) {
+        const usado = consumo[cotaB.id] ?? 0
+        const cobre = Math.min(restante, Math.max(0, cotaB.cota - usado))
+        if (cobre > 0) { gratis += cobre; restante -= cobre; consumo[cotaB.id] = usado + cobre; for (let k = 0; k < cobre; k++) consumidos.push(cotaB.id); rotulo = rotulo || 'Cota do plano' }
+      }
+      let descLinha = 0
+      const desc = petPlano.plano.beneficios.find(b => b.tipo === 'desconto' && (b.categoria === cat || b.categoria === 'todos'))
+      if (restante > 0 && desc?.descontoPct) { descLinha = restante * it.precoUnit * desc.descontoPct / 100; rotulo = rotulo || `−${desc.descontoPct}% do plano` }
+      const economiaLinha = gratis * it.precoUnit + descLinha
+      economia += economiaLinha
+      return { rotulo, economiaLinha }
+    })
+    return { economia: Math.round(economia * 100) / 100, consumidos, linhas }
+  }, [petPlano, carrinho, data])
+
+  const economiaPlano = planoResult?.economia ?? 0
   const subtotal = carrinho.reduce((s, i) => s + i.quantidade * i.precoUnit, 0)
-  const total = Math.max(0, subtotal - desconto)
+  const total = Math.max(0, subtotal - desconto - economiaPlano)
 
   const adicionar = () => {
     const escolha = opcoes.find(o => o.id === (refId || opcoes[0]?.id))
@@ -108,7 +151,8 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
     setEnviando(true)
     await acoes.registrarVenda({
       clienteNome: pet.tutorNome, petNome: pet.petNome,
-      itens: carrinho, desconto, naConta: true, profissional: profissional || undefined,
+      itens: carrinho, desconto: desconto + economiaPlano, naConta: true, profissional: profissional || undefined,
+      assinaturaId: petPlano?.assin.id, beneficiosConsumidos: planoResult?.consumidos,
     })
     setCarrinho([]); setDesconto(0); setPetSel(''); setProfissional(''); setEnviando(false); setAviso(null)
   }
@@ -119,13 +163,14 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
     setEnviando(true)
     await acoes.registrarVenda({
       clienteNome: pet?.tutorNome, petNome: pet?.petNome,
-      itens: carrinho, desconto, formaPagamento: forma, profissional: profissional || undefined,
+      itens: carrinho, desconto: desconto + economiaPlano, formaPagamento: forma, profissional: profissional || undefined,
+      assinaturaId: petPlano?.assin.id, beneficiosConsumidos: planoResult?.consumidos,
     })
     cupomVenda({
       clinica: acoes.clinicaNome, data: new Date().toISOString().slice(0, 10),
       clienteNome: pet?.tutorNome, petNome: pet?.petNome,
       itens: carrinho.map(i => ({ nome: i.nome, quantidade: i.quantidade, precoUnit: i.precoUnit })),
-      desconto, total, formaPagamento: forma,
+      desconto: desconto + economiaPlano, total, formaPagamento: forma,
     })
     setCarrinho([]); setDesconto(0); setPetSel(''); setProfissional(''); setEnviando(false)
   }
@@ -184,6 +229,11 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
             <option value="">Venda avulsa (sem cliente)</option>
             {pets.map(p => <option key={p.petId} value={`${p.tutorId}|${p.petId}`}>{p.petNome} · {p.tutorNome}</option>)}
           </select>
+          {petPlano && (
+            <div className="mt-2 flex items-center gap-2 rounded-lg border border-brand/40 bg-brand/10 px-3 py-1.5 text-[12px] text-brand">
+              ⭐ Assinante do plano <span className="font-semibold">{petPlano.plano.nome}</span> — benefícios aplicados automaticamente.
+            </div>
+          )}
         </div>
 
         <div className="rounded-xl border border-line bg-surface-1 p-4">
@@ -207,6 +257,9 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-[13px] font-medium">{i.nome}</div>
                   <div className="text-[11px] text-ink-3">{brl(i.precoUnit)} un · {i.tipo === 'produto' ? 'produto' : 'serviço'}</div>
+                  {planoResult?.linhas[idx]?.rotulo && (
+                    <div className="mt-0.5 text-[10.5px] font-medium text-brand">⭐ {planoResult.linhas[idx].rotulo}</div>
+                  )}
                 </div>
                 <input type="number" min={1} value={i.quantidade} onChange={e => mudarQtd(idx, Number(e.target.value))}
                   className={inputCls + ' w-14'} aria-label="Quantidade" />
@@ -221,6 +274,11 @@ function PDV({ data, acoes }: { data: DB; acoes: Acoes }) {
           <div className="flex items-center justify-between text-[13px] text-ink-2">
             <span>Subtotal</span><span className="tabular-nums">{brl(subtotal)}</span>
           </div>
+          {economiaPlano > 0 && (
+            <div className="flex items-center justify-between text-[13px] text-brand">
+              <span>⭐ Desconto do plano</span><span className="tabular-nums">− {brl(economiaPlano)}</span>
+            </div>
+          )}
           <div className="flex items-center justify-between text-[13px] text-ink-2">
             <label htmlFor="desc">Desconto (R$)</label>
             <input id="desc" type="number" min={0} value={desconto}

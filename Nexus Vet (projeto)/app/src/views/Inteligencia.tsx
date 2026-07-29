@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { DB } from '../data'
 import { brl, baseComissaoVenda, CONFIG_COMISSAO_PADRAO } from '../data'
 
-type Aba = 'produtividade' | 'vendas' | 'clientes'
+type Aba = 'produtividade' | 'vendas' | 'clientes' | 'planos'
 
 const mesKey = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
 
@@ -72,7 +72,7 @@ export default function Inteligencia({ data }: { data: DB }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-1.5">
-        {([['produtividade', 'Produtividade'], ['vendas', 'Vendas'], ['clientes', 'Clientes']] as const).map(([id, rotulo]) => (
+        {([['produtividade', 'Produtividade'], ['vendas', 'Vendas'], ['clientes', 'Clientes'], ['planos', 'Planos (recorrência)']] as const).map(([id, rotulo]) => (
           <button key={id} onClick={() => setAba(id)}
             className={`rounded-lg px-3 py-1.5 text-[12.5px] font-medium transition ${
               aba === id ? 'bg-brand/12 text-brand' : 'border border-line bg-surface-2 text-ink-2 hover:text-ink'}`}>
@@ -84,6 +84,74 @@ export default function Inteligencia({ data }: { data: DB }) {
       {aba === 'produtividade' && <Produtividade data={data} />}
       {aba === 'vendas' && <VendasBI data={data} />}
       {aba === 'clientes' && <Clientes data={data} />}
+      {aba === 'planos' && <PlanosBI data={data} />}
+    </div>
+  )
+}
+
+function PlanosBI({ data }: { data: DB }) {
+  const planos = data.planos ?? []
+  const ativas = (data.assinaturas ?? []).filter(a => a.status === 'ativa')
+  const precoDe = (id: string) => planos.find(p => p.id === id)?.preco ?? 0
+  const mrr = ativas.reduce((s, a) => s + precoDe(a.planoId), 0)
+  const arr = mrr * 12
+  const arpu = ativas.length ? mrr / ativas.length : 0
+
+  const porPlano = planos.map(p => {
+    const assinantes = ativas.filter(a => a.planoId === p.id)
+    return { plano: p, n: assinantes.length, receita: assinantes.length * p.preco }
+  }).sort((a, b) => b.receita - a.receita)
+
+  const exportar = () => baixarCSV('planos-assinantes',
+    ['Pet', 'Tutor', 'Plano', 'Mensalidade', 'Desde'],
+    ativas.map(a => [a.petNome, a.tutorNome, planos.find(p => p.id === a.planoId)?.nome ?? '', precoDe(a.planoId).toFixed(2), a.inicio]))
+
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Kpi label="Receita recorrente (MRR)" valor={brl(mrr)} hint="mensal, planos ativos" />
+        <Kpi label="Anual (ARR)" valor={brl(arr)} />
+        <Kpi label="Assinantes ativos" valor={String(ativas.length)} />
+        <Kpi label="Ticket do plano (ARPU)" valor={brl(arpu)} />
+      </div>
+
+      <div className="rounded-xl border border-line bg-surface-1 p-5">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <h3 className="text-[14px] font-semibold">Receita por plano</h3>
+          <BotaoCSV onClick={exportar} />
+        </div>
+        {porPlano.length === 0
+          ? <p className="py-6 text-center text-[13px] text-ink-3">Nenhum plano criado. Crie em Configurações → Planos.</p>
+          : <BarraRank itens={porPlano.map(x => ({ chave: x.plano.id, rotulo: x.plano.nome, valor: x.receita, sub: `${x.n} assinante${x.n === 1 ? '' : 's'}` }))} />}
+      </div>
+
+      {ativas.length > 0 && (
+        <div className="rounded-xl border border-line bg-surface-1 p-5">
+          <h3 className="mb-3 text-[14px] font-semibold">Assinantes</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[520px] text-left">
+              <thead>
+                <tr className="border-b border-line text-[11.5px] uppercase tracking-wider text-ink-3">
+                  <th className="px-1 py-2 font-medium">Pet · Tutor</th>
+                  <th className="px-1 py-2 font-medium">Plano</th>
+                  <th className="px-1 py-2 text-right font-medium">Mensalidade</th>
+                  <th className="px-1 py-2 text-right font-medium">Desde</th>
+                </tr>
+              </thead>
+              <tbody className="text-[13.5px]">
+                {ativas.map(a => (
+                  <tr key={a.id} className="border-b border-line/60 last:border-0">
+                    <td className="px-1 py-2 font-medium">{a.petNome}<span className="block text-[11px] font-normal text-ink-3">{a.tutorNome}</span></td>
+                    <td className="px-1 py-2 text-ink-2">{planos.find(p => p.id === a.planoId)?.nome ?? '—'}</td>
+                    <td className="px-1 py-2 text-right tabular-nums">{brl(precoDe(a.planoId))}</td>
+                    <td className="px-1 py-2 text-right tabular-nums text-ink-3">{new Date(a.inicio + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

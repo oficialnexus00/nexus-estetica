@@ -319,6 +319,72 @@ export type ConfigComissao = {
 }
 export const CONFIG_COMISSAO_PADRAO: ConfigComissao = { incideSobre: 'servicos', base: 'liquido' }
 
+// ---- Planos de bem-estar (assinatura da própria clínica) ----
+// A clínica cria o plano, assina o PET e o benefício é aplicado no atendimento/PDV.
+export type TipoBeneficio = 'incluso' | 'cota' | 'desconto' // ilimitado / N por janela / % de desconto
+export type JanelaBeneficio = 'mes' | 'ano'
+export type BeneficioPlano = {
+  id: string
+  descricao: string
+  tipo: TipoBeneficio
+  categoria: string        // categoria de serviço (consulta, vacina, banho_tosa, exame, cirurgia) ou 'todos'
+  cota?: number            // usado quando tipo = 'cota'
+  janela?: JanelaBeneficio // reset da cota (mês / ano)
+  descontoPct?: number     // usado quando tipo = 'desconto'
+}
+export type PlanoBemEstar = {
+  id: string
+  nome: string
+  preco: number            // mensalidade
+  cor: 'teal' | 'blue' | 'violet'
+  ativo: boolean
+  beneficios: BeneficioPlano[]
+}
+export type Assinatura = {
+  id: string
+  petId: string
+  petNome: string
+  tutorNome: string
+  planoId: string
+  status: 'ativa' | 'suspensa' | 'cancelada'
+  inicio: string           // AAAA-MM-DD
+  consumo: Record<string, number> // beneficioId -> quantidade usada no ciclo atual
+}
+
+// Resultado da aplicação do plano a um item de venda/atendimento.
+export type AplicacaoPlano = {
+  tipo: 'incluso' | 'cota' | 'desconto' | 'nenhum'
+  beneficioId?: string
+  valorFinal: number
+  economia: number
+  rotulo: string
+  saldoRestante?: number
+}
+/** Aplica o melhor benefício do plano a um item (por categoria), considerando o consumo do ciclo. */
+export const aplicarPlanoNoItem = (
+  plano: PlanoBemEstar, categoria: string, valor: number, consumo: Record<string, number>,
+): AplicacaoPlano => {
+  const bens = plano.beneficios
+  const inc = bens.find(b => b.tipo === 'incluso' && b.categoria === categoria)
+  if (inc) return { tipo: 'incluso', beneficioId: inc.id, valorFinal: 0, economia: valor, rotulo: 'Incluso no plano' }
+  const cotaB = bens.find(b => b.tipo === 'cota' && b.categoria === categoria)
+  if (cotaB && cotaB.cota) {
+    const usado = consumo[cotaB.id] ?? 0
+    if (usado < cotaB.cota)
+      return { tipo: 'cota', beneficioId: cotaB.id, valorFinal: 0, economia: valor, rotulo: `Cota do plano (${usado + 1}/${cotaB.cota})`, saldoRestante: cotaB.cota - usado - 1 }
+  }
+  const desc = bens.find(b => b.tipo === 'desconto' && (b.categoria === categoria || b.categoria === 'todos'))
+  if (desc && desc.descontoPct) {
+    const valorFinal = Math.round(valor * (1 - desc.descontoPct / 100) * 100) / 100
+    return { tipo: 'desconto', beneficioId: desc.id, valorFinal, economia: valor - valorFinal, rotulo: `−${desc.descontoPct}% do plano` }
+  }
+  return { tipo: 'nenhum', valorFinal: valor, economia: 0, rotulo: '' }
+}
+export const rotuloBeneficio = (b: BeneficioPlano): string =>
+  b.tipo === 'incluso' ? `${b.descricao} — ilimitado`
+  : b.tipo === 'cota' ? `${b.descricao} — ${b.cota}×/${b.janela === 'mes' ? 'mês' : 'ano'}`
+  : `${b.descricao} — ${b.descontoPct}% off`
+
 export type DB = {
   tutores: Tutor[]
   agenda: Agendamento[]
@@ -337,6 +403,8 @@ export type DB = {
   lancamentos: Lancamento[]
   fornecedores: Fornecedor[]
   conversas?: ConversaBia[]
+  planos?: PlanoBemEstar[]
+  assinaturas?: Assinatura[]
   comissao: ConfigComissao
   kpis: { faturamentoMes: number; noShowPct: number; ocupacaoPct: number; vacinasAtrasadas: number; agendadosPelaIA: number; ticketMedio: number }
   receitaSemana: { dia: string; valor: number }[]
@@ -1021,6 +1089,30 @@ export const db: Record<'c1' | 'c2', DB> = {
           { de: 'tutor', txt: 'Queria marcar a castração do Simba', hora: '12:06' },
           { de: 'bia', txt: 'Claro, Beatriz! A castração é feita pelo Dr. Bruno. Antes preciso confirmar: o Simba está com as vacinas em dia e fez jejum? Posso te passar as orientações e já reservar um dia. 🐶', hora: '12:10' },
         ] },
+    ],
+    planos: [
+      { id: 'pl1', nome: 'Clube Bem-Estar', preco: 49.90, cor: 'teal', ativo: true, beneficios: [
+        { id: 'b1', descricao: 'Consulta clínica', tipo: 'cota', categoria: 'consulta', cota: 1, janela: 'mes' },
+        { id: 'b2', descricao: 'Desconto em tudo', tipo: 'desconto', categoria: 'todos', descontoPct: 10 },
+      ] },
+      { id: 'pl2', nome: 'Preventivo', preco: 89.90, cor: 'blue', ativo: true, beneficios: [
+        { id: 'b3', descricao: 'Consultas', tipo: 'incluso', categoria: 'consulta' },
+        { id: 'b4', descricao: 'Vacinas de rotina', tipo: 'cota', categoria: 'vacina', cota: 3, janela: 'ano' },
+        { id: 'b5', descricao: 'Exame laboratorial', tipo: 'cota', categoria: 'exame', cota: 1, janela: 'ano' },
+        { id: 'b6', descricao: 'Desconto em tudo', tipo: 'desconto', categoria: 'todos', descontoPct: 15 },
+      ] },
+      { id: 'pl3', nome: 'Premium', preco: 149.90, cor: 'violet', ativo: true, beneficios: [
+        { id: 'b7', descricao: 'Consultas', tipo: 'incluso', categoria: 'consulta' },
+        { id: 'b8', descricao: 'Vacinas de rotina', tipo: 'cota', categoria: 'vacina', cota: 4, janela: 'ano' },
+        { id: 'b9', descricao: 'Banho e tosa', tipo: 'cota', categoria: 'banho_tosa', cota: 1, janela: 'mes' },
+        { id: 'b10', descricao: 'Desconto em tudo', tipo: 'desconto', categoria: 'todos', descontoPct: 20 },
+      ] },
+    ],
+    assinaturas: [
+      { id: 'as1', petId: 'p1', petNome: 'Thor', tutorNome: 'Marina Costa', planoId: 'pl3', status: 'ativa', inicio: hojeMenos(120), consumo: { b8: 1 } },
+      { id: 'as2', petId: 'p6', petNome: 'Amendoim', tutorNome: 'Camila Ferreira', planoId: 'pl2', status: 'ativa', inicio: hojeMenos(80), consumo: { b4: 1 } },
+      { id: 'as3', petId: 'p11', petNome: 'Bob', tutorNome: 'Patrícia Gomes', planoId: 'pl1', status: 'ativa', inicio: hojeMenos(40), consumo: {} },
+      { id: 'as4', petId: 'p17', petNome: 'Mia', tutorNome: 'Aline Ribeiro', planoId: 'pl2', status: 'ativa', inicio: hojeMenos(20), consumo: {} },
     ],
     comissao: { incideSobre: 'servicos', base: 'liquido' },
     kpis: { faturamentoMes: 48720, noShowPct: 9, ocupacaoPct: 78, vacinasAtrasadas: 6, agendadosPelaIA: 4, ticketMedio: 187 },

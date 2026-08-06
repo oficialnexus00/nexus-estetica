@@ -1,364 +1,127 @@
 <title>NEXUS Health — Captação + IA para clínicas de transplante capilar</title>
 <style>
-  /* ===== Tokens — design dark deliberado (identidade NEXUS: teal + grafite) ===== */
   :root{
-    --bg:#080B0A;            /* grafite quase-preto com viés teal */
-    --bg-2:#0E1413;          /* fundo de seção alternada */
-    --surface:#121A18;       /* cards */
-    --surface-2:#16211E;     /* cards hover / destaque */
-    --line:rgba(120,220,205,.12);
-    --line-strong:rgba(120,220,205,.22);
-    --ink:#EAF3F0;           /* texto principal (off-white frio) */
-    --ink-mut:#8FA39E;       /* texto secundário */
-    --ink-dim:#5E706C;       /* legendas */
-    --teal:#00BFA5;
-    --teal-bright:#2CE9CC;
-    --teal-deep:#0B7A68;
-    --radius:14px;
-    --maxw:1080px;
+    --bg:#080B0A;--surface:#121A18;--line:rgba(120,220,205,.14);
+    --line-strong:rgba(120,220,205,.24);
+    --ink:#EAF3F0;--ink-mut:#8FA39E;--ink-dim:#5E706C;
+    --teal:#00BFA5;--teal-bright:#2CE9CC;
     --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
     margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);
-    line-height:1.55;-webkit-font-smoothing:antialiased;font-size:17px;
-    overflow-x:hidden;
+    line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    min-height:100vh;display:flex;flex-direction:column;
   }
-  h1,h2,h3{text-wrap:balance;line-height:1.08;letter-spacing:-.02em;margin:0}
-  p{margin:0}
-  a{color:inherit}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
-  .eyebrow{
-    font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--teal-bright);
-  }
-  .muted{color:var(--ink-mut)}
-  .tnum{font-variant-numeric:tabular-nums}
+  h1{text-wrap:balance;line-height:1.08;letter-spacing:-.025em;margin:0}
+  .wrap{width:100%;max-width:720px;margin:0 auto;padding:0 22px}
 
-  /* ===== Botões ===== */
-  .btn{
-    display:inline-flex;align-items:center;gap:10px;justify-content:center;
-    font-family:inherit;font-size:16.5px;font-weight:700;letter-spacing:-.01em;
-    padding:16px 26px;border-radius:12px;border:0;cursor:pointer;text-decoration:none;
-    background:linear-gradient(180deg,var(--teal-bright),var(--teal));
-    color:#04211C;box-shadow:0 8px 30px rgba(0,191,165,.28);
-    transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
-  }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 38px rgba(0,191,165,.4);filter:brightness(1.04)}
-  .btn:focus-visible{outline:3px solid var(--teal-bright);outline-offset:3px}
-  .btn--ghost{
-    background:transparent;color:var(--ink);border:1px solid var(--line-strong);
-    box-shadow:none;font-weight:600;padding:11px 18px;font-size:15px;border-radius:10px;
-  }
-  .btn--ghost:hover{background:var(--surface);transform:none;box-shadow:none}
-
-  /* ===== Topbar ===== */
-  .topbar{
-    position:sticky;top:0;z-index:50;background:rgba(8,11,10,.72);
-    backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid var(--line);
-  }
-  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em}
-  .brand svg{display:block}
+  /* topo: só o logo */
+  .top{padding:26px 0 0;display:flex;justify-content:center}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;font-size:18px}
   .brand small{color:var(--ink-mut);font-weight:500}
 
-  /* ===== Hero ===== */
-  .hero{position:relative;padding:70px 0 40px;text-align:center;overflow:hidden}
-  .hero::before{
-    content:"";position:absolute;inset:-20% 0 auto 0;height:520px;z-index:0;
-    background:radial-gradient(60% 70% at 50% 0%, rgba(0,191,165,.20), rgba(0,191,165,0) 70%);
+  /* área central: headline + vídeo + botão */
+  main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:38px 0 48px;position:relative}
+  main::before{
+    content:"";position:absolute;inset:-10% 0 auto 0;height:520px;z-index:0;
+    background:radial-gradient(60% 70% at 50% 0%, rgba(0,191,165,.18), transparent 70%);
     pointer-events:none;
   }
-  .hero .wrap{position:relative;z-index:1}
-  .hero h1{
-    font-size:clamp(30px,5.4vw,54px);font-weight:800;margin:18px auto 0;max-width:14ch;
-  }
-  .hero h1 .hl{color:var(--teal-bright)}
-  .hero .sub{
-    color:var(--ink-mut);font-size:clamp(16px,2.2vw,19px);max-width:52ch;margin:20px auto 0;
-  }
-  .trust{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;color:var(--ink-mut);font-size:14px}
-  .trust b{color:var(--ink)}
+  .stage{position:relative;z-index:1;text-align:center}
 
-  /* ===== VSL player ===== */
+  .eyebrow{
+    font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-bright);
+  }
+  h1{font-size:clamp(28px,5.2vw,46px);font-weight:800;margin:16px auto 0;max-width:16ch}
+  h1 .hl{color:var(--teal-bright)}
+
+  /* VSL */
   .vsl{
-    position:relative;max-width:760px;margin:34px auto 0;aspect-ratio:16/9;
+    position:relative;margin:30px auto 0;aspect-ratio:16/9;
     border-radius:16px;overflow:hidden;border:1px solid var(--line-strong);
-    background:
-      radial-gradient(120% 120% at 50% 0%, #16302B, #0A1614 60%);
+    background:radial-gradient(120% 120% at 50% 0%, #16302B, #0A1614 60%);
     box-shadow:0 30px 80px rgba(0,0,0,.5), 0 0 0 6px rgba(0,191,165,.06);
     display:grid;place-items:center;cursor:pointer;
   }
   .vsl:focus-visible{outline:3px solid var(--teal-bright);outline-offset:4px}
   .vsl .play{
-    width:78px;height:78px;border-radius:50%;display:grid;place-items:center;
+    width:76px;height:76px;border-radius:50%;display:grid;place-items:center;
     background:linear-gradient(180deg,var(--teal-bright),var(--teal));
     box-shadow:0 10px 30px rgba(0,191,165,.45);transition:transform .18s ease;
   }
   .vsl:hover .play{transform:scale(1.06)}
-  .vsl .play svg{margin-left:5px}
-  .vsl .cap{position:absolute;bottom:14px;left:0;right:0;color:var(--ink-mut);font-size:13.5px;letter-spacing:.04em}
-  .cta-row{margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:12px}
-  .cta-row .fine{color:var(--ink-dim);font-size:13px}
+  .vsl .cap{position:absolute;bottom:13px;left:0;right:0;color:var(--ink-mut);font-size:13px;letter-spacing:.03em}
 
-  /* ===== Seções ===== */
-  section{position:relative}
-  .band{padding:64px 0;border-top:1px solid var(--line)}
-  .band--alt{background:var(--bg-2)}
-  .sec-head{max-width:60ch}
-  .sec-head h2{font-size:clamp(24px,3.6vw,36px);font-weight:800}
-  .sec-head p{color:var(--ink-mut);margin-top:12px;font-size:17px}
-
-  /* Pilares */
-  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
-  .card{
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    padding:28px;transition:border-color .2s ease,transform .2s ease,background .2s ease;
+  /* botão do whats */
+  .cta{margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .btn{
+    display:inline-flex;align-items:center;gap:11px;justify-content:center;
+    font-family:inherit;font-size:17px;font-weight:700;letter-spacing:-.01em;
+    padding:17px 30px;border-radius:12px;border:0;cursor:pointer;text-decoration:none;
+    background:linear-gradient(180deg,var(--teal-bright),var(--teal));
+    color:#04211C;box-shadow:0 8px 30px rgba(0,191,165,.3);
+    transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
   }
-  .card:hover{border-color:var(--line-strong);background:var(--surface-2);transform:translateY(-3px)}
-  .ic{
-    width:46px;height:46px;border-radius:11px;display:grid;place-items:center;
-    background:rgba(0,191,165,.12);border:1px solid var(--line-strong);color:var(--teal-bright);
-  }
-  .card h3{font-size:20px;font-weight:750;margin-top:18px}
-  .card p{color:var(--ink-mut);margin-top:10px;font-size:15.5px}
-  .card ul{margin:14px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
-  .card li{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;color:var(--ink)}
-  .card li svg{flex:0 0 auto;margin-top:3px;color:var(--teal)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 38px rgba(0,191,165,.42);filter:brightness(1.04)}
+  .btn:focus-visible{outline:3px solid var(--teal-bright);outline-offset:3px}
+  .cta .fine{color:var(--ink-dim);font-size:13px}
+  .cta .fine b{color:var(--ink-mut);font-weight:600}
 
-  /* Prova */
-  .proof{display:grid;grid-template-columns:0.8fr 1.2fr;gap:26px;align-items:center;margin-top:34px}
-  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:34px}
-  .stat .big{font-size:clamp(52px,9vw,84px);font-weight:850;letter-spacing:-.04em;color:var(--teal-bright);line-height:1}
-  .stat .lbl{color:var(--ink-mut);margin-top:8px;font-size:15px}
-  .quotes{display:grid;gap:16px}
-  .quote{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
-  .quote p{font-size:16px}
-  .quote .who{margin-top:12px;color:var(--ink-mut);font-size:13.5px}
-
-  /* FAQ */
-  .faq{margin-top:30px;display:grid;gap:10px;max-width:820px}
-  details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:2px 20px}
-  details[open]{border-color:var(--line-strong)}
-  summary{
-    list-style:none;cursor:pointer;padding:18px 0;font-weight:650;font-size:16.5px;
-    display:flex;justify-content:space-between;align-items:center;gap:16px;
-  }
-  summary::-webkit-details-marker{display:none}
-  summary .chev{flex:0 0 auto;transition:transform .2s ease;color:var(--teal)}
-  details[open] summary .chev{transform:rotate(45deg)}
-  details p{color:var(--ink-mut);padding:0 0 20px;font-size:15.5px;max-width:66ch}
-
-  /* CTA final */
-  .final{padding:80px 0;text-align:center;position:relative;overflow:hidden}
-  .final::before{
-    content:"";position:absolute;inset:auto 0 -40% 0;height:420px;z-index:0;
-    background:radial-gradient(60% 80% at 50% 100%, rgba(0,191,165,.20), transparent 70%);
-  }
-  .final .wrap{position:relative;z-index:1}
-  .final h2{font-size:clamp(26px,4.4vw,44px);font-weight:850;max-width:20ch;margin:0 auto}
-  .final p{color:var(--ink-mut);margin:16px auto 0;max-width:48ch}
-  .final .btn{margin-top:28px}
-
-  /* Footer */
-  footer{border-top:1px solid var(--line);padding:34px 0 120px;color:var(--ink-dim);font-size:13px}
-  footer .wrap{display:flex;flex-direction:column;gap:8px}
+  footer{padding:22px 0 30px;text-align:center;color:var(--ink-dim);font-size:12px;line-height:1.6}
   footer b{color:var(--ink-mut);font-weight:600}
 
-  /* Sticky mobile CTA */
-  .sticky-cta{
-    position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;
-    padding:12px 16px calc(12px + env(safe-area-inset-bottom));
-    background:rgba(8,11,10,.9);backdrop-filter:blur(12px);border-top:1px solid var(--line);
-  }
-  .sticky-cta .btn{width:100%}
-
-  @media (max-width:760px){
-    .pillars{grid-template-columns:1fr}
-    .proof{grid-template-columns:1fr}
-    .topbar .btn--ghost{display:none}
-    .sticky-cta{display:block}
-    .hero{padding:48px 0 30px}
-    body{font-size:16px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
-  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<!-- ============ TOPBAR ============ -->
-<header class="topbar">
-  <div class="wrap">
-    <div class="brand">
-      <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#2CE9CC"/><stop offset="1" stop-color="#00BFA5"/>
-        </linearGradient></defs>
-        <path d="M6 25V7l14 18V7" stroke="url(#g)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      NEXUS <small>Health</small>
-    </div>
-    <!-- TROCAR: coloque o link real do WhatsApp em href -->
-    <a class="btn btn--ghost" href="https://wa.me/5548000000000?text=Quero%20saber%20mais%20sobre%20a%20NEXUS">Falar no WhatsApp</a>
+<header class="top">
+  <div class="brand">
+    <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#2CE9CC"/><stop offset="1" stop-color="#00BFA5"/>
+      </linearGradient></defs>
+      <path d="M6 25V7l14 18V7" stroke="url(#g)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    NEXUS <small>Health</small>
   </div>
 </header>
 
-<!-- ============ HERO ============ -->
-<section class="hero">
+<main>
   <div class="wrap">
-    <!-- TROCAR NICHO: "transplante capilar" -> "harmonização glútea" -->
-    <span class="eyebrow">Para clínicas de transplante capilar</span>
-    <h1>Encha sua agenda com pacientes que <span class="hl">aparecem e fecham</span>.</h1>
-    <p class="sub">A gente traz o paciente certo e a nossa IA atende, qualifica e agenda por você. Você foca na cirurgia — o resto roda sozinho.</p>
+    <div class="stage">
 
-    <!-- ============ VSL ============ -->
-    <!-- TROCAR: substitua este bloco pelo embed do seu vídeo (YouTube/Vimeo/mp4) -->
-    <div class="vsl" role="button" tabindex="0" aria-label="Assistir ao vídeo">
-      <div class="play" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="#04211C"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <span class="cap">Assista ao vídeo (4 min) — veja como funciona na prática</span>
-    </div>
+      <!-- 1) HEADLINE — TROCAR NICHO: "transplante capilar" -> "harmonização glútea" -->
+      <span class="eyebrow">Para clínicas de transplante capilar</span>
+      <h1>Encha sua agenda com pacientes que <span class="hl">aparecem e fecham</span>.</h1>
 
-    <div class="cta-row">
-      <!-- TROCAR: link real do WhatsApp -->
-      <a class="btn" href="https://wa.me/5548000000000?text=Quero%20saber%20mais%20sobre%20a%20NEXUS%20para%20minha%20cl%C3%ADnica%20de%20transplante%20capilar">
-        Falar com a NEXUS no WhatsApp
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#04211C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <span class="fine">Diagnóstico gratuito da sua clínica. Sem compromisso.</span>
-    </div>
-
-    <div class="trust">
-      <b class="tnum">+50 clínicas</b> já confiam na NEXUS
-    </div>
-  </div>
-</section>
-
-<!-- ============ PILARES ============ -->
-<section class="band">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Como a gente enche sua agenda</span>
-      <h2>Duas frentes, um resultado: agenda cheia de paciente certo.</h2>
-      <p>Não falta lead pra sua clínica. Falta trazer o paciente com intenção de operar e não perder ele entre o "oi" e a cadeira.</p>
-    </div>
-
-    <div class="pillars">
-      <article class="card">
-        <div class="ic" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 5V3M6 5V3M6 5a6 6 0 0 0 12 0M6 5v6a6 6 0 0 0 12 0V5M9 17v4M15 17v4"/></svg>
+      <!-- 2) VÍDEO — TROCAR: cole o embed da sua VSL (YouTube/Vimeo/mp4) no lugar deste bloco -->
+      <div class="vsl" role="button" tabindex="0" aria-label="Assistir ao vídeo">
+        <div class="play" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#04211C"><path d="M8 5v14l11-7z"/></svg>
         </div>
-        <h3>Captação: o paciente certo</h3>
-        <p>Anúncios feitos pra atrair quem quer fazer o transplante capilar — não curioso. Você recebe contato com intenção real de avaliar e operar.</p>
-        <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Tráfego pago gerido de ponta a ponta</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Criativo pensado pro seu procedimento</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Foco em alto ticket, não em volume vazio</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <div class="ic" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
-        </div>
-        <h3>Sistema com IA: atende por você</h3>
-        <p>A Bia, nossa IA, responde em segundos, 24 horas. Qualifica o paciente, agenda a avaliação e reaquece o orçamento que ficou parado.</p>
-        <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Resposta imediata, sem paciente esfriando</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Agendamento e follow-up no automático</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Cada paciente e cada real num painel só</li>
-        </ul>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PROVA ============ -->
-<section class="band band--alt">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Prova</span>
-      <h2>Quem já roda com a NEXUS não volta pro operacional.</h2>
-    </div>
-    <div class="proof">
-      <div class="stat">
-        <div class="big tnum">+50</div>
-        <div class="lbl">clínicas de saúde e estética atendidas pelo Brasil</div>
+        <span class="cap">Assista ao vídeo (4 min)</span>
       </div>
-      <div class="quotes">
-        <!-- TROCAR: cole depoimentos REAIS de clientes (nome + clínica + cidade). Não use texto genérico. -->
-        <figure class="quote">
-          <p>"[Depoimento real do cliente aqui — o que mudou na agenda, quantos pacientes a mais, como ficou o dia a dia.]"</p>
-          <figcaption class="who">— Nome, Clínica, Cidade</figcaption>
-        </figure>
-        <figure class="quote">
-          <p>"[Segundo depoimento real — de preferência com um número que você consiga provar.]"</p>
-          <figcaption class="who">— Nome, Clínica, Cidade</figcaption>
-        </figure>
+
+      <!-- 3) BOTÃO DO WHATS — TROCAR: coloque seu número real no lugar de 5548000000000 -->
+      <div class="cta">
+        <a class="btn" href="https://wa.me/5548000000000?text=Quero%20saber%20mais%20sobre%20a%20NEXUS%20para%20minha%20cl%C3%ADnica">
+          Falar com a NEXUS no WhatsApp
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#04211C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <span class="fine"><b>+50 clínicas</b> já confiam na NEXUS · Sem compromisso</span>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- ============ FAQ ============ -->
-<section class="band">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Perguntas frequentes</span>
-      <h2>O que os donos de clínica costumam perguntar.</h2>
-    </div>
-    <div class="faq">
-      <details>
-        <summary>Eu já faço tráfego. Muda o quê?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
-        <p>Na maioria das clínicas o problema não é o anúncio, é o que acontece depois. A gente cuida do tráfego E do atendimento com IA que responde na hora, agenda e recupera o orçamento parado. É o buraco entre o lead e a cadeira que a gente fecha.</p>
-      </details>
-      <details>
-        <summary>Preciso entender de tecnologia?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
-        <p>Não. A implantação é assistida: a gente senta com você, configura tudo e deixa rodando. Você só acompanha os pacientes chegando no painel.</p>
-      </details>
-      <details>
-        <summary>Como funciona a implantação?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
-        <p>Começa com um diagnóstico da sua clínica pelo WhatsApp. A partir dele a gente monta a estrutura de captação, configura a IA no seu atendimento e coloca no ar junto com você.</p>
-      </details>
-      <details>
-        <summary>E os dados dos meus pacientes?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
-        <p>Tudo dentro da LGPD, em canal oficial e com os dados organizados num CRM próprio. Você mantém o controle da sua base.</p>
-      </details>
     </div>
   </div>
-</section>
-
-<!-- ============ CTA FINAL ============ -->
-<section class="final">
-  <div class="wrap">
-    <h2>Pronto pra encher a agenda de transplante capilar?</h2>
-    <p>Chama a gente no WhatsApp. A gente faz um diagnóstico rápido da sua clínica e te mostra o caminho — sem compromisso.</p>
-    <!-- TROCAR: link real do WhatsApp -->
-    <a class="btn" href="https://wa.me/5548000000000?text=Quero%20o%20diagn%C3%B3stico%20da%20minha%20cl%C3%ADnica%20de%20transplante%20capilar">
-      Quero falar com a NEXUS
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#04211C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-  </div>
-</section>
+</main>
 
 <footer>
-  <div class="wrap">
-    <b>NEXUS Inteligência Artificial LTDA</b>
-    <span>CNPJ 59.468.222/0001-86 · Balneário Camboriú/SC · Atendimento nacional</span>
-    <span>Tratamos os dados em conformidade com a LGPD. Este site não é afiliado à Meta.</span>
-  </div>
+  <b>NEXUS Inteligência Artificial LTDA</b> · CNPJ 59.468.222/0001-86 · Balneário Camboriú/SC<br>
+  Tratamos os dados em conformidade com a LGPD.
 </footer>
 
-<!-- Sticky CTA mobile -->
-<div class="sticky-cta">
-  <!-- TROCAR: link real do WhatsApp -->
-  <a class="btn" href="https://wa.me/5548000000000?text=Quero%20saber%20mais%20sobre%20a%20NEXUS">Falar com a NEXUS no WhatsApp</a>
-</div>
-
 <script>
-  // Placeholder do player: troque pelo embed real do vídeo.
   document.querySelectorAll('.vsl').forEach(function(el){
     function open(){ alert('Aqui entra o embed da sua VSL (YouTube, Vimeo ou mp4). Troque o bloco .vsl no HTML pelo player real.'); }
     el.addEventListener('click', open);

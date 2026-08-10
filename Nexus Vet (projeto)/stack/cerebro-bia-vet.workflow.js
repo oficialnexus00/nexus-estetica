@@ -30,9 +30,9 @@ import { workflow, trigger, node, newCredential } from '@n8n/workflow-sdk';
 
 // --- Config por INSTALAÇÃO (uma clínica). Constantes, nunca vêm da IA. --------
 const CLINIC_ID       = 'UUID-DA-CLINICA';
-const EVOLUTION_URL   = 'https://evolution.nexushealth.com.br';
+const EVOLUTION_URL   = 'https://vet-evolution.nexushealth.com.br';
 const EVOLUTION_INST  = 'bia-vet';                          // instância do WhatsApp
-const MCP_SERVER_URL  = 'https://n8n.nexushealth.com.br/mcp/essencial-vet/sse';
+const MCP_SERVER_URL  = 'https://vet-n8n.nexushealth.com.br/mcp/essencial-vet/sse';
 
 const evoCred = { httpHeaderAuth: newCredential('Evolution API') };
 const sb      = { supabaseApi: newCredential('Supabase NEXUS Vet') };

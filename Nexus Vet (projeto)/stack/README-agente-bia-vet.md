@@ -29,6 +29,34 @@ o cérebro do GPTMaker e ganhar a camada proativa que o mercado não tem.
              (vacina 10h · pós-op/retorno/sumido/aniversário 9h30)
 ```
 
+## Domínios (VPS Hostinger + Easypanel)
+
+Rodamos na VPS da Hostinger. O domínio raiz `nexushealth.com.br` já é nosso
+(`app.` é o CRM). O agente vet usa 2 subdomínios com prefixo `vet-` — assim,
+quando entrarem outros nichos, é só repetir com `odonto-`, `estetica-`, etc.
+
+| Serviço | Subdomínio | Já está no código |
+|---|---|---|
+| n8n + MCP Server | `vet-n8n.nexushealth.com.br` | `MCP_SERVER_URL` do `cerebro-bia-vet` |
+| Evolution API (WhatsApp) | `vet-evolution.nexushealth.com.br` | `EVOLUTION_URL` dos 3 workflows |
+
+**DNS (onde o `nexushealth.com.br` está gerenciado):** criar 2 registros **A**
+apontando pro IP da VPS Hostinger:
+```
+vet-n8n        A   <IP_DA_VPS>
+vet-evolution  A   <IP_DA_VPS>
+```
+Se o DNS estiver na Cloudflare, deixar o `vet-n8n` como **DNS only** (nuvem
+cinza) — o proxy da Cloudflare atrapalha o SSE do MCP.
+
+**Easypanel:** em cada app (n8n e Evolution), apontar o domínio em *Domains* — o
+SSL Let's Encrypt sai automático. Feito isso, os workflows funcionam sem editar
+URL (já estão nesses hosts).
+
+**Armadilha do MCP:** o endpoint SSE (`/mcp/...`) precisa de proxy **sem
+buffering** (nginx `proxy_buffering off`), senão a conexão do AI Agent cai. Fix
+completo na skill `n8n-mcp-expert`.
+
 ## Ordem de deploy (uma clínica)
 
 1. **Banco:** rodar no Supabase, nesta ordem: `schema-vet.sql` → `schema-vet-proativo.sql`.

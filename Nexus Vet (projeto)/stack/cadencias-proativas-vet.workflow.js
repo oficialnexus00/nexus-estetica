@@ -25,7 +25,7 @@ import { workflow, trigger, node, splitInBatches, nextBatch, newCredential } fro
 
 const sb      = { supabaseApi: newCredential('Supabase NEXUS Vet') };
 const evoCred = { httpHeaderAuth: newCredential('Evolution API') };
-const EVOLUTION_URL  = 'https://evolution.nexushealth.com.br';
+const EVOLUTION_URL  = 'https://vet-evolution.nexushealth.com.br';
 const EVOLUTION_INST = 'bia-vet';
 
 // Roda 1x/dia, 9h30 (seg-sáb) — antes do motor de vacina (10h) não colidir horário.

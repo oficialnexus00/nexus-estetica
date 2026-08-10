@@ -111,7 +111,7 @@ const disparo = node({
     name: 'Disparo Vacina (Evolution)',
     parameters: {
       method: 'POST',
-      url: 'https://evolution.nexushealth.com.br/message/sendText/bia-vet',
+      url: 'https://vet-evolution.nexushealth.com.br/message/sendText/bia-vet',
       authentication: 'genericCredentialType',
       genericAuthType: 'httpHeaderAuth',
       sendBody: true,

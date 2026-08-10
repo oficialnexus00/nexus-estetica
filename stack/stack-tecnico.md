@@ -6,7 +6,7 @@
 |---|---|---|
 | Frontend / CRM | **Lovable.dev** | Interface do `app.nexushealth.com.br` |
 | Backend | **Supabase** | Edge Functions + Postgres |
-| Agentes de IA | **GPTMaker** | Bia (comercial) e Aurora (canal cliente) |
+| Agentes de IA | **GPTMaker** | Bia (comercial). Aurora (canal cliente) — **desligada** |
 | Automação | **n8n** | Orquestração de fluxos (conta do Kaian) |
 | Scraping | **Apify** | Coleta na Meta Ad Library |
 | Voz | **ElevenLabs** | Tier Creator, modelos Flash/Turbo |
@@ -28,8 +28,9 @@
 - Responsável técnico: **Marco**.
 
 ### Agentes de IA — GPTMaker
-- **Bia** — agente comercial (funil de venda no WhatsApp).
-- **Aurora** — agente no canal do cliente já ativo.
+- **Bia** — agente comercial (funil de venda no WhatsApp). **Único agente ativo.**
+- **Aurora** — **desligada em 10/08/2026**. Era o agente no canal do cliente já ativo;
+  o pós-venda voltou a ser humano.
 - Ver [`../produto/agentes-ia.md`](../produto/agentes-ia.md).
 
 ### Automação — n8n

@@ -36,7 +36,8 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 
 - **Frontend/CRM:** Lovable.dev → `app.nexushealth.com.br`
 - **Backend:** Supabase (Edge Functions, Postgres)
-- **Agentes de IA:** GPTMaker (Bia = comercial, Aurora = canal cliente)
+- **Agentes de IA:** GPTMaker (Bia = comercial). **Aurora desligada em 10/08/2026** —
+  pós-venda voltou a ser humano
 - **Automação:** n8n (conta do Kaian), Apify (scraping Meta Ad Library)
 - **Voz:** ElevenLabs (tier Creator, modelos Flash/Turbo)
 - **Ads:** Meta Ads Manager (objetivo Click-to-WhatsApp)

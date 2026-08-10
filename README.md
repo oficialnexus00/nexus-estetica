@@ -28,7 +28,7 @@ remota, sede em Balneário Camboriú/SC.
 │   └── identidade-visual.md      # Cores, tipografia, estética
 ├── produto/                      # O que a NEXUS entrega
 │   ├── visao-geral.md            # Pacote completo de produto
-│   ├── agentes-ia.md             # Bia (comercial) e Aurora (cliente)
+│   ├── agentes-ia.md             # Bia (comercial); Aurora desligada
 │   └── crm-nexushealth.md        # CRM próprio
 ├── comercial/                    # Motor de vendas
 │   ├── principios-validados.md   # O que já foi testado e funciona

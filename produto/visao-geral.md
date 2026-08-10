@@ -37,7 +37,8 @@ Meta Ads (Click-to-WhatsApp)
         ↓
    Venda / cliente ativado
         ↓
-   Aurora (agente no canal do cliente ativo)
+   Pós-venda humano
+   (a Aurora foi desligada em 10/08/2026)
 ```
 
 ## Proposta de valor

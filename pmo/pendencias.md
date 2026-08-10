@@ -5,6 +5,10 @@ atualize o arquivo de detalhamento correspondente + o `CLAUDE.md`.
 
 ## Aberto
 
+- [ ] **Executar o desligamento da Aurora no GPTMaker** (decisão já tomada em
+  10/08/2026; falta o clique no painel). Inclui: pausar o agente, desconectar o canal
+  de WhatsApp dela, revisar os fluxos do n8n que a chamavam e **nomear o dono do
+  pós-venda** que ficou sem agente. Detalhe em `produto/agentes-ia.md`.
 - [ ] Paleta de cores de apoio (neutros dark-mode, estados de UI).
 - [ ] Pesos da tipografia Inter em uso.
 

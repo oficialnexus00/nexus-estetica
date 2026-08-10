@@ -1,7 +1,8 @@
 # Agentes de IA
 
-A NEXUS opera **dois agentes de IA**, construídos no **GPTMaker**, cada um em uma
-ponta do relacionamento.
+A NEXUS opera hoje **um agente de IA ativo** — a **Bia**, no comercial —, construído no
+**GPTMaker**. A **Aurora**, que atuava no canal do cliente ativo, está **desligada**
+desde 10/08/2026.
 
 ## Bia — agente comercial
 
@@ -17,11 +18,27 @@ ponta do relacionamento.
 - **✅ no lugar de bullet** no WhatsApp — formatação que respeita o canal.
 - Detalhes completos em [`../comercial/fluxo-bia.md`](../comercial/fluxo-bia.md).
 
-## Aurora — agente do canal do cliente
+## Aurora — DESLIGADA (10/08/2026)
 
-- **Onde atua:** no canal do **cliente já ativo**.
+> **Status: desligada.** Decisão do Kaian. O agente não responde mais no canal do
+> cliente ativo — o pós-venda volta a ser **100% humano** até nova decisão.
+
+Para referência, o que a Aurora fazia enquanto esteve no ar:
+
+- **Onde atuava:** no canal do **cliente já ativo**.
 - **Função:** relacionamento e suporte no pós-venda / operação do cliente.
-- **Objetivo:** sustentar a experiência depois que a clínica vira cliente.
+- **Objetivo:** sustentar a experiência depois que a clínica virava cliente.
+
+### O que precisa acontecer fora do repo
+
+O desligamento de fato é no painel do **GPTMaker** (não há chave/config da Aurora
+neste repositório). Checklist:
+
+- [ ] Desativar/pausar o agente Aurora no GPTMaker.
+- [ ] Desconectar o canal de WhatsApp que estava plugado nela.
+- [ ] Revisar os fluxos do **n8n** que chamavam a Aurora — desativar ou redirecionar
+      pro atendimento humano, pra não sobrar disparo órfão.
+- [ ] Definir **quem** assume o pós-venda que era da Aurora (hoje sem dono nomeado).
 
 ## Plataforma e voz
 

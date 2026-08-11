@@ -92,15 +92,12 @@
     <div class="stage">
 
       <!-- 1) HEADLINE -->
-      <span class="eyebrow">Para clínicas de harmonização glútea</span>
-      <h1>Encha sua agenda com pacientes que <span class="hl">aparecem e fecham</span>.</h1>
+      <span class="eyebrow">Case real · Harmonização glútea</span>
+      <h1><span class="hl">26 consultas</span> de harmonização glútea em 30 dias.</h1>
 
-      <!-- 2) VÍDEO — TROCAR: cole o embed da sua VSL (YouTube/Vimeo/mp4) no lugar deste bloco -->
-      <div class="vsl" role="button" tabindex="0" aria-label="Assistir ao vídeo">
-        <div class="play" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="#04211C"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <span class="cap">Assista ao vídeo (4 min)</span>
+      <!-- 2) VÍDEO — embed do case (Google Drive). Para produção, recomendo YouTube não-listado. -->
+      <div class="vsl">
+        <iframe src="https://drive.google.com/file/d/1VOpSF-5airLE2JRmkE_T_w8QZolwFxQq/preview" allow="autoplay; fullscreen" allowfullscreen title="Case Dra. Jennifer — Harmonização Glútea" style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:16px;"></iframe>
       </div>
 
       <!-- 3) BOTÃO DO WHATS — TROCAR: coloque seu número real no lugar de 5548000000000 -->
@@ -121,10 +118,4 @@
   Tratamos os dados em conformidade com a LGPD.
 </footer>
 
-<script>
-  document.querySelectorAll('.vsl').forEach(function(el){
-    function open(){ alert('Aqui entra o embed da sua VSL (YouTube, Vimeo ou mp4). Troque o bloco .vsl no HTML pelo player real.'); }
-    el.addEventListener('click', open);
-    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); }});
-  });
-</script>
+<!-- vídeo embedado direto via iframe -->

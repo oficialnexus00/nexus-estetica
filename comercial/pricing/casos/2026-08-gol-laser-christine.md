@@ -13,41 +13,72 @@
 - Demanda **inbound** (ela ligou) — CAC zero, confiança já construída, histórico de
   pagamento existente. Isso é o cenário de maior poder de precificação que existe:
   **não descontar**.
+- **Investe ~R$ 8.000/mês em tráfego pago.** Isso reposiciona a cliente inteira:
+  não é clínica pequena testando, é operação com verba. R$ 96k/ano em mídia.
+- **Volume estimado: 1.500+ conversas/mês** (faixa 2, possivelmente faixa 3).
 
 ---
 
 ## Recomendação
 
-> ### **R$ 1.297/mês** — combo Completo (disparo + sistema + IA)
+> ### **R$ 1.497/mês** — combo Completo, faixa 2 (801–2.000 conversas)
 > ### **+ R$ 997** de ativação assistida da IA (à vista ou 2× R$ 499)
 
-Como apresentar a conta pra ela:
+Subiu de R$ 1.297 pra R$ 1.497 por **dois motivos objetivos**, não por ganância:
+
+1. **COGS.** 1.500+ conversas/mês em GPTMaker + ElevenLabs é custo real e recorrente.
+   Faixa 1 (até 800) não cobre esse volume com margem sadia.
+2. **Capacidade de pagar.** Quem põe R$ 8k/mês em mídia não decide por R$ 200 de
+   mensalidade — decide por resultado. Cobrar faixa 1 dela é deixar dinheiro na mesa
+   e ainda subsidiar o volume dela com a margem dos clientes menores.
+
+Como apresentar a conta:
 
 | Linha | Valor |
 |---|---|
 | Disparo (o que ela já paga) | R$ 397 |
 | Sistema completo (CRM) | R$ 497 |
-| Agente de IA | R$ 697 |
-| **Soma avulsa** | **R$ 1.591** |
-| **Pacote Completo** | **R$ 1.297** |
-| Diferença pro que ela paga hoje | **+ R$ 900/mês** |
+| Agente de IA (volume dela) | R$ 897 |
+| **Soma avulsa** | **R$ 1.791** |
+| **Pacote Completo** | **R$ 1.497** |
+| Diferença pro que ela paga hoje | **+ R$ 1.100/mês** |
 
-O número que ela precisa ouvir não é "1.297" — é **"são R$ 900 a mais no que você já
-tem"**, e depois o total. Ancorar em 1.591 antes de dizer 1.297.
+O número que ela precisa ouvir não é "1.497" — é **"são R$ 1.100 a mais no que você
+já tem"**, e antes disso a âncora de R$ 1.791.
+
+### A âncora que fecha essa venda: os R$ 8k de tráfego
+
+Esqueça a comparação com recepcionista aqui. **A âncora dela é o próprio tráfego.**
+
+> "Você investe R$ 8 mil por mês pra fazer o telefone tocar. O pacote é **18% disso**
+> pra garantir que nenhum desses leads morra sem resposta. Hoje você paga R$ 397 —
+> 5% da verba — e todo lead que chega às 21h ou no domingo você perde."
+
+É matematicamente irrespondível: ela já aceitou gastar 8k pra **gerar** o lead;
+gastar 1,5k pra **não perder** o lead é a decisão mais barata do funil dela.
 
 ### Limites de negociação
 
 | | Valor |
 |---|---|
-| Âncora (soma avulsa) | R$ 1.591 |
-| **Pedir** | **R$ 1.297/mês** |
-| Fechar rápido, se ela travar | R$ 1.197/mês **com contrato de 12 meses** |
-| **Piso absoluto** | **R$ 997/mês** — e só com anual + ativação à vista |
-| Abaixo de 997 | **não fecha** |
+| Âncora (soma avulsa) | R$ 1.791 |
+| **Pedir** | **R$ 1.497/mês** |
+| Fechar rápido, se ela travar | R$ 1.397/mês **com contrato de 12 meses** |
+| **Piso absoluto** | **R$ 1.297/mês** — e só com anual + ativação à vista |
+| Abaixo de 1.297 | **não fecha** — nesse volume, vira prejuízo de margem |
+
+O piso subiu de 997 pra 1.297 justamente porque o COGS dela é maior. Piso é função
+de custo, não de simpatia.
 
 Se ela empacar no preço, a moeda de troca é **a ativação (R$ 997)**, nunca o mensal:
 "a mensalidade é essa, mas se você fechar hoje eu embuto a ativação". Isso custa uma
 vez; desconto no recorrente custa todo mês, pra sempre.
+
+### ⚠️ Conferir antes de mandar a proposta
+
+**Custo real de GPTMaker + ElevenLabs a 1.500–2.000 conversas/mês.** Se o COGS passar
+de ~R$ 450/mês, a faixa 2 não fecha em 70% de margem e ela é **faixa 3 (R$ 1.797)**.
+Marco confere isso em 10 minutos no painel. Não mandar número antes disso.
 
 ---
 
@@ -62,7 +93,7 @@ permite fazer a única oferta que não custa margem e ainda parece generosa.
 |---|---|---|
 | **Hoje (12/08)** | Ativação assistida da IA | **R$ 997** (ou 2× 499) |
 | 12/08 → 11/09 | Nada de mensalidade — disparo já pago, e é a janela da ativação | R$ 0 |
-| **12/09 em diante** | Mensalidade do combo Completo | **R$ 1.297/mês** |
+| **12/09 em diante** | Mensalidade do combo Completo | **R$ 1.497/mês** |
 
 **Por que assim:**
 
@@ -73,8 +104,9 @@ permite fazer a única oferta que não custa margem e ainda parece generosa.
 3. **Isso não é desconto — é ativação assistida**, que é a porta de entrada
    definida da NEXUS. O que ela "ganha" é o resto de agosto durante a implantação,
    não R$ do recorrente.
-4. **Uma data só, um boleto só.** Mantém o vencimento dia 12 no PagTrust. Não criar
-   segunda data de cobrança — isso vira inadimplência e confusão.
+4. **Uma data só, uma cobrança só.** Mantém o vencimento dia 12 no **Nexus OS**
+   (sistema de cobrança próprio). Não criar segunda data — vira inadimplência e
+   confusão.
 
 **Caixa hoje: R$ 997.** Primeira mensalidade cheia: 12/09.
 
@@ -85,6 +117,13 @@ permite fazer a única oferta que não custa margem e ainda parece generosa.
   correto (ela pagou hoje, então a proporcional seria quase o valor cheio), mas
   queima o momento de boa vontade e cobra IA que ainda está sendo ativada.
 - ❌ **Criar segundo vencimento.** Tudo no dia 12.
+
+### Caixa
+
+- **Hoje:** R$ 997 (ativação)
+- **12/09:** R$ 1.497 e daí em diante
+- **12 meses:** R$ 17.964 de recorrente + 997 = **R$ 18.961** — contra R$ 4.764/ano
+  que ela representa hoje. **É 4× o valor da conta.**
 
 ### Se ela quiser a IA rodando já e não se importar com a data
 
@@ -107,20 +146,45 @@ Aí sim cobra proporcional: **R$ 900 ÷ 30 × dias até 11/09**. Só oferecer is
 
 ---
 
-## Antes de mandar o número — 3 perguntas
+## O segundo negócio: os R$ 8k de tráfego
 
-Estas mudam a conta materialmente. Fazer **uma de cada vez** (sem empilhar):
+Ela põe **R$ 8.000/mês em mídia**. Pela tabela, verba nessa faixa = **15% de fee =
+R$ 1.200/mês** de gestão. Isso é um **Full de R$ 2.697/mês** (1.497 + 1.200), quase
+o dobro do negócio atual.
+
+**Não vender agora.** Sequenciamento:
+
+1. **Agora:** fecha o Completo em R$ 1.497. Ela pediu IA + sistema — empilhar uma
+   segunda oferta em cima de um upgrade de 4× o ticket põe o negócio todo em risco.
+2. **Plantar a semente na mesma conversa**, uma frase só, sem preço:
+   > "E depois que o sistema estiver rodando, eu vou conseguir te mostrar quanto
+   > cada campanha sua está trazendo de venda fechada, não só de lead. Aí a gente
+   > conversa sobre o tráfego."
+3. **Em 60–90 dias:** o CRM mostra ROI por campanha, com dado dela. Aí a proposta
+   de tráfego se vende sozinha — não é opinião contra a agência atual, é número.
+
+Essa é a jogada inteira: **o CRM é o cavalo de Troia do tráfego.** Quem controla o
+dado de conversão controla a conversa sobre a verba.
+
+---
+
+## Antes de mandar o número — o que falta saber
+
+| # | Pergunta | Status |
+|---|---|---|
+| 3 | Quantos contatos entram por mês? | ✅ **~1.500+** (investe R$ 8k/mês em tráfego) |
+| 1 | A Gol Laser é só essa unidade? | ❓ **em aberto — a que mais muda a conta** |
+| 2 | Quantas pessoas mexem no WhatsApp hoje? | ❓ em aberto |
+
+Fazer **uma de cada vez** (sem empilhar):
 
 1. **"A Gol Laser é só essa unidade ou você tem mais de uma?"**
-   → Multi-unidade muda tudo. 2 unidades = R$ 1.297 + R$ 744 (50% de disparo+sistema
-   = R$ 447, + R$ 297 de IA) ≈ **R$ 2.041/mês**. Não entregar 2 unidades pelo preço
-   de 1.
+   → Com R$ 8k/mês de mídia, a chance de ser mais de uma unidade é alta. 2 unidades
+   = R$ 1.497 + R$ 744 (50% de disparo+sistema = R$ 447, + R$ 297 de IA)
+   ≈ **R$ 2.241/mês**. Não entregar 2 unidades pelo preço de 1.
 2. **"Hoje, quantas pessoas mexem no WhatsApp da clínica?"**
-   → Se tem 1–2 atendentes, a âncora de substituição de custo é o argumento principal
-   e o preço passa fácil. Se ela atende sozinha, o argumento é tempo dela.
-3. **"Quantos contatos entram por mês, mais ou menos?"**
-   → Volume dita custo de IA (GPTMaker/ElevenLabs). Acima de ~1.500 conversas/mês,
-   revisar pra cima antes de fechar.
+   → Com esse volume ela provavelmente tem 2–3 atendentes. Se tiver, a âncora vira
+   ainda mais forte: o pacote custa menos que **uma** delas.
 
 ---
 
@@ -131,11 +195,11 @@ Estas mudam a conta materialmente. Fazer **uma de cada vez** (sem empilhar):
 > Hoje você tem só o disparo. O que você me pediu é o pacote completo — o sistema
 > pra enxergar tudo num lugar só, e a IA atendendo o seu WhatsApp 24h.
 >
-> Separado, isso daria R$ 1.591/mês. No pacote fechado fica **R$ 1.297/mês**, já com
+> Separado, isso daria R$ 1.791/mês. No pacote fechado fica **R$ 1.497/mês**, já com
 > o disparo que você usa hoje dentro.
 >
 > ✅ Sistema completo (seu funil todo visível)
-> ✅ Agente de IA atendendo e agendando sozinho
+> ✅ Agente de IA atendendo e agendando sozinho, no seu volume
 > ✅ Disparo e reativação, que você já usa
 > ✅ Ativação assistida — a gente entra junto e coloca pra rodar
 >
@@ -145,10 +209,12 @@ Estas mudam a conta materialmente. Fazer **uma de cada vez** (sem empilhar):
 > ✅ Hoje: só a ativação da IA — R$ 997 (pode ser em 2×). É onde a gente treina ela
 > com os seus procedimentos, seus preços e o seu jeito de atender.
 > ✅ O resto de agosto: a gente ativa e testa tudo, sem cobrar nada a mais
-> ✅ Dia 12/09: entra a mensalidade nova de R$ 1.297, no mesmo vencimento de sempre
+> ✅ Dia 12/09: entra a mensalidade nova de R$ 1.497, no mesmo vencimento de sempre
 >
-> Pra você ter referência: uma pessoa só pra cuidar do WhatsApp sai por uns
-> R$ 2.400/mês com encargos — e atende 8 horas por dia, de segunda a sexta.
+> Christine, faz essa conta comigo: você coloca R$ 8 mil por mês pra fazer o seu
+> telefone tocar. Isso aqui é 18% disso pra garantir que nenhuma dessas pessoas
+> fique sem resposta — nem às 22h, nem no domingo, nem quando sua equipe está
+> atendendo outra cliente.
 >
 > Te seguro essa condição até sexta. Posso já agendar a ativação?
 
@@ -161,7 +227,9 @@ ativação de R$ 997". Nunca mexer no mensal.)*
 
 - Upgrade de cliente ativo → o que já paga vira crédito no combo (regra 3).
 - Nunca desconto no mensal; cede em ativação (regra 1).
-- Piso do Completo = R$ 997 (regra 2).
+- Preço por **faixa de volume**, nunca por mensagem → faixa 2 (regra 2 + tabela).
+- Upgrade no meio do ciclo já pago → só ativação agora, mensal no vencimento
+  seguinte (regra 9).
 - Porta de entrada é ativação assistida, nunca desconto
   ([`../../ativacao-assistida.md`](../../ativacao-assistida.md)).
 
@@ -169,7 +237,13 @@ ativação de R$ 997". Nunca mexer no mensal.)*
 
 ## Pendente do Kaian
 
-- [ ] Confirmar/ajustar os preços avulsos de **sistema (497)** e **IA (697)** —
+- [ ] **Marco: custo real de GPTMaker + ElevenLabs a 1.500–2.000 conversas/mês.**
+      Bloqueia o envio da proposta — se passar de ~R$ 450/mês, ela é faixa 3
+      (R$ 1.797), não faixa 2.
+- [ ] Confirmar se a Gol Laser tem **mais de uma unidade** (com R$ 8k/mês de mídia,
+      a chance é alta — e muda pra ~R$ 2.241/mês).
+- [ ] Confirmar/ajustar os preços avulsos de **sistema (497)** e **IA (697/897)** —
       hoje só o disparo (397) é praticado. Isso trava a tabela oficial.
-- [ ] Confirmar se a Gol Laser tem mais de uma unidade.
 - [ ] Definir se contrato de 12 meses vira padrão pro combo Completo.
+- [ ] Agendar a conversa de **tráfego pago** pra 60–90 dias depois da ativação
+      (fee de 15% sobre R$ 8k = R$ 1.200/mês).

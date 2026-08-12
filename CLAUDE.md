@@ -41,7 +41,8 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 - **Voz:** ElevenLabs (tier Creator, modelos Flash/Turbo)
 - **Ads:** Meta Ads Manager (objetivo Click-to-WhatsApp)
 - **Gestão:** ClickUp
-- **Pagamento:** PagTrust
+- **Pagamento/cobrança:** **Nexus OS** (sistema próprio) — substituiu o PagTrust.
+  Documentar em `stack/` (pendente: Kaian mostrar o Nexus OS)
 - **Linguagem:** React/TypeScript, Supabase Edge Functions
 
 ## Identidade visual
@@ -91,3 +92,6 @@ Tabela de preços, combos, pisos de negociação e casos reais vivem em
 - [ ] **Confirmar preços avulsos** de sistema (proposto R$ 497) e IA (proposto
       R$ 697) — trava a tabela oficial em `comercial/pricing/README.md`
 - [ ] Definir se contrato de 12 meses vira padrão do combo Completo
+- [ ] **Mostrar o Nexus OS** pro Claude documentar — e limpar as referências velhas
+      a PagTrust em `stack/stack-tecnico.md`, `produto/piloto-mvp.md` e
+      `produto/kickoff-repo-sistema.md`

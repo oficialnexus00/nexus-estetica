@@ -50,6 +50,36 @@ O combo não é desconto — é **pacote**. A diferença de preço existe porque
 servir cai quando os módulos rodam juntos (uma ativação, um onboarding, um canal de
 suporte). Isso pode e deve ser dito ao cliente com essas palavras.
 
+### Faixas de volume (todo combo com IA)
+
+A IA tem **COGS real por conversa** (GPTMaker + ElevenLabs). Preço de combo é sempre
+**por faixa de volume**, nunca por mensagem — cobrar por mensagem é exatamente o que
+os concorrentes fazem e o que a gente ataca na venda.
+
+| Faixa | Conversas/mês | Completo | Full |
+|---|---|---|---|
+| **1** | até 800 | R$ 1.297 | R$ 2.097 |
+| **2** | 801 – 2.000 | **R$ 1.497** | R$ 2.397 |
+| **3** | 2.001 – 4.000 | R$ 1.797 | R$ 2.797 |
+| **4** | acima de 4.000 | sob consulta | sob consulta |
+
+- A faixa é **perguntada na venda** e **revisada a cada 3 meses** no CRM. Se o
+  cliente subir de faixa, comunicar com 30 dias e subir junto com o resultado.
+- Faixa nunca desce sem revisão de escopo — cliente que caiu de volume tem problema
+  de tráfego, e isso é conversa de tráfego, não de desconto.
+- **Antes de fechar faixa 3+, conferir o custo real de GPTMaker/ElevenLabs naquele
+  volume.** Margem-alvo mínima: 70%.
+
+### Fee de tráfego pago (vinculado à verba)
+
+| Verba de mídia do cliente | Fee de gestão |
+|---|---|
+| até R$ 5.000/mês | R$ 997 |
+| R$ 5.001 – 15.000/mês | **15% da verba** (mín. R$ 1.200) |
+| acima de R$ 15.000/mês | negociado, piso 10% |
+
+Verba nunca entra no fee e nunca passa pela NEXUS misturada com mensalidade.
+
 ---
 
 ## 3. Âncoras de valor (usar na conversa, não a tabela)

@@ -87,6 +87,11 @@ suporte). Isso pode e deve ser dito ao cliente com essas palavras.
 7. **Toda proposta tem validade de 7 dias** e reajuste anual por IPCA em contrato.
 8. **Aumento em cliente da base** entra com **30 dias de aviso** e sempre com o
    ganho novo junto (nunca aumentar sem entregar módulo novo no mesmo mês).
+9. **Upgrade no meio do ciclo:** se o cliente já pagou o mês, **não cobra
+   mensalidade de novo**. Cobra só a **ativação** na hora, usa o resto do ciclo
+   como janela de implantação e o valor novo entra no **vencimento seguinte**,
+   na mesma data de sempre. Nunca estornar o que já foi pago (converte, não
+   devolve) e nunca criar um segundo vencimento.
 
 ---
 

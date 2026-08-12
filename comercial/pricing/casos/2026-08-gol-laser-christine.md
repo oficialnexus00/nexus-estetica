@@ -7,6 +7,8 @@
 ## Situação
 
 - Cliente **já ativa** na base, paga **R$ 397/mês de disparo**.
+- **Pagou os R$ 397 hoje (12/08/2026)** — o ciclo dela está quitado e o vencimento
+  é dia **12**.
 - Ligou pedindo **agente de IA + sistema completo**.
 - Demanda **inbound** (ela ligou) — CAC zero, confiança já construída, histórico de
   pagamento existente. Isso é o cenário de maior poder de precificação que existe:
@@ -49,6 +51,48 @@ vez; desconto no recorrente custa todo mês, pra sempre.
 
 ---
 
+## Mecânica de cobrança — ela pagou hoje
+
+Ela quitou o ciclo de agosto **hoje, 12/08**. Isso **não é problema, é alavanca**:
+permite fazer a única oferta que não custa margem e ainda parece generosa.
+
+### Estrutura recomendada
+
+| Quando | O que cobra | Valor |
+|---|---|---|
+| **Hoje (12/08)** | Ativação assistida da IA | **R$ 997** (ou 2× 499) |
+| 12/08 → 11/09 | Nada de mensalidade — disparo já pago, e é a janela da ativação | R$ 0 |
+| **12/09 em diante** | Mensalidade do combo Completo | **R$ 1.297/mês** |
+
+**Por que assim:**
+
+1. **Não cobrar duas vezes no mesmo ciclo.** Ela pagou hoje. Cobrar mais R$ 900
+   agora é o tipo de coisa que azeda cliente bom por R$ 900.
+2. **A ativação leva 7–15 dias.** Cobrar mês cheio de IA num mês em que ela terá a
+   IA pela metade é vender insatisfação. A janela até 11/09 é justamente a ativação.
+3. **Isso não é desconto — é ativação assistida**, que é a porta de entrada
+   definida da NEXUS. O que ela "ganha" é o resto de agosto durante a implantação,
+   não R$ do recorrente.
+4. **Uma data só, um boleto só.** Mantém o vencimento dia 12 no PagTrust. Não criar
+   segunda data de cobrança — isso vira inadimplência e confusão.
+
+**Caixa hoje: R$ 997.** Primeira mensalidade cheia: 12/09.
+
+### Nunca fazer
+
+- ❌ **Estornar os R$ 397.** Nunca devolver — converter. Estorno vira precedente.
+- ❌ **Cobrar pro-rata dos R$ 900** referentes a 12/08–11/09. Tecnicamente é
+  correto (ela pagou hoje, então a proporcional seria quase o valor cheio), mas
+  queima o momento de boa vontade e cobra IA que ainda está sendo ativada.
+- ❌ **Criar segundo vencimento.** Tudo no dia 12.
+
+### Se ela quiser a IA rodando já e não se importar com a data
+
+Aí sim cobra proporcional: **R$ 900 ÷ 30 × dias até 11/09**. Só oferecer isso se
+**ela** puxar. Não oferecer espontaneamente.
+
+---
+
 ## Argumento de valor (nesta ordem)
 
 1. **"Hoje o disparo traz gente pra sua porta — e quem atende?"**
@@ -85,23 +129,26 @@ Estas mudam a conta materialmente. Fazer **uma de cada vez** (sem empilhar):
 > Christine, fechei aqui o desenho do que a gente conversou ✅
 >
 > Hoje você tem só o disparo. O que você me pediu é o pacote completo — o sistema
-> pra enxergar tudo num lugar só, e a IA atendendo o WhatsApp por você, 24h.
+> pra enxergar tudo num lugar só, e a IA atendendo o seu WhatsApp 24h.
 >
-> Separado, isso daria R$ 1.591/mês.
->
-> No pacote fechado, fica **R$ 1.297/mês** — já com o disparo que você tem hoje
-> dentro. Na prática são R$ 900 a mais no que você já paga.
+> Separado, isso daria R$ 1.591/mês. No pacote fechado fica **R$ 1.297/mês**, já com
+> o disparo que você usa hoje dentro.
 >
 > ✅ Sistema completo (seu funil todo visível)
 > ✅ Agente de IA atendendo e agendando sozinho
 > ✅ Disparo e reativação, que você já usa
 > ✅ Ativação assistida — a gente entra junto e coloca pra rodar
 >
-> A ativação da IA é R$ 997, uma vez só (pode ser em 2×). É onde a gente treina ela
-> com os seus procedimentos, seus preços e o seu jeito de atender.
+> E como você **acabou de pagar agosto hoje**, eu não vou cobrar mensalidade de novo
+> agora. Fica assim:
 >
-> Pra você ter referência: uma pessoa só pra WhatsApp sai por uns R$ 2.400/mês com
-> encargos — e atende 8 horas por dia.
+> ✅ Hoje: só a ativação da IA — R$ 997 (pode ser em 2×). É onde a gente treina ela
+> com os seus procedimentos, seus preços e o seu jeito de atender.
+> ✅ O resto de agosto: a gente ativa e testa tudo, sem cobrar nada a mais
+> ✅ Dia 12/09: entra a mensalidade nova de R$ 1.297, no mesmo vencimento de sempre
+>
+> Pra você ter referência: uma pessoa só pra cuidar do WhatsApp sai por uns
+> R$ 2.400/mês com encargos — e atende 8 horas por dia, de segunda a sexta.
 >
 > Te seguro essa condição até sexta. Posso já agendar a ativação?
 

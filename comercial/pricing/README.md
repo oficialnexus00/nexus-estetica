@@ -125,7 +125,33 @@ Verba nunca entra no fee e nunca passa pela NEXUS misturada com mensalidade.
 
 ---
 
-## 5. Como pedir uma precificação (formato de entrada)
+## 5. Onde a tabela mora de verdade
+
+**A tabela oficial não é um Doc — é a tabela `products` do Nexus OS.**
+
+O Nexus OS já tem catálogo de produtos (`products`, 12 colunas) e composição de
+contrato (`contract_items`). Hoje ela está praticamente vazia: **dos 7 clientes da
+carteira, só a Cristine tem produto marcado**. É por isso que o painel sabe *quanto*
+a NEXUS fatura, mas não *de quê* — e sem isso não dá pra saber quanto do negócio é
+agência (custa gente) e quanto é SaaS (escala sozinho).
+
+| Camada | Papel |
+|---|---|
+| **`products` no Nexus OS** | **Fonte da verdade.** É o que gera fatura de verdade. |
+| Este repositório | Regras, pisos, lógica de negociação e histórico de cada caso |
+| ClickUp | Consulta rápida do time — cópia, nunca original |
+
+**Ordem certa:** cadastrar os produtos e preços no Nexus OS **primeiro**, depois
+espelhar em qualquer outro lugar. Um Doc no ClickUp criado antes disso vira a quarta
+cópia divergente da tabela — e a que o time vai olhar na hora errada.
+
+**Ganho imediato de preencher `contract_items` da carteira inteira:** o painel passa
+a mostrar MRR por produto, e aí você sabe quanto vale cada linha antes de decidir
+onde investir.
+
+---
+
+## 6. Como pedir uma precificação (formato de entrada)
 
 Pra resposta sair calibrada, mandar:
 

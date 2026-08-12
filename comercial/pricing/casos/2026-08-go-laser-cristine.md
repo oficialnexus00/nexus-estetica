@@ -1,4 +1,4 @@
-# Caso — Gol Laser (Christine) · upgrade Disparo → Completo
+# Caso — Go Laser (Cristine) · upgrade Disparo → Completo
 
 **Data:** agosto/2026 · **Dono:** Kaian · **Status:** proposta a enviar
 
@@ -73,6 +73,60 @@ de custo, não de simpatia.
 Se ela empacar no preço, a moeda de troca é **a ativação (R$ 997)**, nunca o mensal:
 "a mensalidade é essa, mas se você fechar hoje eu embuto a ativação". Isso custa uma
 vez; desconto no recorrente custa todo mês, pra sempre.
+
+---
+
+## 🚨 A Go Laser já é rede — e isso trava a proposta
+
+Dados reais do Nexus OS (12/08/2026). **Já existem duas Go Laser pagando:**
+
+| Cliente | Mensal | Venc. | Produtos marcados no OS |
+|---|---|---|---|
+| **Go Laser Marista** | R$ 1.597 | 15 | ❌ não marcado |
+| **Go Laser Santa Rosa** (Carina) | R$ 1.197 | 11 | ❌ não marcado |
+| **Cristine** | R$ 397 | 8 | ✅ Disparo WhatsApp |
+
+**O problema:** essas pessoas se falam. É a mesma marca. Se a Cristine fechar em
+R$ 1.497 e a Carina paga R$ 1.197, a primeira conversa entre elas vira uma
+renegociação — e você perde nas duas pontas.
+
+**E hoje você não sabe responder**, porque o campo de produto está vazio pra Marista
+e Santa Rosa. O sistema sabe *quanto* elas pagam, mas não *do quê*.
+
+### Antes de mandar qualquer número pra Cristine
+
+> **Descobrir o que a Marista (1.597) e a Santa Rosa (1.197) recebem hoje.**
+> É o item bloqueante. Sem isso você está precificando às cegas dentro da própria
+> rede.
+
+| Se descobrir que… | Então a Cristine… |
+|---|---|
+| Santa Rosa (1.197) **já tem sistema + IA + disparo** | fica em **R$ 1.297**, e a diferença pra Carina se explica pela faixa de volume |
+| Santa Rosa tem **escopo menor** (ex.: sem IA) | **R$ 1.497 vale**, e o degrau é de produto, não de favorecimento |
+| Marista (1.597) tem **tráfego incluso** | então o Full é o caminho da Cristine, não o Completo |
+
+### As faixas de volume salvam essa situação
+
+É exatamente aqui que a regra aprovada hoje trabalha a seu favor: dentro de uma
+mesma rede, **preços diferentes só são defensáveis se a régua for pública e
+objetiva**. "Cada unidade paga pela sua faixa de volume" é uma frase que se sustenta
+numa conversa entre franqueadas. "Cada uma negociou o que deu" não se sustenta.
+
+Se a Cristine realmente tem 1.500+ conversas (R$ 8k/mês de mídia) e a Santa Rosa tem
+menos, a diferença de preço está justificada **e você consegue dizer isso na cara
+delas** sem constrangimento.
+
+### A oportunidade escondida
+
+Se as três unidades entrarem no combo Completo, a Go Laser sozinha vale
+**R$ 4.000–4.500/mês** — mais do que os R$ 6.288 de MRR inteiro da NEXUS hoje
+representam em duas contas. **Trate a Go Laser como conta de rede, não como três
+clínicas soltas:** uma negociação, uma tabela, um contrato guarda-chuva.
+
+E o caminho de entrada é a Cristine — se a IA funcionar na unidade dela, você tem
+prova interna pra vender as outras duas sem precisar convencer ninguém.
+
+---
 
 ### ⚠️ Conferir antes de mandar a proposta
 
@@ -173,12 +227,12 @@ dado de conversão controla a conversa sobre a verba.
 | # | Pergunta | Status |
 |---|---|---|
 | 3 | Quantos contatos entram por mês? | ✅ **~1.500+** (investe R$ 8k/mês em tráfego) |
-| 1 | A Gol Laser é só essa unidade? | ❓ **em aberto — a que mais muda a conta** |
+| 1 | A Go Laser é só essa unidade? | ❓ **em aberto — a que mais muda a conta** |
 | 2 | Quantas pessoas mexem no WhatsApp hoje? | ❓ em aberto |
 
 Fazer **uma de cada vez** (sem empilhar):
 
-1. **"A Gol Laser é só essa unidade ou você tem mais de uma?"**
+1. **"A Go Laser é só essa unidade ou você tem mais de uma?"**
    → Com R$ 8k/mês de mídia, a chance de ser mais de uma unidade é alta. 2 unidades
    = R$ 1.497 + R$ 744 (50% de disparo+sistema = R$ 447, + R$ 297 de IA)
    ≈ **R$ 2.241/mês**. Não entregar 2 unidades pelo preço de 1.
@@ -190,7 +244,7 @@ Fazer **uma de cada vez** (sem empilhar):
 
 ## Mensagem pronta (WhatsApp — mandar depois da ligação)
 
-> Christine, fechei aqui o desenho do que a gente conversou ✅
+> Cristine, fechei aqui o desenho do que a gente conversou ✅
 >
 > Hoje você tem só o disparo. O que você me pediu é o pacote completo — o sistema
 > pra enxergar tudo num lugar só, e a IA atendendo o seu WhatsApp 24h.
@@ -211,7 +265,7 @@ Fazer **uma de cada vez** (sem empilhar):
 > ✅ O resto de agosto: a gente ativa e testa tudo, sem cobrar nada a mais
 > ✅ Dia 12/09: entra a mensalidade nova de R$ 1.497, no mesmo vencimento de sempre
 >
-> Christine, faz essa conta comigo: você coloca R$ 8 mil por mês pra fazer o seu
+> Cristine, faz essa conta comigo: você coloca R$ 8 mil por mês pra fazer o seu
 > telefone tocar. Isso aqui é 18% disso pra garantir que nenhuma dessas pessoas
 > fique sem resposta — nem às 22h, nem no domingo, nem quando sua equipe está
 > atendendo outra cliente.
@@ -240,7 +294,7 @@ ativação de R$ 997". Nunca mexer no mensal.)*
 - [ ] **Marco: custo real de GPTMaker + ElevenLabs a 1.500–2.000 conversas/mês.**
       Bloqueia o envio da proposta — se passar de ~R$ 450/mês, ela é faixa 3
       (R$ 1.797), não faixa 2.
-- [ ] Confirmar se a Gol Laser tem **mais de uma unidade** (com R$ 8k/mês de mídia,
+- [ ] Confirmar se a Go Laser tem **mais de uma unidade** (com R$ 8k/mês de mídia,
       a chance é alta — e muda pra ~R$ 2.241/mês).
 - [ ] Confirmar/ajustar os preços avulsos de **sistema (497)** e **IA (697/897)** —
       hoje só o disparo (397) é praticado. Isso trava a tabela oficial.

@@ -50,7 +50,7 @@ O combo não é desconto — é **pacote**. A diferença de preço existe porque
 servir cai quando os módulos rodam juntos (uma ativação, um onboarding, um canal de
 suporte). Isso pode e deve ser dito ao cliente com essas palavras.
 
-### Faixas de volume (todo combo com IA)
+### Faixas de volume (todo combo com IA) — ✅ **aprovado pelo Kaian em 12/08/2026**
 
 A IA tem **COGS real por conversa** (GPTMaker + ElevenLabs). Preço de combo é sempre
 **por faixa de volume**, nunca por mensagem — cobrar por mensagem é exatamente o que

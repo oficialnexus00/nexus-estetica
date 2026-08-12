@@ -9,6 +9,16 @@ qualquer um exige nova validação (um canal antes de escalar pra todos).
   Não competimos por preço na entrada; entregamos ativação assistida. Ver
   [`ativacao-assistida.md`](./ativacao-assistida.md).
 
+## Preço
+
+- **Preço de IA por faixa de volume, nunca por mensagem.**
+  A IA tem COGS real por conversa (GPTMaker + ElevenLabs), então o preço acompanha o
+  volume — mas em **faixas**, não em cobrança por mensagem. Cobrar por mensagem é o
+  que CoDental e afins fazem, e é justamente o que a NEXUS ataca na venda.
+  Faixas em [`pricing/README.md`](./pricing/README.md). *(Validado 12/08/2026.)*
+- **Nunca desconto no mensal.** Se precisar ceder, cede em ativação, prazo ou
+  escopo. Desconto no recorrente é margem perdida pra sempre e comunica commodity.
+
 ## Produto e risco
 
 - **Agente de IA fica FORA do trial de 7 dias.**

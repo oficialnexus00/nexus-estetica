@@ -76,6 +76,7 @@ Tabela de preços, combos, pisos de negociação e casos reais vivem em
 **"quanto eu cobro?"**, a resposta sai de lá — e volta pra lá como caso em
 `comercial/pricing/casos/`.
 
+- **Preço de IA por faixa de volume, nunca por mensagem** (aprovado 12/08/2026).
 - Nunca desconto no mensal; se ceder, cede em ativação, prazo ou escopo.
 - Upgrade de cliente ativo: o que ele já paga vira crédito integral no combo.
 - Preço só depois de saber volume de leads, nº de unidades e nº de atendentes.

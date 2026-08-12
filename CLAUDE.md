@@ -68,6 +68,19 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 - Preço só a partir da 4ª mensagem no fluxo da Bia; sem perguntas empilhadas; ✅ no
   lugar de bullet no WhatsApp.
 
+## Pricing / Deal Desk
+
+Tabela de preços, combos, pisos de negociação e casos reais vivem em
+[`comercial/pricing/`](comercial/pricing/README.md). Quando a pergunta for
+**"quanto eu cobro?"**, a resposta sai de lá — e volta pra lá como caso em
+`comercial/pricing/casos/`.
+
+- Nunca desconto no mensal; se ceder, cede em ativação, prazo ou escopo.
+- Upgrade de cliente ativo: o que ele já paga vira crédito integral no combo.
+- Preço só depois de saber volume de leads, nº de unidades e nº de atendentes.
+- Preço avulso confirmado hoje: **disparo R$ 397/mês**. Os demais estão propostos e
+  aguardam confirmação do Kaian.
+
 ## Pendências que dependem do Kaian
 
 - [x] ~~Arquivo do logo~~ → recriado em vetor em `empresa/logo/` (falta só o
@@ -75,3 +88,6 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 - [x] ~~Ano de fundação da NEXUS~~ → **1º de julho de 2025**
 - [x] ~~Aprovar missão/visão/valores~~ → **aprovado** (`empresa/missao-visao-valores.md`)
 - [x] ~~Confirmar sede~~ → **Balneário Camboriú/SC** (contrato confirmado)
+- [ ] **Confirmar preços avulsos** de sistema (proposto R$ 497) e IA (proposto
+      R$ 697) — trava a tabela oficial em `comercial/pricing/README.md`
+- [ ] Definir se contrato de 12 meses vira padrão do combo Completo

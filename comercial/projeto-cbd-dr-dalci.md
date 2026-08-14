@@ -36,8 +36,14 @@ ponta, custo por consulta agendada). CTR e CPM são só diagnóstico.
 | 1 | **Fibromialgia** | dor sem diagnóstico respeitado, "peregrinação médica" |
 | 2 | **Ansiedade** | viver no limite, medo de depender de remédio |
 | 3 | **Insônia** | noites ruins, tolerância ao indutor de sono |
-| 4 | **Efeitos colaterais de tarja preta** | quem já trata mas sofre com o remédio |
+| 4 | **Objeção de valor** ("mais acessível do que você imagina") | quem acha que tratamento com cannabis é caro/coisa de rico |
 | 5 | **Dor crônica** (coluna/articulações) | maior público, dor contínua sem solução |
+
+> Nota sobre o tema 4: é o único que fala com público mais quente (quem já considerou
+> o tratamento e travou no preço), enquanto os outros ativam dor fria. Na leitura do
+> resultado, comparar com esse contexto. **Compliance no criativo:** falar de
+> acessibilidade do TRATAMENTO/consulta — nunca preço de produto (ANVISA), nunca
+> desconto/promoção (CFM).
 
 Estrutura de campanha do teste: **CTWA (Click-to-WhatsApp), ABO, 1 conjunto por tema,
 verba igual, 7 dias.** Sinal mínimo pra decidir: ~R$ 30–40/dia por conjunto

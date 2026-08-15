@@ -99,6 +99,24 @@ a Meta reprovar em série.
 - **Legenda queimada sempre** — maioria assiste sem som
 - Prova social só dentro das travas do CFM acima
 
+## Cronograma de entrega — 15 dias (17/08 a 31/08)
+
+| Data | Entrega | Dono |
+|---|---|---|
+| 17/08 (seg) | Kickoff: assinatura Higgsfield Pro + alinhamento de compliance com Dr. Dalci + conta de anúncios dedicada | Kaian |
+| 18–19/08 (ter–qua) | Roteiros dos 5 temas (estrutura idêntica) enviados pra aprovação | Kaian |
+| 20/08 (qui) | Aprovação dos roteiros pelo Dr. Dalci (trava de compliance) | Dr. Dalci |
+| 21–25/08 (sex–ter) | Produção dos 5 vídeos: Higgsfield + locução ElevenLabs + edição/legenda | Kaian |
+| 26/08 (qua) | Revisão final e aprovação das peças | Todos |
+| 27/08 (qui) | Campanha CTWA montada (5 conjuntos ABO, verba igual) + fluxo de triagem no WhatsApp | Kaian |
+| 28/08 (sex) | 🚀 Campanhas no ar | Kaian |
+| 28/08–03/09 | Teste rodando 7 dias — **sem mexer** | — |
+| 31/08 (seg) | Checkpoint D+15: tudo entregue e rodando, primeira leitura parcial | Todos |
+| 04/09 (sex) | Leitura final: 2 temas vencedores definidos → inicia Fase 2 (ângulos) | Todos |
+
+**Dependências pra segurar o prazo:** aprovação dos roteiros em até 24h (20/08) e
+verba de tráfego disponível na conta até 27/08. Atraso na aprovação empurra tudo.
+
 ## Próximos passos
 
 | Prioridade | Item | Dono |

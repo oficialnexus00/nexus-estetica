@@ -1,243 +1,363 @@
-# Higgsfield — Kit de Criativos | Dra. Jenniffer Miotto (Harmonização Glútea)
+# Higgsfield — Biblioteca de Takes de Mecanismo | Dra. Jenniffer Miotto
 
-> Produção de criativo em vídeo IA pra campanha de captação da clínica dela.
-> Destino: **Meta Ads, objetivo Click-to-WhatsApp**, formato 9:16 (Reels/Stories).
-> Case e números da NEXUS com ela: `comercial/case-dra-jenniffer-miotto.md`.
+> **O que é isso:** banco de takes em vídeo IA de **mecanismo de ação** — como o
+> ácido hialurônico entra nas camadas do rosto, como o bioestimulador age no
+> glúteo, o que cada um faz e o que **não** faz.
+>
+> **Como usa:** ela grava falando (take real). Esses takes entram **por cima** da
+> fala, como B-roll científico. Não é pra fazer o vídeo inteiro na IA — é pra
+> fazer a parte que ela não consegue gravar.
+>
+> Conteúdo de mecanismo é o formato mais seguro e mais escalável do nicho:
+> não é antes/depois, não promete resultado, e posiciona ela como quem **explica**
+> em vez de quem **vende**.
 
 ---
 
-## 0. LEIA ANTES DE GERAR QUALQUER COISA
+## 0. Por que esse formato ganha
 
-Higgsfield é ferramenta de **narrativa e atmosfera**. Não é ferramenta de prova.
+O nicho inteiro anuncia resultado. Quase ninguém anuncia **entendimento**.
 
-| ✅ Pode gerar | ⛔ Não pode gerar |
+Quando a paciente vê a camada da pele, a cânula no plano certo, o fibroblasto
+acordando — ela não aprende só o procedimento. Ela aprende que **existe técnica**,
+e que técnica exige quem sabe. Isso faz três coisas de uma vez:
+
+1. **Filtra** — quem quer preço baixo se desinteressa; quem quer segurança fica.
+2. **Justifica ticket** — ninguém pechincha o que entendeu ser complexo.
+3. **Passa em compliance** — é conteúdo educativo, não publicidade de resultado.
+
+E o "o que NÃO faz" é o ativo mais valioso da biblioteca. É contraintuitivo, gera
+retenção, e chega na consulta com a expectativa já alinhada — que é onde a maioria
+das vendas de bioestimulador morre.
+
+---
+
+## 1. Como a produção realmente funciona (leia antes de gastar crédito)
+
+**O fluxo que dá certo:**
+```
+Soul (gera o frame parado, caprichado)
+  → escolhe/corrige o melhor frame
+  → DoP / Image-to-Video (dá movimento de câmera)
+  → CapCut/AE: rótulos, setas, legenda, marca
+```
+
+**Três verdades sobre gerar anatomia com IA — planeje em cima delas:**
+
+1. **A IA não escreve.** Nunca peça rótulo, texto ou legenda dentro do prompt —
+   sai borrado e errado. **Todo rótulo ("derme", "SMAS", "periósteo") entra na
+   edição.** Isso não é limitação, é o certo: o rótulo fica nítido e você troca
+   sem regerar.
+2. **A IA entrega beleza, não precisão.** O take é *evocativo*, não é atlas de
+   anatomia. Quem garante a precisão é a **fala dela** e o rótulo que você põe por
+   cima. Se um corte sair anatomicamente errado, descarta — não publica torto com
+   a voz dela por cima afirmando.
+3. **Gere em blocos de 3-5s.** Movimento lento e contínuo. Take de mecanismo não
+   precisa de ação — precisa de deriva de câmera calma.
+
+**Presets de câmera que servem aqui:**
+| Preset | Uso |
 |---|---|
-| Cena de rotina, espelho, provador, praia, academia | Antes/depois de glúteo (real ou simulado) |
-| Ambiente de clínica, mãos, recepção, luz | Close/zoom em corpo, bumbum, silhueta sexualizada |
-| A própria Dra. falando (Soul ID **com consentimento dela**) | "Paciente" IA dando depoimento — depoimento falso |
-| Cena dramatizada declarada | Corpo IA apresentado como resultado do procedimento dela |
-| Textura, tecido, movimento, emoção | Qualquer imagem que insinue garantia de resultado |
-
-**Por quê (os três muros):**
-1. **CFM/CFBM** — proibido antes/depois em publicidade, proibido prometer resultado, proibido sensacionalismo. Depoimento fabricado é infração direta.
-2. **Meta Ads** — política de *"unexpected or negative body focus"*. Anúncio de saúde/estética com enquadramento em parte do corpo é reprovado ou entrega estrangulada. Foco em glúteo é reprovação quase automática.
-3. **Confiança** — o público dela é mulher que já foi enganada por promessa de estética. Criativo genérico de IA com corpo perfeito queima a autoridade que a campanha existe pra construir.
-
-**A regra de ouro do kit:** o criativo vende **a decisão**, não o resultado.
-Ninguém compra glúteo. Compra parar de se esconder na foto.
+| `Push In` / `Dolly In` lento | Padrão de quase todo take. Entra na camada. |
+| `Crash Zoom In` | **A transição-assinatura**: pele → nível microscópico. Usa 1x por vídeo. |
+| `360 Orbit` | Girar o corte anatômico. Impressiona e mostra profundidade. |
+| `Slow Motion` | Gel, água, fibra de colágeno. Tudo fica mais caro. |
+| `Macro` / `Handheld` sutil | Dá vida sem parecer animação de banco de imagem. |
+| ⛔ `FPV Drone`, `Robo Arm`, `Bullet Time` | Cheiram a IA e quebram o tom clínico. |
 
 ---
 
-## 1. Setup no Higgsfield (fazer uma vez)
+## 2. Sistema visual — a regra que faz tudo parecer uma coisa só
 
-### 1.1 Soul ID da Dra. Jenniffer — **só com autorização escrita dela**
-- Módulo: **Soul → Soul ID (custom character)**
-- Subir 15-25 fotos dela: ângulos variados, luz boa, expressões diferentes, fundo limpo.
-- Serve pra: gerar variação infinita de frame dela sem ela regravar toda semana.
-- ⚠️ Sem autorização formal por escrito, **não treinar**. É biometria facial (LGPD, art. 11).
-
-### 1.2 Soul ID de "persona paciente" — a alternativa legítima
-- Cria uma **atriz IA recorrente** (mesma cara em todos os criativos) para as cenas de rotina.
-- Ela **nunca** é apresentada como paciente da clínica, nunca dá depoimento, nunca mostra resultado.
-- Ela é só o rosto da história. Como atriz de comercial.
-- Ganho: consistência visual — o público começa a reconhecer a "cara da marca" dela.
-
-### 1.3 Pastas de biblioteca
-```
-/dra-jenniffer
-  /soul-id-drajenniffer     (frames dela — pós-autorização)
-  /soul-id-persona          (atriz recorrente)
-  /broll-clinica            (ambiente, mãos, recepção, luz)
-  /broll-rotina             (espelho, provador, praia, treino)
-  /hooks-2s                 (só os primeiros 2 segundos, banco de teste)
-```
-
-### 1.4 Restrição técnica que mexe no roteiro
-Higgsfield gera em blocos curtos (≈5s, alguns modelos até 10s). **Todo criativo aqui é
-escrito em cenas de 3-5s pra montar depois no CapCut/Premiere.** Não tente pedir um
-vídeo de 30s de uma vez — sai com deriva de personagem e movimento quebrado.
-
----
-
-## 2. Módulos do Higgsfield e pra que usar cada um aqui
-
-| Módulo | Uso nesta campanha |
-|---|---|
-| **Soul** | Gerar os frames-base (foto realista) que viram vídeo |
-| **DoP / Image-to-Video** | Dar movimento de câmera cinematográfico ao frame |
-| **Speak** | Talking-head: a Dra. falando, lip-sync a partir de um frame + áudio |
-| **Popcorn** | Multi-shot com a MESMA pessoa em cenas diferentes (consistência) |
-| **Preset de câmera** | Push In, Crash Zoom, Handheld, 360 Orbit, Whip Pan, Bullet Time |
-
-**Presets que funcionam no hook (2 primeiros segundos):**
-- `Crash Zoom In` — tensão instantânea, ótimo pra frase de choque
-- `Handheld` — parece real, não parece anúncio (melhor CTR em saúde)
-- `Push In` lento — íntimo, bom pra talking-head
-- `Whip Pan` — corte de cena sem cortar, segura retenção
-- ⛔ Evitar `Bullet Time`, `FPV Drone`, `Robo Arm` aqui: cheiram a IA e quebram a confiança médica.
-
----
-
-## 3. Os 4 criativos
-
-Cada um: 15-22s, 9:16, texto na tela sempre (80% assiste sem som), CTA de WhatsApp.
-
----
-
-### CRIATIVO 1 — "O provador" *(ângulo: dor / identificação)*
-
-**Hook (0-2s)** — texto na tela: `Você já devolveu a roupa por causa do espelho?`
-
-| Cena | Dur. | Módulo + preset | Prompt (EN — Higgsfield lê melhor em inglês) |
-|---|---|---|---|
-| 1 | 3s | Soul → DoP, `Handheld` | `Brazilian woman, 32, in a fitting room, shoulders and face only, warm natural light, she looks at herself in the mirror and her expression drops slightly, adjusts the fabric with her hands, photorealistic, 35mm, shallow depth of field, vertical 9:16` |
-| 2 | 3s | DoP, `Push In` | `Close on her hands letting go of the clothing hanger, fitting room curtain, soft light, subtle disappointment, cinematic, photorealistic, vertical 9:16` |
-| 3 | 4s | DoP, `Whip Pan` | `Same woman walking out of the store into daylight, mid-shot from the shoulders up, phone in hand, thoughtful, urban Brazilian street, golden hour, handheld camera, photorealistic, vertical 9:16` |
-| 4 | 4s | Speak (Dra.) ou card | Dra. Jenniffer falando a fala de virada |
-| 5 | 3s | Card estático | CTA |
-
-**Locução / texto na tela:**
-1. "Você já provou uma roupa, olhou no espelho e devolveu?"
-2. "Não foi o preço. Não foi o tamanho."
-3. "Foi a sensação de não se reconhecer ali."
-4. *(Dra.)* "Eu atendo mulher assim toda semana. E o primeiro passo nunca é o procedimento — é uma avaliação pra entender se você é candidata."
-5. `Agende sua avaliação` → botão WhatsApp
-
-**Por que funciona:** não mostra corpo, não promete nada, e ainda assim mira exatamente a dor. Passa no Meta e passa no CFM.
-
----
-
-### CRIATIVO 2 — "A avaliação" *(ângulo: autoridade / quebra de objeção)*
-
-**Hook (0-2s)** — Dra. na tela, texto: `Nem toda mulher é candidata. E tudo bem.`
-
-| Cena | Dur. | Módulo + preset | Prompt |
-|---|---|---|---|
-| 1 | 4s | Speak, `Push In` lento | Frame real dela (ou Soul ID) + áudio da fala 1 |
-| 2 | 3s | Soul → DoP, `Handheld` | `Aesthetic clinic consultation room in Brazil, clean modern interior, soft neutral tones, doctor's hands on a clipboard explaining, no faces, warm professional lighting, photorealistic, vertical 9:16` |
-| 3 | 3s | DoP, `Push In` | `Close on a woman's face listening attentively during a medical consultation, calm and reassured expression, shallow depth of field, natural window light, photorealistic, vertical 9:16` |
-| 4 | 5s | Speak | Fala de fechamento |
-| 5 | 3s | Card | CTA |
-
-**Locução:**
-1. "Vou te falar uma coisa que anúncio de estética não fala: nem toda mulher é candidata a harmonização glútea."
-2. "Tem contraindicação. Tem expectativa que não fecha com a realidade."
-3. "Por isso aqui não começa com procedimento. Começa com avaliação."
-4. "Se você é candidata, eu te explico exatamente o que dá pra fazer. Se não é, eu falo isso na sua cara — e você não gasta um real."
-5. `Avaliação com a Dra. Jenniffer Miotto` → WhatsApp
-
-**Por que funciona:** honestidade é o ângulo mais subexplorado do nicho. Filtra curioso, atrai quem decide. É também o criativo mais seguro em compliance — ele *nega* promessa.
-
----
-
-### CRIATIVO 3 — "A foto que ela não postou" *(ângulo: desejo, sem mostrar corpo)*
-
-**Hook (0-2s)** — texto: `Quantas fotos suas ficaram na galeria esse ano?`
-
-| Cena | Dur. | Módulo + preset | Prompt |
-|---|---|---|---|
-| 1 | 3s | Soul → DoP, `Crash Zoom In` | `Close on a smartphone screen showing a photo gallery, a woman's thumb hovering, hesitating to post, natural hand, cozy indoor light, photorealistic, vertical 9:16` |
-| 2 | 3s | DoP, `Handheld` | `Group of friends laughing at a beach kiosk in Brazil, one woman slightly behind the others holding a sarong, framed from the shoulders up, golden hour, candid documentary style, photorealistic, vertical 9:16` |
-| 3 | 4s | Popcorn (mesma persona) | `Same woman later, sitting confidently with friends, relaxed shoulders, genuine laugh, warm sunset light, candid, photorealistic, vertical 9:16` |
-| 4 | 4s | Speak (Dra.) | Fala de virada |
-| 5 | 3s | Card | CTA |
-
-**Locução:**
-1. "Quantas fotos suas ficaram guardadas esse ano?"
-2. "Não porque você não estava linda."
-3. "Porque você não estava confortável."
-4. *(Dra.)* "Isso é o que eu escuto em consulta — e é sobre isso que a gente conversa antes de qualquer procedimento."
-5. `Chama no WhatsApp` → agendar avaliação
-
-> ⚠️ Cena 3 mostra **postura e expressão**, nunca corpo, nunca "depois". Se o editor
-> quiser deixar mais parecido com antes/depois — **não deixa.** É exatamente a linha.
-
----
-
-### CRIATIVO 4 — "Hook factory" *(banco de testes, não é um criativo — é matéria-prima)*
-
-Gera **8 aberturas de 2s** e cola cada uma no corpo do Criativo 2 (o mais estável).
-É assim que se acha o gancho vencedor gastando pouco.
-
-Prompt base, trocando só a ação:
-```
-Brazilian woman, 30s, [AÇÃO], shoulders-up framing, natural indoor light,
-candid documentary style, handheld camera, photorealistic, vertical 9:16
-```
-Ações: `looking at herself in a mirror` · `putting the phone face down` ·
-`trying on clothes and sighing` · `scrolling social media at night` ·
-`getting ready in front of a bathroom mirror` · `hesitating before entering a clinic` ·
-`sitting on the bed thinking` · `smiling to herself for the first time`
-
-Ganchos de texto pra rodar por cima (testar 1 por criativo):
-- "Nem toda mulher é candidata. E tudo bem."
-- "Você já devolveu uma roupa por causa do espelho?"
-- "Antes de fazer, você precisa saber se pode fazer."
-- "Não é sobre o bumbum. É sobre parar de se esconder."
-- "Se te prometeram resultado antes de te avaliar, corre."
-- "3 coisas que te desqualificam pra harmonização glútea."
-
----
-
-## 4. Regras de prompt no Higgsfield (o que muda o resultado)
-
-1. **Prompt em inglês.** Português entrega qualidade menor e mais artefato.
-2. **Ordem que funciona:** `sujeito` → `ação` → `enquadramento` → `luz` → `estilo` → `formato`.
-3. **Sempre escrever o enquadramento.** `shoulders-up framing` é o que impede o modelo de
-   mostrar corpo inteiro — é a sua trava de compliance dentro do próprio prompt.
-4. **`photorealistic` + `candid documentary style`** > `cinematic 8k hyperrealistic`.
-   O segundo entrega cara de anúncio de IA. O primeiro entrega cara de real — e real converte.
-5. **Negative prompt sempre:** `text, watermark, distorted hands, extra fingers, plastic skin, oversaturated, beauty filter, full body shot, swimwear closeup`
-6. **Consistência de pessoa:** Soul ID ou Popcorn. Nunca reprompt do zero — a cara muda e o vídeo perde credibilidade.
-7. **Mãos:** o ponto fraco de todo modelo. Se a mão aparece, gera 3 variações e escolhe.
-8. **Regravar barato:** frame bom + preset de câmera diferente = criativo "novo" pro Meta.
-
----
-
-## 5. Como isso entra na campanha
+**Cole este sufixo em TODO prompt da biblioteca.** É o que faz 20 takes gerados em
+dias diferentes parecerem a mesma série:
 
 ```
-Campanha: Harmonização Glútea — Mensagens (Click-to-WhatsApp)
-├── Conj. 1 — Frio amplo (mulheres 25-45, praça dela, sem interesse)
-│   ├── Criativo 2 (autoridade)  ← esse costuma ser o vencedor no frio
-│   ├── Criativo 1 (dor)
-│   └── Criativo 3 (desejo)
-├── Conj. 2 — Interesse (estética, autocuidado, academia, moda praia)
-│   └── mesmos 3, ordem de teste diferente
-└── Conj. 3 — Remarketing (engajou perfil/anúncio 30d, não chamou)
-    ├── Criativo 2 versão longa (Speak, 40s, ela explicando avaliação)
-    └── Card + oferta de agenda da semana
+STYLE SUFFIX (colar no fim de todo prompt):
+medical 3D render, scientific visualization style, teal (#00BFA5) and warm ivory
+palette, deep near-black background, soft volumetric lighting, subtle rim light,
+ultra detailed, macro lens, shallow depth of field, no text, no labels,
+vertical 9:16
 ```
 
-- Sempre **3 criativos por conjunto** — o Meta precisa de variação pra otimizar.
-- Lead cai no WhatsApp → **Bia** responde em segundos, qualifica, agenda → cai no CRM Nexus Health.
-- Bia **não passa preço na primeira mensagem** (princípio validado NEXUS).
+```
+NEGATIVE PROMPT (todo take):
+text, letters, labels, watermark, logo, blood, gore, open wound, surgery,
+distorted anatomy, extra limbs, full body, nudity, cartoon, plastic toy look,
+oversaturated, cluttered
+```
 
-**KPIs alvo (benchmark estética/harmonização):** CPL R$ 20-60 · lead→agendamento 10-20% ·
-custo por agendamento < 12% do ticket. Se estourar, o problema é criativo antes de ser público.
-
----
-
-## 6. O que eu preciso da Dra. pra fechar a campanha
-
-Sem isso o kit criativo está pronto, mas a campanha não sobe:
-
-1. **Praça** (cidade/raio de atendimento)
-2. **Ticket médio** da harmonização glútea dela
-3. **Capacidade** — quantas avaliações/semana ela absorve
-4. **Instagram** — pra avaliar se o funil vai direto pro WhatsApp ou passa pelo perfil
-5. **Budget diário** disponível
-6. **Autorização escrita** pra treinar Soul ID com o rosto dela (LGPD)
-7. **1 gravação real de 60s** dela falando — melhor input que existe pro Speak
+> ⚠️ `blood, gore, open wound, surgery` no negative **não é frescura** — o Meta
+> reprova criativo médico com aparência gráfica/chocante. Corte anatômico
+> estilizado passa; agulha furando pele com sangue não passa. Mantenha limpo e
+> abstrato e a entrega não estrangula.
 
 ---
 
-## 7. Checklist antes de subir qualquer criativo
+## 3. BLOCO A — Ácido Hialurônico no rosto (camadas e planos)
 
-- [ ] Nenhum enquadramento abaixo dos ombros em contexto de corpo
-- [ ] Nenhuma imagem que possa ser lida como antes/depois
-- [ ] Nenhuma pessoa IA apresentada como paciente real
-- [ ] Nenhuma promessa de resultado na copy nem no texto de tela
+**A ciência que a fala dela precisa sustentar:**
+A pele do rosto é em camadas: epiderme → derme → gordura superficial → SMAS →
+gordura profunda → músculo → periósteo/osso. O AH não vai "no rosto" — vai **num
+plano específico**, escolhido pelo objetivo. Estrutura e projeção pedem plano
+profundo, sobre o periósteo. Hidratação e linha fina pedem plano superficial. AH é
+hidrofílico: atrai água e por isso dá volume. E — o ponto de segurança que vale
+ouro no criativo — **é reversível com hialuronidase**.
+
+---
+
+**A1 — O corte anatômico (take de abertura)**
+`Push In` lento · 4s
+```
+Anatomical cross-section of human facial skin, clearly separated horizontal layers
+from top to bottom: epidermis, dermis with fine collagen fibers, superficial fat
+compartment, SMAS fascia layer, deep fat pad, muscle, periosteum over bone,
+[STYLE SUFFIX]
+```
+→ Na edição: rotula as 7 camadas uma por uma, em cascata, no ritmo da fala dela.
+
+**A2 — A cânula no plano certo**
+`Dolly In` · 4s
+```
+Blunt-tip cannula sliding horizontally through the deep subcutaneous plane of a
+facial tissue cross-section, tissue layers gently parting around it without
+tearing, semi-transparent tissue, a soft teal glow tracing the cannula path,
+[STYLE SUFFIX]
+```
+→ Fala dela: *"não é onde dói menos, é onde o produto faz o que precisa fazer."*
+
+**A3 — Depósito sobre o periósteo (projeção estrutural)**
+`Push In` · 4s
+```
+Translucent hyaluronic acid gel being deposited as a rounded bolus directly on the
+periosteum above the cheekbone, tissue cross-section view, the clear gel refracting
+light like glass jelly, the layers above subtly lifting and reshaping the contour,
+[STYLE SUFFIX]
+```
+
+**A4 — Por que dá volume (hidrofilia)** ← *o take mais bonito da biblioteca*
+`Slow Motion` + `Macro` · 5s
+```
+Abstract microscopic visualization, a translucent hyaluronic acid molecular chain
+attracting hundreds of tiny water droplets that bind along its structure, the chain
+swelling and becoming plump and glossy, suspended in dark fluid, drifting slowly,
+[STYLE SUFFIX]
+```
+
+**A5 — Plano superficial x plano profundo**
+Split-screen · 4s
+```
+Split comparison of the same facial tissue cross-section, left side showing clear
+gel placed in the superficial dermis spreading thinly, right side showing denser
+gel placed deep on the periosteum creating structural lift, identical lighting and
+scale on both sides, [STYLE SUFFIX]
+```
+
+**A6 — Reversibilidade (o take de segurança)**
+`Push In` lento · 4s
+```
+Enzyme particles dissolving a translucent gel bolus inside a tissue cross-section,
+the gel breaking into smaller fragments and fading away, the tissue returning to
+its original contour, calm reverse-timelapse feel, [STYLE SUFFIX]
+```
+→ Esse é o take que fecha objeção de medo. Vale um criativo inteiro só dele.
+
+**A7 — Transição-assinatura: pele → microscópico**
+`Crash Zoom In` · 3s
+```
+Extreme close macro of calm human skin surface texture, the camera rushing forward
+past the surface into the translucent dermal layer below, collagen fibers appearing
+as the view descends, continuous seamless motion, [STYLE SUFFIX]
+```
+→ Usa uma vez por vídeo, na virada do "por fora" pro "por dentro".
+
+---
+
+## 4. BLOCO B — Bioestimulador de colágeno no glúteo
+
+**A ciência que a fala dela precisa sustentar:**
+Bioestimulador (PLLA, PCL, hidroxiapatita de cálcio) **não é preenchedor**. Ele é
+injetado no subcutâneo e provoca uma resposta inflamatória controlada: o corpo
+recruta fibroblastos, e o fibroblasto passa a produzir colágeno — primeiro tipo III,
+fino e desorganizado, que amadurece em **tipo I**, espesso e estruturado. Isso é
+**neocolagênese**, e ela é **progressiva**: o volume da primeira semana é o
+diluente e vai embora; colágeno de verdade começa a aparecer por volta de 30 dias e
+tem pico entre 3 e 6 meses. Por isso o protocolo é em sessões espaçadas.
+
+> ⚠️ **Enquadramento sempre no corte de tecido, nunca no glúteo inteiro.** O
+> `no full body` no negative prompt é a trava de compliance dentro do próprio
+> prompt — Meta estrangula criativo com foco em parte do corpo.
+
+---
+
+**B1 — O corte anatômico do glúteo**
+`Push In` lento · 4s
+```
+Anatomical cross-section of gluteal skin and subcutaneous tissue, clearly separated
+layers: epidermis, dermis with a sparse thin collagen network, vertical fibrous
+septa, rounded subcutaneous fat lobules, muscle fascia at the base, tissue block
+view only, [STYLE SUFFIX]
+```
+
+**B2 — As microesferas entrando**
+`Dolly In` · 4s
+```
+Tiny smooth microspheres suspended in clear liquid being deposited into the
+subcutaneous fat layer of a tissue cross-section, the spheres settling evenly
+between fat lobules, semi-transparent tissue, soft teal rim light on each sphere,
+[STYLE SUFFIX]
+```
+
+**B3 — O fibroblasto acordando** ← *o take que explica tudo*
+`Macro` + `Slow Motion` · 5s
+```
+Microscopic visualization of a star-shaped fibroblast cell activating, slowly
+extending its branching arms outward, surrounded by smooth microspheres, soft
+translucent cellular membranes around it, a teal bioluminescent glow spreading
+from the cell body, [STYLE SUFFIX]
+```
+
+**B4 — Colágeno III virando colágeno I (a maturação)**
+`Slow Motion` · 5s
+```
+Microscopic timelapse of thin disorganized collagen fibers gradually thickening,
+aligning and weaving themselves into a dense organized mesh, the network tightening
+and structuring itself over time, fibers glowing softly, [STYLE SUFFIX]
+```
+
+**B5 — Rede frouxa x rede densa**
+Split-screen · 4s
+```
+Split microscopic comparison, left side a sparse loose collagen network with wide
+gaps, right side a dense tightly woven collagen mesh, identical scale and lighting
+on both sides, scientific comparison framing, [STYLE SUFFIX]
+```
+> ⚠️ Isso é **ilustração de mecanismo**, não resultado de paciente. Na legenda,
+> escreve *"ilustração do mecanismo de ação"*. Nunca deixa parecer antes/depois clínico.
+
+**B6 — Preenchedor x bioestimulador (o take do "o que NÃO faz")**
+Split-screen · 5s
+```
+Split comparison of the same tissue cross-section, left side a translucent gel
+bolus instantly expanding the tissue volume, right side microspheres slowly
+triggering a collagen mesh that grows denser over time, identical lighting and
+scale on both sides, [STYLE SUFFIX]
+```
+→ Esse take sozinho resolve a objeção que mais derruba venda de bioestimulador.
+
+**B7 — O diluente que some (expectativa alinhada)**
+`Push In` muito lento · 4s
+```
+Tissue cross-section slightly swollen with clear fluid, the fluid gradually
+absorbing and the swelling receding while the small microspheres stay in place
+between the fat lobules, subtle and slow, [STYLE SUFFIX]
+```
+→ Fala dela: *"na primeira semana incha e desincha. Isso é água, não é o resultado."*
+
+**B8 — A linha do tempo**
+`Dolly In` lateral · 5s
+```
+Abstract scientific visualization of a collagen mesh growing progressively denser
+in distinct stages along a horizontal path, subtle glowing milestone markers at
+intervals, slow continuous forward camera drift, [STYLE SUFFIX]
+```
+→ Na edição: `30 dias · 90 dias · 6 meses` sobre os marcadores.
+
+---
+
+## 5. BLOCO C — Takes de suporte (servem pros dois blocos)
+
+**C1 — Ampola/seringa em bancada limpa** — `360 Orbit` · 3s
+```
+Single unlabeled medical syringe and a small glass vial resting on a clean matte
+clinical surface, soft studio lighting, elegant minimal product framing, [STYLE SUFFIX]
+```
+
+**C2 — Mãos com luva preparando** — `Handheld` sutil · 3s
+```
+Gloved hands carefully preparing a syringe on a sterile clinical tray, close
+framing on hands only, no faces, calm precise movement, [STYLE SUFFIX]
+```
+
+**C3 — Fundo abstrato de colágeno (base de card/CTA)** — `Slow Motion` · 5s
+```
+Abstract slowly drifting network of glowing translucent collagen-like fibers,
+depth layers, gentle floating motion, generous negative space in the center,
+[STYLE SUFFIX]
+```
+
+---
+
+## 6. Dois roteiros que usam a biblioteca
+
+### ROTEIRO 1 — "O que o bioestimulador NÃO faz" *(carro-chefe)*
+
+| t | Imagem | Fala dela |
+|---|---|---|
+| 0-3s | **Ela, take real, close** | "Se te venderam bioestimulador prometendo volume na hora, te venderam errado." |
+| 3-6s | **B6** split preenchedor x bioestimulador | "Preenchedor dá volume na hora. Bioestimulador não é preenchedor." |
+| 6-9s | **B2** microesferas entrando | "O que eu aplico não preenche. Ele avisa o teu corpo." |
+| 9-13s | **B3** fibroblasto acordando | "Ele acorda a célula que produz o teu colágeno." |
+| 13-17s | **B4** colágeno organizando | "E o colágeno vem devagar — porque quem faz é você, não o produto." |
+| 17-21s | **B7** diluente sumindo | "Por isso na primeira semana incha e desincha. Aquilo é água." |
+| 21-26s | **B8** linha do tempo | "Resultado real começa em 30 dias e fecha entre 3 e 6 meses." |
+| 26-30s | **Ela, take real** | "Se alguém te prometer resultado imediato, desconfia. Vem na avaliação que eu te explico o que dá pra fazer no teu caso." |
+| final | **C3** + card | `Agende sua avaliação` → WhatsApp |
+
+**Por que funciona:** o criativo inteiro é ela *negando* promessa. Isso é o oposto
+do nicho, gera retenção por contraste, e chega na consulta com a expectativa já
+alinhada — o que aumenta fechamento e derruba arrependimento.
+
+---
+
+### ROTEIRO 2 — "Onde o ácido hialurônico realmente entra"
+
+| t | Imagem | Fala dela |
+|---|---|---|
+| 0-3s | **Ela, take real** | "Ácido hialurônico não é aplicado 'no rosto'. É aplicado numa camada." |
+| 3-6s | **A7** crash zoom pele → derme | "E a tua pele tem camada. Várias." |
+| 6-11s | **A1** corte anatômico, rótulos em cascata | "Epiderme, derme, gordura, SMAS, músculo, osso." |
+| 11-15s | **A5** superficial x profundo | "Produto na camada errada não corrige — deforma." |
+| 15-19s | **A3** depósito no periósteo | "Estrutura pede plano profundo, apoiado no osso." |
+| 19-23s | **A4** hidrofilia | "E ele dá volume porque atrai água. Não é 'inchar', é hidratar." |
+| 23-27s | **A6** hialuronidase dissolvendo | "E se não gostar? Dá pra dissolver. Poucos procedimentos são reversíveis assim." |
+| 27-31s | **Ela, take real** | "Por isso a pergunta certa não é 'quanto custa'. É 'em que plano você vai aplicar'." |
+| final | **C3** + card | `Agende sua avaliação` → WhatsApp |
+
+---
+
+## 7. Ordem de produção (o que gerar primeiro)
+
+Não gere os 18 takes. Gere nesta ordem e valide antes de escalar:
+
+1. **B6, B3, B4** — os três que sustentam o Roteiro 1 (o carro-chefe)
+2. **B7, B8, B2, B1** — completa o Roteiro 1
+3. **A1, A7, A4** — os três de maior impacto visual do rosto
+4. **A5, A3, A6** — completa o Roteiro 2
+5. **C1, C2, C3** — suporte, gera por último, reutiliza pra sempre
+
+Cada take: gere **3 variações**, escolhe 1, arquiva as outras 2. Take arquivado
+vira criativo novo pro Meta daqui a 3 semanas sem gastar crédito de novo.
+
+---
+
+## 8. Checklist antes de publicar
+
+- [ ] Nenhum texto/rótulo gerado pela IA (todo rótulo entra na edição)
+- [ ] Nenhum enquadramento de corpo inteiro — só bloco de tecido
+- [ ] Nada gráfico: sem sangue, sem ferida, sem agulha perfurando pele realista
+- [ ] Nenhuma imagem apresentada como resultado de paciente
+- [ ] Split-screen de mecanismo legendado como *"ilustração do mecanismo de ação"*
+- [ ] Nenhuma promessa ou garantia na fala e no texto de tela
 - [ ] Registro profissional dela visível no card final
-- [ ] Disclaimer quando houver menção a transformação: *"resultados variam de pessoa para pessoa"*
-- [ ] Autorização da Dra. em dia pra uso de imagem/nome
+- [ ] A fala dela está tecnicamente correta e sustenta o que a imagem mostra
+
+---
+
+## 9. Pendências
+
+- [ ] **P1** — Confirmar o registro dela (CRM / CRBM / CRO) pra estampar nos criativos — *Jennifer*
+- [ ] **P1** — Gravar os takes reais dela dos 2 roteiros (mesma roupa/luz, leva única) — *Jennifer*
+- [ ] **P2** — Definir praça, ticket e capacidade de agenda pra montar públicos e budget — *Kaian*
+- [ ] **P2** — Validar os 3 primeiros takes (B6, B3, B4) antes de gerar o resto — *Kaian*
+- [ ] **P3** — Repetir a estrutura pra um terceiro bloco (fios de PDO? skinbooster?) — *Jennifer*

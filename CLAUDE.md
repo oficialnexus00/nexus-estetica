@@ -28,14 +28,14 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 ## Equipe (4 pessoas)
 
 - **Kaian** — CEO, estratégia, ads, vendas de linha de frente
-- **Jennifer** — outbound / qualificação / financeiro
+- **Jennifer** (Dra. Jenniffer Miotto) — **esposa e sócia do Kaian**. Acumula dois
+  papéis: outbound / qualificação / financeiro na NEXUS **e** é a médica da clínica
+  de estética que gera o case-âncora comercial (harmonização glútea, bioestimulador,
+  ácido hialurônico). A clínica dela é o **laboratório da NEXUS**: o que a gente testa
+  nela primeiro é o que vende pras outras 50 clínicas depois.
 - **Cayan** — demos / fechamento
 - **Marco** — backend / infraestrutura / Supabase
 
-> ⚠️ **Jennifer (equipe) ≠ Dra. Jenniffer Miotto (cliente/case).** A Dra. Jenniffer
-> Miotto é a clínica de harmonização glútea do case-âncora comercial
-> (`comercial/case-dra-jenniffer-miotto.md`). Nome dela ainda **não pode** ir em peça
-> pública — autorização pendente.
 
 ## Stack técnico
 

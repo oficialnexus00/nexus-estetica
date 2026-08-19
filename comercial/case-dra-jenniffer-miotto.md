@@ -14,13 +14,19 @@
 |---|---|
 | Nome | **Dra. Jenniffer Miotto** |
 | Nicho | Harmonização glútea (estética avançada) |
-| Papel no comercial | Case-âncora / prova social principal |
+| Relação com a NEXUS | **Esposa e sócia do Kaian.** Não é cliente externa — é sócia e é a médica. |
+| Papel no comercial | Case-âncora / prova social principal / laboratório de teste |
 | Serviço NEXUS entregue | Tráfego pago (Meta, Click-to-WhatsApp) + criativo + Bia (IA de atendimento) + CRM Nexus Health |
-| Autorização de uso do nome | ⛔ **PENDENTE** — ver seção 6 |
+| Autorização de uso do nome | ✅ Interna (sócia) — falta só o registro profissional pra estampar |
 
-> ⚠️ **Não confundir com a Jennifer da equipe NEXUS** (outbound/qualificação/
-> financeiro). São pessoas diferentes. Nos materiais internos, sempre escrever
-> **"Dra. Jenniffer Miotto"** por extenso pra evitar ambiguidade.
+> **A "Jennifer" da equipe NEXUS é ela mesma.** Mesma pessoa, dois chapéus:
+> outbound/qualificação/financeiro na NEXUS, e médica na própria clínica.
+>
+> **A consequência estratégica disso é o ponto mais importante deste arquivo:**
+> a clínica dela não é um cliente — é o **laboratório da NEXUS**. Criativo, oferta,
+> fluxo da Bia e estrutura de campanha podem ser testados nela com risco zero de
+> queimar cliente. O que valida ali vira produto pras outras 50 clínicas. Nenhum
+> concorrente tem isso.
 
 ---
 
@@ -94,27 +100,31 @@ Se conseguirmos o vídeo dela falando, ele substitui a VSL do Kaian na hora.
 
 ---
 
-## 6. Autorização de uso — BLOQUEIO ATIVO
+## 6. Uso do nome — o que pesar
 
-Enquanto a Dra. Jenniffer Miotto não autorizar por escrito:
+Autorização não é um problema (ela é sócia). O que **é** decisão estratégica:
 
-- ✅ **Pode** usar os números sem identificar ("uma clínica de harmonização glútea").
-- ⛔ **Não pode** publicar o nome dela, @ do perfil, print com identificação ou
-  imagem em peça pública (LP, anúncio, Reels, stories).
-- Por isso a LP e a VSL hoje falam **"uma clínica"** — está correto assim, não mudar
-  antes do OK.
+**Assumir que a clínica do case é da sócia — pode ajudar ou atrapalhar?**
 
-**O que precisa ser pedido a ela (P1, dono: Kaian):**
-1. Autorização de uso de nome e resultado em material comercial;
-2. Se possível, **depoimento em vídeo** (30-60s: como era antes / o que mudou / o número);
-3. Print autorizado da agenda ou do painel para prova visual.
+- **A favor:** "a gente testa primeiro na nossa própria clínica" é uma das frases
+  mais fortes que uma agência pode dizer. Prova que a NEXUS come da própria comida.
+  Mata a objeção "vocês nunca sentiram a dor de dono de clínica".
+- **Contra:** um prospect cético pode ler como "case de casa, não conta". Se a
+  NEXUS tiver mais 1-2 cases de clínica externa, o dela deixa de ser o único e o
+  risco some.
+
+**Recomendação:** assumir, mas nunca como único case. Enquadrar como
+*"começou na nossa clínica, hoje roda em 50+"*. E quando ela aparecer como médica
+em criativo, o registro profissional dela precisa estar visível — isso é
+obrigatório em publicidade de saúde, e vale mais que qualquer selo.
 
 ---
 
 ## 7. Pendências ligadas ao case
 
-- [ ] **P1** — Autorização escrita da Dra. Jenniffer Miotto (nome + case) — *Kaian*
-- [ ] **P1** — Depoimento em vídeo dela (substitui a narração do fundador) — *Kaian*
+- [ ] **P1** — Confirmar o registro profissional dela (CRM/CRBM/CRO) pra estampar nos criativos — *Jennifer*
+- [ ] **P1** — Decidir se a NEXUS assume publicamente que a clínica é da sócia — *Kaian*
+- [ ] **P1** — Depoimento em vídeo dela (substitui a narração do fundador) — *Jennifer*
 - [ ] **P2** — Trocar o WhatsApp placeholder `5548000000000` na LP — *Kaian*
 - [ ] **P2** — Hospedar o vídeo (Drive liberado ou YouTube não-listado) — *Kaian*
 - [ ] **P3** — Regravar VSL no roteiro v4 (prova na frente) — *Kaian*

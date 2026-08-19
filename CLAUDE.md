@@ -32,6 +32,11 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 - **Cayan** — demos / fechamento
 - **Marco** — backend / infraestrutura / Supabase
 
+> ⚠️ **Jennifer (equipe) ≠ Dra. Jenniffer Miotto (cliente/case).** A Dra. Jenniffer
+> Miotto é a clínica de harmonização glútea do case-âncora comercial
+> (`comercial/case-dra-jenniffer-miotto.md`). Nome dela ainda **não pode** ir em peça
+> pública — autorização pendente.
+
 ## Stack técnico
 
 - **Frontend/CRM:** Lovable.dev → `app.nexushealth.com.br`

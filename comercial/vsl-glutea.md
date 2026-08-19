@@ -1,5 +1,8 @@
-# VSL — Harmonização Glútea (case Dra. Jennifer)
+# VSL — Harmonização Glútea (case Dra. Jenniffer Miotto)
 
+> Ficha completa do case: `comercial/case-dra-jenniffer-miotto.md`
+> Criativos IA pra clínica dela: `comercial/higgsfield-criativos-dra-jenniffer.md`
+>
 > Foco: **vender o tráfego** (produto principal), **sistema (IA+CRM) é o plus**.
 > Nicho escolhido: harmonização glútea (performou melhor que capilar nos testes).
 > Capilar segue sem prova pra mostrar — não usar por enquanto.
@@ -15,6 +18,8 @@
 
 ## VSL ATUAL (transcrição do vídeo já gravado — `video 02 harmonizadora gluteo.mov`)
 
+> *(transcrição literal do vídeo já gravado — ela é citada só como "Jennifer"; manter assim até a autorização de uso do nome completo)*
+>
 > A doutora Jennifer faturou R$91.388 com harmonização de glúteo, investindo só
 > R$1.555 em um único mês. Nesse vídeo eu te mostro como.
 >
@@ -73,4 +78,4 @@
 ## Pendências da LP
 - [ ] Trocar número do WhatsApp (placeholder `5548000000000`)
 - [ ] Liberar o vídeo no Drive ("qualquer pessoa com o link") ou subir no YouTube não-listado
-- [ ] Confirmar OK da Dra. Jennifer pra usar nome/case
+- [ ] Confirmar OK da Dra. Jenniffer Miotto pra usar nome/case

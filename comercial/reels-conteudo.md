@@ -8,7 +8,7 @@
 
 1. **"Você se identifica?" (a dor)** — dia do dono de clínica, lead que some, agenda com buraco, responder 22h depois
 2. **Erros de marketing** — impulsionar post não enche agenda, criativo genérico, gestor que some
-3. **Prova e bastidor** — case Jennifer, a Bia respondendo, o CRM, antes/depois de agenda
+3. **Prova e bastidor** — case Dra. Jenniffer Miotto, a Bia respondendo, o CRM, antes/depois de agenda
 4. **Contra-intuitivo** — "mais lead não é a solução", "secretária não resolve", "o problema não é o anúncio"
 5. **Didático** — os 3 min que decidem a venda, velocidade x fechamento, ativação assistida
 
@@ -53,7 +53,7 @@
 **Desenvolvimento:** "Você tá ali, concentrado no procedimento, e o celular vibra. Vibra de novo. Você não pode parar, óbvio. Aí no fim do dia você abre o WhatsApp: três mensagens perguntando sobre harmonização. Você responde 'oi, ainda tem interesse?'… silêncio. Cada uma daquelas era um paciente de alto ticket. Foi embora enquanto você fazia o teu trabalho. Falta de paciente não é o teu problema. O problema é que, na hora que importava, ninguém tava lá pra responder."
 **CTA:** "Salva esse aqui se você já viveu isso. E comenta 'AGENDA' que eu te mostro a saída."
 
-### REELS 3 — case Jennifer
+### REELS 3 — case Dra. Jenniffer Miotto
 **Gancho:** "Mil quinhentos e cinquenta e cinco reais. Foi o que uma clínica investiu. Adivinha quanto voltou."
 **Desenvolvimento:** "Vou te falar sem enrolação. A gente subiu o tráfego pra uma clínica de harmonização glútea, com um criativo feito pra chamar quem realmente quer fazer — não o curioso que só pergunta preço e some. E quando a pessoa mandava mensagem, uma IA respondia na hora, tirava a dúvida e já jogava a avaliação na agenda. Deu 26 consultas marcadas em 30 dias. Com mil e quinhentos reais. Isso não é sorte, é sistema."
 **CTA:** "Se você quer entender como isso rodaria na tua clínica, comenta 'CASE' ou me chama no direct."

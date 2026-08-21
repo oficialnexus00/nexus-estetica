@@ -32,11 +32,11 @@ function badge(s, n, x, y, d){
 
 // pilha das 5 camadas — motivo recorrente. hi = 'sup' | 'mus' | 'prof' | null
 const CAMADAS = [
-  { n:"1", nome:"Pele",                     tag:"epiderme + derme" },
-  { n:"2", nome:"Tecido subcutâneo",        tag:"gordura superficial" },
-  { n:"3", nome:"Camada musculoaponeurótica", tag:"SMAS + músculos mímicos" },
-  { n:"4", nome:"Tecido areolar frouxo",    tag:"espaços de deslizamento" },
-  { n:"5", nome:"Periósteo e fáscia profunda", tag:"gordura profunda + osso" },
+  { n:"1", nome:"Pele", curto:"Pele", tag:"epiderme + derme" },
+  { n:"2", nome:"Tecido subcutâneo", curto:"Subcutâneo", tag:"gordura superficial" },
+  { n:"3", nome:"Camada musculoaponeurótica", curto:"Músculo / SMAS", tag:"SMAS + músculos mímicos" },
+  { n:"4", nome:"Tecido areolar frouxo", curto:"Areolar frouxo", tag:"espaços de deslizamento" },
+  { n:"5", nome:"Periósteo e fáscia profunda", curto:"Periósteo / osso", tag:"gordura profunda + osso" },
 ];
 
 function stack(s, x, y, w, hBand, hi, opts){
@@ -53,7 +53,7 @@ function stack(s, x, y, w, hBand, hi, opts){
       fontFace:BODY, fontSize:10, bold:true, margin:0,
       color: on ? (c.n==="3" ? "FFFFFF" : "06231E") : MUTE });
     if (opts.labels !== false){
-      s.addText(c.nome, { x:x+0.42, y:yy, w:w-0.5, h:hBand, valign:"middle",
+      s.addText(opts.curto ? c.curto : c.nome, { x:x+0.42, y:yy, w:w-0.5, h:hBand, valign:"middle",
         fontFace:BODY, fontSize:10.5, bold:on, margin:0,
         color: on ? (c.n==="3" ? "FFFFFF" : "06231E") : BONE });
     }
@@ -240,6 +240,29 @@ const M = [
 }
 
 /* =====================================================================
+   3b — MAPA MUSCULAR COMPLETO
+   ===================================================================== */
+{
+  const s = base(INK);
+  titulo(s, "Mapa muscular e pontos de punção", "Anatomia");
+  s.addImage({ path:"mapa-full.png", x:4.52, y:1.35, w:4.29, h:5.60 });
+  const col = [
+    ["1","Frontal"],["2","Prócero"],["3","Corrugador"],["4","Orbicular do olho"],
+    ["5","Nasal"],["6","Zigomáticos"],["7","Orbicular da boca"],["8","DAO"],
+    ["9","Mentual"],["10","Masseter"],["11","Platisma"],
+  ];
+  col.forEach((c,i)=>{
+    const x = i < 6 ? 0.7 : 8.7, y = 1.75 + (i%6)*0.62;
+    badge(s, c[0], x, y, 0.42);
+    s.addText(c[1], { x:x+0.58, y:y-0.02, w:3.2, h:0.46, valign:"middle",
+      fontFace:BODY, fontSize:13, color:BONE, margin:0 });
+  });
+  s.addText("Vista anterior esquemática. Proporções simplificadas para ensino de posição relativa e vizinhança de risco — não substitui atlas anatômico.",
+    { x:0.7, y:6.55, w:2.7, h:0.9, fontFace:BODY, fontSize:9.5, color:MUTE, margin:0, lineSpacing:13 });
+  s.addNotes("Passar músculo por músculo no mapa antes de abrir as fichas. Chamar atenção pro 6 (zigomáticos): está no mapa não como alvo, mas como vizinho que se protege.");
+}
+
+/* =====================================================================
    4..14 — UM MUSCULO POR SLIDE
    ===================================================================== */
 M.forEach(m => {
@@ -268,7 +291,7 @@ M.forEach(m => {
     const h = alta ? 0.70 : 0.44;
     s.addText(l[0].toUpperCase(), { x:0.7, y, w:1.22, h:0.26,
       fontFace:BODY, fontSize:9, bold:true, charSpacing:1.4, color:MUTE, margin:0 });
-    s.addText(l[1], { x:2.0, y:y-0.04, w:5.5, h:h,
+    s.addText(l[1], { x:2.0, y:y-0.04, w:4.3, h:h,
       fontFace:BODY, fontSize: l[0]==="Dose" ? 15 : 12.5,
       bold: l[0]==="Dose", color: l[0]==="Dose" ? (alvo?TEAL:AMBER) : BONE,
       margin:0, lineSpacing: l[0]==="Dose" ? 20 : 17 });
@@ -276,11 +299,18 @@ M.forEach(m => {
   });
 
   // coluna direita — profundidade
-  s.addShape(p.ShapeType.roundRect, { x:8.0, y:1.86, w:4.6, h:3.30, rectRadius:0.07,
+  // painel do mapa facial com o musculo destacado
+  s.addShape(p.ShapeType.roundRect, { x:6.6, y:1.86, w:2.95, h:3.30, rectRadius:0.07,
     fill:{color:INK2}, line:{color:"2E3742", width:0.75}, shadow:sh() });
-  s.addText("EM QUE CAMADA A AGULHA PARA", { x:8.3, y:2.06, w:4.0, h:0.26,
+  s.addText("ONDE FICA", { x:6.85, y:2.02, w:2.5, h:0.24,
     fontFace:BODY, fontSize:9, bold:true, charSpacing:1.6, color:MUTE, margin:0 });
-  stack(s, 8.3, 2.44, 4.0, 0.46, m.camada);
+  s.addImage({ path:`mapa-${m.n}.png`, x:6.86, y:2.32, w:2.43, h:2.72 });
+  // painel das camadas
+  s.addShape(p.ShapeType.roundRect, { x:9.72, y:1.86, w:2.88, h:3.30, rectRadius:0.07,
+    fill:{color:INK2}, line:{color:"2E3742", width:0.75}, shadow:sh() });
+  s.addText("EM QUE CAMADA A AGULHA PARA", { x:9.95, y:2.02, w:2.45, h:0.4,
+    fontFace:BODY, fontSize:9, bold:true, charSpacing:1.2, color:MUTE, margin:0, lineSpacing:11 });
+  stack(s, 9.95, 2.50, 2.42, 0.44, m.camada, { curto:true });
 
   // faixa de risco
   s.addShape(p.ShapeType.roundRect, { x:0.7, y:5.55, w:11.9, h:1.42, rectRadius:0.07,

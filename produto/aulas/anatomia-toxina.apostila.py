@@ -11,6 +11,7 @@ def png64(p):
 import sys
 sys.path.insert(0, D)
 import face as F
+import principios
 import cairosvg
 F.INK, F.BONE, F.EDGE = "#FFFFFF", "#EDEAE4", "#C9C3B8"
 F.MUSC, F.HOT, F.HOTL = "#B4534D", "#963A35", "#7A2B27"
@@ -18,6 +19,18 @@ F.TEAL, F.REF = "#0A7D6C", "#8A8478"
 cairosvg.svg2png(bytestring=F.svg(None, True).encode(), write_to="/tmp/mapa-print.png",
                  output_width=1000, output_height=1305)
 MAPA = png64("/tmp/mapa-print.png")
+# diagramas dos principios em versao clara
+import principios as PR
+PR.INK, PR.INK2, PR.INK3 = "#FFFFFF", "#F6F4F0", "#EDEAE4"
+PR.EDGE, PR.BONE, PR.MUTE = "#C9C3B8", "#1D2025", "#6B7078"
+PR.MUSC, PR.MUSC2 = "#B4534D", "#8E3A35"
+PR.TEAL, PR.AMBER, PR.OSSO = "#0A7D6C", "#8A5A12", "#B5AEA1"
+PRINC_IMG = {}
+for _k, _fn in (("p1",PR.p1),("p2",PR.p2),("p3",PR.p3),("p4",PR.p4),("p5",PR.p5)):
+    cairosvg.svg2png(bytestring=_fn().encode(), write_to="/tmp/pr-%s.png" % _k,
+                     output_width=1120, output_height=800)
+    PRINC_IMG[_k] = png64("/tmp/pr-%s.png" % _k)
+
 MINI = {}
 for i in F.MUS:
     cairosvg.svg2png(bytestring=F.svg(i, False).encode(), write_to="/tmp/mini-%d.png" % i,
@@ -31,6 +44,37 @@ CAMADAS = [("1","Pele","epiderme e derme"),
            ("3","Camada musculoaponeurótica","SMAS e músculos mímicos"),
            ("4","Tecido areolar frouxo","espaços de deslizamento"),
            ("5","Periósteo e fáscia profunda","gordura profunda e osso")]
+
+PRINCIPIOS = [
+ ("p1","Origem fixa, inserção móvel","O movimento vai da inserção para a origem",
+  "Todo músculo puxa a parte móvel em direção à parte fixa. Na face, a origem é o osso e a inserção é a pele — é por isso que a face tem expressão, e não apenas movimento. Achou de onde ele sai e onde ele chega, você deduziu a ação.",
+  "Não pergunte o que o músculo faz. Pergunte de onde ele sai e onde ele chega — a ação é consequência."),
+ ("p2","A ruga é perpendicular ao vetor","A ruga se forma sempre a 90° da fibra",
+  "Fibra vertical produz ruga horizontal. Fibra horizontal produz ruga vertical. Fibra circular produz ruga radiada. E funciona nos dois sentidos: olhando a ruga da paciente você deduz o vetor; sabendo o vetor, você prevê a ruga.",
+  "É o princípio que dispensa o mapa. A face da paciente já conta onde estão as fibras — basta saber ler."),
+ ("p3","Todo músculo tem antagonista","O resultado é o saldo, não o músculo isolado",
+  "A face é um sistema de elevadores contra depressores. Quando você enfraquece um lado da balança, o outro vence. No supercílio: frontal, o único elevador, contra corrugador, prócero e orbicular. Na comissura: zigomáticos e levantadores contra DAO e depressores.",
+  "Tratar frontal sem tratar glabela derruba a sobrancelha. Não por dose alta — por ter tirado o único elevador."),
+ ("p4","A profundidade acompanha a espessura","Músculo fino, plano superficial. Espesso, profundo",
+  "Frontal e orbicular do olho são lâminas finas, quase dérmicas: bisel para cima, subdérmico. Cabeça do corrugador, mentual e masseter são espessos: profundo, alguns até tocar o osso. E o mesmo músculo muda de plano ao longo do trajeto.",
+  "\u0022Qual a profundidade do corrugador?\u0022 não tem resposta única. Depende de que ponto dele você está falando."),
+ ("p5","A difusão não respeita anatomia","Ela respeita distância, volume e plano",
+  "Os quatro princípios anteriores descrevem o músculo. Este descreve o produto. A toxina não sabe onde o músculo termina — ela se espalha por gradiente de concentração. Segurança vem de três coisas mensuráveis: distância do vizinho, volume baixo por ponto e plano correto.",
+  "Segurança não é aplicar com jeitinho. Por isso 1 cm do rebordo orbitário não é superstição — e massagear depois é difusão dirigida."),
+]
+
+princ_html = []
+for _i,(k,tit,res,txt_,prat) in enumerate(PRINCIPIOS, 1):
+    princ_html.append(f"""
+<article class="princ">
+  <div class="ph"><span class="num">{_i}</span>
+    <div><h3>{e(tit)}</h3><p class="res">{e(res)}</p></div></div>
+  <div class="pb">
+    <div class="pt"><p>{e(txt_)}</p>
+      <p class="prat"><b>Na prática</b>{e(prat)}</p></div>
+    <img src="{PRINC_IMG[k]}" alt="Diagrama do princípio {_i}">
+  </div>
+</article>""")
 
 fichas = []
 for m in M:
@@ -133,6 +177,17 @@ section{{page-break-inside:avoid}}
 .notas{{margin-top:3mm;height:13mm;border:0.4pt dashed #D5CFC4;border-radius:1.5mm;position:relative}}
 .notas span{{position:absolute;top:1.2mm;left:2.5mm;font-family:'IBM Plex Mono',monospace;font-size:6.8pt;letter-spacing:.08em;text-transform:uppercase;color:#B5AEA1}}
 
+.princ{{border:0.5pt solid #DDD8CF;border-radius:2mm;padding:4.5mm;margin-bottom:4.5mm;page-break-inside:avoid}}
+.ph{{display:flex;gap:3.5mm;align-items:flex-start;border-bottom:0.4pt solid #EDEAE4;padding-bottom:3mm;margin-bottom:3mm}}
+.ph h3{{font-family:'Archivo',sans-serif;font-size:12.5pt;margin:0}}
+.res{{margin:.6mm 0 0;font-size:8.6pt;color:#0A7D6C;font-weight:600}}
+.pb{{display:flex;gap:5mm;align-items:flex-start}}
+.pb .pt{{flex:1}}
+.pb .pt p{{margin:0;font-size:9.2pt;color:#33383F}}
+.pb img{{flex:none;width:64mm;border:0.4pt solid #EDEAE4;border-radius:1.5mm}}
+.prat{{margin-top:3mm!important;padding:3mm 3.5mm;background:#EAF4F1;border-left:1.2pt solid #0A7D6C;border-radius:1mm;font-size:9pt}}
+.prat b{{display:block;font-family:'IBM Plex Mono',monospace;font-size:7.2pt;letter-spacing:.08em;text-transform:uppercase;color:#0A7D6C;margin-bottom:1mm}}
+
 table{{width:100%;border-collapse:collapse;font-size:9pt;margin-top:2mm}}
 th{{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:7.2pt;letter-spacing:.08em;text-transform:uppercase;color:#8A8478;font-weight:500;padding:2.5mm 3mm;border-bottom:0.8pt solid #DDD8CF}}
 td{{padding:2.8mm 3mm;border-bottom:0.4pt solid #EDEAE4}}
@@ -163,6 +218,13 @@ footer{{margin-top:8mm;padding-top:3.5mm;border-top:0.5pt solid #DDD8CF;font-siz
   <p class="dek" style="margin-top:10mm;font-size:9.5pt">A camada 3 é o endereço da toxina. Dose define intensidade; plano define quem recebe.</p>
 </div>
 
+<section>
+  <h2>Os cinco princípios</h2>
+  <p class="sub">Não são fatos para decorar. São regras de raciocínio: quem domina as cinco chega sozinha num músculo que nunca estudou.</p>
+</section>
+{"".join(princ_html)}
+
+<div class="quebra"></div>
 <section>
   <h2>Mapa muscular e pontos de punção</h2>
   <p class="sub">Vista anterior esquemática. Os números correspondem às fichas das páginas seguintes.</p>

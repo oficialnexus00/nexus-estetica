@@ -112,6 +112,90 @@ function titulo(s, txt, sup){
 }
 
 /* =====================================================================
+   1b — PRINCÍPIOS (abertura + 5 slides)
+   ===================================================================== */
+const PRINC = [
+  { n:1, img:"princ-p1.png",
+    titulo:"Origem fixa,\ninserção móvel",
+    resumo:"O movimento vai da inserção para a origem",
+    texto:"Todo músculo puxa a parte móvel em direção à parte fixa. Na face, a origem é o osso e a inserção é a pele — é por isso que a face tem expressão, e não apenas movimento.\n\nAchou de onde ele sai e onde ele chega, você deduziu a ação. Não precisa decorar que o DAO abaixa a comissura: ele sai da mandíbula e chega na comissura, então só pode puxá-la para baixo.",
+    pratica:"Não pergunte o que o músculo faz. Pergunte de onde ele sai e onde ele chega — a ação é consequência.",
+    nota:"Aqui é onde a aluna para de decorar tabela. Peça que ela deduza a ação do mentual só pela origem e inserção, sem consultar nada." },
+  { n:2, img:"princ-p2.png",
+    titulo:"A ruga é perpendicular\nao vetor",
+    resumo:"A ruga se forma sempre a 90° da fibra",
+    texto:"Fibra vertical produz ruga horizontal. Fibra horizontal produz ruga vertical. Fibra circular produz ruga radiada.\n\nE funciona nos dois sentidos: olhando a ruga da paciente, você deduz o vetor do músculo; sabendo o vetor, você prevê onde a ruga vai aparecer.",
+    pratica:"É o princípio que dispensa o mapa. A face da paciente já conta onde estão as fibras — basta saber ler.",
+    nota:"O mais poderoso dos cinco. Peça pra ela olhar a própria testa no espelho e dizer a direção da fibra do frontal antes de você falar." },
+  { n:3, img:"princ-p3.png",
+    titulo:"Todo músculo\ntem antagonista",
+    resumo:"O resultado é o saldo, não o músculo isolado",
+    texto:"A face é um sistema de elevadores contra depressores. Quando você enfraquece um lado da balança, o outro vence.\n\nNo supercílio: frontal, o único elevador, contra corrugador, prócero e orbicular. Na comissura: zigomáticos e levantadores contra DAO e depressores.",
+    pratica:"Antes de aplicar, pergunte: quem é o antagonista deste músculo? Porque é ele que vai aparecer depois.",
+    nota:"Daqui sai a regra mais violada da estética: tratar frontal sem tratar glabela derruba a sobrancelha. Não por dose alta — por ter tirado o único elevador." },
+  { n:4, img:"princ-p4.png",
+    titulo:"A profundidade acompanha\na espessura",
+    resumo:"Músculo fino, plano superficial. Espesso, profundo",
+    texto:"Frontal e orbicular do olho são lâminas finas, quase dérmicas: bisel para cima, subdérmico. Cabeça do corrugador, mentual e masseter são espessos: profundo, alguns até tocar o osso.\n\nE o mesmo músculo muda de plano ao longo do trajeto — o corrugador é profundo medialmente e superficializa conforme caminha lateralmente.",
+    pratica:"\u0022Qual a profundidade do corrugador?\u0022 não tem resposta única. Depende de que ponto dele você está falando.",
+    nota:"Este princípio é a ponte para o próximo bloco: se a profundidade importa tanto, precisamos de um mapa de profundidades. São as cinco camadas." },
+  { n:5, img:"princ-p5.png",
+    titulo:"A difusão não\nrespeita anatomia",
+    resumo:"Ela respeita distância, volume e plano",
+    texto:"Os quatro princípios anteriores descrevem o músculo. Este descreve o produto — e é o que transforma conhecimento em segurança.\n\nA toxina não sabe onde o músculo termina. Ela se espalha por gradiente de concentração. Então segurança vem de três coisas mensuráveis: distância do vizinho que você não quer atingir, volume baixo por ponto, e plano correto.",
+    pratica:"Segurança não é aplicar com jeitinho. É distância, volume e plano. Por isso 1 cm do rebordo orbitário não é superstição — e massagear depois é difusão dirigida.",
+    nota:"Fechar o bloco assim: os quatro primeiros dizem onde o músculo está; o quinto diz até onde o produto vai. A complicação mora na diferença entre os dois." },
+];
+
+// abertura do módulo
+{
+  const s = base(INK);
+  titulo(s, "Cinco regras que permitem deduzir qualquer músculo", "Princípios");
+  s.addText("Não são fatos para decorar. São regras de raciocínio: quem domina as cinco chega sozinha num músculo que nunca estudou.",
+    { x:0.7, y:1.62, w:9.2, h:0.5, fontFace:BODY, fontSize:14, color:MUTE, margin:0, lineSpacing:21 });
+  PRINC.forEach((pr, i) => {
+    const cols = 3, cw = 3.92, chh = 1.72;
+    const c = i % cols, r = Math.floor(i / cols);
+    const x = 0.7 + c*(cw+0.24), y = 2.42 + r*(chh+0.26);
+    s.addShape(p.ShapeType.roundRect, { x, y, w:cw, h:chh, rectRadius:0.07,
+      fill:{color:INK2}, line:{color:"2E3742", width:0.75} });
+    badge(s, pr.n, x+0.26, y+0.26, 0.5);
+    s.addText(pr.titulo.replace("\n"," "), { x:x+0.26, y:y+0.86, w:cw-0.52, h:0.44,
+      fontFace:BODY, fontSize:13.5, bold:true, color:BONE, margin:0, lineSpacing:17 });
+    s.addText(pr.resumo, { x:x+0.26, y:y+1.26, w:cw-0.52, h:0.34,
+      fontFace:BODY, fontSize:10.5, color:TEAL, margin:0, lineSpacing:13 });
+  });
+  s.addNotes("Anunciar o contrato da aula: ao final, ela não vai ter decorado onze músculos — vai ter cinco regras que geram os onze. O quarto princípio abre o bloco de camadas.");
+}
+
+// um slide por princípio
+PRINC.forEach(pr => {
+  const s = base(INK);
+  badge(s, pr.n, 0.7, 0.5, 0.62);
+  s.addText("PRINCÍPIO " + pr.n, { x:1.52, y:0.5, w:5.0, h:0.24,
+    fontFace:BODY, fontSize:9.5, bold:true, charSpacing:2.4, color:TEAL, margin:0 });
+  s.addText(pr.titulo, { x:1.52, y:0.74, w:5.1, h:1.0,
+    fontFace:TITLE, fontSize:26, bold:true, color:BONE, margin:0, lineSpacing:30 });
+
+  s.addText(pr.texto, { x:0.7, y:2.02, w:5.9, h:2.3,
+    fontFace:BODY, fontSize:13, color:MUTE, margin:0, lineSpacing:19, paraSpaceAfter:8 });
+
+  s.addShape(p.ShapeType.roundRect, { x:0.7, y:4.48, w:5.9, h:1.42, rectRadius:0.07,
+    fill:{color:INK2}, line:{color:TEAL, width:1} });
+  s.addText("NA PRÁTICA", { x:0.98, y:4.66, w:3.0, h:0.24,
+    fontFace:BODY, fontSize:9, bold:true, charSpacing:1.6, color:TEAL, margin:0 });
+  s.addText(pr.pratica, { x:0.98, y:4.94, w:5.34, h:0.84,
+    fontFace:BODY, fontSize:12.5, color:BONE, margin:0, lineSpacing:18 });
+
+  s.addImage({ path:pr.img, x:7.0, y:1.42, w:5.6, h:4.0 });
+
+  s.addText(pr.resumo, { x:7.0, y:5.58, w:5.6, h:0.34, align:"center",
+    fontFace:BODY, fontSize:12, bold:true, color:TEAL, margin:0 });
+
+  s.addNotes(pr.nota);
+});
+
+/* =====================================================================
    2 — AS CINCO CAMADAS
    ===================================================================== */
 {

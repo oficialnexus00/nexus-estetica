@@ -147,3 +147,23 @@ create index if not exists idx_patients_clinic on patients(clinic_id);
 create index if not exists idx_appt_clinic_inicio on appointments(clinic_id, inicio);
 create index if not exists idx_budgets_clinic on budgets(clinic_id);
 create index if not exists idx_proc_patient on procedures(patient_id);
+
+-- ------------------------------------------------------------
+-- FINANCEIRO — lançamentos (entradas/saídas) por clínica
+-- ------------------------------------------------------------
+create table if not exists transactions (
+  id          uuid primary key default gen_random_uuid(),
+  clinic_id   uuid not null references clinics(id) on delete cascade,
+  data        date not null default current_date,
+  descricao   text not null,
+  categoria   text,
+  valor       numeric(12,2) not null default 0,
+  tipo        text not null check (tipo in ('entrada','saida')),
+  forma       text,
+  created_at  timestamptz not null default now()
+);
+alter table transactions enable row level security;
+create policy tx_all on transactions for all
+  using (clinic_id in (select user_clinic_ids()))
+  with check (clinic_id in (select user_clinic_ids()));
+create index if not exists idx_tx_clinic_data on transactions(clinic_id, data desc);

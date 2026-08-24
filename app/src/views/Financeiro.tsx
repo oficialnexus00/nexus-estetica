@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { db, fmt } from '../data'
+import ModalLancamento from '../components/ModalLancamento'
 
 type Data = (typeof db)['c1'] | (typeof db)['c2']
 
 export default function Financeiro({ data }: { data: Data }) {
+  const [aberto, setAberto] = useState(false)
   const entradas = data.financeiro.filter(l => l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0)
   const saidas = data.financeiro.filter(l => l.tipo === 'saida').reduce((s, l) => s + l.valor, 0)
 
@@ -34,7 +37,7 @@ export default function Financeiro({ data }: { data: Data }) {
             </button>
           ))}
         </div>
-        <button className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 hover:bg-brand-dim">
+        <button onClick={() => setAberto(true)} className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 hover:bg-brand-dim">
           + Novo lançamento
         </button>
       </div>
@@ -69,6 +72,8 @@ export default function Financeiro({ data }: { data: Data }) {
       <div className="text-[12px] text-ink-3">
         Repasse por dentista, contas recorrentes e conciliação entram na v1 completa — este é o recorte da casca navegável.
       </div>
+
+      <ModalLancamento open={aberto} onClose={() => setAberto(false)} clinicNome="Financeiro da clínica" />
     </div>
   )
 }

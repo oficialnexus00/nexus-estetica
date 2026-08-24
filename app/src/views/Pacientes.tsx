@@ -1,14 +1,81 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { db, fmt, type Paciente } from '../data'
+import { listPatients, type PatientRow } from '../lib/patients'
 import FichaClinica from './FichaClinica'
+import ModalPaciente from '../components/ModalPaciente'
+import ModalAgendar from '../components/ModalAgendar'
+import ModalWhatsApp from '../components/ModalWhatsApp'
 
 type Data = (typeof db)['c1'] | (typeof db)['c2']
 
-export default function Pacientes({ data }: { data: Data }) {
+// Converte a linha do banco pro formato que a tela usa
+function toPaciente(r: PatientRow): Paciente {
+  return {
+    id: r.id,
+    nome: r.nome,
+    telefone: r.telefone ?? '—',
+    nasc: fmtNasc(r.nascimento),
+    alerta: r.alerta_saude ?? undefined,
+    ultimaVisita: '—',
+    proxima: undefined,
+    origem: r.origem ?? '—',
+    saldo: Number(r.saldo) || 0,
+  }
+}
+
+function fmtNasc(iso: string | null) {
+  if (!iso) return '—'
+  const [a, m, d] = iso.split('-')
+  return d && m && a ? `${d}/${m}/${a}` : '—'
+}
+
+export default function Pacientes({
+  data,
+  realClinicId,
+  clinicNome,
+  profissionais,
+}: {
+  data: Data
+  realClinicId?: string
+  clinicNome: string
+  profissionais: readonly { id: string; nome: string; especialidade?: string | null }[]
+}) {
+  const real = !!realClinicId
   const [busca, setBusca] = useState('')
   const [sel, setSel] = useState<Paciente | null>(null)
   const [ficha, setFicha] = useState<Paciente | null>(null)
-  const lista = data.pacientes.filter(p => p.nome.toLowerCase().includes(busca.toLowerCase()))
+  const [novo, setNovo] = useState(false)
+  const [agendarPara, setAgendarPara] = useState<string | null>(null)
+  const [wppPara, setWppPara] = useState<string | null>(null)
+
+  const [rows, setRows] = useState<PatientRow[]>([])
+  const [carregando, setCarregando] = useState(real)
+
+  function recarregar() {
+    if (!real) return
+    setCarregando(true)
+    listPatients(realClinicId!)
+      .then(r => setRows(r))
+      .catch(() => setRows([]))
+      .finally(() => setCarregando(false))
+  }
+
+  useEffect(() => {
+    if (!real) return
+    let vivo = true
+    setCarregando(true)
+    setSel(null)
+    listPatients(realClinicId!)
+      .then(r => vivo && setRows(r))
+      .catch(() => vivo && setRows([]))
+      .finally(() => vivo && setCarregando(false))
+    return () => {
+      vivo = false
+    }
+  }, [real, realClinicId])
+
+  const base: Paciente[] = real ? rows.map(toPaciente) : [...data.pacientes]
+  const lista = base.filter(p => p.nome.toLowerCase().includes(busca.toLowerCase()))
 
   if (ficha) return <FichaClinica paciente={ficha} onClose={() => setFicha(null)} />
 
@@ -22,7 +89,7 @@ export default function Pacientes({ data }: { data: Data }) {
             placeholder="Buscar paciente por nome…"
             className="w-80 rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] outline-none placeholder:text-ink-3 focus:border-brand/60"
           />
-          <button className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 hover:bg-brand-dim">
+          <button onClick={() => setNovo(true)} className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 hover:bg-brand-dim">
             + Novo paciente
           </button>
         </div>
@@ -40,29 +107,57 @@ export default function Pacientes({ data }: { data: Data }) {
               </tr>
             </thead>
             <tbody>
-              {lista.map(p => (
-                <tr key={p.id} onClick={() => setSel(p)}
-                  className={`cursor-pointer border-b border-line/50 transition last:border-b-0 hover:bg-surface-2 ${sel?.id === p.id ? 'bg-surface-2' : ''}`}>
-                  <td className="px-4 py-3">
-                    <div className="font-medium">{p.nome}</div>
-                    {p.alerta && <div className="mt-0.5 text-[11.5px] text-warn">⚠ {p.alerta}</div>}
-                  </td>
-                  <td className="px-4 py-3 tabular-nums text-ink-2">{p.telefone}</td>
-                  <td className="px-4 py-3 tabular-nums text-ink-2">{p.ultimaVisita}</td>
-                  <td className="px-4 py-3 tabular-nums text-ink-2">{p.proxima ?? '—'}</td>
-                  <td className="px-4 py-3">
-                    <span className={`rounded-md px-2 py-0.5 text-[11.5px] font-medium ${p.origem.includes('Ads') ? 'bg-brand/12 text-brand' : 'bg-surface-3 text-ink-2'}`}>
-                      {p.origem}
-                    </span>
-                  </td>
-                  <td className={`px-4 py-3 text-right tabular-nums ${p.saldo < 0 ? 'text-warn' : 'text-ink-3'}`}>
-                    {p.saldo === 0 ? '—' : fmt(p.saldo)}
+              {carregando && (
+                <tr>
+                  <td colSpan={6} className="px-4 py-10 text-center text-[12.5px] text-ink-3">
+                    Carregando pacientes…
                   </td>
                 </tr>
-              ))}
+              )}
+              {!carregando && lista.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="px-4 py-10 text-center text-[12.5px] text-ink-3">
+                    {real
+                      ? busca
+                        ? `Nenhum paciente encontrado pra "${busca}".`
+                        : 'Nenhum paciente ainda — cadastre o primeiro no botão “+ Novo paciente”.'
+                      : 'Nenhum paciente.'}
+                  </td>
+                </tr>
+              )}
+              {!carregando &&
+                lista.map(p => (
+                  <tr
+                    key={p.id}
+                    onClick={() => setSel(p)}
+                    className={`cursor-pointer border-b border-line/50 transition last:border-b-0 hover:bg-surface-2 ${sel?.id === p.id ? 'bg-surface-2' : ''}`}
+                  >
+                    <td className="px-4 py-3">
+                      <div className="font-medium">{p.nome}</div>
+                      {p.alerta && <div className="mt-0.5 text-[11.5px] text-warn">⚠ {p.alerta}</div>}
+                    </td>
+                    <td className="px-4 py-3 tabular-nums text-ink-2">{p.telefone}</td>
+                    <td className="px-4 py-3 tabular-nums text-ink-2">{p.ultimaVisita}</td>
+                    <td className="px-4 py-3 tabular-nums text-ink-2">{p.proxima ?? '—'}</td>
+                    <td className="px-4 py-3">
+                      <span className={`rounded-md px-2 py-0.5 text-[11.5px] font-medium ${p.origem.includes('Ads') ? 'bg-brand/12 text-brand' : 'bg-surface-3 text-ink-2'}`}>
+                        {p.origem}
+                      </span>
+                    </td>
+                    <td className={`px-4 py-3 text-right tabular-nums ${p.saldo < 0 ? 'text-warn' : 'text-ink-3'}`}>
+                      {p.saldo === 0 ? '—' : fmt(p.saldo)}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
+
+        {real && (
+          <div className="text-[12px] text-ink-3">
+            ● Lendo e gravando direto no banco (Supabase) — {clinicNome}.
+          </div>
+        )}
       </div>
 
       {/* Ficha lateral */}
@@ -104,8 +199,8 @@ export default function Pacientes({ data }: { data: Data }) {
           </button>
 
           <div className="mt-3 grid grid-cols-2 gap-2">
-            <button className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px] font-medium text-ink-2 hover:text-ink">Agendar</button>
-            <button className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px] font-medium text-ink-2 hover:text-ink">💬 WhatsApp</button>
+            <button onClick={() => setAgendarPara(sel.nome)} className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px] font-medium text-ink-2 hover:text-ink">Agendar</button>
+            <button onClick={() => setWppPara(sel.nome)} className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-[12.5px] font-medium text-ink-2 hover:text-ink">💬 WhatsApp</button>
           </div>
 
           <div className="mt-5 border-t border-line pt-4">
@@ -116,6 +211,26 @@ export default function Pacientes({ data }: { data: Data }) {
           </div>
         </aside>
       )}
+
+      <ModalPaciente
+        open={novo}
+        onClose={() => setNovo(false)}
+        clinicNome={clinicNome}
+        clinicId={realClinicId}
+        onSaved={recarregar}
+      />
+      {agendarPara && (
+        <ModalAgendar
+          open
+          onClose={() => setAgendarPara(null)}
+          profissionais={profissionais}
+          clinicNome={clinicNome}
+          pacienteInicial={agendarPara}
+          clinicId={realClinicId}
+          onSaved={recarregar}
+        />
+      )}
+      {wppPara && <ModalWhatsApp open onClose={() => setWppPara(null)} nome={wppPara} />}
     </div>
   )
 }

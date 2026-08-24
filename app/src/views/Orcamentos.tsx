@@ -1,4 +1,8 @@
+import { useEffect, useState } from 'react'
 import { db, fmt } from '../data'
+import { listBudgets, type BudgetRow } from '../lib/budgets'
+import { listPatients } from '../lib/patients'
+import ModalOrcamento from '../components/ModalOrcamento'
 
 type Data = (typeof db)['c1'] | (typeof db)['c2']
 
@@ -9,9 +13,84 @@ const STATUS = {
   recusado: { label: 'Recusado', cls: 'bg-bad/12 text-bad' },
 } as const
 
-export default function Orcamentos({ data }: { data: Data }) {
-  const abertos = data.orcamentos.filter(o => o.status === 'aguardando' || o.status === 'follow-up')
+type OrcRow = {
+  id: string
+  paciente: string
+  procedimento: string
+  valor: number
+  criado: string
+  status: keyof typeof STATUS
+  followUps: number
+  ultimaAcao: string
+}
+
+function fmtData(iso: string) {
+  const d = iso.slice(0, 10).split('-')
+  return d.length === 3 ? `${d[2]}/${d[1]}/${d[0]}` : iso
+}
+
+function toOrc(r: BudgetRow): OrcRow {
+  return {
+    id: r.id,
+    paciente: r.patients?.nome ?? '—',
+    procedimento: r.procedimento,
+    valor: Number(r.valor) || 0,
+    criado: fmtData(r.created_at),
+    status: r.status,
+    followUps: r.follow_ups,
+    ultimaAcao: r.ultima_acao ?? '—',
+  }
+}
+
+export default function Orcamentos({
+  data,
+  realClinicId,
+  clinicNome,
+}: {
+  data: Data
+  realClinicId?: string
+  clinicNome: string
+}) {
+  const real = !!realClinicId
+  const [rows, setRows] = useState<BudgetRow[]>([])
+  const [pacientes, setPacientes] = useState<{ id: string; nome: string }[]>([])
+  const [carregando, setCarregando] = useState(real)
+  const [novo, setNovo] = useState(false)
+
+  function recarregar() {
+    if (!real) return
+    setCarregando(true)
+    listBudgets(realClinicId!)
+      .then(r => setRows(r))
+      .catch(() => setRows([]))
+      .finally(() => setCarregando(false))
+  }
+
+  useEffect(() => {
+    if (!real) return
+    let vivo = true
+    setCarregando(true)
+    listBudgets(realClinicId!)
+      .then(r => vivo && setRows(r))
+      .catch(() => vivo && setRows([]))
+      .finally(() => vivo && setCarregando(false))
+    listPatients(realClinicId!)
+      .then(ps => vivo && setPacientes(ps.map(p => ({ id: p.id, nome: p.nome }))))
+      .catch(() => {})
+    return () => {
+      vivo = false
+    }
+  }, [real, realClinicId])
+
+  const lista: OrcRow[] = real
+    ? rows.map(toOrc)
+    : data.orcamentos.map(o => ({ ...o, status: o.status as keyof typeof STATUS }))
+
+  const abertos = lista.filter(o => o.status === 'aguardando' || o.status === 'follow-up')
   const totalAberto = abertos.reduce((s, o) => s + o.valor, 0)
+  const aprovados = lista.filter(o => o.status === 'aprovado')
+  const taxaAprovacao = real ? (lista.length ? Math.round((aprovados.length / lista.length) * 100) : 0) : data.kpis.taxaAprovacao
+  const recuperado = real ? aprovados.filter(o => o.followUps > 0).reduce((s, o) => s + o.valor, 0) : 4800
 
   return (
     <div className="space-y-5">
@@ -22,15 +101,22 @@ export default function Orcamentos({ data }: { data: Data }) {
           <div className="mt-1 text-[12px] text-ink-3">{abertos.length} propostas ativas</div>
         </div>
         <div className="rounded-xl border border-line bg-surface-1 p-5">
-          <div className="text-[12px] font-medium text-ink-2">Taxa de aprovação (90d)</div>
-          <div className="mt-1.5 text-[26px] font-semibold tracking-tight text-s1">{data.kpis.taxaAprovacao}%</div>
-          <div className="mt-1 text-[12px] text-ok">▲ subiu 9 pts com follow-up automático</div>
+          <div className="text-[12px] font-medium text-ink-2">Taxa de aprovação {real ? '' : '(90d)'}</div>
+          <div className="mt-1.5 text-[26px] font-semibold tracking-tight text-s1">{taxaAprovacao}%</div>
+          {!real && <div className="mt-1 text-[12px] text-ok">▲ subiu 9 pts com follow-up automático</div>}
         </div>
         <div className="rounded-xl border border-line bg-surface-1 p-5">
           <div className="text-[12px] font-medium text-ink-2">Recuperado pela Patrícia (30d)</div>
-          <div className="mt-1.5 text-[26px] font-semibold tracking-tight text-brand">{fmt(4800)}</div>
+          <div className="mt-1.5 text-[26px] font-semibold tracking-tight text-brand">{fmt(recuperado)}</div>
           <div className="mt-1 text-[12px] text-ink-3">orçamentos que voltaram após follow-up</div>
         </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <h2 className="text-[14px] font-semibold">Propostas</h2>
+        <button onClick={() => setNovo(true)} className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-surface-0 hover:bg-brand-dim">
+          + Novo orçamento
+        </button>
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-line bg-surface-1">
@@ -46,7 +132,13 @@ export default function Orcamentos({ data }: { data: Data }) {
             </tr>
           </thead>
           <tbody>
-            {data.orcamentos.map(o => {
+            {carregando && (
+              <tr><td colSpan={6} className="px-4 py-10 text-center text-[12.5px] text-ink-3">Carregando orçamentos…</td></tr>
+            )}
+            {!carregando && lista.length === 0 && (
+              <tr><td colSpan={6} className="px-4 py-10 text-center text-[12.5px] text-ink-3">Nenhum orçamento ainda — crie o primeiro no botão “+ Novo orçamento”.</td></tr>
+            )}
+            {!carregando && lista.map(o => {
               const s = STATUS[o.status]
               return (
                 <tr key={o.id} className="border-b border-line/50 transition last:border-b-0 hover:bg-surface-2">
@@ -70,6 +162,15 @@ export default function Orcamentos({ data }: { data: Data }) {
         🤖 <span className="font-semibold text-brand">Como funciona:</span> orçamento sem resposta em 48h entra automaticamente
         no fluxo de follow-up da Patrícia — ela retoma a conversa no WhatsApp, responde objeções e avisa o time quando o paciente esquenta.
       </div>
+
+      <ModalOrcamento
+        open={novo}
+        onClose={() => setNovo(false)}
+        clinicNome={clinicNome}
+        clinicId={realClinicId}
+        pacientes={pacientes}
+        onSaved={recarregar}
+      />
     </div>
   )
 }

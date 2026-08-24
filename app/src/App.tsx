@@ -1,12 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { clinics, db } from './data'
 import { supabase, MODO_DEMO } from './lib/supabase'
+import { listClinics, type ClinicRow } from './lib/clinics'
+import { listProfessionals, type ProfessionalRow } from './lib/agenda'
 import Dashboard from './views/Dashboard'
 import Agenda from './views/Agenda'
 import Pacientes from './views/Pacientes'
 import Orcamentos from './views/Orcamentos'
 import Financeiro from './views/Financeiro'
 import Bia from './views/Bia'
+import ModalAgendar from './components/ModalAgendar'
+import ModalBuscar from './components/ModalBuscar'
 
 const NAV = [
   { id: 'dashboard', label: 'Dashboard', icon: '◧' },
@@ -38,10 +42,43 @@ function Logo() {
 
 export default function App() {
   const [view, setView] = useState<View>('dashboard')
-  const [clinicId, setClinicId] = useState<'c1' | 'c2'>('c1')
+  const [idx, setIdx] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
-  const data = db[clinicId]
-  const clinic = clinics.find(c => c.id === clinicId)!
+  const [modal, setModal] = useState<null | 'agendar' | 'buscar'>(null)
+  const [realClinics, setRealClinics] = useState<ClinicRow[] | null>(null)
+  const [realProfs, setRealProfs] = useState<ProfessionalRow[]>([])
+  const [refreshKey, setRefreshKey] = useState(0)
+
+  // Carrega as clínicas reais do usuário logado (fora do modo demo)
+  useEffect(() => {
+    if (MODO_DEMO || !supabase) return
+    let vivo = true
+    listClinics()
+      .then(c => vivo && setRealClinics(c))
+      .catch(() => vivo && setRealClinics([]))
+    return () => { vivo = false }
+  }, [])
+
+  const usingReal = !MODO_DEMO && !!realClinics && realClinics.length > 0
+  // Lista mostrada no switcher: clínicas reais quando disponíveis, senão as de exemplo
+  const displayClinics: { id: string; nome: string; cidade: string | null }[] = usingReal ? realClinics! : clinics
+  const safeIdx = Math.min(idx, displayClinics.length - 1)
+  const clinic = displayClinics[safeIdx]
+  const realClinicId = usingReal ? realClinics![safeIdx]?.id : undefined
+  // Demais telas seguem em dados de exemplo por enquanto (mapeados por posição)
+  const data = db[safeIdx === 0 ? 'c1' : 'c2']
+
+  // Profissionais reais da clínica ativa (pros modais e a agenda)
+  useEffect(() => {
+    if (!usingReal || !realClinicId) { setRealProfs([]); return }
+    let vivo = true
+    listProfessionals(realClinicId)
+      .then(p => vivo && setRealProfs(p))
+      .catch(() => vivo && setRealProfs([]))
+    return () => { vivo = false }
+  }, [usingReal, realClinicId])
+
+  const profsParaModal = usingReal ? realProfs : data.dentistas
 
   const go = (v: View) => { setView(v); setMenuOpen(false) }
 
@@ -57,11 +94,11 @@ export default function App() {
 
       <div className="px-3 pb-4">
         <select
-          value={clinicId}
-          onChange={e => setClinicId(e.target.value as 'c1' | 'c2')}
+          value={safeIdx}
+          onChange={e => setIdx(Number(e.target.value))}
           className="w-full cursor-pointer rounded-lg border border-line bg-surface-2 px-3 py-2 text-[13px] font-medium text-ink outline-none transition hover:border-brand/50"
         >
-          {clinics.map(c => <option key={c.id} value={c.id}>{c.nome}</option>)}
+          {displayClinics.map((c, i) => <option key={c.id} value={i}>{c.nome}</option>)}
         </select>
       </div>
 
@@ -119,14 +156,14 @@ export default function App() {
               className="rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 text-[15px] leading-none text-ink-2 md:hidden">☰</button>
             <div className="min-w-0">
               <h1 className="truncate text-[16px] font-semibold tracking-tight md:text-[17px]">{NAV.find(n => n.id === view)?.label}</h1>
-              <div className="truncate text-[11.5px] text-ink-3 md:text-[12px]">{clinic.nome} · {clinic.cidade} · qui, 2 jul 2026</div>
+              <div className="truncate text-[11.5px] text-ink-3 md:text-[12px]">{clinic.nome}{clinic.cidade ? ` · ${clinic.cidade}` : ''} · qui, 2 jul 2026</div>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2 md:gap-3">
-            <button className="hidden rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] font-medium text-ink-2 transition hover:text-ink sm:block">
+            <button onClick={() => setModal('buscar')} className="hidden rounded-lg border border-line bg-surface-2 px-3.5 py-2 text-[13px] font-medium text-ink-2 transition hover:text-ink sm:block">
               ⌕ Buscar
             </button>
-            <button className="whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim md:px-3.5 md:text-[13px]">
+            <button onClick={() => setModal('agendar')} className="whitespace-nowrap rounded-lg bg-brand px-3 py-2 text-[12.5px] font-semibold text-surface-0 transition hover:bg-brand-dim md:px-3.5 md:text-[13px]">
               + Agendar
             </button>
           </div>
@@ -134,13 +171,23 @@ export default function App() {
 
         <div className="px-4 py-5 md:px-8 md:py-6">
           {view === 'dashboard' && <Dashboard data={data} />}
-          {view === 'agenda' && <Agenda data={data} />}
-          {view === 'pacientes' && <Pacientes data={data} />}
-          {view === 'orcamentos' && <Orcamentos data={data} />}
+          {view === 'agenda' && <Agenda data={data} realClinicId={realClinicId} refreshKey={refreshKey} />}
+          {view === 'pacientes' && <Pacientes data={data} realClinicId={realClinicId} clinicNome={clinic.nome} profissionais={profsParaModal} />}
+          {view === 'orcamentos' && <Orcamentos data={data} realClinicId={realClinicId} clinicNome={clinic.nome} />}
           {view === 'financeiro' && <Financeiro data={data} />}
           {view === 'bia' && <Bia />}
         </div>
       </main>
+
+      <ModalAgendar
+        open={modal === 'agendar'}
+        onClose={() => setModal(null)}
+        profissionais={profsParaModal}
+        clinicNome={clinic.nome}
+        clinicId={realClinicId}
+        onSaved={() => setRefreshKey(k => k + 1)}
+      />
+      <ModalBuscar open={modal === 'buscar'} onClose={() => setModal(null)} data={data} />
     </div>
   )
 }

@@ -12,7 +12,7 @@ declare
   v_clin2   uuid;
 begin
   -- 1) acha o usuário do Rodrigo pelo e-mail de cadastro
-  select id into v_owner from auth.users where email = 'rodrigo@exemplo.com' limit 1;
+  select id into v_owner from auth.users where email = 'oficialnexus00@gmail.com' limit 1;
   if v_owner is null then
     raise exception 'Usuário não encontrado. Rodrigo precisa criar a conta no app primeiro.';
   end if;

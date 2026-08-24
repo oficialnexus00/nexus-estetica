@@ -7,6 +7,12 @@ atualize o arquivo de detalhamento correspondente + o `CLAUDE.md`.
 
 - [ ] Paleta de cores de apoio (neutros dark-mode, estados de UI).
 - [ ] Pesos da tipografia Inter em uso.
+- [ ] **Licença do Remotion** — o free tier vai até 3 funcionários e a NEXUS tem 4,
+  então uso comercial exige Company License. A contagem é de headcount da empresa,
+  não de quantas pessoas mexem na ferramenta. Avaliar sem uso comercial é livre, e
+  o `video/` já está rodando nesse regime. Decisão: **Creators** (US$ 25/assento/mês,
+  1 assento — Kaian escrevendo os roteiros) ou **Automators** (US$ 0,01/render,
+  mínimo US$ 100/mês) se o n8n for disparar render sozinho. Ver `video/README.md`.
 
 ## Resolvido
 

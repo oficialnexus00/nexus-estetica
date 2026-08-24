@@ -10,6 +10,7 @@
 | Automação | **n8n** | Orquestração de fluxos (conta do Kaian) |
 | Scraping | **Apify** | Coleta na Meta Ad Library |
 | Voz | **ElevenLabs** | Tier Creator, modelos Flash/Turbo |
+| Vídeo | **Remotion** | Criativos em React → MP4 (pasta `video/`) |
 | Ads | **Meta Ads Manager** | Objetivo Click-to-WhatsApp |
 | Gestão | **ClickUp** | Tarefas, PMO |
 | Pagamento | **PagTrust** | Cobrança |
@@ -42,6 +43,15 @@
 ### Voz — ElevenLabs
 - Tier **Creator**.
 - Modelos **Flash / Turbo** (baixa latência para experiências com voz).
+
+### Vídeo — Remotion
+- Renderiza criativos de Reels/Stories programaticamente: o roteiro é código React,
+  a saída é MP4 1080x1920 na identidade da marca.
+- Vive em [`../video/`](../video/README.md). Roteiros em `video/src/lib/roteiros.ts`,
+  espelhando [`../comercial/reels-conteudo.md`](../comercial/reels-conteudo.md).
+- Serve pra gerar as **N variações de gancho** do mesmo Reel sem reeditar à mão.
+- ⚠️ **Licença:** grátis só até 3 funcionários. A NEXUS tem 4 → uso comercial exige
+  Company License (US$ 25/assento/mês no plano Creators). Ver README da pasta.
 
 ### Ads — Meta Ads Manager
 - Campanhas com objetivo **Click-to-WhatsApp** — topo do funil.

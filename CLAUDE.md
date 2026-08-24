@@ -39,6 +39,8 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 - **Agentes de IA:** GPTMaker (Bia = comercial, Aurora = canal cliente)
 - **Automação:** n8n (conta do Kaian), Apify (scraping Meta Ad Library)
 - **Voz:** ElevenLabs (tier Creator, modelos Flash/Turbo)
+- **Vídeo:** Remotion (criativos em React → MP4, pasta `video/`) — licença paga a
+  definir: NEXUS tem 4 pessoas, free tier vai até 3
 - **Ads:** Meta Ads Manager (objetivo Click-to-WhatsApp)
 - **Gestão:** ClickUp
 - **Pagamento:** PagTrust

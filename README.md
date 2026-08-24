@@ -36,6 +36,8 @@ remota, sede em Balneário Camboriú/SC.
 │   └── fluxo-bia.md              # Regras do fluxo da agente Bia
 ├── stack/                        # Tecnologia
 │   └── stack-tecnico.md          # Ferramentas e arquitetura
+├── video/                        # Criativos de vídeo (Remotion → MP4)
+│   └── src/lib/roteiros.ts       # Roteiros renderizáveis
 └── pmo/                          # Gestão
     ├── como-trabalhamos.md       # Método PMO (P0–P3, dono, KPI)
     └── pendencias.md             # Backlog de decisões do Kaian

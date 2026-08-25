@@ -106,7 +106,6 @@ o investimento em mídia.
 > Segunda: os vídeos dos seus anúncios. A gente escreve o roteiro, você só grava, e
 > a gente edita. Criativo com a tua cara, sem você pensar em nada.
 > Terceira: estratégia de funil — do clique até o paciente na tua cadeira.
-> Quarta: a copy — os textos dos anúncios e das mensagens, feitos pra vender.
 > E pra finalizar, a parte que muda o jogo: um CRM com uma secretária de IA que
 > responde cada paciente na hora, qualifica e agenda sozinha, 24 horas por dia."
 

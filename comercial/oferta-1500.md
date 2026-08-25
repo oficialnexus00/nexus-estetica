@@ -121,28 +121,20 @@ o investimento em mídia.
 
 ---
 
-## Variações pra teste (mesma oferta + garantia; muda só o ângulo)
+## Variações pra teste (MESMO pitch; muda só a ABERTURA)
 
-### Variação A — "A secretária que não dorme" (ancoragem/dor)
-> HOOK: "Uma secretária pra tua clínica custa uns 2 mil por mês, trabalha 8h e tira
-> folga. E se eu te desse uma que trabalha 24h, nunca falta, e ainda traz paciente,
-> por menos que isso?"
-> CORPO: "É o que a NEXUS faz. Por 1.500/mês você tem uma secretária de IA que
-> responde na hora, qualifica e agenda sozinha 24h. E vem com a gestão de tráfego
-> que enche a agenda e os vídeos dos anúncios (a gente escreve o roteiro, você grava,
-> a gente edita)."
-> FECHO: "A gente já fez 91 mil pra uma clínica com 1.555 de investimento. Sem
-> contrato, sem fidelidade, não gostou cancela na hora. Chama aqui embaixo."
+O corpo (a lista + a garantia) é o mesmo. Só troca o gancho de abertura pra testar
+qual prende mais.
 
-### Variação B — "Prova primeiro" (case/resultado)
-> HOOK: "Uma clínica investiu 1.500 reais e agendou 26 consultas em 30 dias. Deixa eu
-> te contar como, e como você faz igual."
-> CORPO: "Não foi sorte. Foi tráfego trazendo o paciente certo e uma secretária de IA
-> respondendo e agendando cada lead na hora, 24h. É isso que a gente entrega por
-> 1.500/mês: tráfego ilimitado, os vídeos dos anúncios (você só grava, a gente edita)
-> e o CRM com a secretária que nunca dorme."
-> FECHO: "E o melhor: sem contrato, sem fidelidade. Não gostou, cancela na hora.
-> Chama aqui embaixo."
+**Abertura 1 — callout + loop**
+> "Você que tem clínica ou consultório, deixa eu te mostrar tudo que eu te entrego no
+> nosso pacote de mil e quinhentos por mês. E fica até o final, porque tem uma parte
+> que nenhuma agência tem coragem de fazer."
 
-**Teste:** constante = oferta + garantia; variável = ângulo/hook. Grava as 3 (lista,
-secretária, case), sobe as 3, e escala a de melhor retenção + CPL.
+**Abertura 2 — oferta/desafio**
+> "Deixa eu te fazer uma oferta que nenhuma agência vai ter coragem de fazer. Se você
+> tem clínica ou consultório, presta atenção nesses 40 segundos."
+
+Depois de qualquer uma, emenda a MESMA lista (tráfego ilimitado → vídeos (você grava)
+→ funil → secretária de IA 24h) e o mesmo fecho (sem contrato, sem fidelidade, não
+gostou cancela na hora).

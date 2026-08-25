@@ -12,10 +12,11 @@ Travam o lançamento — ver [`../comercial/playbook-low-ticket-secretaria-ia.md
   (GPTMaker), a promessa "sem ferramenta cara" cai e a LP inteira muda.
 - [ ] **P0 — Preço oficial do backend NEXUS** (mensalidade + ativação). É a ancoragem
   da oferta e o alvo do upsell no dia 7.
-- [ ] **P1 — Formato da entrega:** vídeo gravado, live semanal ou template + call de
-  40 min. Muda custo marginal e escalabilidade.
 - [ ] **P1 — Onde hospedar a entrega / área de membros** (Marco provisiona).
+- [ ] **P1 — Confirmar títulos e tempos das 6 aulas** (proposta no §1.2 do playbook).
 - [ ] **P2 — Nome final do produto** (testável em criativo).
+- [x] ~~**Formato da entrega**~~ → **treinamento de 6 aulas curtas**, 40 min no total,
+  sem código. Definido pelo Kaian em 25/08.
 
 ### Identidade visual
 

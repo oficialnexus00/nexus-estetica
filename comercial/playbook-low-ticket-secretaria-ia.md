@@ -1,156 +1,131 @@
 # Playbook — Low Ticket "Secretária IA em 40 Minutos" (R$97)
 
-> Produto de entrada (tripwire) da NEXUS. Vende a R$97, entrega uma Secretária IA
-> funcionando em 40 minutos, e existe pra alimentar o backend NEXUS.
-> Frameworks: Hormozi (oferta), Brunson (tripwire/value ladder), Suby (LP/criativo),
+> Produto de entrada da NEXUS. **Treinamento de 6 aulas curtas** onde o dono da clínica
+> monta a própria Secretária de IA em 40 minutos. Sem código, sem programação, tudo
+> pronto na mão.
+> Frameworks: Hormozi (oferta), Brunson (tripwire/value ladder), Suby (LP/VSL/criativo),
 > Cavalcante (escala perpétua Brasil).
 
-**Status:** rascunho v1 — premissas marcadas com ⚠️ precisam de decisão do Kaian.
-**Dono:** Kaian (oferta, ads) · Cayan (WhatsApp/fechamento) · Marco (entrega/infra)
+**Versão:** v2 — rota principal é **LP com VSL**, corrigido com o Kaian.
+**Dono:** Kaian (aulas, VSL, ads) · Cayan (suporte/fechamento) · Marco (entrega/checkout)
 
----
-
-## 0. Premissas deste documento
-
-Escrito com o que foi definido: **preço R$97** e **"entrega uma Secretária IA em
-40 minutos"**. O resto abaixo é assunção minha — corrige o que estiver errado que eu
-refaço em cima.
-
-| # | Premissa assumida | Confiança |
-|---|---|---|
-| 1 | Formato = **implementação guiada** (o dono monta a dele em 40 min, passo a passo), não done-for-you | Média — ver §1.2 |
-| 2 | Backend = **NEXUS completo** (agente + automação + CRM + tráfego), ~R$300–600/mês + ativação | Alta (base: `produto/novo-braco-pesquisa.md`) |
-| 3 | Público = dono de clínica de saúde/estética, 1–5 profissionais, já anuncia ou já tem WhatsApp movimentado | Alta |
-| 4 | Tráfego = Meta Ads Click-to-WhatsApp → Bia (mesma máquina que já roda) | Alta |
-| 5 | Pagamento = PagTrust, pagamento único | Alta |
-
-### ⚠️ Decisões que travam o lançamento
-
-| P | Decisão | Por que trava |
-|---|---|---|
-| **P0** | **Em qual plataforma o comprador monta a IA dele?** Se for GPTMaker, ele precisa assinar algo — e aí "sem ferramenta cara" cai por terra | Muda a promessa, a LP inteira e a taxa de reembolso |
-| **P0** | **Preço oficial do backend NEXUS** (mensalidade + ativação) | É a ancoragem e o alvo do upsell |
-| **P1** | Formato da entrega: vídeo gravado, live semanal, ou template + call de 40 min? | Muda custo marginal e escalabilidade |
-| **P1** | Onde hospeda a área de membros / entrega | Marco precisa provisionar |
-| **P2** | Nome final do produto | Testável em criativo |
+**Peças deste funil:**
+- `lp-secretaria-ia-97.html` — a página de vendas, pronta
+- `vsl-secretaria-ia-97.md` — roteiro da VSL do Kaian
+- este arquivo — a estratégia
 
 ---
 
 ## 1. O produto
 
-### 1.1 Promessa central
+### 1.1 A promessa
 
-> **"Monte a sua Secretária IA em 40 minutos. Sem código, sem contratar ninguém."**
+> **"Monte a sua Secretária de IA em 40 minutos. 6 aulas curtas. Sem código."**
 
-A promessa é **um resultado com prazo**, não um curso. O cara não compra aula — ele
-compra a secretária dele funcionando antes do fim do expediente.
+Não é curso. É um resultado com prazo: o cara termina de assistir e a IA dele já tá
+respondendo o WhatsApp da clínica.
 
-**Equação de valor (Hormozi) aplicada:**
+**O que precisa ficar martelado em toda peça:**
 
-| Variável | Nosso movimento |
-|---|---|
-| ↑ Resultado sonhado | "Nenhum paciente sem resposta, 24h" |
-| ↑ Probabilidade | 50+ clínicas na NEXUS, passo a passo, kit pronto, garantia |
-| ↓ Tempo | **40 minutos** (não "em algumas semanas") |
-| ↓ Esforço | Sem código, kit pronto pra colar, só seguir |
+- ✅ **6 aulas curtas** — não é maratona, não é curso de 10 horas
+- ✅ **Não precisa saber programar** — zero código, zero técnico
+- ✅ **É super simples** — se sabe usar WhatsApp, consegue
+- ✅ **Eu dou tudo na mão** — prompt pronto, fluxos prontos, é só colar
+- ✅ **40 minutos** — dá pra fazer hoje, entre um paciente e outro
 
-### 1.2 O que exatamente é entregue
+Essa é a diferença entre vender e não vender. O medo do dono de clínica não é o preço
+— é **"eu não vou conseguir"**. Toda peça tem que matar esse medo antes de falar preço.
+
+### 1.2 As 6 aulas
+
+| # | Aula | Tempo | O que ele sai fazendo |
+|---|---|---|---|
+| 1 | **O mapa** | 4 min | Entende onde vai chegar e como as peças se encaixam |
+| 2 | **Criando a sua secretária** | 8 min | Conta criada e base montada |
+| 3 | **O cérebro dela** | 10 min | Prompt pronto colado e personalizado pra clínica dele |
+| 4 | **Conectando no WhatsApp** | 7 min | Primeira mensagem respondida pela IA |
+| 5 | **Agendamento e confirmação** | 7 min | IA marcando sozinha + lembrete automático |
+| 6 | **Testar, ajustar e soltar** | 4 min | Checklist da primeira semana |
+| | **Total** | **40 min** | |
+
+⚠️ Distribuição proposta por mim — ajusta os tempos e os títulos como fizer sentido na
+gravação. O que não muda: **6 aulas, 40 minutos no total, aula curta.**
+
+**A aula 3 é a aula que vende.** É onde a maioria travaria sozinho e é onde você entrega
+tudo pronto. Ela tem que aparecer na VSL, na LP e nos criativos.
+
+### 1.3 O que vai junto
 
 ```
-NÚCLEO — Implementação guiada "40 Minutos"
-  Passo a passo, do zero à IA respondendo no WhatsApp da clínica.
-  Dividido em blocos curtos, cada um = uma parte da IA de pé.
-
-KIT PRONTO
-  Prompt-base da secretária (saúde/estética), pronto pra colar
+KIT PRONTO (o "tudo na mão")
+  Prompt-base da secretária, pronto pra colar
   Fluxo de agendamento
-  Fluxo de "quanto custa?" sem queimar o preço
+  Fluxo de "quanto custa?" sem queimar preço
   Fluxo de confirmação e lembrete
   Regras de transbordo pra humano
 
 BÔNUS 1 — Pack de Respostas que Agendam
-  As 20 mensagens que mais chegam numa clínica, com a resposta que converte
+  As 20 perguntas que mais chegam numa clínica, com a resposta que converte
 
 BÔNUS 2 — Checklist de Ativação em 7 Dias
-  O que olhar todo dia na 1ª semana pra IA não fazer besteira
+  O que olhar todo dia na primeira semana
 ```
 
-⚠️ **Se o formato for done-for-you (a NEXUS monta em 40 min), este playbook muda
-bastante**: R$97 com trabalho humano por venda não escala em perpétuo. Nesse caso o
-low ticket vira "diagnóstico + setup express" com limite de vagas/semana, e a
-estratégia de mídia é outra. Me fala qual dos dois e eu refaço a §1 e a §4.
-
-### 1.3 Empilhamento de valor
+### 1.4 Preço e ancoragem
 
 Ancoragem **real de mercado** (fonte: `produto/novo-braco-pesquisa.md`) — mais crível
-em B2B que valor inventado:
+em B2B que número inventado:
 
-| Item | Valor de referência |
+| Item | Valor |
 |---|---|
 | Implantação de chatbot no mercado | **R$2.000 – R$4.000** |
-| Mensalidade de agente/chatbot | R$150 – R$300/mês |
-| Secretária CLT (custo real com encargos) | R$2.500+/mês |
-| **Implementação guiada Secretária IA** | R$497 |
-| Kit Pronto (prompts + fluxos) | R$297 |
+| As 6 aulas | R$497 |
+| Kit Pronto | R$297 |
 | Bônus 1 — Pack de Respostas que Agendam | R$197 |
 | Bônus 2 — Checklist de Ativação 7 Dias | R$97 |
 | **Total percebido** | **R$1.088** |
 | **Preço** | **R$97 — pagamento único** |
 
-**Frase de ancoragem para copy e para a Bia:**
-> "Clínica paga de R$2.000 a R$4.000 pra alguém implantar isso. Aqui você monta a sua
-> por R$97, em 40 minutos."
+**Frase de ancoragem (usar em tudo):**
+> "Clínica paga de R$2.000 a R$4.000 pra alguém implantar isso.
+> Aqui você monta a sua por R$97, em 40 minutos."
 
-### 1.4 Garantia
+### 1.5 Garantia
 
 **7 dias, incondicional, sem perguntas.**
-Coerente com o trial de 7 dias que a NEXUS já pratica no CRM.
 
-> "Monta a sua. Se em 7 dias você achar que não valeu, devolvo os R$97. Sem perguntas."
+> "Entra, assiste, monta a sua. Se em 7 dias achar que não valeu, me manda uma
+> mensagem que eu devolvo os R$97. Sem perguntas."
 
-⚠️ **Atenção:** a regra validada "agente de IA fica fora do trial de 7 dias" é sobre
-**a IA da NEXUS operando na clínica** durante avaliação. Aqui é garantia de reembolso
-de um produto digital — não é trial de serviço. **Não conflita.** Mas registre: se o
-volume de reembolso passar de 8%, o problema é a promessa, não a garantia.
+Se o reembolso passar de 8%, o problema é a promessa, não a garantia.
 
 ---
 
-## 2. Como isso NÃO fere "ativação assistida, nunca desconto"
+## 2. Onde isso encaixa no negócio
 
-Esse é o ponto que precisa estar claro pro time inteiro, senão vira confusão comercial.
+Simples: **o R$97 não é a NEXUS mais barata. É outra coisa.**
 
-| | Secretária IA R$97 | NEXUS (backend) |
+| | Treinamento R$97 | NEXUS |
 |---|---|---|
-| O que é | Produto digital, o dono monta sozinho | Serviço, a NEXUS monta e opera |
-| Entrega | Ele mesmo, em 40 min | Ativação assistida pela NEXUS |
-| Escopo | **Atendimento e agendamento** | Atendimento + **captação (tráfego) + CRM + recuperação de orçamento + Aurora** |
-| Risco operacional | Do cliente | Da NEXUS |
-| Modelo | Pagamento único | Recorrente |
+| O que é | Ele monta sozinho, seguindo as aulas | A NEXUS monta e opera pra ele |
+| Resolve | **Atender** quem chega | **Encher a agenda** e não perder venda |
+| Inclui | Só a IA de atendimento | Tráfego + CRM + IA + recuperação de orçamento |
+| Modelo | R$97 uma vez | Mensalidade |
 
-**O R$97 não é a NEXUS mais barata. É outra coisa.**
-Ninguém desce de preço: a NEXUS continua entrando por ativação assistida. O low ticket
-é uma **porta lateral** que existe pra três coisas:
+Por isso o R$97 não briga com o preço da NEXUS e não vira desconto: **é uma porta
+lateral**, com escopo menor, pra quem quer fazer sozinho.
 
-1. **Comprar lead qualificado com lucro** — o comprador se paga, o CAC do backend cai.
-2. **Provar valor antes de vender recorrência** — quem viu a IA responder às 22h já
-   acredita. A venda do NEXUS deixa de ser promessa e vira upgrade.
-3. **Segmentar por ação, não por interesse** — quem paga R$97 é dono resolvido. Vira
-   a melhor base de LAL 1% que a NEXUS pode ter.
+**Pra que ele serve:**
 
-### O risco real (e como tratar)
+1. **Comprar lead com lucro** — a venda de R$97 paga a mídia, e você fica com o contato.
+2. **Provar antes de vender recorrência** — quem viu a IA responder às 22h já acredita.
+   A venda da NEXUS deixa de ser promessa e vira upgrade.
+3. **Lista de compradores** — quem paga R$97 é dono resolvido. Melhor base de LAL 1%
+   que a NEXUS pode ter.
 
-**Risco:** ensinar o cara a montar a própria IA canibaliza o backend.
-
-**Por que não canibaliza, se bem posicionado:**
-- O R$97 resolve **atender**. O NEXUS resolve **encher a agenda e não perder venda**.
-  São dores diferentes; quem resolve a primeira sente a segunda mais forte.
-- Manter uma IA sozinho dá trabalho: prompt desatualiza, IA erra, ninguém monitora.
-  A dor de manutenção é o gatilho natural do upsell no dia 5–7.
-- Quem quer fazer sozinho **já não ia comprar o NEXUS mesmo**. Melhor faturar R$97 e
-  ficar com o contato do que perder o lead pro concorrente.
-
-**Regra de posicionamento (obrigatória em toda peça):**
-Nunca vender o R$97 como "a solução completa". Sempre como **"a primeira peça"**.
+**A regra:** nunca vender o R$97 como solução completa. Sempre como **a primeira peça**.
+Quem quer fazer sozinho já não ia comprar a NEXUS mesmo — melhor faturar R$97 e ficar
+com o contato do que perder o lead pro concorrente.
 
 ---
 
@@ -159,158 +134,146 @@ Nunca vender o R$97 como "a solução completa". Sempre como **"a primeira peça
 ```
 NÍVEL 0  Conteúdo Instagram / Reels                      R$ 0
               ↓
-NÍVEL 1  Secretária IA em 40 Minutos                     R$ 97   ← este playbook
-              ↓  (order bump +R$27 · upsell na obrigado)
-NÍVEL 2  NEXUS Health — ativação assistida               ⚠️ R$300–600/mês + ativação
+NÍVEL 1  Secretária IA em 40 Minutos (6 aulas)           R$ 97   ← este playbook
+              ↓  (order bump +R$27 · upsell na página de obrigado)
+NÍVEL 2  NEXUS Health                                    ⚠️ definir preço
               ↓
-NÍVEL 3  NEXUS completo (agente + CRM + tráfego gerido)  ⚠️ definir
+NÍVEL 3  NEXUS completo (IA + CRM + tráfego gerido)      ⚠️ definir preço
 ```
 
-**Meta de negócio:** o low ticket paga a mídia. O lucro vem do Nível 2+.
-Se o R$97 empatar o tráfego e converter 10% pro backend, a máquina está de pé.
+> **Meta:** o low ticket paga a mídia. O lucro vem do Nível 2+.
+> Se o R$97 empatar o tráfego e 10% dos compradores virarem cliente, a máquina tá de pé.
 
 ---
 
-## 4. Funil
+## 4. O funil
 
-### 4.1 Rota principal — WhatsApp (recomendada)
-
-Usa a máquina que já roda hoje. Menos coisa nova pra quebrar.
+### Rota principal — LP com VSL
 
 ```
-Meta Ads (Click-to-WhatsApp)
+Meta Ads (criativo curto, sem preço)
         ↓
-   Bia qualifica  →  não é dono de clínica? encerra educado
+   LP  →  VSL do Kaian mostrando a plataforma por dentro
         ↓
-   Bia oferta (a partir da 4ª msg)
+   Checkout R$97 (+ order bump R$27)
         ↓
-   Link de checkout PagTrust (R$97 + order bump)
+   Página de obrigado  →  upsell NEXUS
         ↓
-   Entrega imediata
+   Entrega imediata das 6 aulas
         ↓
-   Nutrição 7 dias  →  upsell NEXUS
+   Nutrição 7 dias  →  ponte pro backend
 ```
 
-**Por que WhatsApp primeiro:** conversão de 15–25% contra 1–3% de página fria, a Bia
-já existe, e toda conversa vira dado — mesmo quem não compra vira lead do backend.
+**Por que LP e não WhatsApp:** o produto se explica melhor **mostrando** do que
+conversando. A VSL abre a plataforma por dentro — isso a Bia não consegue fazer no
+chat. E LP escala sem gargalo humano, que é o ponto do perpétuo.
 
-### 4.2 Rota secundária — LP direta
+### Rota secundária — Click-to-WhatsApp (fallback)
 
-Testar **depois** que a rota WhatsApp validar a oferta. Escala melhor, mas queima
-mais dinheiro pra aprender e não deixa lead pra trás.
+Se a LP não bater CPA < R$60 em 7 dias, testar a mesma oferta via Bia no WhatsApp
+(conversão de conversa é 15–25% contra 1–3% de página fria). O script está no §8.
 
-### 4.3 Não rodar as duas de cara
-
-Princípio da casa: **valida em um canal antes de escalar pra todos.**
-Rota WhatsApp primeiro. LP só depois de 4+ vendas validadas.
+**Não rodar as duas de cara.** Princípio da casa: valida em um canal antes de escalar.
 
 ---
 
-## 5. Landing Page (rota secundária)
+## 5. A Landing Page
 
-Estrutura Suby, mobile first, sem menu, CTA 4x+.
+📄 **Pronta em [`lp-secretaria-ia-97.html`](./lp-secretaria-ia-97.html).**
 
-| # | Bloco | Conteúdo |
+Dark mode, Inter, #00BFA5 só nos CTAs — identidade da casa. Mobile first, sem menu,
+sem saída, CTA 3x. Estrutura Suby em 12 blocos:
+
+| # | Bloco | O que faz |
 |---|---|---|
-| 1 | Chamada do público | "Dono de clínica, dentista, biomédica — isso é pra você." |
-| 2 | Headline | **"Monte a Sua Secretária IA em 40 Minutos"** |
-| 3 | Sub + ancoragem | "Clínica paga R$2.000 a R$4.000 pra implantar isso. Você faz por R$97." |
-| 4 | Fascination bullets | ver abaixo |
-| 5 | Dor | 3 cenas reais (ver abaixo) |
-| 6 | Epiphany bridge | "Eu montava isso pra 50+ clínicas cobrando caro. Um dia pensei: e se o próprio dono montasse?" |
-| 7 | Prova | 50+ clínicas · print da IA respondendo · depoimento real em vídeo |
-| 8 | Value stack | cards da §1.3 → R$1.088 por R$97 |
-| 9 | Preço + CTA | "QUERO MONTAR MINHA IA — R$97" |
-| 10 | Garantia | selo 7 dias incondicional |
-| 11 | FAQ | 6–8 objeções (§7.3) |
-| 12 | CTA final | botão + selos de segurança |
+| 1 | Chamada do público | "Pra dono de clínica, dentista, biomédica e esteticista" |
+| 2 | Headline | "Monte a sua Secretária de IA em 40 minutos" |
+| 3 | **VSL** | Vídeo do Kaian — a peça central |
+| 4 | Fascination bullets | 6 bullets de curiosidade |
+| 5 | Dor | 3 cenas com horário (22h47, feriado, meio do procedimento) |
+| 6 | Epiphany bridge | "Eu montava isso pras clínicas. Agora ensino você" |
+| 7 | **As 6 aulas** | Lista com tempo de cada uma — mata o medo de "é difícil" |
+| 8 | Prova | 50+ clínicas · case 26 consultas / R$91 mil · espaço pro depoimento |
+| 9 | Value stack + preço | R$1.088 → R$97 |
+| 10 | Garantia | Selo de 7 dias |
+| 11 | FAQ | 8 objeções, começando pelas de capacidade |
+| 12 | CTA final | "Amanhã de manhã ela já tá respondendo" |
 
-### Fascination bullets
+### Antes de publicar
 
-- O erro de atendimento que faz clínica perder 3 pacientes por dia — e ninguém percebe
-- Como responder toda mensagem em 5 segundos, às 22h, no domingo, sem contratar ninguém
-- O prompt de 4 linhas que transforma o WhatsApp da clínica em máquina de agendamento
-- Por que chatbot de menu ("digite 1") afasta paciente — e o que usar no lugar
-- A resposta exata pra "quanto custa?" que agenda em vez de queimar o preço
-- O que fazer quando a IA não sabe responder (o transbordo que salva a venda)
+- [ ] Trocar o placeholder do vídeo pelo embed da VSL
+- [ ] Ligar os 3 botões no checkout PagTrust
+- [ ] ⚠️ Responder o FAQ "vou precisar pagar mais alguma coisa?" com o valor exato
+- [ ] Trocar o card de depoimento pelo vídeo real do cliente
+- [ ] Meta Pixel + evento de compra
+- [ ] Testar no celular de verdade, não só no navegador
 
-### Blocos de dor (usar em LP e criativo)
+### Sobre o case na prova
 
-1. Paciente manda mensagem às 22h. Ninguém responde. Amanhã ele já agendou com outro.
-2. Secretária de folga no feriado. 14 mensagens paradas. Você descobre na segunda.
-3. Você no meio do procedimento. Celular vibrando. Você sabe que é lead — e não pode parar.
-
-### Regras de copy
-
-Parágrafo de 1 frase · frase curta · zero jargão · "você" sempre, nunca "nós" ·
-benefício > característica · específico ("40 minutos", "R$2.000–4.000") > genérico.
-
-### Design
-
-Mobile first · #00BFA5 só nos CTAs · Inter · dark mode · carrega < 3s · sem menu,
-sem saída, só CTA.
+Os números (26 consultas, R$91 mil) são de clínica atendida com o **pacote completo**
+da NEXUS, não com o treinamento de R$97. Na LP isso já está escrito com todas as
+letras logo abaixo dos números. **Não tirar essa ressalva** — prova inflada é
+reembolso e é risco jurídico.
 
 ---
 
-## 6. Criativos
+## 6. A VSL
 
-Regra validada da casa: **humanizado/coloquial > locução engessada** e
-**depoimento real de cliente > narração do fundador.**
-Logo: pelo menos 1 dos 5 criativos iniciais tem que ser depoimento de cliente real.
+🎬 **Roteiro completo em [`vsl-secretaria-ia-97.md`](./vsl-secretaria-ia-97.md).**
 
-### Estrutura (20–30s, 9:16, legenda obrigatória, sem preço no vídeo)
+4 a 6 minutos, gravada pelo Kaian, em 6 blocos:
 
 ```
-HOOK      0–3s   para o scroll
-AGITAÇÃO  3–10s  amplia a dor
-SOLUÇÃO  10–20s  apresenta o produto
-CTA      20–25s  uma ação só
+0:00  HOOK        "custa 2 a 4 mil no mercado, eu já montei pra 50+ clínicas"
+0:20  DOR         a mensagem das 22h47 que ninguém respondeu
+1:00  QUEBRA      "não é falta de lead, é falta de resposta"
+1:40  PLATAFORMA  ⭐ a demo por dentro — o bloco mais importante
+4:00  OFERTA      as 6 aulas + kit + R$97
+4:50  GARANTIA    7 dias + CTA
 ```
 
-### Os 5 criativos do teste inicial
+**O bloco da plataforma (1:40–4:00) é o que o Kaian pediu e é onde a venda acontece.**
+Ordem da demo: conversa real da IA respondendo → painel por dentro → **o prompt sendo
+colado e trocado ao vivo** → agendamento caindo na agenda.
 
-**C1 — Autoridade (Kaian)**
-> Hook: "Clínica paga de 2 a 4 mil pra implantar uma IA no WhatsApp. Eu vou te mostrar como montar a sua em 40 minutos."
-> Agitação: "Enquanto isso, o paciente que te chamou às 22h já agendou com outro."
-> Solução: "Uma secretária de IA que responde em 5 segundos, 24h, sem código e sem contratar ninguém."
-> CTA: "Me chama no WhatsApp que eu te mostro."
+O momento do prompt trocado ao vivo é o que prova "é fácil mesmo" melhor que qualquer
+frase. Não pular.
+
+⚠️ **LGPD:** nenhum dado identificável de paciente na gravação de tela.
+
+---
+
+## 7. Criativos
+
+Regras validadas da casa: **humanizado/coloquial > locução engessada** e
+**depoimento real > narração do fundador.** Pelo menos 1 dos 5 tem que ser cliente real.
+
+Estrutura: 20–30s · 9:16 · legenda obrigatória · **sem preço no vídeo** · corte a cada
+2–3s · tom de quem sabe, não de quem vende.
+
+**C1 — Autoridade**
+> "Clínica paga de 2 a 4 mil pra implantar uma IA no WhatsApp. Eu já montei pra mais de 50. Agora eu vou te ensinar a montar a sua — em 40 minutos, sem código."
 
 **C2 — Pattern interrupt**
-> Hook: "Eu parei de contratar secretária." (pausa 1s)
-> Agitação: "Não porque não gosto. Porque secretária dorme, folga e adoece. Lead não."
-> Solução: "Montei uma IA que atende 24h. Levou 40 minutos."
-> CTA: "Chama no WhatsApp."
+> "Eu parei de contratar secretária." *(pausa)* "Não porque não gosto. Porque secretária dorme, folga e adoece. Lead não."
 
 **C3 — Pergunta de dor**
-> Hook: "Quantas mensagens ficaram sem resposta no WhatsApp da sua clínica essa semana?"
-> Agitação: "Cada uma dessas era um paciente. Que agora é paciente de outro."
-> Solução: "Dá pra resolver hoje. Em 40 minutos, sem código."
-> CTA: "Chama no WhatsApp."
+> "Quantas mensagens ficaram sem resposta no WhatsApp da sua clínica ontem à noite? Cada uma era um paciente. Que hoje é paciente de outro."
 
-**C4 — Depoimento real** ⚠️ precisa gravar com cliente
-> Cliente na própria clínica, celular na mão, mostrando a IA respondendo.
-> "Antes eu respondia de madrugada. Agora ela responde por mim."
-> Sem roteiro decorado. Quanto mais cru, melhor.
+**C4 — Depoimento real** ⚠️ agendar gravação
+> Cliente na própria clínica, celular na mão, mostrando a IA respondendo. Sem roteiro. Quanto mais cru, melhor.
 
-**C5 — Screen recording**
-> Tela do WhatsApp: paciente pergunta → IA responde → agenda marcada. Tempo real.
-> Voz por cima, coloquial, sem locução.
+**C5 — "Não precisa saber nada"** ← ataca a objeção principal
+> "Você não precisa saber programar. Olha aqui: esse texto é o cérebro da IA. Vem pronto. Você cola e troca o nome da sua clínica. Pronto, ela tá conversando."
+> *Tela gravada mostrando a troca acontecendo.*
 
-### Produção
-
-Vertical 9:16 · selfie olhando pra câmera · corte a cada 2–3s · fundo de clínica ou
-escritório · tom de quem sabe, não de quem vende · gravar 3 takes · **sem preço**.
-
-### Teste A/B
-
-Uma variável por vez. Mesmo roteiro + hooks diferentes primeiro. Depois CTA
-(WhatsApp vs link). Nunca mudar tudo junto.
+**Teste A/B:** uma variável por vez. Mesmo roteiro + hooks diferentes primeiro.
 
 ---
 
-## 7. Meta Ads
+## 8. Meta Ads
 
-### 7.1 Estrutura ABO 1-1-1
+### Estrutura ABO 1-1-1
 
 | Campanha | Público | Budget |
 |---|---|---|
@@ -318,10 +281,13 @@ Uma variável por vez. Mesmo roteiro + hooks diferentes primeiro. Depois CTA
 | CP02 | Interesse: dentista + estética + dono de clínica | R$30/dia |
 | CP03 | Aberto (broad) — o criativo filtra | R$30/dia |
 
-Objetivo **Mensagens** (Click-to-WhatsApp) · subir 23:59 · **não mexer por 48h**.
-Investimento de validação: **R$90/dia × 4 dias = R$360**.
+Objetivo **Conversão (compra)** · subir 23:59 · **não mexer por 48h**.
+Validação: **R$90/dia × 4 dias = R$360**.
 
-### 7.2 Rotina de otimização
+⚠️ Se o volume de compra for baixo demais pro Meta otimizar nos primeiros dias, otimizar
+por **InitiateCheckout** e migrar pra Compra quando passar de ~15 eventos/semana.
+
+### Rotina
 
 | Dia | Ação |
 |---|---|
@@ -330,189 +296,188 @@ Investimento de validação: **R$90/dia × 4 dias = R$360**.
 | 5 | Escala o vencedor +20–30%. Entra criativo novo no melhor público. |
 | 7+ | Duplica a campanha vencedora com budget maior. |
 
-### 7.3 Escala
+### Escala e recuo
 
-Vertical: +20–30% a cada 48h · Horizontal: duplica com público novo ·
-Recuo: CPA sobe 30%+ por 2 dias → volta ao budget anterior · **nunca dobrar de uma vez.**
+Vertical +20–30% a cada 48h · horizontal duplicando com público novo · recuo se CPA
+subir 30%+ por 2 dias · **nunca dobrar de uma vez.**
+
+### Remarketing (ligar no dia 3)
+
+| Público | Criativo |
+|---|---|
+| Assistiu 50%+ da VSL, não comprou | C5 ("não precisa saber nada") |
+| Chegou no checkout, não pagou | Garantia de 7 dias em 15s |
 
 ---
 
-## 8. Fechamento no WhatsApp (Bia)
+## 9. Script da Bia (rota WhatsApp — fallback)
 
-Segue as regras validadas em `fluxo-bia.md`, sem exceção:
+Só entra se a LP não performar. Segue as regras de `fluxo-bia.md` sem exceção:
 **preço só a partir da 4ª mensagem · uma pergunta por vez · ✅ no lugar de bullet.**
 
-### 8.1 Fluxo
-
 ```
-MSG 1 — Abre e qualifica
-"Oi! Aqui é a Bia da NEXUS 😊
-Você tem clínica ou consultório?"
+MSG 1 — "Oi! Aqui é a Bia da NEXUS 😊 Você tem clínica ou consultório?"
 
-MSG 2 — Escuta a dor (uma pergunta só)
-"Boa! E hoje, quem responde o WhatsApp da clínica?"
+MSG 2 — "Boa! E hoje, quem responde o WhatsApp da clínica?"
 
-MSG 3 — Diagnostica e agita
-"Entendi. Isso é o que mais vejo por aqui —
-mensagem que chega fora do horário quase sempre vira paciente do concorrente.
-Posso te mostrar como as clínicas daqui resolveram isso?"
+MSG 3 — "Entendi. É o que mais vejo por aqui — mensagem que chega fora do horário
+quase sempre vira paciente do concorrente. Posso te mostrar como as clínicas daqui
+resolveram isso?"
 
-MSG 4 — Oferta + ancoragem + preço (só agora)
-"Então: montei um passo a passo onde você monta a sua Secretária IA em 40 minutos.
+MSG 4 — "Então: o Kaian gravou um passo a passo de 6 aulas curtas onde você monta a
+sua Secretária de IA em 40 minutos.
 
-✅ Ela responde em segundos, 24h
-✅ Agenda sozinha
-✅ Sem código e sem contratar ninguém
+✅ Não precisa saber programar
+✅ O prompt e os fluxos vêm prontos, é só colar
+✅ Ela responde em segundos, 24h, e agenda sozinha
 
 Clínica paga de R$2.000 a R$4.000 pra implantar isso.
 Aqui é R$97, pagamento único, com 7 dias de garantia.
 
 Quer montar a sua?"
 
-MSG 5 — Só depois do SIM: link e silêncio
-"Massa! Aqui o acesso 👇
-[LINK]
+MSG 5 (só depois do SIM) — "Massa! Aqui o acesso 👇 [LINK]
 Qualquer coisa na montagem, é só me chamar."
 ```
 
-**Regra dura: depois do link, a Bia cala a boca.** Continuar vendendo depois do SIM
-derruba conversão.
+**Depois do link, a Bia cala a boca.** Continuar vendendo depois do SIM derruba conversão.
 
-### 8.2 Objeções — EMPATIA → REFRAME → PROVA → PERGUNTA
+### Objeções — EMPATIA → REFRAME → PROVA → PERGUNTA
 
 | Objeção | Resposta |
 |---|---|
-| "Tá caro" | "Entendo! Mas pensa: um paciente que você perde vale mais que R$97. Ela se paga no primeiro agendamento. Quer montar a sua?" |
-| "Não sou de tecnologia" | "É exatamente pra quem não é 😄 É passo a passo, você só segue e vai colando o que já vem pronto. Se travar, me chama. Bora?" |
-| "Não tenho tempo" | "São 40 minutos. Menos que um procedimento. E depois ela trabalha 24h por você. Quer começar hoje?" |
+| "Não sou de tecnologia" | "É exatamente pra quem não é 😄 São 6 aulas curtas e o difícil já vem pronto — você só cola e troca o nome da clínica. Bora?" |
+| "Tá caro" | "Entendo! Mas um paciente perdido vale mais que R$97. Ela se paga no primeiro agendamento. Quer montar a sua?" |
+| "Não tenho tempo" | "40 minutos. Menos que um procedimento. E depois ela trabalha 24h por você. Começa hoje?" |
 | "Já tenho secretária" | "Ótimo — a IA não substitui ela, tira o WhatsApp das costas dela. Fora do horário quem responde é a IA. Faz sentido?" |
-| "IA é fria com paciente" | "Concordo com chatbot de 'digite 1'. Por isso a nossa conversa como gente. Te mando um print de uma conversa real?" |
+| "IA é fria com paciente" | "Concordo com chatbot de 'digite 1'. Por isso a aula 3 é inteira sobre o prompt: ela conversa como gente. Te mando print de uma conversa real?" |
+| "E se eu travar?" | "Você me chama. Quem compra tem canal direto de suporte." |
 | "Vou pensar" | "Fechado! Só uma coisa: hoje, quantas mensagens ficam sem resposta por dia aí?" |
-| "Já tentei e não funcionou" | "Entendo, a maioria monta errado — deixa a IA falando preço cedo demais. É justamente o que o passo a passo corrige. Quer ver?" |
 
-### 8.3 Follow-up
-
-| Momento | Mensagem |
-|---|---|
-| 30 min | "Conseguiu ver o link?" |
-| 24 h | "Passando aqui rapidinho — ficou alguma dúvida?" |
-| 48 h | "Última vez que te chamo 😄 Se quiser montar depois, é só me chamar." |
-
-Três toques. Depois disso, para — e o contato vai pra base de remarketing do backend.
+**Follow-up:** 30 min · 24h · 48h. Três toques e para.
 
 ---
 
-## 9. Monetização por venda
+## 10. Monetização por venda
 
 | Peça | Preço | Taxa esperada |
 |---|---|---|
 | Produto principal | R$97 | — |
 | **Order bump:** Pack de 10 Scripts Prontos | +R$27 | 15–30% |
-| **Upsell (obrigado):** ativação NEXUS, 1º mês com condição | ⚠️ definir | 5–10% |
+| **Upsell (obrigado):** ativação NEXUS, 1º mês com condição de aluno | ⚠️ definir | 5–10% |
 
-**AOV estimado:** R$97 + (R$27 × 20%) ≈ **R$102** por venda, antes do upsell.
+**AOV estimado:** ≈ **R$102** por venda, antes do upsell.
 
 ---
 
-## 10. Pós-venda e ponte pro backend
+## 11. Pós-venda e ponte pro backend
 
-É aqui que o dinheiro de verdade acontece. O R$97 é pedágio; o NEXUS é o destino.
+O R$97 é pedágio. A NEXUS é o destino.
 
 | Dia | Ação | Objetivo |
 |---|---|---|
-| 0 | Entrega imediata + boas-vindas no WhatsApp | Zerar ansiedade de compra |
-| 1 | "Conseguiu acessar?" | Destravar quem não começou |
-| 3 | "Sua IA já tá respondendo? Manda print" | **Gerar o momento aha** |
-| 5 | Conteúdo: "o que a IA sozinha NÃO resolve" | Abrir a ferida do backend |
+| 0 | Entrega imediata + boas-vindas | Zerar ansiedade de compra |
+| 1 | "Conseguiu ver a aula 1?" | Destravar quem não começou |
+| 3 | "Sua IA já tá respondendo? Manda print" | **Momento aha** |
+| 5 | "O que a IA sozinha NÃO resolve" | Abrir a ferida do backend |
 | 7 | Oferta NEXUS com condição de aluno | Upsell |
 | 10 | Convite pra demo de 15 min (Cayan) | Fechar |
 | 14 | Pedido de depoimento em vídeo | **Alimenta o criativo C4** |
 
-**A virada do dia 5** é o coração do funil. A mensagem tem que dizer, sem soberba:
-a IA que você montou atende quem chega — ela não faz chegar mais gente, não organiza
-o pipeline e não recupera orçamento parado. Isso é NEXUS.
+**A virada do dia 5** é o coração do funil. Sem soberba: a IA que ele montou atende
+quem chega — ela não faz chegar mais gente, não organiza pipeline e não recupera
+orçamento parado. Isso é NEXUS.
 
 ---
 
-## 11. Métricas
+## 12. Métricas
 
-### Benchmarks (low ticket R$97, rota WhatsApp)
+### Benchmarks (LP fria, R$97)
 
 | Métrica | Alvo |
 |---|---|
-| CPL (conversa iniciada) | R$10–20 |
-| Conversa → venda | 15–25% |
+| CTR do criativo | > 1,5% |
+| Retention da VSL até 50% | > 35% |
+| Conversão da LP | 1–3% |
 | CPA | < R$60 |
 | Order bump | 15–30% |
-| Upsell obrigado | 5–10% |
+| Upsell na obrigado | 5–10% |
 | Reembolso | < 8% |
-| **Compradores → backend NEXUS** | **10–15%** |
+| **Compradores → NEXUS** | **10–15%** |
 
-### Critérios de decisão
+### Decisões
 
 | Situação | Ação |
 |---|---|
 | ROI > 1,5x por 3 dias | Escala +30% |
-| ROI 0,8–1,5x | Mexe em criativo ou público, não na oferta |
-| ROI < 0,8x por 3 dias | Pausa e revisa a oferta |
-| 4+ vendas com R$360 investido | **Produto validado** → libera LP e escala |
-| 0 vendas em 7 dias | Revisa tudo: oferta, criativo, script da Bia |
+| ROI 0,8–1,5x | Mexe em criativo ou público — não na oferta |
+| ROI < 0,8x por 3 dias | Pausa e revisa |
+| CTR bom + LP não converte | Problema é VSL ou preço, não mídia |
+| CTR ruim | Problema é criativo |
+| Retention cai antes de 1:40 | Testar VSL curta de 2 min |
+| 4+ vendas com R$360 | **Validado** → escala |
+| 0 vendas em 7 dias | Revisa tudo: oferta, VSL, LP, criativo |
 
 ### KPI-mãe
 
 > **CAC do backend NEXUS.** Se o low ticket empatar a mídia e ainda entregar
-> compradores que viram cliente recorrente, o CAC do NEXUS vai a zero.
-> É esse o número que decide se a máquina fica de pé.
+> compradores que viram cliente recorrente, o CAC da NEXUS vai a zero. É esse número
+> que decide se a máquina fica de pé.
 
 ---
 
-## 12. Checklist de lançamento
+## 13. Checklist de lançamento
 
-**Antes de subir mídia**
+**Produto (Kaian)**
+- [ ] ⚠️ Definir a plataforma onde o comprador monta a IA — **P0, trava a gravação**
+- [ ] Gravar as 6 aulas
+- [ ] Montar o Kit Pronto: prompt-base + 4 fluxos
+- [ ] Escrever Bônus 1 (20 respostas) e Bônus 2 (checklist 7 dias)
 
-- [ ] ⚠️ Definir a plataforma onde o comprador monta a IA (P0 — Kaian + Marco)
-- [ ] ⚠️ Definir preço oficial do backend NEXUS (P0 — Kaian)
-- [ ] Gravar a implementação guiada de 40 min (Kaian)
-- [ ] Montar o Kit Pronto: prompt-base + 4 fluxos (Kaian + Marco)
-- [ ] Escrever Bônus 1 e 2
-- [ ] Subir entrega e testar acesso ponta a ponta (Marco)
-- [ ] Checkout PagTrust com order bump de R$27 (Marco)
-- [ ] Página de obrigado com upsell NEXUS (Marco)
-- [ ] Script novo da Bia carregado no GPTMaker e testado em 5 conversas (Cayan)
-- [ ] Gravar C1, C2, C3, C5 (Kaian) + C4 com cliente real (Jennifer agenda)
+**VSL (Kaian)**
+- [ ] Preparar conversa real da IA pra demo (LGPD: sem dado de paciente)
+- [ ] Gravar rosto e tela em blocos separados
+- [ ] Montar + legendas queimadas
+
+**Infra (Marco)**
+- [ ] Hospedar a entrega e testar acesso ponta a ponta
+- [ ] Checkout PagTrust + order bump R$27
+- [ ] Página de obrigado com upsell NEXUS
+- [ ] Publicar a LP + Meta Pixel + evento de compra
+- [ ] Testar no celular de verdade
+
+**Criativos (Kaian + Jennifer)**
+- [ ] Gravar C1, C2, C3, C5
+- [ ] Agendar e gravar C4 com cliente real
 
 **Subida**
-
-- [ ] 3 campanhas ABO, R$30/dia cada, objetivo Mensagens, 23:59
+- [ ] 3 campanhas ABO, R$30/dia, objetivo Conversão, 23:59
 - [ ] Não mexer 48h
-
-**Depois**
-
-- [ ] Dia 3: pausa o pior público
-- [ ] Dia 5: escala o vencedor, entra criativo novo
-- [ ] Dia 7: decide pelos critérios da §11
-- [ ] Nutrição de 7 dias ativa e testada
+- [ ] Dia 3: pausa o pior público + liga remarketing
+- [ ] Dia 5: escala o vencedor
+- [ ] Dia 7: decide pelos critérios do §12
 - [ ] Ao validar: registrar aprendizados em `principios-validados.md`
 
 ---
 
-## 13. Regras que este playbook não pode quebrar
+## 14. Regras que este playbook não quebra
 
-Herdadas de `principios-validados.md`. Se algo aqui conflitar, o princípio vence.
+Herdadas de `principios-validados.md`. Conflitou, o princípio vence.
 
-- ✅ **Ativação assistida, nunca desconto** — o R$97 é produto separado, não NEXUS mais
-  barata. Ver §2.
+- ✅ **Ativação assistida, nunca desconto** — o R$97 é produto separado, com escopo
+  menor. Não é a NEXUS mais barata. Ver §2.
 - ✅ **Criativo humanizado > locução engessada** — nenhum criativo com locução.
-- ✅ **Depoimento real > narração do fundador** — C4 é obrigatório na primeira rodada.
-- ✅ **Preço só a partir da 4ª mensagem** — respeitado na §8.1.
-- ✅ **Sem perguntas empilhadas · ✅ no lugar de bullet** — respeitado na §8.1.
-- ✅ **Valida em um canal antes de escalar** — WhatsApp primeiro, LP depois.
+- ✅ **Depoimento real > narração do fundador** — C4 obrigatório na 1ª rodada.
+- ✅ **Preço só a partir da 4ª mensagem** — respeitado no §9.
+- ✅ **Sem perguntas empilhadas · ✅ no lugar de bullet** — respeitado no §9.
+- ✅ **Valida em um canal antes de escalar** — LP primeiro; WhatsApp só se a LP falhar.
 
 ---
 
 ## Ver também
 
+- [`lp-secretaria-ia-97.html`](./lp-secretaria-ia-97.html) — a página de vendas
+- [`vsl-secretaria-ia-97.md`](./vsl-secretaria-ia-97.md) — roteiro da VSL
 - [`principios-validados.md`](./principios-validados.md)
-- [`ativacao-assistida.md`](./ativacao-assistida.md)
 - [`fluxo-bia.md`](./fluxo-bia.md)
 - [`../produto/visao-geral.md`](../produto/visao-geral.md)

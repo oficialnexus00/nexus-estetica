@@ -182,27 +182,50 @@ Se a LP não bater CPA < R$60 em 7 dias, testar a mesma oferta via Bia no WhatsA
 📄 **Pronta em [`lp-secretaria-ia-97.html`](./lp-secretaria-ia-97.html).**
 
 Dark mode, Inter, #00BFA5 só nos CTAs — identidade da casa. Mobile first, sem menu,
-sem saída, CTA 3x. Estrutura Suby em 12 blocos:
+sem saída, CTA 4x (3 na página + barra fixa no mobile).
 
 | # | Bloco | O que faz |
 |---|---|---|
-| 1 | Chamada do público | "Pra dono de clínica, dentista, biomédica e esteticista" |
-| 2 | Headline | "Monte a sua Secretária de IA em 40 minutos" |
-| 3 | **VSL** | Vídeo do Kaian — a peça central |
-| 4 | Fascination bullets | 6 bullets de curiosidade |
-| 5 | Dor | 3 cenas com horário (22h47, feriado, meio do procedimento) |
-| 6 | Epiphany bridge | "Eu montava isso pras clínicas. Agora ensino você" |
-| 7 | **As 6 aulas** | Lista com tempo de cada uma — mata o medo de "é difícil" |
-| 8 | Prova | 50+ clínicas · case 26 consultas / R$91 mil · espaço pro depoimento |
-| 9 | Value stack + preço | R$1.088 → R$97 |
+| 1 | Hero | Headline + 3 chips de objeção + **VSL** |
+| 2 | **Conversa da IA** | ⭐ Mockup de WhatsApp: a IA agendando às 22h47 |
+| 3 | Dor | 3 cenas com horário na margem (22h47, feriado, 14h20) |
+| 4 | Hoje × Depois | Comparativo lado a lado |
+| 5 | Epiphany bridge | "Eu montava isso pras clínicas. Agora ensino você" |
+| 6 | **As 6 aulas** | Timeline com tempo de cada uma; aula 3 destacada |
+| 7 | O que você leva | 6 bullets de resultado |
+| 8 | Prova | 50+ clínicas · 26 consultas / R$91 mil · espaço pro depoimento |
+| 9 | Oferta | Stack R$1.088 → R$97 |
 | 10 | Garantia | Selo de 7 dias |
 | 11 | FAQ | 8 objeções, começando pelas de capacidade |
 | 12 | CTA final | "Amanhã de manhã ela já tá respondendo" |
 
+### As decisões de conversão da página
+
+**O mockup da conversa (bloco 2) é a peça mais importante depois da VSL.**
+Renderiza uma conversa real de WhatsApp — paciente pergunta às 22h47, a IA responde em
+4 segundos, conduz sem queimar o preço e fecha o agendamento em 5 minutos. O visitante
+**vê o produto funcionando antes de dar play no vídeo e antes de ler qualquer promessa.**
+Quem sai da página sem assistir a VSL já viu a prova.
+
+Essa conversa também é o gabarito do que a IA precisa fazer: pergunta única por vez,
+✅ no lugar de bullet, e preço tratado com avaliação em vez de valor solto — as mesmas
+regras do `fluxo-bia.md`.
+
+**Aula 3 destacada** com selo "a que resolve tudo". É onde o comprador travaria sozinho
+e é o maior argumento de "eu dou tudo na mão".
+
+**Chips no hero** — "sem código", "sem saber programar", "sem contratar ninguém" —
+matam a objeção de capacidade acima da dobra, antes do preço aparecer.
+
+**Barra fixa no mobile** aparece depois do hero e some quando o bloco de oferta está na
+tela (pra não competir com o botão principal). 70%+ do tráfego é mobile.
+
 ### Antes de publicar
 
 - [ ] Trocar o placeholder do vídeo pelo embed da VSL
-- [ ] Ligar os 3 botões no checkout PagTrust
+- [ ] Ligar os 4 botões no checkout PagTrust (3 na página + barra fixa)
+- [ ] ⚠️ Revisar a conversa do mockup com o Kaian — ela precisa refletir o que a IA
+  realmente responde, senão vira promessa que o produto não cumpre
 - [ ] ⚠️ Responder o FAQ "vou precisar pagar mais alguma coisa?" com o valor exato
 - [ ] Trocar o card de depoimento pelo vídeo real do cliente
 - [ ] Meta Pixel + evento de compra

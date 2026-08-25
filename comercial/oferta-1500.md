@@ -95,10 +95,10 @@ o investimento em mídia.
 > Reaproveita a ESTRUTURA punchy do concorrente (Ismael), mas com os deliverables
 > REAIS da NEXUS + a reversão de risco agressiva.
 
-**Abertura**
-> "Você que tem clínica ou consultório, deixa eu te mostrar tudo que eu te entrego
-> no nosso pacote de mil e quinhentos por mês. E fica até o final, porque tem uma
-> parte que nenhuma agência tem coragem de fazer."
+**Abertura (PREÇO é o hook — na tela: "R$1.500/mês" gigante nos 2 primeiros seg)**
+> "Tráfego ilimitado, os vídeos dos seus anúncios, e uma secretária de IA que agenda
+> paciente 24 horas por dia. Quanto você acha que custa tudo isso? Mil e quinhentos
+> reais por mês. Você que tem clínica ou consultório, deixa eu te mostrar o que entra."
 
 **A lista**
 > "Primeira coisa: gestão de tráfego ilimitada — quantas campanhas precisar,
@@ -126,14 +126,14 @@ o investimento em mídia.
 O corpo (a lista + a garantia) é o mesmo. Só troca o gancho de abertura pra testar
 qual prende mais.
 
-**Abertura 1 — callout + loop**
-> "Você que tem clínica ou consultório, deixa eu te mostrar tudo que eu te entrego no
-> nosso pacote de mil e quinhentos por mês. E fica até o final, porque tem uma parte
-> que nenhuma agência tem coragem de fazer."
+**Abertura 1 — value-tease → PREÇO (fechada)**
+> "Tráfego ilimitado, os vídeos dos seus anúncios, e uma secretária de IA que agenda
+> paciente 24 horas por dia. Quanto você acha que custa tudo isso? Mil e quinhentos
+> reais por mês. Você que tem clínica ou consultório, deixa eu te mostrar o que entra."
 
-**Abertura 2 — oferta/desafio**
-> "Deixa eu te fazer uma oferta que nenhuma agência vai ter coragem de fazer. Se você
-> tem clínica ou consultório, presta atenção nesses 40 segundos."
+**Abertura 2 — PREÇO na primeira palavra / comparação**
+> "Mil e quinhentos reais por mês. É o que custa pra montar a máquina de agendamento
+> inteira da tua clínica. Uma agência te cobra 5 mil só pelo tráfego. Presta atenção."
 
 Depois de qualquer uma, emenda a MESMA lista (tráfego ilimitado → vídeos (você grava)
 → funil → secretária de IA 24h) e o mesmo fecho (sem contrato, sem fidelidade, não

@@ -118,3 +118,31 @@ o investimento em mídia.
 > "E o final que ninguém tem coragem: sem contrato, sem fidelidade, não gostou do
 > resultado cancela na hora. Porque eu não vivo de te prender. Vivo de encher a tua
 > agenda. Clica aqui embaixo e fala comigo. Bora encher essa agenda."
+
+---
+
+## Variações pra teste (mesma oferta + garantia; muda só o ângulo)
+
+### Variação A — "A secretária que não dorme" (ancoragem/dor)
+> HOOK: "Uma secretária pra tua clínica custa uns 2 mil por mês, trabalha 8h e tira
+> folga. E se eu te desse uma que trabalha 24h, nunca falta, e ainda traz paciente,
+> por menos que isso?"
+> CORPO: "É o que a NEXUS faz. Por 1.500/mês você tem uma secretária de IA que
+> responde na hora, qualifica e agenda sozinha 24h. E vem com a gestão de tráfego
+> que enche a agenda e os vídeos dos anúncios (a gente escreve o roteiro, você grava,
+> a gente edita)."
+> FECHO: "A gente já fez 91 mil pra uma clínica com 1.555 de investimento. Sem
+> contrato, sem fidelidade, não gostou cancela na hora. Chama aqui embaixo."
+
+### Variação B — "Prova primeiro" (case/resultado)
+> HOOK: "Uma clínica investiu 1.500 reais e agendou 26 consultas em 30 dias. Deixa eu
+> te contar como, e como você faz igual."
+> CORPO: "Não foi sorte. Foi tráfego trazendo o paciente certo e uma secretária de IA
+> respondendo e agendando cada lead na hora, 24h. É isso que a gente entrega por
+> 1.500/mês: tráfego ilimitado, os vídeos dos anúncios (você só grava, a gente edita)
+> e o CRM com a secretária que nunca dorme."
+> FECHO: "E o melhor: sem contrato, sem fidelidade. Não gostou, cancela na hora.
+> Chama aqui embaixo."
+
+**Teste:** constante = oferta + garantia; variável = ângulo/hook. Grava as 3 (lista,
+secretária, case), sobe as 3, e escala a de melhor retenção + CPL.

@@ -3,6 +3,10 @@
 > Oferta de entrada pra fazer caixa rápido, vendida pro público quente
 > (lista, audiência, directs, clínicas que já falaram com o Kaian).
 > Posicionamento: performance (agenda cheia), não "social media".
+>
+> **ICP: clínicas e consultórios** (estética, odonto, médico, fisio, etc.) que
+> captam paciente pelo WhatsApp. Oferta/LP falam amplo ("clínicas e consultórios");
+> nos criativos de teste, usar callout de nicho pra mais retenção.
 
 ## O que entrega (deliverables)
 - 🎯 **Gestão de tráfego ILIMITADA** — quantas campanhas precisar (WhatsApp,
@@ -92,9 +96,9 @@ o investimento em mídia.
 > REAIS da NEXUS + a reversão de risco agressiva.
 
 **Abertura**
-> "Deixa eu te mostrar tudo que você recebe no nosso pacote de mil e quinhentos por
-> mês. E presta atenção no final, porque tem uma parte que nenhuma agência tem
-> coragem de fazer."
+> "Você que tem clínica ou consultório, deixa eu te mostrar tudo que eu te entrego
+> no nosso pacote de mil e quinhentos por mês. E fica até o final, porque tem uma
+> parte que nenhuma agência tem coragem de fazer."
 
 **A lista**
 > "Primeira coisa: gestão de tráfego ilimitada — quantas campanhas precisar,

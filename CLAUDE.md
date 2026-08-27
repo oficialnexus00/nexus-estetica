@@ -2,7 +2,8 @@
 
 > Este arquivo é o cérebro do repositório. Ele é lido pelo Claude Code no início de
 > cada sessão e concentra tudo que a IA precisa saber pra agir como sócio do Kaian.
-> Os arquivos das pastas (`empresa/`, `produto/`, `comercial/`, `stack/`, `pmo/`)
+> Os arquivos das pastas (`empresa/`, `produto/`, `comercial/`, `stack/`, `pmo/`,
+> `clientes/`)
 > são o detalhamento. Quando algo mudar, atualize aqui primeiro.
 
 ---
@@ -58,6 +59,13 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 - PMO: prioridade P0–P3, dono nomeado, KPI.
 - Lovable: Kaian manda print → Claude devolve **um prompt preciso** pro Lovable.
 - ClickUp: escrita exige aprovar o "Permitir" na UI — avisar **antes** de responder.
+
+## Clientes
+
+Cada cliente ativo tem um dossiê em `clientes/<slug>/`: briefing, acessos, oferta,
+funil, agente de IA, tráfego, integração técnica, PMO de ativação D0–D30 e log
+semanal de resultado. Cliente novo nasce de `cp -r clientes/_modelo clientes/<slug>`.
+**Nunca** commitar senha, token ou dado de paciente nessas pastas.
 
 ## Princípios de negócio já validados
 

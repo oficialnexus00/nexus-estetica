@@ -36,10 +36,21 @@ remota, sede em Balneário Camboriú/SC.
 │   └── fluxo-bia.md              # Regras do fluxo da agente Bia
 ├── stack/                        # Tecnologia
 │   └── stack-tecnico.md          # Ferramentas e arquitetura
-└── pmo/                          # Gestão
-    ├── como-trabalhamos.md       # Método PMO (P0–P3, dono, KPI)
-    └── pendencias.md             # Backlog de decisões do Kaian
+├── pmo/                          # Gestão
+│   ├── como-trabalhamos.md       # Método PMO (P0–P3, dono, KPI)
+│   └── pendencias.md             # Backlog de decisões do Kaian
+└── clientes/                     # Um dossiê por cliente ativo
+    ├── _modelo/                  # Template — duplicar pra abrir cliente novo
+    └── <cliente>/                # Briefing → oferta → agente → tráfego → resultado
 ```
+
+## Abrir um cliente novo
+
+```bash
+cp -r "clientes/_modelo" "clientes/nome-da-clinica"
+```
+
+Depois siga o `COMECE-AQUI.md` da pasta. Detalhes em [`clientes/README.md`](./clientes/README.md).
 
 ## Como manter atualizado
 

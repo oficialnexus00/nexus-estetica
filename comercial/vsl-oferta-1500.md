@@ -1,81 +1,80 @@
-# VSL da LP da Oferta (R$ 1.500) — versão 10/10
+# VSL da LP da Oferta (R$ 1.500) — v2 (com ponderações do Kaian)
 
-> Para a LP `lp-oferta-1500.html`. Você (Kaian) apresenta, lendo no teleprompter.
-> Grava bloco a bloco. Tom natural, sem pressa. É a VSL de FILTRO (aprofunda o que
-> o anúncio já prometeu).
+> Foco: TRÁFEGO é o produto principal. Nicho: SÓ ESTÉTICA (diferencial).
+> Você (Kaian) apresenta, lendo no teleprompter. Grava bloco a bloco.
+> Ponderações incorporadas: hook forte nos 3s, autoridade (9 anos), tráfego = 80%
+> criativo e não terceirizado, diferencial "só estética", "espera que tem mais"
+> para o sistema, case real (+ 2º case).
 
 ---
 
-**BLOCO 1 — hook no cliente + Big Idea (~25s)**
-> "Ó, se você já colocou dinheiro em anúncio e viu o paciente chegar… e sumir, deixa
-> eu te falar uma verdade que ninguém nesse mercado quer que você saiba.
-> O teu problema nunca foi o anúncio. É o que acontece **depois** que a pessoa te
-> chama. E enquanto você não arrumar isso, cada real que você bota em tráfego tá
-> indo pro lixo. Fica comigo, porque eu vou te provar com número de clínica de
-> verdade."
+**BLOCO 1 — HOOK forte (0-8s)**
+> "Se você tem clínica de estética e o teu anúncio não tá te dando paciente, eu vou
+> ser bem direto: você tá pagando pra jogar dinheiro fora. Em três minutos eu te
+> mostro o porquê — e como a gente resolve. Fica comigo."
 
-**BLOCO 2 — o problema, na ferida (~25s)**
-> "Porque olha como é hoje. A pessoa te manda mensagem no meio da tarde, você tava
-> atendendo — óbvio, você não vai largar um paciente pra responder WhatsApp. Você
-> vê à noite. Responde 'oi, tudo bem?'. E ela… já marcou com a clínica que respondeu
-> em dois minutos.
-> Você não perdeu ela pelo preço. Perdeu pela demora. E o pior: isso tá acontecendo
-> agora, hoje, enquanto a gente conversa. E você nem tá vendo."
+**BLOCO 2 — apresentação + autoridade (~15s)**
+> "Deixa eu me apresentar rapidinho. Eu sou o Kaian, trabalho com marketing há nove
+> anos. E hoje eu faço só uma coisa: tráfego pra clínica de estética. Só isso. É
+> nisso que a gente é bom."
 
-**BLOCO 3 — a prova, blindada (~30s)** · *baixa a energia, número não precisa de empolgação*
-> "Deixa eu te mostrar o que muda quando você fecha esse buraco. Número real.
-> Uma cliente minha, a Dra. Jenniffer, harmonização glútea. A gente pôs mil,
-> quinhentos e cinquenta e cinco reais em anúncio. Em 30 dias: noventa e um mil,
-> trezentos e oitenta e oito reais. Vinte e seis consultas.
-> E antes que você pense 'ah, foi sorte' — não foi. O anúncio dela não era melhor
-> que o teu. A diferença foi **uma só**: toda vez que um paciente mandava mensagem,
-> tinha resposta na hora. De dia, de madrugada, no domingo. Sempre.
-> Não é o anúncio que enche agenda. É a resposta."
+**BLOCO 3 — o problema real (80% é criativo) (~20s)**
+> "E olha, o teu problema nunca foi o anúncio em si. É o que tem em volta dele.
+> Porque tráfego bom não é 'impulsionar post'. Tráfego é oitenta por cento criativo.
+> Se o criativo é fraco, não tem verba que salve. É aí que a maioria das clínicas
+> queima dinheiro."
 
-**BLOCO 4 — o mecanismo + Big Idea martelada (~25s)**
-> "E é aqui que entra o que eu faço diferente de todo mundo.
-> Eu trago o paciente com tráfego. E eu boto uma secretária de inteligência
-> artificial pra atender esse paciente dentro do teu WhatsApp. Ela responde na hora,
-> qualifica, e joga o agendamento na tua agenda. 24 horas. Não dorme, não falta, não
-> deixa ninguém esperando.
-> Porque grava isso: **tráfego sem atendimento é dinheiro no lixo.** Todo mundo te
-> vende anúncio. Ninguém te resolve o depois. Eu resolvo os dois — porque separado,
-> não funciona."
+**BLOCO 4 — entregável principal: tráfego + criativo (não terceiriza) (~30s)**
+> "Por isso a gente não terceiriza nada. A gente faz o teu tráfego E edita os teus
+> criativos, na mão. Funciona assim: a gente estuda o que já tá dando certo no teu
+> nicho. Se você é expert em rinomodelação, a gente vai atrás de anúncios de rino que
+> já estão validados no mercado, remodela pra tua realidade, e te manda o roteiro
+> pronto. Você só grava. A gente edita. Você não pensa em nada — a gente fica em cima
+> de você."
 
-**BLOCO 5 — mata a objeção + future pacing (~30s)**
-> "E eu sei o que tá passando na tua cabeça: 'uma IA falando com a minha paciente?
-> Vai parecer um robô.' Não vai. Ela conversa como gente, com o jeito da tua clínica
-> — e quando precisa, passa pra você. Você não perde o controle de nada. Você ganha
-> tempo.
-> Agora imagina a tua semana daqui a 30 dias: você atendendo tranquilo, sabendo que
-> cada pessoa que chega tá sendo respondida e agendada. Sem olhar o celular de dez em
-> dez minutos. Sem perder paciente de madrugada. A agenda enchendo enquanto você faz
-> o que você faz de melhor."
+**BLOCO 5 — o diferencial: SÓ estética (~25s)**
+> "E aqui tá o que nos separa de qualquer agência: a gente só trabalha com estética.
+> Só isso. A gente entende do teu mercado, entende do teu paciente, entende o que
+> vende harmonização, preenchimento, full face, rino. Você não vai colocar teu
+> dinheiro e tua operação na mão de um generalista que hoje faz estética e amanhã faz
+> outra coisa qualquer. Aqui você tá em boas mãos."
 
-**BLOCO 6 — ancoragem + oferta (~25s)**
-> "E vamo ser honesto sobre dinheiro. Uma secretária registrada te custa mais de dois
-> mil por mês, faz oito horas, e não te traz um paciente. Uma agência cobra três,
-> quatro, cinco mil só pra rodar anúncio — e te devolve o WhatsApp lotado pra você
-> virar a noite.
-> Aqui você tem as duas coisas: o tráfego que traz, e a secretária que atende. Por
-> mil e quinhentos."
+**BLOCO 6 — "espera que tem mais": o sistema (~30s)**
+> "E espera, porque tem mais. Trazer o paciente é metade. A outra metade é não perder
+> ele. Por isso, junto com o tráfego, você ganha o Nexus Health: um sistema com uma
+> secretária de inteligência artificial que responde cada paciente na hora, qualifica,
+> e já agenda. 24 horas por dia. Não dorme, não falta. Porque tráfego sem atendimento
+> é dinheiro no lixo."
 
-**BLOCO 7 — garantia + urgência honesta + CTA (~30s)**
+**BLOCO 7 — prova / case (~30s)** · *baixa a energia + montagem visual*
+> "E não é conversa. Olha esse resultado real: uma cliente minha, harmonização
+> glútea. Mil, quinhentos e cinquenta e cinco reais em anúncio. Em 30 dias, virou
+> noventa e um mil, trezentos e oitenta e oito reais. Vinte e seis consultas.
+> [SEGUNDO CASE aqui — outro número real que você tenha]"
+
+**BLOCO 8 — ancoragem (~20s)**
+> "E vamo ser honesto sobre dinheiro. Uma agência cobra três, quatro, cinco mil só
+> pra rodar teu anúncio — e ainda te larga com o WhatsApp lotado. Aqui você tem o
+> tráfego, o criativo editado, e a secretária que atende. Tudo por mil e quinhentos
+> por mês."
+
+**BLOCO 9 — garantia + urgência + CTA (~30s)**
 > "E porque eu tenho certeza, eu faço o que ninguém tem coragem: sem contrato, sem
-> fidelidade, sem multa. Não gostou do resultado, cancela na hora. Se eu não encher a
-> tua agenda, é justo você ir embora — eu não quero teu dinheiro se não te der
-> retorno.
-> Só uma verdade: eu pego poucas clínicas por mês, porque cada uma eu monto na mão,
-> junto com você. Quando fecha a vaga do mês, fecha.
-> Então preenche ali embaixo, leva menos de um minuto, que eu mesmo te chamo pra
-> entender a tua clínica. Bora encher essa agenda."
+> fidelidade, sem multa. Não gostou do resultado, cancela na hora. Se eu não te der
+> retorno, é justo você ir embora. Só uma verdade: eu pego poucas clínicas por mês,
+> porque cada uma eu monto na mão. Quando fecha a vaga do mês, fecha. Então preenche
+> ali embaixo, leva menos de um minuto, que eu mesmo te chamo. Bora encher essa
+> agenda."
 
 ---
 
 ## Notas de gravação
-- Lê no teleprompter em ritmo natural, com respiro (as quebras de linha são pausas)
-- **Bloco 3: baixa a energia** — número fala sozinho, não precisa de empolgação
-- **"tráfego sem atendimento é dinheiro no lixo"** (bloco 4): olha fixo na câmera
-- **"sem contrato… cancela na hora"** (bloco 7): desacelera, é o golpe
-- Luz na cara (janela na frente), enquadramento vertical 9:16
-- Grava bloco a bloco (mais fácil de errar menos e editar)
+- Hook (bloco 1): pesado e direto nos primeiros 3 segundos — não pode dar tempo de sair
+- Bloco 7 (case): baixa a energia; entra a montagem visual do resultado
+- "tráfego sem atendimento é dinheiro no lixo" e "sem contrato… cancela": olha fixo na câmera
+- Luz na cara, vertical 9:16, grava bloco a bloco
+
+## Pendência
+- [ ] Alinhar nicho: VSL = "só estética" vs LP = "clínicas e consultórios". Se for
+  estética, ajustar a LP pra casar.
+- [ ] Segundo case (número real) pro bloco 7.

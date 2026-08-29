@@ -22,7 +22,10 @@
   .top{padding:26px 0 0;display:flex;justify-content:center}
   .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.03em;color:var(--ink)}
   .brand small{color:var(--ink-mut);font-weight:500;letter-spacing:-.01em}
-  .logomark{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;background:#0B0F0E;box-shadow:0 5px 16px rgba(0,191,165,.28)}
+  /* Marca NEXUS: o "N" de 3 pecas, geometria tirada do arquivo oficial.
+     Sem tile escuro e sem blur — em 40px o blur transformava a marca num borrao. */
+  .logomark{display:block;width:34px;height:34px;color:var(--teal);flex:none}
+  .logomark svg{display:block;width:100%;height:100%}
 
   /* HERO */
   main{padding:40px 0 44px;text-align:center}
@@ -102,20 +105,10 @@
 <header class="top">
   <div class="brand">
     <span class="logomark">
-      <svg width="27" height="27" viewBox="0 0 1024 1024" fill="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="nexusGrad" gradientUnits="userSpaceOnUse" x1="300" y1="280" x2="760" y2="650">
-            <stop offset="0" stop-color="#DFF7A0"/><stop offset="0.45" stop-color="#5CE39A"/><stop offset="1" stop-color="#00BFA5"/>
-          </linearGradient>
-          <filter id="nexusGlow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <g filter="url(#nexusGlow)" fill="url(#nexusGrad)">
-          <rect x="429.5" y="230" width="165" height="470" rx="82" transform="rotate(-37 512 465)"/>
-          <rect x="585" y="300" width="150" height="150" rx="34"/>
-          <rect x="289" y="480" width="150" height="150" rx="34"/>
-        </g>
+      <svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true">
+        <rect x="619.3" y="144.8" width="327.8" height="327.8" rx="75.4"/>
+        <rect x="83" y="557.1" width="327.8" height="327.8" rx="75.4"/>
+        <rect x="391.6" y="34.1" width="270.8" height="959.5" rx="94.8" transform="rotate(-48 527 513.9)"/>
       </svg>
     </span>
     NEXUS <small>Health</small>

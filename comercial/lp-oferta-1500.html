@@ -26,12 +26,14 @@
   .cue{margin-top:14px;color:var(--ink-mut);font-size:14.5px}
   .cue b{color:var(--ink)}
 
-  /* VÍDEO */
-  .player{position:relative;max-width:600px;margin:24px auto 0;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#0d1513;border:1px solid var(--line-2);box-shadow:0 24px 60px rgba(22,38,32,.16)}
-  .player video,.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .player .ph{position:absolute;inset:0;display:grid;place-items:center;cursor:pointer;background:radial-gradient(120% 120% at 50% 0%,#16302B,#0A1614 60%)}
-  .player .play{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#2CE9CC,var(--teal));box-shadow:0 10px 30px rgba(0,191,165,.45)}
-  .player .cap{position:absolute;bottom:14px;left:0;right:0;color:#8FA39E;font-size:12.5px}
+  /* VÍDEO (vertical 9:16) */
+  .player{position:relative;max-width:384px;margin:24px auto 0;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:#0d1513;border:1px solid var(--line-2);box-shadow:0 24px 60px rgba(22,38,32,.18)}
+  .player video,.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+  .player .ph{position:absolute;inset:0;display:grid;place-items:center;cursor:pointer;background:radial-gradient(120% 120% at 50% 0%,#16302B,#0A1614 60%);transition:opacity .35s ease}
+  .player .ph.gone{opacity:0;pointer-events:none}
+  .player .play{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#2CE9CC,var(--teal));box-shadow:0 10px 30px rgba(0,191,165,.45);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .player .cap{position:absolute;bottom:16px;left:0;right:0;color:#CFE7E0;font-size:13px;font-weight:600;text-shadow:0 1px 6px rgba(0,0,0,.5)}
 
   /* CADASTRO (aparece após o vídeo) */
   #cadastro{max-width:460px;margin:30px auto 0;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
@@ -90,12 +92,14 @@
     <h1>Encha a agenda da sua clínica de estética — <em>todo mês, no automático</em>.</h1>
     <p class="cue">Assista o vídeo abaixo <b>até o final</b>.</p>
 
-    <!-- 2) VÍDEO — no deploy, troque .ph pelo embed do Vturb/Panda (ou <video src>) -->
+    <!-- 2) VÍDEO nativo (Supabase) — vertical 9:16, sem skip, revela o cadastro no fim -->
     <div class="player" id="player">
-      <!-- <video id="vsl" playsinline controls poster="capa.jpg"><source src="SEU_VIDEO.mp4" type="video/mp4"></video> -->
-      <div class="ph" id="ph" role="button" tabindex="0" aria-label="Assistir">
+      <video id="vsl" playsinline preload="metadata" webkit-playsinline>
+        <source src="https://saxrzkewyotiujwqipsp.supabase.co/storage/v1/object/public/videos%20nexus/VSL%20PRONTAmenor%20.mp4" type="video/mp4">
+      </video>
+      <div class="ph" id="ph" role="button" tabindex="0" aria-label="Assistir vídeo">
         <div class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#04211C"><path d="M8 5v14l11-7z"/></svg></div>
-        <span class="cap">Assista (4 min)</span>
+        <span class="cap">▶ Toque para assistir · com som 🔊</span>
       </div>
     </div>
 
@@ -138,9 +142,6 @@
         <p class="qfine">Ao finalizar, você fala comigo direto no WhatsApp.</p>
       </div>
     </div>
-
-    <!-- helper de preview (REMOVER no deploy): simula o fim do vídeo -->
-    <p class="demo">Preview: <a id="simular">ver o cadastro que aparece após o vídeo →</a></p>
   </div>
 </main>
 
@@ -176,10 +177,22 @@ fbq('init','SEU_PIXEL_ID');fbq('track','PageView');
     setTimeout(function(){ cad.scrollIntoView({behavior:'smooth',block:'start'}); },120);
   }
 
-  // Vídeo nativo (quando existir): revela no fim + eventos de retenção p/ remarketing
+  // Vídeo nativo: play na capa, sem skip, revela no fim + eventos de retenção p/ remarketing
   var v=document.getElementById('vsl');
+  var ph=document.getElementById('ph');
+  function darPlay(){
+    if(!v) return;
+    v.play().then(function(){ if(ph) ph.classList.add('gone'); })
+            .catch(function(){ v.muted=true; v.play(); if(ph) ph.classList.add('gone'); });
+  }
+  if(ph){
+    ph.addEventListener('click', darPlay);
+    ph.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); darPlay(); } });
+  }
   if(v){
     var fired={};
+    // clicar no vídeo pausa/continua (sem barra de progresso = não dá pra pular)
+    v.addEventListener('click', function(){ if(v.paused){ v.play(); } else { v.pause(); } });
     v.addEventListener('timeupdate',function(){
       if(!v.duration) return;
       var p=v.currentTime/v.duration;
@@ -188,13 +201,10 @@ fbq('init','SEU_PIXEL_ID');fbq('track','PageView');
       });
     });
     v.addEventListener('ended', revelar);
+    // Segurança: se o vídeo não carregar, não trava o lead — libera o cadastro
+    v.addEventListener('error', revelar);
+    setTimeout(function(){ if(v.readyState===0){ revelar(); } }, 12000);
   }
-  // Placeholder de preview: play "fake"
-  var ph=document.getElementById('ph');
-  if(ph){ ph.addEventListener('click',function(){ /* no deploy: dá play no vídeo real */ }); }
-  // Helper de preview
-  var sim=document.getElementById('simular');
-  if(sim){ sim.addEventListener('click',function(e){ e.preventDefault(); revelar(); }); }
 
   // ===== Quiz =====
   var steps=[].slice.call(document.querySelectorAll('.qstep'));

@@ -133,7 +133,7 @@
     <!-- 2) VÍDEO nativo (Supabase) — vertical 9:16, sem skip, revela o cadastro no fim -->
     <div class="player" id="player">
       <video id="vsl" playsinline preload="metadata" webkit-playsinline>
-        <source src="https://saxrzkewyotiujwqipsp.supabase.co/storage/v1/object/public/videos%20nexus/VSL%20PRONTAmenor%20.mp4" type="video/mp4">
+        <source src="/vsl.mp4" type="video/mp4">
       </video>
       <div class="ph" id="ph" role="button" tabindex="0" aria-label="Assistir vídeo">
         <div class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#04211C"><path d="M8 5v14l11-7z"/></svg></div>
@@ -224,14 +224,21 @@ src="https://www.facebook.com/tr?id=1093351271972124&ev=PageView&noscript=1" alt
     try{ fbq(EV_PADRAO[ev] ? 'track' : 'trackCustom', ev, dados || {}); }catch(e){}
   }
 
-  // Revela o cadastro
+  // Revela o cadastro.
+  // ATENCAO: revelar o formulario e "assistiu a VSL ate o fim" sao coisas DIFERENTES.
+  // A rede de seguranca (video falhou/demorou) libera o form pra nao perder lead,
+  // mas NAO pode disparar VSL_Concluida — senao o publico de remarketing vira lixo.
   var cad=document.getElementById('cadastro');
-  function revelar(){
-    if(!cad.hasAttribute('hidden') && cad.classList.contains('show')) return;
+  var jaRevelou=false, jaConcluiu=false;
+  function revelarForm(){
+    if(jaRevelou) return; jaRevelou=true;
     cad.hidden=false;
     requestAnimationFrame(function(){ cad.classList.add('show'); });
-    fire('VSL_Concluida');
     setTimeout(function(){ cad.scrollIntoView({behavior:'smooth',block:'start'}); },120);
+  }
+  function concluiuVSL(){
+    if(!jaConcluiu){ jaConcluiu=true; fire('VSL_Concluida'); }
+    revelarForm();
   }
 
   // Vídeo nativo: play na capa, sem skip, revela no fim + eventos de retenção p/ remarketing
@@ -256,11 +263,11 @@ src="https://www.facebook.com/tr?id=1093351271972124&ev=PageView&noscript=1" alt
         if(p>=m[0] && !fired[m[1]]){ fired[m[1]]=1; fire(m[1]); }
       });
     });
-    v.addEventListener('ended', revelar);
-    // Segurança: se o vídeo não carregar (falha/bloqueio), não trava o lead
-    v.addEventListener('error', revelar);
-    v.addEventListener('stalled', function(){ setTimeout(function(){ if(v.readyState===0){ revelar(); } }, 4000); });
-    setTimeout(function(){ if(v.readyState===0){ revelar(); } }, 7000);
+    v.addEventListener('ended', concluiuVSL);
+    // Rede de seguranca: se o video nao carregar, libera o form (sem contar como VSL vista)
+    v.addEventListener('error', revelarForm);
+    v.addEventListener('stalled', function(){ setTimeout(function(){ if(v.readyState===0){ revelarForm(); } }, 8000); });
+    setTimeout(function(){ if(v.readyState===0){ revelarForm(); } }, 20000);
   }
 
   // ===== Quiz =====

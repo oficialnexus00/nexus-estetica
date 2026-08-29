@@ -20,9 +20,9 @@
 
   /* HEADER */
   .top{padding:26px 0 0;display:flex;justify-content:center}
-  .brand{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.03em;color:var(--ink)}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.03em;color:var(--ink)}
   .brand small{color:var(--ink-mut);font-weight:500;letter-spacing:-.01em}
-  .logo{width:34px;height:34px}
+  .logomark{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;background:#0B0F0E;box-shadow:0 5px 16px rgba(0,191,165,.28)}
 
   /* HERO */
   main{padding:40px 0 44px;text-align:center}
@@ -52,21 +52,33 @@
   .gtags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px auto 0}
   .gtags .tag{font-size:12.5px;font-weight:600;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:6px 13px;background:var(--surface)}
 
-  .quiz{margin:22px auto 0;background:var(--surface);border:1px solid var(--line-strong);border-radius:16px;padding:26px 22px;text-align:left}
-  .qprogress{height:4px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:24px}
-  .qprogress span{display:block;height:100%;width:0;background:var(--teal);border-radius:99px;transition:width .35s ease}
-  .qstep{animation:qin .3s ease}
+  .quiz{margin:22px auto 0;background:var(--surface);border:1px solid var(--line-strong);border-radius:16px;padding:24px 22px;text-align:left;min-height:290px;display:flex;flex-direction:column}
+  .qprogress{height:4px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:26px}
+  .qprogress span{display:block;height:100%;width:0;background:var(--teal);border-radius:99px;transition:width .5s cubic-bezier(.16,1,.3,1)}
+  .qbody{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .qstep{animation:qin .5s cubic-bezier(.16,1,.3,1) both}
   .qstep[hidden]{display:none}
-  @keyframes qin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes qin{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+  .qstep .qlabel{animation:qin .5s cubic-bezier(.16,1,.3,1) both}
+  .qstep input,.qstep .btn{animation:qrise .55s cubic-bezier(.16,1,.3,1) .06s both}
+  .qstep .qopt{animation:qrise .5s cubic-bezier(.16,1,.3,1) both}
+  .qstep .qopt:nth-child(1){animation-delay:.05s}
+  .qstep .qopt:nth-child(2){animation-delay:.11s}
+  .qstep .qopt:nth-child(3){animation-delay:.17s}
+  .qstep .qopt:nth-child(4){animation-delay:.23s}
+  .qstep .qopt:nth-child(5){animation-delay:.29s}
+  @keyframes qrise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   .qlabel{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:-.02em;color:var(--ink);text-align:center;margin-bottom:20px;line-height:1.15}
   .quiz input{font-family:var(--sans);font-size:16px;font-weight:500;color:var(--ink);background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:15px;width:100%;text-align:center}
   .quiz input::placeholder{color:var(--ink-faint);font-weight:400}
   .quiz input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-wash)}
   .btn{display:flex;width:100%;align-items:center;gap:9px;justify-content:center;font-family:var(--sans);font-size:16px;font-weight:700;padding:16px 24px;border-radius:999px;border:0;cursor:pointer;background:var(--teal);color:var(--teal-ink);transition:background .15s,transform .12s;margin-top:16px;letter-spacing:-.01em}
   .btn:hover{background:#04A892;transform:translateY(-1px)}
+  .btn:active{transform:translateY(0) scale(.985)}
   .qopts{display:grid;gap:10px}
   .qopt{font-family:var(--sans);font-size:15.5px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:15px;cursor:pointer;transition:border-color .15s,background .15s,color .15s;text-align:center}
   .qopt:hover{border-color:var(--teal);background:var(--teal-wash)}
+  .qopt:active{transform:scale(.99)}
   .qback{display:block;margin:16px auto 0;background:none;border:0;color:var(--ink-mut);font-size:13px;font-weight:500;cursor:pointer}
   .qback[hidden]{display:none}
   .qfine{text-align:center;color:var(--ink-mut);font-size:12px;margin-top:16px}
@@ -78,16 +90,23 @@
 
 <header class="top">
   <div class="brand">
-    <svg class="logo" width="34" height="34" viewBox="0 0 1024 1024" fill="none" aria-hidden="true">
-      <defs><linearGradient id="nexusGrad" gradientUnits="userSpaceOnUse" x1="300" y1="260" x2="740" y2="660">
-        <stop offset="0" stop-color="#3CE0A0"/><stop offset="0.55" stop-color="#00BFA5"/><stop offset="1" stop-color="#07836F"/>
-      </linearGradient></defs>
-      <g fill="url(#nexusGrad)">
-        <rect x="429.5" y="230" width="165" height="470" rx="82" transform="rotate(-37 512 465)"/>
-        <rect x="585" y="300" width="150" height="150" rx="34"/>
-        <rect x="289" y="480" width="150" height="150" rx="34"/>
-      </g>
-    </svg>
+    <span class="logomark">
+      <svg width="27" height="27" viewBox="0 0 1024 1024" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="nexusGrad" gradientUnits="userSpaceOnUse" x1="300" y1="280" x2="760" y2="650">
+            <stop offset="0" stop-color="#DFF7A0"/><stop offset="0.45" stop-color="#5CE39A"/><stop offset="1" stop-color="#00BFA5"/>
+          </linearGradient>
+          <filter id="nexusGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <g filter="url(#nexusGlow)" fill="url(#nexusGrad)">
+          <rect x="429.5" y="230" width="165" height="470" rx="82" transform="rotate(-37 512 465)"/>
+          <rect x="585" y="300" width="150" height="150" rx="34"/>
+          <rect x="289" y="480" width="150" height="150" rx="34"/>
+        </g>
+      </svg>
+    </span>
     NEXUS <small>Health</small>
   </div>
 </header>
@@ -117,6 +136,7 @@
       <div class="gtags"><span class="tag">Sem contrato</span><span class="tag">Sem fidelidade</span><span class="tag">Cancela quando quiser</span></div>
       <div class="quiz">
         <div class="qprogress"><span id="qbar"></span></div>
+        <div class="qbody">
         <div class="qstep" data-step="0">
           <p class="qlabel">Como você se chama?</p>
           <input id="nome" type="text" placeholder="Seu nome" autocomplete="name">
@@ -145,6 +165,7 @@
             <button class="qopt" type="button">R$ 50 mil a R$ 100 mil</button>
             <button class="qopt" type="button">Acima de R$ 100 mil</button>
           </div>
+        </div>
         </div>
         <button class="qback" id="qback" type="button" hidden>← voltar</button>
         <p class="qfine">Ao finalizar, você fala comigo direto no WhatsApp.</p>

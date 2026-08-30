@@ -1,0 +1,542 @@
+<title>Mesmo Rosto, Descansado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@400;500;600;700&display=swap">
+
+<!--
+  ══════════════════════════════════════════════════════════════════════
+  LP MODELO — NEXUS  ·  captação de pacientes via WhatsApp
+  TROCAR (12 pontos, todos marcados com  <!-- ✎  -->  no HTML):
+    1. nome da clínica        5. formação/registro     9. endereço
+    2. cidade                 6. números de prova     10. link do WhatsApp
+    3. nome da profissional   7. depoimentos          11. CNPJ / resp. técnica
+    4. procedimento           8. vagas do mês         12. imagens
+  O link do WhatsApp aparece em 4 lugares — usar buscar/substituir em
+  "https://wa.me/5500000000000".
+  ══════════════════════════════════════════════════════════════════════
+-->
+
+<style>
+  :root{
+    --bg:#E9EAE5;
+    --surface:#FBFBF9;
+    --ink:#1A1F1B;
+    --ink-soft:#414942;
+    --ink-mut:#6E766D;
+    --line:rgba(26,31,27,.15);
+    --line-soft:rgba(26,31,27,.08);
+    --accent:#9A6B24;
+    --accent-ink:#7E561B;
+    --accent-soft:rgba(154,107,36,.10);
+    --glow:rgba(154,107,36,.14);
+    --wa:#1E8E5A;
+
+    --serif:'Instrument Serif','Iowan Old Style',Georgia,ui-serif,serif;
+    --sans:'Karla',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+
+    --col:620px;
+    --gut:22px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#151613;
+      --surface:#1D1F1A;
+      --ink:#EBE9E1;
+      --ink-soft:#B9B7AE;
+      --ink-mut:#8A8880;
+      --line:rgba(235,233,225,.16);
+      --line-soft:rgba(235,233,225,.08);
+      --accent:#D9A85C;
+      --accent-ink:#E4BC7C;
+      --accent-soft:rgba(217,168,92,.13);
+      --glow:rgba(217,168,92,.13);
+      --wa:#3FBE85;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#151613;
+    --surface:#1D1F1A;
+    --ink:#EBE9E1;
+    --ink-soft:#B9B7AE;
+    --ink-mut:#8A8880;
+    --line:rgba(235,233,225,.16);
+    --line-soft:rgba(235,233,225,.08);
+    --accent:#D9A85C;
+    --accent-ink:#E4BC7C;
+    --accent-soft:rgba(217,168,92,.13);
+    --glow:rgba(217,168,92,.13);
+    --wa:#3FBE85;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--sans);font-size:16.5px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    padding-bottom:84px;
+  }
+  @media (min-width:760px){ body{padding-bottom:0} }
+
+  .wrap{width:100%;max-width:var(--col);margin:0 auto;padding:0 var(--gut)}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.005em;text-wrap:balance;margin:0}
+  h1{font-size:clamp(35px,8.4vw,58px);line-height:1.06}
+  h2{font-size:clamp(26px,5.4vw,36px);line-height:1.14}
+  h3{font-size:20px;line-height:1.3}
+  em{font-style:italic;color:var(--accent-ink)}
+  p{margin:0}
+
+  .eyebrow{
+    font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--accent-ink);
+  }
+
+  /* ── topo ─────────────────────────────────────────── */
+  header{padding:24px 0 0}
+  .brand{
+    display:flex;align-items:baseline;gap:9px;
+    font-weight:600;font-size:14px;letter-spacing:.02em;
+  }
+  .brand .mark{
+    width:7px;height:7px;border-radius:50%;background:var(--accent);
+    align-self:center;flex:none;
+  }
+  .brand span{color:var(--ink-mut);font-weight:400;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
+
+  /* ── hero ─────────────────────────────────────────── */
+  .hero{position:relative;padding:52px 0 8px;isolation:isolate}
+  .hero::before{
+    content:"";position:absolute;z-index:-1;
+    left:50%;top:-6%;translate:-50% 0;
+    width:min(780px,150vw);aspect-ratio:1;
+    background:radial-gradient(circle at 50% 40%,var(--glow) 0%,transparent 62%);
+    pointer-events:none;
+  }
+  .hero h1{max-width:13ch}
+  .hero .lede{
+    margin-top:20px;max-width:46ch;font-size:17.5px;color:var(--ink-soft);
+  }
+
+  /* ── botões ───────────────────────────────────────── */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:var(--wa);color:#fff;text-decoration:none;
+    font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:.01em;
+    padding:15px 26px;border-radius:999px;border:0;
+    transition:transform .16s ease,filter .16s ease;
+  }
+  .btn:hover{filter:brightness(1.07)}
+  .btn:active{transform:translateY(1px)}
+  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .btn svg{width:19px;height:19px;flex:none}
+  .cta-row{margin-top:28px;display:flex;flex-direction:column;align-items:flex-start;gap:11px}
+  .cta-note{font-size:13.5px;color:var(--ink-mut)}
+
+  /* ── prova numérica ───────────────────────────────── */
+  .stats{
+    margin-top:46px;display:grid;grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .stat{padding:20px 0;text-align:center}
+  .stat + .stat{border-left:1px solid var(--line-soft)}
+  .stat b{
+    display:block;font-family:var(--serif);font-weight:400;font-size:30px;
+    line-height:1;font-variant-numeric:tabular-nums;
+  }
+  .stat small{
+    display:block;margin-top:7px;font-size:11px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ink-mut);
+  }
+
+  /* ── seções ───────────────────────────────────────── */
+  section{padding:56px 0}
+  section + section{border-top:1px solid var(--line-soft)}
+  .sec-head{display:flex;flex-direction:column;gap:14px;margin-bottom:26px}
+
+  /* ── lista de identificação ───────────────────────── */
+  .ident{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+  .ident li{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:17px 0;border-bottom:1px solid var(--line-soft);
+    color:var(--ink-soft);
+  }
+  .ident li:first-child{border-top:1px solid var(--line-soft)}
+  .ident .tick{
+    flex:none;width:19px;height:19px;margin-top:4px;border-radius:50%;
+    background:var(--accent-soft);color:var(--accent-ink);
+    display:grid;place-items:center;font-size:11px;font-weight:700;
+  }
+
+  /* ── passos (sequência real → numeração honesta) ──── */
+  .steps{display:flex;flex-direction:column;gap:0}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:0 18px;padding:26px 0;border-bottom:1px solid var(--line-soft)}
+  .step:first-child{border-top:1px solid var(--line-soft)}
+  .step .n{
+    font-family:var(--serif);font-size:26px;line-height:1;color:var(--accent);
+    font-variant-numeric:tabular-nums;grid-row:span 2;padding-top:2px;
+  }
+  .step h3{margin-bottom:5px}
+  .step p{color:var(--ink-soft);font-size:15.5px}
+  .step .dur{
+    display:inline-block;margin-top:9px;font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-mut);
+  }
+
+  /* ── profissional ─────────────────────────────────── */
+  .pro{background:var(--surface);border:1px solid var(--line-soft);border-radius:4px;padding:28px 24px}
+  .pro .avatar{
+    width:74px;height:74px;border-radius:50%;background:var(--accent-soft);
+    border:1px solid var(--line);display:grid;place-items:center;
+    font-family:var(--serif);font-size:26px;color:var(--accent-ink);margin-bottom:18px;
+  }
+  .pro .reg{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mut);margin-top:4px}
+  .pro p{margin-top:16px;color:var(--ink-soft);font-size:15.5px}
+  .pro blockquote{
+    margin:20px 0 0;padding-left:16px;border-left:2px solid var(--accent);
+    font-family:var(--serif);font-size:20px;line-height:1.36;font-style:italic;color:var(--ink);
+  }
+
+  /* ── depoimentos ──────────────────────────────────── */
+  .quotes{display:flex;flex-direction:column;gap:22px}
+  .quote{padding:22px 0;border-top:1px solid var(--line-soft)}
+  .quote p{font-family:var(--serif);font-size:19.5px;line-height:1.4;color:var(--ink)}
+  .quote cite{
+    display:block;margin-top:12px;font-family:var(--sans);font-style:normal;
+    font-size:12.5px;letter-spacing:.05em;color:var(--ink-mut);
+  }
+  .ba-slot{
+    margin-top:26px;border:1px dashed var(--line);border-radius:4px;
+    padding:26px 20px;text-align:center;color:var(--ink-mut);font-size:13.5px;
+  }
+
+  /* ── oferta ───────────────────────────────────────── */
+  .offer{
+    background:var(--surface);border:1px solid var(--line);border-radius:4px;
+    padding:30px 24px;
+  }
+  .offer h2{margin-bottom:6px}
+  .offer .why{margin-top:14px;color:var(--ink-soft);font-size:15.5px}
+  .incl{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+  .incl li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;color:var(--ink-soft)}
+  .incl .ck{color:var(--wa);flex:none;font-weight:700}
+  .scarce{
+    margin-top:22px;padding-top:18px;border-top:1px solid var(--line-soft);
+    font-size:13.5px;color:var(--ink-mut);
+  }
+  .scarce b{color:var(--ink);font-weight:600}
+
+  /* ── FAQ ──────────────────────────────────────────── */
+  details{border-bottom:1px solid var(--line-soft)}
+  details:first-of-type{border-top:1px solid var(--line-soft)}
+  summary{
+    list-style:none;cursor:pointer;padding:18px 30px 18px 0;position:relative;
+    font-weight:600;font-size:16px;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  summary::after{
+    content:"";position:absolute;right:6px;top:50%;width:8px;height:8px;
+    border-right:1.5px solid var(--ink-mut);border-bottom:1.5px solid var(--ink-mut);
+    translate:0 -70%;rotate:45deg;transition:rotate .2s ease;
+  }
+  details[open] summary::after{rotate:-135deg;translate:0 -20%}
+  details p{padding:0 0 20px;color:var(--ink-soft);font-size:15.5px;max-width:56ch}
+
+  /* ── fechamento ───────────────────────────────────── */
+  .close{text-align:center;padding:64px 0}
+  .close h2{max-width:16ch;margin:0 auto}
+  .close .cta-row{align-items:center;margin-top:26px}
+  .addr{
+    margin-top:34px;padding-top:24px;border-top:1px solid var(--line-soft);
+    font-size:14px;color:var(--ink-soft);line-height:1.75;
+  }
+  .addr b{display:block;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-mut);margin-bottom:7px;font-weight:600}
+
+  footer{padding:30px 0 40px;border-top:1px solid var(--line-soft)}
+  footer p{font-size:12px;line-height:1.7;color:var(--ink-mut)}
+  footer p + p{margin-top:9px}
+
+  /* ── barra fixa mobile ────────────────────────────── */
+  .dock{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    padding:12px var(--gut) calc(12px + env(safe-area-inset-bottom));
+    background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  }
+  .dock .btn{width:100%;max-width:var(--col);margin:0 auto;display:flex}
+  @media (min-width:760px){ .dock{display:none} }
+
+  /* ── reveal ───────────────────────────────────────── */
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .rv{opacity:1;transform:none;transition:none}
+    .btn{transition:none}
+  }
+</style>
+
+<header>
+  <div class="wrap">
+    <!-- ✎ 1. nome da clínica -->
+    <div class="brand"><i class="mark"></i>SUA CLÍNICA AQUI <span>Estética Avançada</span></div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <!-- ✎ 2. cidade -->
+      <p class="eyebrow">Cidade · Atendimento com hora marcada</p>
+      <h1>Você não quer parecer <em>outra pessoa.</em> Quer parecer descansada.</h1>
+      <p class="lede">
+        <!-- ✎ 4. procedimento -->
+        Harmonização facial feita sob medida — avaliada no seu rosto, não num
+        protocolo pronto. Resultado que ninguém percebe que é procedimento.
+        Só percebem que você está bem.
+      </p>
+      <div class="cta-row">
+        <!-- ✎ 10. link do WhatsApp (4 ocorrências no arquivo) -->
+        <a class="btn" href="https://wa.me/5500000000000?text=Oi!%20Vim%20pelo%20site%20e%20quero%20saber%20sobre%20a%20avalia%C3%A7%C3%A3o." data-cta="hero">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
+          Falar no WhatsApp
+        </a>
+        <p class="cta-note">Resposta em minutos · Avaliação sem compromisso</p>
+      </div>
+
+      <!-- ✎ 6. números de prova — só usar número REAL -->
+      <div class="stats">
+        <div class="stat"><b>+400</b><small>procedimentos</small></div>
+        <div class="stat"><b>8</b><small>anos de consultório</small></div>
+        <div class="stat"><b>4,9</b><small>no Google</small></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Talvez seja o seu caso</p>
+        <h2>Isso aqui te soa familiar?</h2>
+      </div>
+      <ul class="ident">
+        <li><i class="tick">✓</i><span>Te perguntam se você dormiu mal — e você dormiu bem.</span></li>
+        <li><i class="tick">✓</i><span>Você já pensou em harmonização, mas trava com medo de ficar com cara artificial.</span></li>
+        <li><i class="tick">✓</i><span>Você não quer um rosto novo. Quer o mesmo rosto, sem a cara de cansaço.</span></li>
+        <li><i class="tick">✓</i><span>Você já pesquisou, viu preço de tudo quanto é lugar e ficou mais confusa do que antes.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Como funciona</p>
+        <h2>Três etapas. Sem surpresa em nenhuma.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="n">01</div>
+          <div>
+            <h3>Avaliação</h3>
+            <p>A gente olha o seu rosto inteiro — proporção, expressão, o que incomoda você
+            de verdade. Não o que está na moda. Você sai sabendo o que precisa e, principalmente,
+            o que <em>não</em> precisa.</p>
+            <span class="dur">45 minutos</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="n">02</div>
+          <div>
+            <h3>Plano por escrito</h3>
+            <p>Você recebe a proposta no papel: o que fazer agora, o que pode esperar e quanto
+            custa cada parte. Sem pacote empurrado e sem decisão tomada na hora.</p>
+            <span class="dur">No mesmo dia</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="n">03</div>
+          <div>
+            <h3>Procedimento e retorno</h3>
+            <p>Feito em consultório, com anestésico tópico. O retorno de 30 dias já está
+            incluso — é nele que a gente ajusta o que precisar.</p>
+            <span class="dur">Retorno incluso</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Quem vai te atender</p>
+      </div>
+      <div class="pro">
+        <!-- ✎ 3 e 5. nome, registro e formação · 12. trocar o círculo por foto real -->
+        <div class="avatar">DN</div>
+        <h2>Dra. Nome Sobrenome</h2>
+        <p class="reg">Registro 00000 · Especialização em Estética Avançada</p>
+        <p>
+          Eu atendo em consultório há oito anos e vejo a mesma cena toda semana: gente que
+          chega com print de rosto dos outros. Meu trabalho não é copiar rosto — é entender
+          o que o seu já tem de bom e devolver o descanso que sumiu.
+        </p>
+        <blockquote>
+          Prefiro fazer de menos e você voltar, do que fazer demais e você se arrepender.
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Quem já passou por aqui</p>
+        <h2>O que elas contam depois.</h2>
+      </div>
+      <!-- ✎ 7. depoimentos REAIS, com autorização por escrito -->
+      <div class="quotes">
+        <div class="quote">
+          <p>“Meu marido falou que eu tava com uma cara boa e perguntou se eu tinha viajado.
+          Ele não percebeu que eu tinha feito nada. Era exatamente isso que eu queria.”</p>
+          <cite>Paciente, 41 anos · harmonização facial</cite>
+        </div>
+        <div class="quote">
+          <p>“Fui em outros dois lugares antes e nos dois me empurraram pacote fechado.
+          Aqui foi a primeira vez que alguém me falou que uma coisa que eu queria fazer
+          não valia a pena no meu caso.”</p>
+          <cite>Paciente, 34 anos · avaliação e plano</cite>
+        </div>
+      </div>
+      <div class="ba-slot">
+        ✎ Espaço do antes/depois — pode viver aqui, <b>não pode</b> no anúncio.<br>
+        Exige autorização de uso de imagem assinada e arquivada.
+      </div>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="offer">
+        <p class="eyebrow">A condição deste mês</p>
+        <h2>Avaliação completa, sem custo.</h2>
+        <p class="why">
+          Reservo um número fixo de horários por mês para avaliação de rosto inteiro.
+          É o que cabe na agenda sem virar linha de produção — por isso não é o mês todo.
+        </p>
+        <ul class="incl">
+          <li><i class="ck">✅</i><span>45 minutos de avaliação, presencial</span></li>
+          <li><i class="ck">✅</i><span>Análise de proporção e expressão do rosto inteiro</span></li>
+          <li><i class="ck">✅</i><span>Plano por escrito, com valores de cada etapa</span></li>
+          <li><i class="ck">✅</i><span>Orientação do que <b>não</b> fazer agora</span></li>
+          <li><i class="ck">✅</i><span>Sem compromisso de fechar nada no dia</span></li>
+        </ul>
+        <!-- ✎ 8. vagas do mês — número real, atualizado -->
+        <p class="scarce"><b>8 horários</b> reservados para avaliação neste mês.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://wa.me/5500000000000?text=Oi!%20Quero%20uma%20das%20vagas%20de%20avalia%C3%A7%C3%A3o%20deste%20m%C3%AAs." data-cta="oferta">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
+            Quero minha avaliação
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Antes de você perguntar</p>
+        <h2>As dúvidas de sempre.</h2>
+      </div>
+      <details>
+        <summary>Dói?</summary>
+        <p>A gente usa anestésico tópico antes. A maior parte das pacientes descreve
+        como incômodo, não como dor. Se você tem baixa tolerância, fala na avaliação —
+        dá pra ajustar o manejo.</p>
+      </details>
+      <details>
+        <summary>Vai ficar com cara artificial?</summary>
+        <p>Cara artificial é resultado de excesso, não de procedimento. É exatamente por
+        isso que a avaliação existe: o plano define a quantidade mínima que resolve o que
+        te incomoda. Resultados variam de pessoa para pessoa.</p>
+      </details>
+      <details>
+        <summary>Quanto custa?</summary>
+        <p>Depende do que o seu rosto precisa — e eu não tenho como saber isso por mensagem
+        sem te olhar. Por isso a avaliação vem antes e sai com os valores por escrito.
+        Você decide depois, em casa, com o papel na mão.</p>
+      </details>
+      <details>
+        <summary>Quanto tempo dura?</summary>
+        <p>Varia com o produto usado e com o seu metabolismo. Na avaliação eu te falo a
+        expectativa realista pro seu caso, e o retorno de 30 dias está incluso.</p>
+      </details>
+      <details>
+        <summary>Consigo trabalhar no dia seguinte?</summary>
+        <p>Na maioria dos casos sim. Pode haver inchaço ou pequenos hematomas nos primeiros
+        dias. Se você tem um compromisso importante, a gente agenda pensando nele.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="close">
+    <div class="wrap">
+      <h2>A avaliação é uma conversa. Não é um compromisso.</h2>
+      <div class="cta-row">
+        <a class="btn" href="https://wa.me/5500000000000?text=Oi!%20Quero%20agendar%20uma%20avalia%C3%A7%C3%A3o." data-cta="final">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
+          Falar no WhatsApp
+        </a>
+        <p class="cta-note">Segunda a sexta, 9h às 19h</p>
+      </div>
+      <!-- ✎ 9. endereço -->
+      <div class="addr">
+        <b>Onde fica</b>
+        Rua Exemplo, 000 — Sala 00<br>
+        Bairro · Cidade/UF
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <!-- ✎ 11. responsável técnica e CNPJ -->
+    <p>Responsável técnica: Dra. Nome Sobrenome — Registro 00000. CNPJ 00.000.000/0001-00.</p>
+    <p>Os resultados de procedimentos estéticos variam de pessoa para pessoa e dependem de
+    avaliação individual. Este site não substitui consulta presencial e não realiza
+    diagnóstico à distância.</p>
+  </div>
+</footer>
+
+<div class="dock">
+  <a class="btn" href="https://wa.me/5500000000000?text=Oi!%20Vim%20pelo%20site." data-cta="dock">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
+    Falar no WhatsApp
+  </a>
+</div>
+
+<script>
+  // Reveal suave por seção
+  var rv = document.querySelectorAll('.rv');
+  if (window.IntersectionObserver && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    rv.forEach(function (el) { io.observe(el); });
+  } else {
+    rv.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Evento de conversão — plugar Pixel/CAPI aqui (07-crm-integracao.md)
+  document.querySelectorAll('[data-cta]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (typeof fbq === 'function') { fbq('track', 'Contact', { source: a.dataset.cta }); }
+    });
+  });
+</script>

@@ -1,20 +1,20 @@
-# {{CLIENTE}}
+# Dr. Eder Guimarães
 
 > Capa do cliente. Quem bate o olho aqui entende o essencial em 30 segundos.
 
 | Campo | Valor |
 |---|---|
-| Nome da clínica | {{CLIENTE}} |
-| Responsável (decisor) | {{NOME}} |
+| Nome da clínica | _a definir_ |
+| Responsável (decisor) | **Dr. Eder Guimarães** — médico, recém-formado |
 | WhatsApp do decisor | {{TELEFONE}} |
-| Nicho | {{ODONTO / ESTÉTICA / MÉDICO / VET}} |
+| Nicho | **Médico — ultrassonografia / diagnóstico por imagem** |
 | Cidade / raio de atuação | {{CIDADE}} — raio {{X}} km |
 | Entrou em | {{DD/MM/AAAA}} |
 | Plano contratado | {{ATIVAÇÃO ASSISTIDA / MENSAL}} |
 | Ticket NEXUS | R$ {{VALOR}}/mês |
 | Verba de tráfego | R$ {{VALOR}}/mês |
-| Dono da conta (NEXUS) | {{KAIAN / JENNIFER / CAYAN}} |
-| Status | Onboarding / Ativo / Em risco / Churn |
+| Dono da conta (NEXUS) | Kaian |
+| Status | **Onboarding** |
 
 ## Links
 
@@ -26,11 +26,11 @@
 
 ## Resumo em 5 linhas
 
-- **O que a clínica vende:** {{}}
-- **Procedimento carro-chefe:** {{}}
-- **Gargalo real hoje:** {{}}
-- **O que a NEXUS vai resolver:** {{}}
-- **Como sabemos que deu certo:** {{KPI PRINCIPAL}}
+- **O que a clínica vende:** exames de ultrassom
+- **Procedimento carro-chefe:** _a definir_ — decide o canal (ver `04-funil.md` §3)
+- **Gargalo real hoje:** recém-formado — sem volume e sem rede de encaminhamento formada
+- **O que a NEXUS vai resolver:** captar paciente com pedido médico na mão e agendar sozinho
+- **Como sabemos que deu certo:** exames agendados/mês e custo por exame
 
 ## Índice
 

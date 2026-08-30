@@ -277,12 +277,14 @@ src="https://www.facebook.com/tr?id=1093351271972124&ev=PageView&noscript=1" alt
   function setBar(n){bar.style.width=(n/steps.length*100)+'%';}
   function show(n){ steps.forEach(function(s,idx){s.hidden=idx!==n;}); back.hidden=n===0;
     var inp=steps[n].querySelector('input'); if(inp){setTimeout(function(){inp.focus();},60);} }
-  // ↓↓↓ COLE AQUI a URL do Webhook do n8n (POST). Vazio = só mostra a tela de obrigado.
-  var WEBHOOK_URL='';
+  // Webhook n8n -> [NEXUS] LP Oferta 1500 -> CRM. O lead vira card no CRM Nexus.
+  var WEBHOOK_URL='https://webhook.nexushealth.com.br/webhook/lp-oferta-1500';
+  // qual criativo trouxe o lead (?v=A|B|C na URL do anuncio)
+  var VARIACAO=(new URLSearchParams(location.search).get('v')||'DIRETO').toUpperCase();
   function finish(){
     fire('Lead');
     // 1) manda o lead pro CRM (via n8n)
-    var payload={nome:data.nome,whatsapp:data.zap,especialidade:data.area,faturamento:data.fat,origem:'LP Oferta 1500',ts:new Date().toISOString()};
+    var payload={nome:data.nome,whatsapp:data.zap,especialidade:data.area,faturamento:data.fat,variacao:VARIACAO,origem:'LP Oferta 1500',ts:new Date().toISOString()};
     if(WEBHOOK_URL){ try{ fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),keepalive:true}); }catch(e){} }
     // 2) prepara o botão opcional de WhatsApp
     var msg='Ola! Quero o diagnostico gratuito da NEXUS.%0A%0ANome: '+enc(data.nome)

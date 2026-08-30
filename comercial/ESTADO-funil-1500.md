@@ -23,7 +23,32 @@
 | Alerta do lead no WhatsApp | ✅ testado, Evolution devolveu 201 |
 | Webhook n8n | ✅ publicado |
 
-## O ÚNICO passo pendente
+## O ÚNICO passo pendente: o `agentId` da NEXUS
+
+**Situação (29/08/2026, 22h40):** a credencial do CRM já está conectada e correta
+(`Nexus Webhook Secret`, Header Auth). O erro saiu de `401 Invalid API key` para
+`404 Organization not found for this agentId` — ou seja, autentica, mas não acha a organização.
+
+O `agentId` é uma **string livre gravada no cadastro da organização** no CRM.
+Não é o nome do cliente nem o nome do agente na lista. Prova: a da Karoline é
+literalmente `Karol zein` e funciona (`{"success":true,"action":"created"}`),
+enquanto o cliente dela se chama "Clínica Karoline Zein" e o agente dela é a Júlia.
+
+**Já testados e REJEITADOS** (todos 404), não perca tempo repetindo:
+`Bia`, `Bia - Nexus`, `Kaian | Nexus`, `NEXUS Health`, `Nexus`, `Bia Nexus`, `bia-nexus`.
+
+Onde procurar o valor certo: aba **Integrações** do painel admin
+(app.nexushealth.com.br/admin), ou direto na tabela de organizações do Supabase
+do CRM (projeto `zqzqoyazazdxyfzpkilw`, Lovable Cloud).
+
+Assim que achar: trocar a 1ª linha do nó "Normalizar lead da LP"
+(`const AGENT_ID = 'Bia - Nexus'`) e republicar.
+
+**Enquanto isso o lead NÃO se perde:** os dois nós de HTTP têm
+`onError: continueRegularOutput`, então o aviso no WhatsApp do Kaian sai mesmo
+com o CRM falhando. Só falta o registro automático no CRM.
+
+## Passo antigo (resolvido)
 
 No workflow **[NEXUS] LP Oferta 1500 -> CRM** (`fKTBr1Orn0ZyTlF5`,
 https://n8n.nexushealth.com.br/workflow/fKTBr1Orn0ZyTlF5), o nó **"Criar lead no CRM Nexus"**
@@ -72,6 +97,20 @@ body `{number, mensagem}` (campo opcional `instancia`). Sem auth. Sai pelo chip 
    player por automação de browser em background — precisa de olho humano.
 6. **Não redesenhe a marca na mão.** O "N" da NEXUS são 3 peças: barra 1010x285 a 42°, dois quadrados
    de 345 (1,21× a largura da barra). O SVG correto está em `lp/index.html`, classe `.logomark`.
+
+## Coisas que a gente já descobriu do jeito difícil
+
+- **Atualizar o workflow pela API do n8n PRESERVA a credencial** — desde que o
+  `newCredential('...')` use o **nome exato** da credencial que já existe
+  (`Nexus Webhook Secret`). Com um nome diferente, o vínculo se perde e o nó
+  passa a dar "Credentials not found".
+- **O n8n roda em Docker Swarm** na VPS Hostinger (`srv1535865.hstgr.cloud`,
+  82.25.77.137), com 4 containers: `n8n_n8n_editor`, `_worker`, `_webhook`, `_redis`.
+  Comando de manutenção vai **sempre no editor**. Reset do login do dono:
+  `docker exec $(docker ps --format '{{.Names}}' | grep n8n_n8n_editor | head -1) n8n user-management:reset`
+- **O n8n não tem SMTP configurado** — "Forgot my password" nunca envia email.
+  Configurar isso é dívida técnica aberta.
+- **Webhooks e Evolution moram no mesmo servidor** do n8n.
 
 ## Regra de convivência
 

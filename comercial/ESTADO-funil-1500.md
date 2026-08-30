@@ -17,7 +17,7 @@
 | Peça | Status |
 |---|---|
 | LP no ar + DNS | ✅ |
-| Pixel Meta `1093351271972124` | ✅ PageView e Lead disparando (validado por request real) |
+| Pixel Meta `1303178888485750` (dados nexus lp) | ✅ PageView e Lead disparando (validado por request real) |
 | VSL tocando | ✅ remuxada com faststart, servida de `/vsl.mp4` |
 | Lead → CRM Nexus | ✅ testado: `{"success":true,"action":"created"}` |
 | Alerta do lead no WhatsApp | ✅ testado, Evolution devolveu 201 |

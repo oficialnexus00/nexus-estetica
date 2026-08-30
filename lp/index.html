@@ -269,6 +269,10 @@ src="https://www.facebook.com/tr?id=1303178888485750&ev=PageView&noscript=1" alt
       [[.25,'VSL_25'],[.5,'VSL_50'],[.75,'VSL_75']].forEach(function(m){
         if(p>=m[0] && !fired[m[1]]){ fired[m[1]]=1; fire(m[1]); }
       });
+      // Libera o formulario na METADE do video. Com 7 visitas/dia, esperar 4min15
+      // pra aprender qualquer coisa e caro demais. Quem quiser se cadastrar antes,
+      // pode — o video continua rodando e VSL_Concluida so dispara no fim de verdade.
+      if(p>=.5){ revelarForm(); }
     });
     v.addEventListener('ended', concluiuVSL);
     // Rede de seguranca: se o video nao carregar, libera o form (sem contar como VSL vista)

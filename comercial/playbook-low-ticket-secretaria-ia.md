@@ -186,18 +186,17 @@ sem saída, CTA 4x (3 na página + barra fixa no mobile).
 
 | # | Bloco | O que faz |
 |---|---|---|
-| 1 | Hero | Headline + 3 chips de objeção + **VSL** |
+| 1 | Hero | Headline + 3 chips de objeção + **VSL** + CTA |
 | 2 | **Conversa da IA** | ⭐ Mockup de WhatsApp: a IA agendando às 22h47 |
-| 3 | Dor | 3 cenas com horário na margem (22h47, feriado, 14h20) |
-| 4 | Hoje × Depois | Comparativo lado a lado |
-| 5 | Epiphany bridge | "Eu montava isso pras clínicas. Agora ensino você" |
+| 3 | Dor | 3 cenas de uma linha, com horário na margem |
+| 4 | Hoje × Depois | Comparativo lado a lado, só bullet |
+| 5 | Quem sou | 3 linhas. Nada de história longa |
 | 6 | **As 6 aulas** | Timeline com tempo de cada uma; aula 3 destacada |
-| 7 | O que você leva | 6 bullets de resultado |
-| 8 | Prova | 50+ clínicas · 26 consultas / R$91 mil · espaço pro depoimento |
-| 9 | Oferta | Stack R$1.088 → R$97 |
-| 10 | Garantia | Selo de 7 dias |
-| 11 | FAQ | 8 objeções, começando pelas de capacidade |
-| 12 | CTA final | "Amanhã de manhã ela já tá respondendo" |
+| 7 | Prova | 50+ clínicas · 26 consultas / R$91 mil · espaço pro depoimento |
+| 8 | Oferta | Stack R$1.088 → R$97 |
+| 9 | Garantia | Selo de 7 dias |
+| 10 | FAQ | 5 objeções, começando pelas de capacidade |
+| 11 | CTA final | "Amanhã de manhã ela já tá respondendo" |
 
 ### As decisões de conversão da página
 
@@ -219,6 +218,23 @@ matam a objeção de capacidade acima da dobra, antes do preço aparecer.
 
 **Barra fixa no mobile** aparece depois do hero e some quando o bloco de oferta está na
 tela (pra não competir com o botão principal). 70%+ do tráfego é mobile.
+
+### Regra de tamanho — página de low ticket é curta
+
+**Alvo: até ~850 palavras na página inteira** (o mockup de conversa já come ~120 dessas).
+
+Em R$97 a decisão é por impulso, não por leitura. Página longa não convence mais — só
+dá mais lugar pro cara desistir. Quem precisa de argumento longo pra gastar R$97 não ia
+comprar de qualquer jeito. **A VSL carrega o peso; a página só reduz atrito até o
+checkout.**
+
+Consequências práticas, e não voltar atrás nelas:
+- Nenhum parágrafo com mais de 2 linhas
+- Nada dito duas vezes em blocos diferentes
+- FAQ com 5 perguntas, resposta de 1 a 2 linhas
+- Se um bloco não tira objeção nem empurra pro botão, ele sai
+
+Página longa é pra high ticket, onde a decisão é considerada. Aqui não.
 
 ### Antes de publicar
 

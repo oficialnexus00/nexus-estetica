@@ -23,51 +23,29 @@
 | Alerta do lead no WhatsApp | ✅ testado, Evolution devolveu 201 |
 | Webhook n8n | ✅ publicado |
 
-## O ÚNICO passo pendente: o `agentId` da NEXUS
+## agentId — RESOLVIDO (29/08/2026)
 
-**Situação (29/08/2026, 22h40):** a credencial do CRM já está conectada e correta
-(`Nexus Webhook Secret`, Header Auth). O erro saiu de `401 Invalid API key` para
-`404 Organization not found for this agentId` — ou seja, autentica, mas não acha a organização.
+`AGENT_ID = 3E8B93D20002507338962EAD8ED8E66C`
 
-O `agentId` é uma **string livre gravada no cadastro da organização** no CRM.
-Não é o nome do cliente nem o nome do agente na lista. Prova: a da Karoline é
-literalmente `Karol zein` e funciona (`{"success":true,"action":"created"}`),
-enquanto o cliente dela se chama "Clínica Karoline Zein" e o agente dela é a Júlia.
+Não é nome nenhum: é o **ID do canal GPTMaker "Bia - Nexus"**, vinculado ao cliente
+"Kaian | Nexus". Testado ponta a ponta: o CRM devolveu
+`{"success":true,"action":"created","stage":"new_lead"}`.
 
-**Já testados e REJEITADOS** (todos 404), não perca tempo repetindo:
+**A regra geral do `agentId`** (vale pra qualquer LP nova):
+é o **identificador do canal** na aba Integrações do painel admin, e o formato muda
+por tipo de canal:
+- canal **GPTMAKER** → hex de 32 caracteres (ex: `3F3CDDDC70A4A0E7A36C46AE96AA06B5` da Ultramédica)
+- canal **EVOLUTION** → o nome da instância (ex: `Karol zein` da Karoline)
+
+Por isso a da Karoline é um nome e a da NEXUS é um hex. Não tente adivinhar.
+
+**Nomes já testados e REJEITADOS** (404), não repita:
 `Bia`, `Bia - Nexus`, `Kaian | Nexus`, `NEXUS Health`, `Nexus`, `Bia Nexus`, `bia-nexus`.
 
-Onde procurar o valor certo: aba **Integrações** do painel admin
-(app.nexushealth.com.br/admin), ou direto na tabela de organizações do Supabase
-do CRM (projeto `zqzqoyazazdxyfzpkilw`, Lovable Cloud).
-
-Assim que achar: trocar a 1ª linha do nó "Normalizar lead da LP"
-(`const AGENT_ID = 'Bia - Nexus'`) e republicar.
-
-**Enquanto isso o lead NÃO se perde:** os dois nós de HTTP têm
-`onError: continueRegularOutput`, então o aviso no WhatsApp do Kaian sai mesmo
-com o CRM falhando. Só falta o registro automático no CRM.
-
-## Passo antigo (resolvido)
-
-No workflow **[NEXUS] LP Oferta 1500 -> CRM** (`fKTBr1Orn0ZyTlF5`,
-https://n8n.nexushealth.com.br/workflow/fKTBr1Orn0ZyTlF5), o nó **"Criar lead no CRM Nexus"**
-precisa que alguém selecione no dropdown a credencial Header Auth **que já existe** — a mesma
-que o fluxo `[Karol] Quiz LP → CRM` (`K7eV9D1w1ncpoM0I`) usa. Não é pra criar credencial nova.
-
-Enquanto isso não for feito: o lead **não entra no CRM**, mas o alerta no WhatsApp sai
-do mesmo jeito (os dois nós de HTTP estão com `onError: continueRegularOutput` de propósito),
-então nenhum lead se perde calado.
-
-Depois de selecionar, testar assim:
-
-```bash
-curl -X POST https://webhook.nexushealth.com.br/webhook/lp-oferta-1500 \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"TESTE","whatsapp":"(47) 99108-5152","especialidade":"Harmonizacao facial","faturamento":"R$ 20 mil a R$ 50 mil","variacao":"TESTE"}'
-```
-
-E apagar do CRM os leads chamados "TESTE Claude" (sobraram 2 dos testes de 29/08).
+**Onde achar o ID de um canal GPTMaker:** o painel admin nem sempre renderiza o hex.
+Se o card não mostrar, o valor está no estado do React — abre o cadastro do cliente e roda
+no console do navegador uma varredura de `[0-9A-F]{28,36}` nas props do fiber do elemento
+do canal.
 
 ## Contratos
 

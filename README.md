@@ -34,6 +34,13 @@ remota, sede em Balneário Camboriú/SC.
 │   ├── principios-validados.md   # O que já foi testado e funciona
 │   ├── ativacao-assistida.md     # Porta de entrada do cliente
 │   └── fluxo-bia.md              # Regras do fluxo da agente Bia
+├── criativos/                    # Criação de criativos e artes
+│   ├── padrao-entrega-anuncio.md # Regra: arte no chat = pacote de copy de anúncio
+│   ├── manual-de-arte.md         # Identidade aplicada à peça
+│   ├── briefing-criativo.md      # Template de briefing por peça
+│   ├── banco-de-referencias.md   # O que funcionou e o que morreu
+│   ├── checklist-de-aprovacao.md # QA antes de subir
+│   └── pecas/                    # Peças finalizadas por canal
 ├── stack/                        # Tecnologia
 │   └── stack-tecnico.md          # Ferramentas e arquitetura
 └── pmo/                          # Gestão

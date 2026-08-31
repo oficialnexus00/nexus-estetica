@@ -2,7 +2,8 @@
 
 > Este arquivo é o cérebro do repositório. Ele é lido pelo Claude Code no início de
 > cada sessão e concentra tudo que a IA precisa saber pra agir como sócio do Kaian.
-> Os arquivos das pastas (`empresa/`, `produto/`, `comercial/`, `stack/`, `pmo/`)
+> Os arquivos das pastas (`empresa/`, `produto/`, `comercial/`, `criativos/`, `stack/`,
+> `pmo/`)
 > são o detalhamento. Quando algo mudar, atualize aqui primeiro.
 
 ---
@@ -58,6 +59,22 @@ Gestão com disciplina de PMO. Valida com um canal antes de escalar pra todos.
 - PMO: prioridade P0–P3, dono nomeado, KPI.
 - Lovable: Kaian manda print → Claude devolve **um prompt preciso** pro Lovable.
 - ClickUp: escrita exige aprovar o "Permitir" na UI — avisar **antes** de responder.
+
+## Criativos e artes
+
+A área [`criativos/`](./criativos/) concentra a criação de criativos e artes: manual
+de arte, briefing, banco de referências, nomenclatura, checklist de aprovação e as
+peças finalizadas.
+
+**Regra fixa:** quando o Kaian jogar uma arte no chat pedindo copy, é **sempre pra
+anúncio**. Entregar sem perguntar, em **2 variações de ângulos diferentes**:
+
+1. **Título** da arte (máx. 7 palavras)
+2. **Textos da arte** (subtítulo, bullets, âncora de preço, botão)
+3. **Texto do anúncio** (primary text do Meta)
+4. **Mensagem automática do WhatsApp** — nunca "Olá, gostaria de saber mais sobre..."
+
+Detalhe em [`criativos/padrao-entrega-anuncio.md`](./criativos/padrao-entrega-anuncio.md).
 
 ## Princípios de negócio já validados
 

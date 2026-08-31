@@ -39,8 +39,9 @@ axila de brinde, 12x R$ 129,90.
 > 👉 Chama no WhatsApp e garante o seu.
 
 **Mensagem automática do WhatsApp**
-> Oi! Vi o combo das 4 áreas com a axila de brinde 👀 Ainda dá tempo de garantir nas
-> 12x? Quero saber quais horários vocês têm.
+> Oi! Quero o combo das 4 áreas com a axila de brinde. Ainda tem vaga?
+
+`68 caracteres`
 
 ---
 
@@ -76,8 +77,9 @@ axila de brinde, 12x R$ 129,90.
 > 👉 Manda mensagem agora e garante a sua antes de virar lista de espera.
 
 **Mensagem automática do WhatsApp**
-> Oi! Quero o combo pagando 3 áreas e levando a axila 🙋‍♀️ Ainda tem vaga nessa
-> condição? Pode me passar como funciona pra fechar.
+> Oi! Quero pagar 3 áreas e levar a axila. Ainda dá nas 12x?
+
+`58 caracteres`
 
 ---
 

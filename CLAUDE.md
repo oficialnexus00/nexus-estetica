@@ -72,7 +72,8 @@ anúncio**. Entregar sem perguntar, em **2 variações de ângulos diferentes**:
 1. **Título** da arte (máx. 7 palavras)
 2. **Textos da arte** (subtítulo, bullets, âncora de preço, botão)
 3. **Texto do anúncio** (primary text do Meta)
-4. **Mensagem automática do WhatsApp** — nunca "Olá, gostaria de saber mais sobre..."
+4. **Mensagem automática do WhatsApp** — **máx. 80 caracteres**, nunca "Olá,
+   gostaria de saber mais sobre..."
 
 Detalhe em [`criativos/padrao-entrega-anuncio.md`](./criativos/padrao-entrega-anuncio.md).
 

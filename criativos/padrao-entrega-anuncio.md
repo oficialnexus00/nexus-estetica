@@ -13,18 +13,20 @@ Para **cada uma das 2 variações**:
 | **Título** | Headline da arte. Máx. 7 palavras, entendível em 2 segundos. |
 | **Textos da arte** | Subtítulo, bullets/selos, âncora de preço, botão de CTA — o que vai escrito dentro da peça. |
 | **Texto do anúncio** | Primary text do Meta. Gancho na 1ª linha (antes do "ver mais"), oferta, urgência, CTA. |
-| **Mensagem automática** | A primeira mensagem que o lead manda no WhatsApp ao clicar. **Nunca** "Olá, gostaria de saber mais sobre...". Tem que soar humano, específico e já pré-qualificar. |
+| **Mensagem automática** | A primeira mensagem que o lead manda no WhatsApp ao clicar. **Máximo 80 caracteres.** **Nunca** "Olá, gostaria de saber mais sobre...". Tem que soar humano, específico e já pré-qualificar. |
 
 As 2 variações têm que atacar **ângulos diferentes** — não a mesma ideia com
 sinônimos. Ex.: uma pela dor/rotina, outra pela oferta/preço.
 
 ## Regras da mensagem automática
 
+- **Limite rígido: 80 caracteres.** Sempre entregar com a contagem ao lado.
 - Escrita como o **cliente falaria**, não como a empresa.
 - Cita a oferta específica (o atendente já sabe do que se trata).
 - Já traz intenção de compra ou uma pergunta que abre a conversa.
-- 1 a 2 linhas. Sem formalidade, sem "prezados".
+- Uma linha. Sem formalidade, sem "prezados".
 - Sem pergunta empilhada — uma coisa só ([`../comercial/fluxo-bia.md`](../comercial/fluxo-bia.md)).
+- Emoji só se couber nos 80 — texto vale mais que emoji.
 
 ## Regras de copy agressiva (sem tomar bloqueio)
 

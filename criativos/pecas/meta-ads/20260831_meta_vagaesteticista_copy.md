@@ -45,8 +45,9 @@ plano de carreira), nunca com a pessoa.
 > 👉 62 99963-9497
 
 **Mensagem automática do WhatsApp**
-> Oi! Vi a vaga de esteticista e é exatamente o que eu procuro — principalmente a
-> parte de fixo + comissão. Posso mandar meu currículo por aqui?
+> Oi! Vi a vaga de esteticista. Posso mandar meu currículo por aqui?
+
+`66 caracteres`
 
 ---
 
@@ -83,8 +84,9 @@ plano de carreira), nunca com a pessoa.
 > 👉 62 99963-9497
 
 **Mensagem automática do WhatsApp**
-> Oi! Vi que é uma vaga só de esteticista e acho que sou o perfil 🙋‍♀️ Tenho
-> experiência com facial, corporal e laser. Como faço pra enviar meu currículo?
+> Oi! Sou esteticista, trabalho com laser. Quero concorrer à vaga.
+
+`64 caracteres`
 
 ---
 

@@ -372,7 +372,7 @@ src="https://www.facebook.com/tr?id=1303178888485750&ev=PageView&noscript=1" alt
     var payload={nome:data.nome,whatsapp:data.zap,especialidade:data.area,faturamento:data.fat,variacao:VARIACAO,origem:'LP Oferta 1500 - sem VSL',ts:new Date().toISOString()};
     if(WEBHOOK_URL){ try{ fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),keepalive:true}); }catch(e){} }
     // 2) prepara o botão opcional de WhatsApp
-    var msg='Ola! Quero o diagnostico gratuito da NEXUS.%0A%0ANome: '+enc(data.nome)
+    var msg='Ola! Vim pela pagina da NEXUS e quero fazer a implementacao na minha clinica.%0A%0ANome: '+enc(data.nome)
       +'%0AWhatsApp: '+enc(data.zap)+'%0AEspecialidade: '+enc(data.area)+'%0AFaturamento: '+enc(data.fat);
     var wa=document.getElementById('waNow'); if(wa){ wa.href='https://wa.me/5547991085152?text='+msg; }
     // 3) troca o formulário pela tela de obrigado

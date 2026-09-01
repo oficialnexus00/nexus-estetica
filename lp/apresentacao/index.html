@@ -433,6 +433,9 @@ body{padding-bottom:0}
 <script>
 (function(){
   'use strict';
+  /* Onde o lead marca a reuniao. Trocar por cal.com/nexus quando a agenda
+     estiver no ar — e o unico lugar do arquivo que precisa mudar. */
+  var LINK_AGENDA = '';
   var ZAP = '5547991085152';
 
   /* --- nicho: ?n=estetica ou o botao no topo --- */
@@ -448,7 +451,7 @@ body{padding-bottom:0}
   function montaLink(n){
     var area = n === 'estetica' ? 'estetica' : 'odonto';
     var txt = encodeURIComponent('Olá! Vi a apresentação da NEXUS e quero desenhar a estrutura da minha clínica.');
-    var href = 'https://wa.me/' + ZAP + '?text=' + txt;
+    var href = LINK_AGENDA || ('https://wa.me/' + ZAP + '?text=' + txt);
     var a1 = document.getElementById('zapPrincipal'), a2 = document.getElementById('zapFixo');
     if (a1) a1.href = href; if (a2) a2.href = href;
     void area;

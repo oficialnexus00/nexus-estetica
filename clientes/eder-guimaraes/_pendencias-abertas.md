@@ -13,8 +13,7 @@
 
 ## Retrabalho identificado
 
-- `lp/index.html` foi escrita para **estética facial** (premissa errada, antes de
-  saber o nicho). A estrutura serve; a copy inteira precisa ser reescrita pra
-  ultrassom. Não usar como está.
+- ~~`lp/index.html` escrita para estética facial~~ → **refeita para ultrassom**
+  em 01/09. Falta só o Eder validar os preparos e o prazo do laudo.
 - `06-trafego.md` está montado para **Meta**. Se confirmar o Cenário A
   (ultrassom geral), vira plano de **Google Busca**.

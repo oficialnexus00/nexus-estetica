@@ -1,274 +1,265 @@
-<title>Mesmo Rosto, Descansado</title>
+<title>Ultrassom Sem Fila</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 
 <!--
-  ══════════════════════════════════════════════════════════════════════
-  LP MODELO — NEXUS  ·  captação de pacientes via WhatsApp
-  TROCAR (12 pontos, todos marcados com  <!-- ✎  -->  no HTML):
-    1. nome da clínica        5. formação/registro     9. endereço
-    2. cidade                 6. números de prova     10. link do WhatsApp
-    3. nome da profissional   7. depoimentos          11. CNPJ / resp. técnica
-    4. procedimento           8. vagas do mês         12. imagens
-  O link do WhatsApp aparece em 4 lugares — usar buscar/substituir em
-  "https://wa.me/5500000000000".
-  ══════════════════════════════════════════════════════════════════════
+  ═══════════════════════════════════════════════════════════════════
+  LP — Dr. Eder Guimarães · Ultrassonografia
+  Destino do Google Busca. Página de RESPOSTA, não de persuasão:
+  a paciente já tem o pedido na mão.
+  CTA primário = mandar FOTO DO PEDIDO no WhatsApp (menor fricção
+  possível — ela não precisa saber o nome do exame nem digitar).
+
+  TROCAR — marcado com  ✎  no HTML:
+    · nome da clínica / do serviço      · lista de exames que ele faz
+    · cidade e endereço                 · convênios aceitos
+    · WhatsApp (5 ocorrências: 5500000000000)
+    · telefone (2 ocorrências: tel:)    · CRM e formação
+    · horário de atendimento            · prazo real do laudo
+  ═══════════════════════════════════════════════════════════════════
 -->
 
 <style>
   :root{
-    --bg:#E9EAE5;
-    --surface:#FBFBF9;
-    --ink:#1A1F1B;
-    --ink-soft:#414942;
-    --ink-mut:#6E766D;
-    --line:rgba(26,31,27,.15);
-    --line-soft:rgba(26,31,27,.08);
-    --accent:#9A6B24;
-    --accent-ink:#7E561B;
-    --accent-soft:rgba(154,107,36,.10);
-    --glow:rgba(154,107,36,.14);
+    --bg:#EEF2F1;
+    --surface:#FFFFFF;
+    --raise:#F7FAF9;
+    --ink:#10201F;
+    --ink-soft:#3A4B4A;
+    --ink-mut:#697877;
+    --line:rgba(16,32,31,.14);
+    --line-soft:rgba(16,32,31,.075);
+    --accent:#0A5C6B;
+    --accent-ink:#084A57;
+    --accent-soft:rgba(10,92,107,.09);
     --wa:#1E8E5A;
+    --warn-bg:rgba(196,124,26,.11);
+    --warn-ink:#8A5510;
 
-    --serif:'Instrument Serif','Iowan Old Style',Georgia,ui-serif,serif;
-    --sans:'Karla',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    --serif:'Newsreader','Iowan Old Style',Georgia,ui-serif,serif;
+    --sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
 
-    --col:620px;
-    --gut:22px;
+    --col:660px;
+    --gut:20px;
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){
-      --bg:#151613;
-      --surface:#1D1F1A;
-      --ink:#EBE9E1;
-      --ink-soft:#B9B7AE;
-      --ink-mut:#8A8880;
-      --line:rgba(235,233,225,.16);
-      --line-soft:rgba(235,233,225,.08);
-      --accent:#D9A85C;
-      --accent-ink:#E4BC7C;
-      --accent-soft:rgba(217,168,92,.13);
-      --glow:rgba(217,168,92,.13);
+      --bg:#0F1516;
+      --surface:#171F20;
+      --raise:#1D2627;
+      --ink:#E6EDEC;
+      --ink-soft:#B0BEBD;
+      --ink-mut:#82918F;
+      --line:rgba(230,237,236,.16);
+      --line-soft:rgba(230,237,236,.08);
+      --accent:#4FBECB;
+      --accent-ink:#6FD2DD;
+      --accent-soft:rgba(79,190,203,.13);
       --wa:#3FBE85;
+      --warn-bg:rgba(226,161,63,.13);
+      --warn-ink:#E2A13F;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#151613;
-    --surface:#1D1F1A;
-    --ink:#EBE9E1;
-    --ink-soft:#B9B7AE;
-    --ink-mut:#8A8880;
-    --line:rgba(235,233,225,.16);
-    --line-soft:rgba(235,233,225,.08);
-    --accent:#D9A85C;
-    --accent-ink:#E4BC7C;
-    --accent-soft:rgba(217,168,92,.13);
-    --glow:rgba(217,168,92,.13);
+    --bg:#0F1516;
+    --surface:#171F20;
+    --raise:#1D2627;
+    --ink:#E6EDEC;
+    --ink-soft:#B0BEBD;
+    --ink-mut:#82918F;
+    --line:rgba(230,237,236,.16);
+    --line-soft:rgba(230,237,236,.08);
+    --accent:#4FBECB;
+    --accent-ink:#6FD2DD;
+    --accent-soft:rgba(79,190,203,.13);
     --wa:#3FBE85;
+    --warn-bg:rgba(226,161,63,.13);
+    --warn-ink:#E2A13F;
   }
 
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   body{
     margin:0;background:var(--bg);color:var(--ink);
-    font-family:var(--sans);font-size:16.5px;line-height:1.62;
+    font-family:var(--sans);font-size:16.5px;line-height:1.6;
     -webkit-font-smoothing:antialiased;overflow-x:hidden;
-    padding-bottom:84px;
+    padding-bottom:92px;
   }
-  @media (min-width:760px){ body{padding-bottom:0} }
-
+  @media (min-width:780px){ body{padding-bottom:0} }
   .wrap{width:100%;max-width:var(--col);margin:0 auto;padding:0 var(--gut)}
 
-  h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.005em;text-wrap:balance;margin:0}
-  h1{font-size:clamp(35px,8.4vw,58px);line-height:1.06}
-  h2{font-size:clamp(26px,5.4vw,36px);line-height:1.14}
-  h3{font-size:20px;line-height:1.3}
-  em{font-style:italic;color:var(--accent-ink)}
+  h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.008em;text-wrap:balance;margin:0}
+  h1{font-size:clamp(32px,7.4vw,50px);line-height:1.08}
+  h2{font-size:clamp(24px,5vw,33px);line-height:1.16}
+  h3{font-family:var(--sans);font-weight:600;font-size:17px;line-height:1.35;margin:0}
   p{margin:0}
+  em{font-style:italic;color:var(--accent-ink)}
 
   .eyebrow{
-    font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
     color:var(--accent-ink);
   }
 
-  /* ── topo ─────────────────────────────────────────── */
-  header{padding:24px 0 0}
-  .brand{
-    display:flex;align-items:baseline;gap:9px;
-    font-weight:600;font-size:14px;letter-spacing:.02em;
+  /* ── topo ── */
+  header{padding:20px 0 0}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .brand i{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+  .tel{
+    font-size:14px;font-weight:600;color:var(--accent-ink);text-decoration:none;
+    white-space:nowrap;
   }
-  .brand .mark{
-    width:7px;height:7px;border-radius:50%;background:var(--accent);
-    align-self:center;flex:none;
-  }
-  .brand span{color:var(--ink-mut);font-weight:400;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
+  .tel:hover{text-decoration:underline}
+  .tel:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
 
-  /* ── hero ─────────────────────────────────────────── */
-  .hero{position:relative;padding:52px 0 8px;isolation:isolate}
-  .hero::before{
-    content:"";position:absolute;z-index:-1;
-    left:50%;top:-6%;translate:-50% 0;
-    width:min(780px,150vw);aspect-ratio:1;
-    background:radial-gradient(circle at 50% 40%,var(--glow) 0%,transparent 62%);
-    pointer-events:none;
+  /* ── hero + setor de varredura ── */
+  .hero{position:relative;padding:44px 0 6px;isolation:isolate;overflow:hidden}
+  .sector{
+    position:absolute;z-index:-1;top:-40px;left:50%;translate:-50% 0;
+    width:min(560px,120vw);opacity:.5;pointer-events:none;
   }
-  .hero h1{max-width:13ch}
-  .hero .lede{
-    margin-top:20px;max-width:46ch;font-size:17.5px;color:var(--ink-soft);
-  }
+  .sector path,.sector line{fill:none;stroke:var(--accent);stroke-width:1}
+  .hero h1{max-width:15ch}
+  .hero .lede{margin-top:18px;max-width:44ch;font-size:17px;color:var(--ink-soft)}
 
-  /* ── botões ───────────────────────────────────────── */
+  /* ── botões ── */
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
-    background:var(--wa);color:#fff;text-decoration:none;
-    font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:.01em;
-    padding:15px 26px;border-radius:999px;border:0;
-    transition:transform .16s ease,filter .16s ease;
+    font-family:var(--sans);font-weight:600;font-size:16px;
+    padding:15px 24px;border-radius:10px;text-decoration:none;border:1px solid transparent;
+    transition:transform .15s ease,filter .15s ease;
   }
-  .btn:hover{filter:brightness(1.07)}
+  .btn-wa{background:var(--wa);color:#fff}
+  .btn-tel{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn:hover{filter:brightness(1.06)}
   .btn:active{transform:translateY(1px)}
-  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   .btn svg{width:19px;height:19px;flex:none}
-  .cta-row{margin-top:28px;display:flex;flex-direction:column;align-items:flex-start;gap:11px}
-  .cta-note{font-size:13.5px;color:var(--ink-mut)}
+  .cta{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}
+  .cta .btn{flex:1 1 auto;min-width:210px}
+  .cta-note{margin-top:12px;font-size:13.5px;color:var(--ink-mut)}
 
-  /* ── prova numérica ───────────────────────────────── */
-  .stats{
-    margin-top:46px;display:grid;grid-template-columns:repeat(3,1fr);
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  /* ── fatos rápidos ── */
+  .facts{
+    margin-top:34px;display:grid;gap:1px;background:var(--line-soft);
+    border:1px solid var(--line-soft);border-radius:10px;overflow:hidden;
+    grid-template-columns:1fr;
   }
-  .stat{padding:20px 0;text-align:center}
-  .stat + .stat{border-left:1px solid var(--line-soft)}
-  .stat b{
-    display:block;font-family:var(--serif);font-weight:400;font-size:30px;
-    line-height:1;font-variant-numeric:tabular-nums;
-  }
-  .stat small{
-    display:block;margin-top:7px;font-size:11px;letter-spacing:.13em;
-    text-transform:uppercase;color:var(--ink-mut);
-  }
+  @media (min-width:560px){ .facts{grid-template-columns:repeat(3,1fr)} }
+  .fact{background:var(--surface);padding:16px 16px}
+  .fact b{display:block;font-size:15px;font-weight:600}
+  .fact small{display:block;margin-top:3px;font-size:13px;color:var(--ink-mut);line-height:1.45}
 
-  /* ── seções ───────────────────────────────────────── */
-  section{padding:56px 0}
+  /* ── seções ── */
+  section{padding:52px 0}
   section + section{border-top:1px solid var(--line-soft)}
-  .sec-head{display:flex;flex-direction:column;gap:14px;margin-bottom:26px}
+  .head{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+  .head p.sub{color:var(--ink-soft);font-size:15.5px;max-width:52ch}
 
-  /* ── lista de identificação ───────────────────────── */
-  .ident{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
-  .ident li{
-    display:flex;gap:14px;align-items:flex-start;
-    padding:17px 0;border-bottom:1px solid var(--line-soft);
-    color:var(--ink-soft);
+  /* ── lista de exames ── */
+  .exams{
+    display:grid;gap:1px;background:var(--line-soft);
+    border:1px solid var(--line-soft);border-radius:10px;overflow:hidden;
+    grid-template-columns:1fr;
   }
-  .ident li:first-child{border-top:1px solid var(--line-soft)}
-  .ident .tick{
-    flex:none;width:19px;height:19px;margin-top:4px;border-radius:50%;
-    background:var(--accent-soft);color:var(--accent-ink);
-    display:grid;place-items:center;font-size:11px;font-weight:700;
+  @media (min-width:520px){ .exams{grid-template-columns:1fr 1fr} }
+  .exam{
+    background:var(--surface);padding:13px 15px;font-size:15px;
+    display:flex;align-items:center;gap:10px;
   }
+  .exam::before{
+    content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none;
+  }
+  .exams-note{margin-top:14px;font-size:14px;color:var(--ink-mut)}
 
-  /* ── passos (sequência real → numeração honesta) ──── */
-  .steps{display:flex;flex-direction:column;gap:0}
-  .step{display:grid;grid-template-columns:auto 1fr;gap:0 18px;padding:26px 0;border-bottom:1px solid var(--line-soft)}
+  /* ── etapas ── */
+  .steps{display:grid;gap:0}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:0 16px;padding:22px 0;border-bottom:1px solid var(--line-soft)}
   .step:first-child{border-top:1px solid var(--line-soft)}
   .step .n{
-    font-family:var(--serif);font-size:26px;line-height:1;color:var(--accent);
-    font-variant-numeric:tabular-nums;grid-row:span 2;padding-top:2px;
+    font-family:var(--serif);font-size:24px;line-height:1;color:var(--accent);
+    font-variant-numeric:tabular-nums;grid-row:span 2;padding-top:1px;
   }
-  .step h3{margin-bottom:5px}
-  .step p{color:var(--ink-soft);font-size:15.5px}
-  .step .dur{
-    display:inline-block;margin-top:9px;font-size:11px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--ink-mut);
-  }
+  .step p{margin-top:5px;color:var(--ink-soft);font-size:15px}
 
-  /* ── profissional ─────────────────────────────────── */
-  .pro{background:var(--surface);border:1px solid var(--line-soft);border-radius:4px;padding:28px 24px}
-  .pro .avatar{
-    width:74px;height:74px;border-radius:50%;background:var(--accent-soft);
-    border:1px solid var(--line);display:grid;place-items:center;
-    font-family:var(--serif);font-size:26px;color:var(--accent-ink);margin-bottom:18px;
+  /* ── preparo ── */
+  .prep-warn{
+    display:flex;gap:11px;align-items:flex-start;
+    background:var(--warn-bg);color:var(--warn-ink);
+    border-radius:10px;padding:14px 16px;font-size:14.5px;line-height:1.5;
+    margin-bottom:20px;font-weight:500;
   }
-  .pro .reg{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mut);margin-top:4px}
-  .pro p{margin-top:16px;color:var(--ink-soft);font-size:15.5px}
-  .pro blockquote{
-    margin:20px 0 0;padding-left:16px;border-left:2px solid var(--accent);
-    font-family:var(--serif);font-size:20px;line-height:1.36;font-style:italic;color:var(--ink);
-  }
-
-  /* ── depoimentos ──────────────────────────────────── */
-  .quotes{display:flex;flex-direction:column;gap:22px}
-  .quote{padding:22px 0;border-top:1px solid var(--line-soft)}
-  .quote p{font-family:var(--serif);font-size:19.5px;line-height:1.4;color:var(--ink)}
-  .quote cite{
-    display:block;margin-top:12px;font-family:var(--sans);font-style:normal;
-    font-size:12.5px;letter-spacing:.05em;color:var(--ink-mut);
-  }
-  .ba-slot{
-    margin-top:26px;border:1px dashed var(--line);border-radius:4px;
-    padding:26px 20px;text-align:center;color:var(--ink-mut);font-size:13.5px;
-  }
-
-  /* ── oferta ───────────────────────────────────────── */
-  .offer{
-    background:var(--surface);border:1px solid var(--line);border-radius:4px;
-    padding:30px 24px;
-  }
-  .offer h2{margin-bottom:6px}
-  .offer .why{margin-top:14px;color:var(--ink-soft);font-size:15.5px}
-  .incl{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
-  .incl li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;color:var(--ink-soft)}
-  .incl .ck{color:var(--wa);flex:none;font-weight:700}
-  .scarce{
-    margin-top:22px;padding-top:18px;border-top:1px solid var(--line-soft);
-    font-size:13.5px;color:var(--ink-mut);
-  }
-  .scarce b{color:var(--ink);font-weight:600}
-
-  /* ── FAQ ──────────────────────────────────────────── */
-  details{border-bottom:1px solid var(--line-soft)}
-  details:first-of-type{border-top:1px solid var(--line-soft)}
+  details{border-bottom:1px solid var(--line-soft);background:var(--surface)}
+  details:first-of-type{border-top:1px solid var(--line-soft);border-radius:10px 10px 0 0}
+  details:last-of-type{border-radius:0 0 10px 10px}
   summary{
-    list-style:none;cursor:pointer;padding:18px 30px 18px 0;position:relative;
-    font-weight:600;font-size:16px;
+    list-style:none;cursor:pointer;padding:15px 34px 15px 16px;position:relative;
+    font-weight:600;font-size:15.5px;
   }
   summary::-webkit-details-marker{display:none}
-  summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
   summary::after{
-    content:"";position:absolute;right:6px;top:50%;width:8px;height:8px;
+    content:"";position:absolute;right:16px;top:50%;width:7px;height:7px;
     border-right:1.5px solid var(--ink-mut);border-bottom:1.5px solid var(--ink-mut);
     translate:0 -70%;rotate:45deg;transition:rotate .2s ease;
   }
   details[open] summary::after{rotate:-135deg;translate:0 -20%}
-  details p{padding:0 0 20px;color:var(--ink-soft);font-size:15.5px;max-width:56ch}
+  details .body{padding:0 16px 17px;color:var(--ink-soft);font-size:15px;max-width:56ch}
+  details .body b{color:var(--ink);font-weight:600}
 
-  /* ── fechamento ───────────────────────────────────── */
-  .close{text-align:center;padding:64px 0}
-  .close h2{max-width:16ch;margin:0 auto}
-  .close .cta-row{align-items:center;margin-top:26px}
-  .addr{
-    margin-top:34px;padding-top:24px;border-top:1px solid var(--line-soft);
-    font-size:14px;color:var(--ink-soft);line-height:1.75;
+  /* ── médico ── */
+  .doc{background:var(--surface);border:1px solid var(--line-soft);border-radius:12px;padding:26px 22px}
+  .doc .ph{
+    width:70px;height:70px;border-radius:50%;background:var(--accent-soft);
+    border:1px solid var(--line);display:grid;place-items:center;
+    font-family:var(--serif);font-size:24px;color:var(--accent-ink);margin-bottom:16px;
   }
-  .addr b{display:block;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-mut);margin-bottom:7px;font-weight:600}
+  .doc .crm{font-size:13px;letter-spacing:.05em;color:var(--ink-mut);margin-top:3px}
+  .doc p{margin-top:15px;color:var(--ink-soft);font-size:15.5px}
+  .doc .claim{
+    margin-top:18px;padding:16px;background:var(--accent-soft);border-radius:9px;
+    font-family:var(--serif);font-size:19px;line-height:1.4;color:var(--ink);
+  }
 
-  footer{padding:30px 0 40px;border-top:1px solid var(--line-soft)}
-  footer p{font-size:12px;line-height:1.7;color:var(--ink-mut)}
-  footer p + p{margin-top:9px}
+  /* ── convênio / valores ── */
+  .pay{display:grid;gap:12px;grid-template-columns:1fr}
+  @media (min-width:560px){ .pay{grid-template-columns:1fr 1fr} }
+  .card{background:var(--surface);border:1px solid var(--line-soft);border-radius:11px;padding:20px}
+  .card h3{margin-bottom:8px}
+  .card p{color:var(--ink-soft);font-size:15px}
 
-  /* ── barra fixa mobile ────────────────────────────── */
+  /* ── local ── */
+  .local{background:var(--raise);border:1px solid var(--line-soft);border-radius:12px;padding:22px}
+  .local dl{margin:0;display:grid;gap:15px}
+  .local dt{
+    font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--ink-mut);font-weight:600;margin-bottom:3px;
+  }
+  .local dd{margin:0;font-size:15.5px;color:var(--ink);line-height:1.55}
+
+  /* ── fechamento ── */
+  .close{padding:56px 0 60px;text-align:center}
+  .close h2{max-width:18ch;margin:0 auto}
+  .close .cta{justify-content:center;margin-top:24px}
+
+  footer{padding:26px 0 36px;border-top:1px solid var(--line-soft)}
+  footer p{font-size:12px;line-height:1.65;color:var(--ink-mut)}
+  footer p + p{margin-top:8px}
+
+  /* ── dock ── */
   .dock{
     position:fixed;left:0;right:0;bottom:0;z-index:50;
-    padding:12px var(--gut) calc(12px + env(safe-area-inset-bottom));
-    background:color-mix(in srgb,var(--bg) 88%,transparent);
+    padding:10px var(--gut) calc(10px + env(safe-area-inset-bottom));
+    background:color-mix(in srgb,var(--bg) 90%,transparent);
     backdrop-filter:blur(12px);border-top:1px solid var(--line);
   }
-  .dock .btn{width:100%;max-width:var(--col);margin:0 auto;display:flex}
-  @media (min-width:760px){ .dock{display:none} }
+  .dock .inner{display:flex;gap:8px;max-width:var(--col);margin:0 auto}
+  .dock .btn-wa{flex:2 1 0}
+  .dock .btn-tel{flex:1 1 0;background:var(--surface)}
+  @media (min-width:780px){ .dock{display:none} }
 
-  /* ── reveal ───────────────────────────────────────── */
-  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .rv{opacity:0;transform:translateY(12px);transition:opacity .55s ease,transform .55s ease}
   .rv.in{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -279,89 +270,110 @@
 
 <header>
   <div class="wrap">
-    <!-- ✎ 1. nome da clínica -->
-    <div class="brand"><i class="mark"></i>SUA CLÍNICA AQUI <span>Estética Avançada</span></div>
+    <div class="bar">
+      <!-- ✎ nome do serviço/clínica -->
+      <div class="brand"><i></i>Dr. Eder Guimarães</div>
+      <!-- ✎ telefone -->
+      <a class="tel" href="tel:+550000000000">(00) 0000-0000</a>
+    </div>
   </div>
 </header>
 
 <main>
   <div class="hero">
+    <svg class="sector" viewBox="0 0 400 260" aria-hidden="true">
+      <path d="M200 8 L58 250" opacity=".28"/>
+      <path d="M200 8 L342 250" opacity=".28"/>
+      <path d="M200 8 L200 250" opacity=".12"/>
+      <path d="M200 8 L129 250" opacity=".12"/>
+      <path d="M200 8 L271 250" opacity=".12"/>
+      <path d="M129 128 A 150 150 0 0 0 271 128" opacity=".2"/>
+      <path d="M100 178 A 220 220 0 0 0 300 178" opacity=".14"/>
+      <path d="M72 228 A 290 290 0 0 0 328 228" opacity=".1"/>
+    </svg>
     <div class="wrap">
-      <!-- ✎ 2. cidade -->
-      <p class="eyebrow">Cidade · Atendimento com hora marcada</p>
-      <h1>Você não quer parecer <em>outra pessoa.</em> Quer parecer descansada.</h1>
+      <!-- ✎ cidade -->
+      <p class="eyebrow">Ultrassonografia · Cidade/UF</p>
+      <h1>Você tem o pedido. A gente resolve <em>hoje.</em></h1>
       <p class="lede">
-        <!-- ✎ 4. procedimento -->
-        Harmonização facial feita sob medida — avaliada no seu rosto, não num
-        protocolo pronto. Resultado que ninguém percebe que é procedimento.
-        Só percebem que você está bem.
+        Manda a foto do pedido no WhatsApp. A gente te diz o preço, o preparo
+        e o horário — sem você precisar saber o nome do exame.
       </p>
-      <div class="cta-row">
-        <!-- ✎ 10. link do WhatsApp (4 ocorrências no arquivo) -->
-        <a class="btn" href="https://wa.me/5500000000000?text=Oi!%20Vim%20pelo%20site%20e%20quero%20saber%20sobre%20a%20avalia%C3%A7%C3%A3o." data-cta="hero">
+      <div class="cta">
+        <!-- ✎ WhatsApp (5 ocorrências) -->
+        <a class="btn btn-wa" href="https://wa.me/5500000000000?text=Oi!%20Quero%20marcar%20um%20ultrassom.%20Vou%20mandar%20a%20foto%20do%20pedido." data-cta="hero">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
-          Falar no WhatsApp
+          Mandar foto do pedido
         </a>
-        <p class="cta-note">Resposta em minutos · Avaliação sem compromisso</p>
+        <a class="btn btn-tel" href="tel:+550000000000" data-cta="hero-tel">Ligar agora</a>
       </div>
+      <!-- ✎ horário -->
+      <p class="cta-note">Segunda a sexta, 8h às 18h · Sábado até 12h</p>
 
-      <!-- ✎ 6. números de prova — só usar número REAL -->
-      <div class="stats">
-        <div class="stat"><b>+400</b><small>procedimentos</small></div>
-        <div class="stat"><b>8</b><small>anos de consultório</small></div>
-        <div class="stat"><b>4,9</b><small>no Google</small></div>
+      <div class="facts">
+        <!-- ✎ conferir se o prazo do laudo é real antes de publicar -->
+        <div class="fact"><b>Laudo no mesmo dia</b><small>Você sai daqui com o resultado em mãos</small></div>
+        <div class="fact"><b>Sem fila de espera</b><small>Agenda curta, hora marcada de verdade</small></div>
+        <div class="fact"><b>Feito pelo médico</b><small>Quem examina é quem assina o laudo</small></div>
       </div>
     </div>
   </div>
 
   <section class="rv">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Talvez seja o seu caso</p>
-        <h2>Isso aqui te soa familiar?</h2>
+      <div class="head">
+        <p class="eyebrow">Exames</p>
+        <h2>Qual exame o seu pedido está pedindo?</h2>
+        <p class="sub">Se o seu não estiver na lista, manda a foto mesmo assim — a gente confirma na hora.</p>
       </div>
-      <ul class="ident">
-        <li><i class="tick">✓</i><span>Te perguntam se você dormiu mal — e você dormiu bem.</span></li>
-        <li><i class="tick">✓</i><span>Você já pensou em harmonização, mas trava com medo de ficar com cara artificial.</span></li>
-        <li><i class="tick">✓</i><span>Você não quer um rosto novo. Quer o mesmo rosto, sem a cara de cansaço.</span></li>
-        <li><i class="tick">✓</i><span>Você já pesquisou, viu preço de tudo quanto é lugar e ficou mais confusa do que antes.</span></li>
-      </ul>
+      <!-- ✎ ajustar para os exames que ele REALMENTE faz -->
+      <div class="exams">
+        <div class="exam">Abdome total</div>
+        <div class="exam">Abdome superior</div>
+        <div class="exam">Rins e vias urinárias</div>
+        <div class="exam">Tireoide</div>
+        <div class="exam">Mamas</div>
+        <div class="exam">Pélvico</div>
+        <div class="exam">Transvaginal</div>
+        <div class="exam">Obstétrico</div>
+        <div class="exam">Próstata (via abdominal)</div>
+        <div class="exam">Bolsa escrotal</div>
+        <div class="exam">Partes moles e cervical</div>
+        <div class="exam">Articulações (ombro, joelho, punho)</div>
+      </div>
+      <p class="exams-note">Não sabe qual é? Está escrito no papel que o médico te deu. Manda a foto.</p>
     </div>
   </section>
 
   <section class="rv">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="head">
         <p class="eyebrow">Como funciona</p>
-        <h2>Três etapas. Sem surpresa em nenhuma.</h2>
+        <h2>Três passos. O primeiro leva dez segundos.</h2>
       </div>
       <div class="steps">
         <div class="step">
           <div class="n">01</div>
           <div>
-            <h3>Avaliação</h3>
-            <p>A gente olha o seu rosto inteiro — proporção, expressão, o que incomoda você
-            de verdade. Não o que está na moda. Você sai sabendo o que precisa e, principalmente,
-            o que <em>não</em> precisa.</p>
-            <span class="dur">45 minutos</span>
+            <h3>Você manda a foto do pedido</h3>
+            <p>Só a foto, no WhatsApp. A gente lê, confirma o exame, te passa o valor
+            e o preparo necessário. Você não precisa entender nada de exame.</p>
           </div>
         </div>
         <div class="step">
           <div class="n">02</div>
           <div>
-            <h3>Plano por escrito</h3>
-            <p>Você recebe a proposta no papel: o que fazer agora, o que pode esperar e quanto
-            custa cada parte. Sem pacote empurrado e sem decisão tomada na hora.</p>
-            <span class="dur">No mesmo dia</span>
+            <h3>Escolhe o horário</h3>
+            <p>A gente oferece dois horários. Hora marcada é hora marcada — a agenda
+            é curta justamente pra isso.</p>
           </div>
         </div>
         <div class="step">
           <div class="n">03</div>
           <div>
-            <h3>Procedimento e retorno</h3>
-            <p>Feito em consultório, com anestésico tópico. O retorno de 30 dias já está
-            incluso — é nele que a gente ajusta o que precisar.</p>
-            <span class="dur">Retorno incluso</span>
+            <h3>Faz o exame e sai com o laudo</h3>
+            <p>O exame leva de 15 a 30 minutos. O laudo sai no mesmo dia, assinado
+            pelo médico que fez o seu exame.</p>
           </div>
         </div>
       </div>
@@ -370,76 +382,63 @@
 
   <section class="rv">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Quem vai te atender</p>
+      <div class="head">
+        <p class="eyebrow">Preparo</p>
+        <h2>Chegar sem preparo perde o exame.</h2>
+        <p class="sub">Confere aqui antes de vir. Na dúvida, pergunta no WhatsApp — a gente prefere responder dez vezes a te ver voltar pra casa sem fazer.</p>
       </div>
-      <div class="pro">
-        <!-- ✎ 3 e 5. nome, registro e formação · 12. trocar o círculo por foto real -->
-        <div class="avatar">DN</div>
-        <h2>Dra. Nome Sobrenome</h2>
-        <p class="reg">Registro 00000 · Especialização em Estética Avançada</p>
+      <div class="prep-warn">
+        <span aria-hidden="true">⚠️</span>
+        <span>O preparo muda conforme o exame. Se o seu pedido tem mais de um, vale o preparo mais rigoroso dos dois.</span>
+      </div>
+      <details>
+        <summary>Abdome total ou abdome superior</summary>
+        <div class="body"><b>Jejum de 6 a 8 horas.</b> Pode beber água. Se você toma
+        remédio de uso contínuo, tome normalmente com um gole de água.</div>
+      </details>
+      <details>
+        <summary>Pélvico, obstétrico inicial, rins e vias urinárias</summary>
+        <div class="body"><b>Bexiga cheia.</b> Beba cerca de 1 litro de água uma hora antes
+        e <b>não urine</b> até o exame. É desconfortável, mas sem isso não dá pra ver.</div>
+      </details>
+      <details>
+        <summary>Transvaginal</summary>
+        <div class="body"><b>Bexiga vazia.</b> Urine antes de entrar. Não precisa de jejum.
+        Pode ser feito em qualquer fase do ciclo, salvo orientação do seu médico.</div>
+      </details>
+      <details>
+        <summary>Próstata por via abdominal</summary>
+        <div class="body"><b>Bexiga cheia.</b> Mesmo esquema: 1 litro de água uma hora antes,
+        sem urinar.</div>
+      </details>
+      <details>
+        <summary>Tireoide, mamas, partes moles, articulações, bolsa escrotal</summary>
+        <div class="body"><b>Sem preparo.</b> Pode comer e beber normalmente. Só evite creme
+        ou óleo na região no dia do exame.</div>
+      </details>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="head"><p class="eyebrow">Quem faz o seu exame</p></div>
+      <div class="doc">
+        <div class="ph">EG</div>
+        <h2>Dr. Eder Guimarães</h2>
+        <!-- ✎ CRM, ano de formação e título/curso de ultrassonografia -->
+        <p class="crm">CRM 00000/UF · Ultrassonografia</p>
         <p>
-          Eu atendo em consultório há oito anos e vejo a mesma cena toda semana: gente que
-          chega com print de rosto dos outros. Meu trabalho não é copiar rosto — é entender
-          o que o seu já tem de bom e devolver o descanso que sumiu.
+          Em laboratório grande, muitas vezes um técnico faz as imagens e outro
+          profissional escreve o laudo depois, sem ter visto você. Aqui não funciona assim:
+          quem passa o transdutor é quem assina o papel.
         </p>
-        <blockquote>
-          Prefiro fazer de menos e você voltar, do que fazer demais e você se arrepender.
-        </blockquote>
-      </div>
-    </div>
-  </section>
-
-  <section class="rv">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Quem já passou por aqui</p>
-        <h2>O que elas contam depois.</h2>
-      </div>
-      <!-- ✎ 7. depoimentos REAIS, com autorização por escrito -->
-      <div class="quotes">
-        <div class="quote">
-          <p>“Meu marido falou que eu tava com uma cara boa e perguntou se eu tinha viajado.
-          Ele não percebeu que eu tinha feito nada. Era exatamente isso que eu queria.”</p>
-          <cite>Paciente, 41 anos · harmonização facial</cite>
-        </div>
-        <div class="quote">
-          <p>“Fui em outros dois lugares antes e nos dois me empurraram pacote fechado.
-          Aqui foi a primeira vez que alguém me falou que uma coisa que eu queria fazer
-          não valia a pena no meu caso.”</p>
-          <cite>Paciente, 34 anos · avaliação e plano</cite>
-        </div>
-      </div>
-      <div class="ba-slot">
-        ✎ Espaço do antes/depois — pode viver aqui, <b>não pode</b> no anúncio.<br>
-        Exige autorização de uso de imagem assinada e arquivada.
-      </div>
-    </div>
-  </section>
-
-  <section class="rv">
-    <div class="wrap">
-      <div class="offer">
-        <p class="eyebrow">A condição deste mês</p>
-        <h2>Avaliação completa, sem custo.</h2>
-        <p class="why">
-          Reservo um número fixo de horários por mês para avaliação de rosto inteiro.
-          É o que cabe na agenda sem virar linha de produção — por isso não é o mês todo.
+        <p>
+          Isso muda o exame. Se aparece alguma coisa na tela, eu volto, olho de outro
+          ângulo e te explico ali mesmo — em vez de você descobrir num relatório três
+          dias depois, sozinha, tentando entender o que está escrito.
         </p>
-        <ul class="incl">
-          <li><i class="ck">✅</i><span>45 minutos de avaliação, presencial</span></li>
-          <li><i class="ck">✅</i><span>Análise de proporção e expressão do rosto inteiro</span></li>
-          <li><i class="ck">✅</i><span>Plano por escrito, com valores de cada etapa</span></li>
-          <li><i class="ck">✅</i><span>Orientação do que <b>não</b> fazer agora</span></li>
-          <li><i class="ck">✅</i><span>Sem compromisso de fechar nada no dia</span></li>
-        </ul>
-        <!-- ✎ 8. vagas do mês — número real, atualizado -->
-        <p class="scarce"><b>8 horários</b> reservados para avaliação neste mês.</p>
-        <div class="cta-row">
-          <a class="btn" href="https://wa.me/5500000000000?text=Oi!%20Quero%20uma%20das%20vagas%20de%20avalia%C3%A7%C3%A3o%20deste%20m%C3%AAs." data-cta="oferta">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
-            Quero minha avaliação
-          </a>
+        <div class="claim">
+          A agenda é curta de propósito. Cada exame tem o tempo que precisa ter.
         </div>
       </div>
     </div>
@@ -447,56 +446,101 @@
 
   <section class="rv">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Antes de você perguntar</p>
-        <h2>As dúvidas de sempre.</h2>
+      <div class="head">
+        <p class="eyebrow">Pagamento</p>
+        <h2>Particular e convênio.</h2>
       </div>
+      <div class="pay">
+        <div class="card">
+          <h3>Particular</h3>
+          <!-- ✎ valores reais ou faixa -->
+          <p>Valor por exame, sem taxa escondida. Manda a foto do pedido que a gente
+          te passa o preço exato antes de você sair de casa.</p>
+        </div>
+        <div class="card">
+          <h3>Convênio</h3>
+          <!-- ✎ listar convênios aceitos -->
+          <p>Atendemos os principais convênios. Confirma o seu no WhatsApp — leva um minuto
+          e evita surpresa na recepção.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Perguntas frequentes</p>
+        <h2>O que todo mundo pergunta.</h2>
+      </div>
+      <details>
+        <summary>Preciso de pedido médico?</summary>
+        <div class="body">Sim. O ultrassom é um exame solicitado por um médico — é o pedido
+        que diz exatamente o que precisa ser avaliado. Se você perdeu o papel, fala com a
+        gente que a gente te orienta.</div>
+      </details>
+      <details>
+        <summary>Quanto tempo demora?</summary>
+        <div class="body">Entre 15 e 30 minutos, dependendo do exame. Chegue 10 minutos antes.</div>
+      </details>
+      <details>
+        <summary>Quando sai o laudo?</summary>
+        <div class="body"><b>No mesmo dia.</b> Você recebe impresso e também pelo WhatsApp,
+        se preferir.</div>
+      </details>
       <details>
         <summary>Dói?</summary>
-        <p>A gente usa anestésico tópico antes. A maior parte das pacientes descreve
-        como incômodo, não como dor. Se você tem baixa tolerância, fala na avaliação —
-        dá pra ajustar o manejo.</p>
+        <div class="body">Não. O ultrassom usa gel e um transdutor que desliza sobre a pele —
+        não tem agulha, não tem radiação. O único incômodo costuma ser a bexiga cheia,
+        quando o exame exige.</div>
       </details>
       <details>
-        <summary>Vai ficar com cara artificial?</summary>
-        <p>Cara artificial é resultado de excesso, não de procedimento. É exatamente por
-        isso que a avaliação existe: o plano define a quantidade mínima que resolve o que
-        te incomoda. Resultados variam de pessoa para pessoa.</p>
+        <summary>Posso levar acompanhante?</summary>
+        <div class="body">Pode. Em exame obstétrico, inclusive, a gente incentiva.</div>
       </details>
       <details>
-        <summary>Quanto custa?</summary>
-        <p>Depende do que o seu rosto precisa — e eu não tenho como saber isso por mensagem
-        sem te olhar. Por isso a avaliação vem antes e sai com os valores por escrito.
-        Você decide depois, em casa, com o papel na mão.</p>
+        <summary>Estou grávida, posso fazer?</summary>
+        <div class="body">Pode. O ultrassom não usa radiação e é o exame de imagem mais
+        seguro na gestação. Avisa a gente que você está grávida ao agendar.</div>
       </details>
-      <details>
-        <summary>Quanto tempo dura?</summary>
-        <p>Varia com o produto usado e com o seu metabolismo. Na avaliação eu te falo a
-        expectativa realista pro seu caso, e o retorno de 30 dias está incluso.</p>
-      </details>
-      <details>
-        <summary>Consigo trabalhar no dia seguinte?</summary>
-        <p>Na maioria dos casos sim. Pode haver inchaço ou pequenos hematomas nos primeiros
-        dias. Se você tem um compromisso importante, a gente agenda pensando nele.</p>
-      </details>
+    </div>
+  </section>
+
+  <section class="rv">
+    <div class="wrap">
+      <div class="head"><p class="eyebrow">Onde e quando</p></div>
+      <div class="local">
+        <dl>
+          <div>
+            <!-- ✎ endereço -->
+            <dt>Endereço</dt>
+            <dd>Rua Exemplo, 000 — Sala 00<br>Bairro · Cidade/UF</dd>
+          </div>
+          <div>
+            <!-- ✎ horário -->
+            <dt>Atendimento</dt>
+            <dd>Segunda a sexta, 8h às 18h<br>Sábado, 8h às 12h</dd>
+          </div>
+          <div>
+            <dt>Contato</dt>
+            <dd>
+              <a class="tel" href="tel:+550000000000">(00) 0000-0000</a> ·
+              <a class="tel" href="https://wa.me/5500000000000" data-cta="local">WhatsApp</a>
+            </dd>
+          </div>
+        </dl>
+      </div>
     </div>
   </section>
 
   <div class="close">
     <div class="wrap">
-      <h2>A avaliação é uma conversa. Não é um compromisso.</h2>
-      <div class="cta-row">
-        <a class="btn" href="https://wa.me/5500000000000?text=Oi!%20Quero%20agendar%20uma%20avalia%C3%A7%C3%A3o." data-cta="final">
+      <h2>Manda a foto do pedido. O resto a gente resolve.</h2>
+      <div class="cta">
+        <a class="btn btn-wa" href="https://wa.me/5500000000000?text=Oi!%20Quero%20marcar%20um%20ultrassom." data-cta="final">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
           Falar no WhatsApp
         </a>
-        <p class="cta-note">Segunda a sexta, 9h às 19h</p>
-      </div>
-      <!-- ✎ 9. endereço -->
-      <div class="addr">
-        <b>Onde fica</b>
-        Rua Exemplo, 000 — Sala 00<br>
-        Bairro · Cidade/UF
       </div>
     </div>
   </div>
@@ -504,27 +548,29 @@
 
 <footer>
   <div class="wrap">
-    <!-- ✎ 11. responsável técnica e CNPJ -->
-    <p>Responsável técnica: Dra. Nome Sobrenome — Registro 00000. CNPJ 00.000.000/0001-00.</p>
-    <p>Os resultados de procedimentos estéticos variam de pessoa para pessoa e dependem de
-    avaliação individual. Este site não substitui consulta presencial e não realiza
-    diagnóstico à distância.</p>
+    <!-- ✎ responsável técnico e CNPJ -->
+    <p>Responsável técnico: Dr. Eder Guimarães — CRM 00000/UF. CNPJ 00.000.000/0001-00.</p>
+    <p>Esta página tem caráter informativo e não substitui consulta médica. O ultrassom é
+    exame complementar, realizado mediante solicitação médica, e não fornece diagnóstico
+    isoladamente.</p>
   </div>
 </footer>
 
 <div class="dock">
-  <a class="btn" href="https://wa.me/5500000000000?text=Oi!%20Vim%20pelo%20site." data-cta="dock">
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
-    Falar no WhatsApp
-  </a>
+  <div class="inner">
+    <a class="btn btn-wa" href="https://wa.me/5500000000000?text=Oi!%20Quero%20marcar%20um%20ultrassom." data-cta="dock">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2"/></svg>
+      Mandar pedido
+    </a>
+    <a class="btn btn-tel" href="tel:+550000000000" data-cta="dock-tel">Ligar</a>
+  </div>
 </div>
 
 <script>
-  // Reveal suave por seção
   var rv = document.querySelectorAll('.rv');
   if (window.IntersectionObserver && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
@@ -533,10 +579,12 @@
     rv.forEach(function (el) { el.classList.add('in'); });
   }
 
-  // Evento de conversão — plugar Pixel/CAPI aqui (07-crm-integracao.md)
+  // Conversão — plugar gtag/Pixel aqui (07-crm-integracao.md)
   document.querySelectorAll('[data-cta]').forEach(function (a) {
     a.addEventListener('click', function () {
-      if (typeof fbq === 'function') { fbq('track', 'Contact', { source: a.dataset.cta }); }
+      var origem = a.dataset.cta;
+      if (typeof gtag === 'function') { gtag('event', 'conversion_contato', { origem: origem }); }
+      if (typeof fbq === 'function') { fbq('track', 'Contact', { source: origem }); }
     });
   });
 </script>

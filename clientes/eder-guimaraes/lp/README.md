@@ -1,63 +1,96 @@
-# LP — modelo de captação
+# LP — Dr. Eder Guimarães · Ultrassonografia
 
-Arquivo: `index.html` — página única, sem build, sem dependência. Sobe em
-qualquer lugar (Vercel, Netlify, Hostinger, Lovable) jogando o arquivo.
+Arquivo: `index.html` — página única, sem build, sem dependência externa
+(só as duas fontes do Google). Sobe em Vercel, Netlify, Hostinger ou Lovable
+jogando o arquivo.
 
 ## Papel dela no funil
 
-**Não é o destino do tráfego pago no mês 1.** No plano de R$ 1.000
-(`../06-trafego.md`) o anúncio vai **direto pro WhatsApp** (Click-to-WhatsApp) —
-LP no meio adiciona uma etapa de queda que a verba não banca.
+Diferente da LP de estética: aqui a LP **é o destino do tráfego pago**.
 
-A LP serve pra:
+O canal recomendado é **Google Busca** (`../04-funil.md`) — quem clica já tem o
+pedido médico na mão e está procurando onde fazer. Mandar esse clique direto pro
+WhatsApp perde a pessoa que quer ver antes se o exame dela está na lista, quanto
+custa e se aceita o convênio dela. A LP responde isso em 10 segundos e só então
+manda pro WhatsApp.
 
-| Uso | Por quê |
+Também é o destino do link da bio e da ficha do Google Maps.
+
+## A decisão de design que sustenta a página
+
+**O CTA principal é "manda a foto do pedido", não "agende sua consulta".**
+
+A paciente muitas vezes não sabe o nome do exame — está escrito num papel que ela
+não entende. Pedir que ela digite "ultrassom de abdome total" é fricção. Pedir uma
+foto é o clique mais fácil que existe, e ainda entrega pro agente exatamente o dado
+que ele precisa pra cotar e agendar.
+
+Isso precisa estar refletido no `05-agente-ia.md`: o agente tem que saber **ler
+imagem de pedido médico** e responder com exame + valor + preparo.
+
+## Seções, e por que cada uma existe
+
+| Seção | Trabalho que faz |
 |---|---|
-| Link da bio do Instagram | Transforma seguidor em conversa, de graça |
-| Prova social | É onde o **antes/depois pode viver** — no anúncio, não pode |
-| Remarketing (mês 2+) | Público de quem visitou e não chamou |
-| Encerrar objeção de preço | O FAQ responde "quanto custa" antes do WhatsApp |
+| Hero | Promete velocidade e remove a barreira do nome do exame |
+| 3 fatos | Laudo no mesmo dia · sem fila · feito pelo médico |
+| **Lista de exames** | É o motivo nº 1 da visita: "vocês fazem o meu?" |
+| Como funciona | Mostra que o primeiro passo custa 10 segundos |
+| **Preparo** | Reduz falta e exame perdido — o maior custo operacional |
+| O médico | Vira "recém-formado" em vantagem (ver abaixo) |
+| Convênio e valores | Segunda maior objeção depois de "vocês fazem?" |
+| FAQ | Tira o medo: dói? posso grávida? quando sai o laudo? |
+| Local | Google Busca é local — endereço e horário têm que estar visíveis |
 
-Quando o tráfego passar de ~R$ 3.000/mês, aí sim vale testar LP como destino
-contra o WhatsApp direto.
+## O posicionamento
 
-## Os 12 pontos de troca
+Não vender experiência que ele ainda não tem. A página vende o que é **verdade e é
+melhor** que o laboratório grande:
 
-Todos marcados no HTML com `<!-- ✎ -->`. Ordem de esforço:
+> Em laboratório grande, um técnico faz as imagens e outro profissional lauda depois,
+> sem ter visto você. Aqui quem passa o transdutor é quem assina o papel.
 
-1. Nome da clínica (header)
-2. Cidade (eyebrow do hero)
-3. Nome da profissional (seção "quem vai te atender" + footer)
-4. Procedimento (lede do hero + FAQ)
-5. Formação e registro
-6. Números de prova — **só número real**
-7. Depoimentos — reais, com autorização escrita
-8. Vagas do mês
-9. Endereço
-10. **Link do WhatsApp** — 4 ocorrências, buscar `5500000000000`
-11. CNPJ e responsável técnica
-12. Foto da profissional no lugar do círculo com iniciais
+E transforma a agenda vazia de recém-formado em benefício: *"a agenda é curta de
+propósito, cada exame tem o tempo que precisa ter"*.
+
+## O que trocar (marcado com ✎ no HTML)
+
+- Nome do serviço/clínica e cidade
+- **WhatsApp** — 5 ocorrências, buscar `5500000000000`
+- **Telefone** — 4 ocorrências, buscar `+550000000000`
+- Lista de exames — deixar só o que ele faz de verdade
+- CRM, ano de formação e título em ultrassonografia
+- Endereço e horário
+- Convênios aceitos e valores
+- CNPJ e responsável técnico
+- Foto do Eder no lugar do círculo com as iniciais
 
 ## Antes de publicar
 
-- [ ] Os 4 links do WhatsApp trocados e testados no celular
-- [ ] Números de prova conferidos com a clínica (número inventado é passivo)
-- [ ] Autorização de imagem de cada depoimento arquivada
-- [ ] Pixel instalado — o `data-cta` de cada botão já dispara `Contact`,
-      falta só carregar o Pixel na página (`../07-crm-integracao.md`)
-- [ ] Testado em tela pequena (iPhone SE) — a barra fixa não pode cobrir o footer
-- [ ] Testado nos dois temas (claro e escuro)
+- [ ] **Prazo do laudo confere?** A página promete "mesmo dia" — se não for real,
+      trocar. Promessa quebrada em saúde vira avaliação ruim no Google
+- [ ] **Preparos revisados pelo Eder.** Esse conteúdo é clínico e está na página
+      dele — ele assina, ele valida
+- [ ] Lista de exames enxugada pro que ele realmente faz
+- [ ] 5 links de WhatsApp e 4 de telefone testados no celular
+- [ ] Convênios conferidos com o contrato
+- [ ] Conversão ligada — os `data-cta` já disparam `gtag` e `fbq`, falta carregar a
+      tag (`../07-crm-integracao.md`)
+- [ ] Testado em tela pequena e nos dois temas
 
-## Compliance
+## Nota de compliance (CFM)
 
-O rodapé já traz responsável técnica e a ressalva de variação de resultado.
-Antes de subir, checar as regras do conselho da profissional (CFM, CRO, CRBM,
-COREN) — algumas vedam antes/depois inclusive em site próprio.
+Publicidade médica tem regra mais dura que estética. O rodapé já traz responsável
+técnico e a ressalva de que a página não substitui consulta. Antes de subir, checar
+com o Eder as vedações do CFM aplicáveis — em especial promessa de resultado,
+autopromoção comparativa e divulgação de preço, que varia conforme o entendimento
+do CRM do estado dele.
 
-## Notas de implementação
+## Notas técnicas
 
-- Fontes: Instrument Serif (display) + Karla (corpo), via Google Fonts
-- Tema claro e escuro completos, seguindo o tema do visitante
-- Sem imagem externa: o peso da página é só HTML + CSS + as duas fontes
-- `data-cta` em cada botão identifica de onde veio o clique (hero, oferta,
-  final, dock) — útil pra saber qual seção converte
+- Fontes: Newsreader (títulos) + IBM Plex Sans (operacional)
+- Tema claro e escuro completos
+- SVG do setor de varredura do ultrassom no fundo do hero (~600 bytes, inline)
+- Sem imagem externa — carrega rápido em 4G, que é onde a página vive
+- `data-cta` identifica de onde veio o clique: hero, hero-tel, local, final,
+  dock, dock-tel

@@ -58,17 +58,26 @@ Resumindo: no turbinar você compra like. No gerenciador você compra paciente.
 
 ## 4. "Quanto preciso investir por dia pra ver resultado de verdade?"
 
-Olha, a resposta honesta é: depende do teu ticket, né? Mas eu vou te dar um número prático.
+> ✅ Calibrada com o áudio do Kaian. Correções dele: R$50 é RECOMENDAÇÃO do Meta,
+> não lei (já teve resultado com 20-30); custo do lead depende do ticket e da cidade.
+> ⏱️ Ficou longa (~70s). Dá pra cortar no "E ó, já que a gente tá falando de número"
+> e transformar o final em um vídeo separado (o anti-guru rende sozinho).
 
-Cinquenta reais por dia. Esse é o piso, tá? E não é chute não — abaixo disso o Meta não tem volume pra aprender quem é o teu paciente. Ele fica cego, entendeu?
+Cara, olha, a resposta honesta é: depende do teu ticket. Mas eu consigo te dar um número prático, tá?
 
-O que que acontece? Cinquenta por dia dá mil e quinhentos no mês. Em estética, um lead qualificado sai entre quinze e trinta reais. Então tu tá falando aí de uns cinquenta, sessenta leads no mês.
+O recomendado pelo Meta é cinquenta reais por dia. Esse é o número que a plataforma pede pra ter volume e aprender quem é o teu paciente.
 
-Se tu fecha só dez por cento disso, são cinco, seis pacientes novos. Com ticket de dois mil reais, é dez, doze mil no caixa, cara.
+Só que eu vou ser sincero contigo: eu já tive campanha dando resultado com trinta, com vinte reais por dia. Depende muito da tua cidade, cara. Da quantidade de gente que tem naquele raio que tu tá anunciando. Cidade grande é um jogo, cidade pequena é outro. Simples assim.
 
-E ó, um aviso importante: não começa com trezentos por dia achando que vai três vezes mais rápido, tá? Porque tráfego pago é totalmente baseado em teste. Tu começa pequeno, acha o criativo que funciona, e AÍ escala.
+Agora, sobre quanto custa o lead. Isso muda MUITO conforme o teu ticket, tá?
 
-Escalar criativo ruim é só queimar dinheiro mais rápido.
+Deixa eu te dar um exemplo real: tricologia. O lead qualificado ali vai mais ou menos na casa dos duzentos, trezentos reais. E o custo por aquisição — o que tu paga pra fechar um paciente de verdade — fica em torno de mil e quinhentos reais.
+
+Aí tu pensa: "pô, mil e quinhentos pra trazer UM paciente?" Calma, velho. Se o procedimento é de dez, quinze mil reais, essa conta fecha muito bem.
+
+E ó, já que a gente tá falando de número, deixa eu te avisar de uma coisa: cuidado com essa galera da internet que promete que tu vai investir mil e quinhentos e faturar duzentos mil. Isso não existe, gente. Não existe milagre, não existe conto de fada. Tomem cuidado com essa galera.
+
+Tráfego é conta, é teste e é paciência. Quem te promete atalho tá vendendo ilusão.
 
 ---
 

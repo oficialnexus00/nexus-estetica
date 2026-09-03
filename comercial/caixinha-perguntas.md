@@ -37,6 +37,17 @@
 17. "Minha clínica é pequena, isso funciona pra quem tá começando?"
 18. "Em quanto tempo eu vejo resultado?"
 
+## Bloco 5 — Números / expectativa realista (temas que o Kaian levantou gravando)
+
+23. ⭐ "Vi um cara prometendo que R$1.500 em anúncio vira R$200 mil. Isso é real?"
+    - Ângulo: anti-guru. "Não existe milagre, não existe conto de fada."
+    - Pode virar corte do fim da resposta 4, mas rende melhor como vídeo próprio.
+24. "Por que o lead de um procedimento é muito mais caro que o de outro?"
+    - Ângulo: custo do lead acompanha o TICKET. Exemplo tricologia: lead R$200-300,
+      CPA ~R$1.500 — e fecha bem porque o procedimento é de dezena de milhar.
+25. "Moro numa cidade pequena. Tráfego funciona do mesmo jeito?"
+    - Ângulo: verba e custo mudam com o tamanho da população no raio do anúncio.
+
 ## Bloco 4 — Bastidor / autoridade (humaniza o perfil)
 
 19. "Como você começou nesse mercado?"

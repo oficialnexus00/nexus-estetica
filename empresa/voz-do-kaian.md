@@ -7,9 +7,11 @@
 
 ## Vocativos (como ele chama o interlocutor)
 - **cara** — o mais frequente
+- **velho** — usa quando vai dar uma bronca carinhosa / trazer pro chão ("Calma, velho")
+- **gente** — quando fala com a plateia toda, geralmente pra alertar ("Isso não existe, gente")
 - **mano**, **irmão** — informal, entre pares
 - **pai** — só em contexto muito descontraído
-- Em conteúdo pra clínica: usar **cara** e evitar "mano/irmão/pai"
+- Em conteúdo pra clínica: usar **cara**, **velho** e **gente**; evitar "mano/irmão/pai"
   (o público é dono de clínica, não amigo)
 
 ## Marcadores de fala (usar de propósito nos roteiros)
@@ -30,8 +32,23 @@
 - **e tem mais** — emenda argumento
 - **resumindo** — abre o fecho
 - **na real** — introduz a verdade dura
-- **deixa eu te falar / deixa eu te fazer uma pergunta** — abre bloco
+- **deixa eu te falar / deixa eu te fazer uma pergunta / deixa eu te dar um exemplo** — abre bloco
 - **de jeito nenhum** — nega com ênfase
+- **vamos lá** — antes de puxar um exemplo prático
+- **simples assim** — fecha um ponto sem enrolar
+- **calma** — quando vai desarmar uma objeção ("Calma, velho")
+- **tomem cuidado** — imperativo no plural quando alerta sobre o mercado
+
+## Postura editorial (o que ele defende publicamente)
+- **Anti-guru.** Detesta promessa de milagre. Chama de "essa galera da internet".
+  Bordão: "não existe milagre, não existe conto de fada".
+- **Honestidade sobre número.** Prefere dar a faixa real e o "depende" do que
+  vender número redondo bonito. Corrige quem simplifica demais (inclusive eu).
+- **Contextualiza sempre**: custo de lead depende do TICKET; verba depende da
+  CIDADE / tamanho da população no raio do anúncio.
+- Evita jargão quando fala com dono de clínica: falou "CPM" e se corrigiu
+  ("não precisa falar CPM não") → traduzir pra "quantidade de gente naquele raio".
+  Já "CPA / custo por aquisição" ele explica na hora e pode usar.
 
 ## Traços gramaticais da fala dele (manter, não "corrigir")
 - **Mistura tu e você na mesma fala** — sotaque de Santa Catarina.

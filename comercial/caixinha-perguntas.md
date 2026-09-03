@@ -10,7 +10,8 @@
    - Ângulo: agência generalista vs. quem SÓ faz estética; 80% do resultado é o criativo.
 2. ⭐ "Meu anúncio só traz curioso que pergunta preço e some. O que eu tô fazendo de errado?"
    - Ângulo: o problema não é o anúncio, é o filtro (criativo + qualificação no WhatsApp).
-3. "Impulsionar post funciona ou é jogar dinheiro fora?"
+3. ⭐ "Qual a diferença entre impulsionar no botão turbinar e anunciar pelo gerenciador?"
+   - Ângulo: turbinar otimiza engajamento (curtida); gerenciador otimiza conversa/agendamento.
 4. "Quanto preciso investir por dia pra ver resultado de verdade?"
 5. "Vivo de indicação. Preciso mesmo de anúncio?"
 6. "Preciso aparecer dançando no Instagram pra atrair paciente?"
@@ -29,7 +30,7 @@
 
 ## Bloco 3 — Medos / objeções
 
-14. ⭐ "Tenho medo de pagar e não ter retorno. Como funciona sem contrato?"
+14. ⭐ "Tenho medo de assumir um contrato e não ter retorno."
     - Ângulo: reversão de risco — sem fidelidade, cancela quando quiser; o risco é nosso.
 15. "Anúncio pra área da saúde não dá problema com o Conselho?"
 16. "Tenho medo de lotar a agenda e não dar conta do atendimento."

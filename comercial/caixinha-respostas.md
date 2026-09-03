@@ -1,7 +1,7 @@
 # Caixinha — respostas prontas pro teleprompter
 
 > Escritas na fala do Kaian (vícios de linguagem de propósito: cara, ó, pô, entendeu).
-> Lê natural, sem pressa. Cada uma dá 30-50s. Fecho padrão: chama mais pergunta.
+> Lê natural, sem pressa. Cada uma dá 30-50s. A numeração bate com `caixinha-perguntas.md`.
 > Regra de gravação: lê a pergunta em voz alta ANTES (ou coloca na tela) e emenda.
 
 ---
@@ -17,8 +17,6 @@ E olha, tráfego é oitenta por cento criativo. Se o criativo é fraco, não tem
 A gente só trabalha com estética. Só isso. A gente sabe o que faz uma paciente parar o dedo no anúncio, porque a gente vê isso todo dia.
 
 Não é mágica, é foco. Entendeu a diferença?
-
-Manda a tua pergunta aqui na caixinha que eu respondo.
 
 ---
 
@@ -36,49 +34,67 @@ Curioso vira paciente quando o processo tá certo. Testa isso essa semana e me c
 
 ---
 
-## 3. "Chega lead à noite e no domingo e eu só respondo no dia seguinte. Tô perdendo muito?"
+## 3. "Qual a diferença entre impulsionar no botão 'turbinar' e anunciar pelo gerenciador?"
 
-Tô com uma notícia ruim: tá perdendo mais do que você imagina.
+Cara, essa pergunta é ótima, porque é exatamente aí que a maioria queima dinheiro sem perceber.
 
-Lead é igual café, cara. Quente é uma coisa, frio ninguém quer. A pessoa te chamou às dez da noite porque NAQUELE momento ela tava decidida. No dia seguinte ela já esfriou, já pesquisou concorrente, já desistiu, sei lá.
+O botão turbinar é o caminho fácil que o Instagram te oferece. Só que ele foi feito pra uma coisa: engajamento. Curtida, comentário, visualização. E pô, curtida não paga boleto, né?
 
-E pô, ninguém vai ficar de plantão no WhatsApp meia-noite, né? Nem você, nem tua secretária.
+No gerenciador você escolhe o objetivo de verdade. Eu quero conversa no WhatsApp. Eu quero agendamento. E aí o Meta vai atrás de quem tem histórico de CONVERSAR, não de quem tem histórico de curtir. É outro público, cara. Completamente outro.
 
-É exatamente pra isso que existe secretária de inteligência artificial. Ela pega esse lead da noite, do domingo, do feriado, responde na hora, tira dúvida e já deixa encaminhado. Você acorda com o paciente respondido.
+E tem mais: no gerenciador você testa cinco criativos ao mesmo tempo pra ver qual funciona, exclui quem já é teu paciente, cria público parecido com quem já comprou. No turbinar você não faz nada disso — você só entrega a verba e reza.
 
-O lead que chega fora do horário é o mais barato que existe — porque todo mundo ignora ele.
-
----
-
-## 4. "Minha secretária não dá conta do WhatsApp e ainda cuida da recepção. Isso é normal?"
-
-É normal, é comum... e tá te custando caro.
-
-Ó, presta atenção numa coisa: não é culpa da tua secretária. Ela tá atendendo o paciente no balcão, o telefone tocando, e o WhatsApp pingando ao mesmo tempo. Não existe ser humano que dê conta disso bem feito.
-
-Só que o lead do WhatsApp não espera. Se demorou uma hora, ele já chamou outra clínica. Aí você paga anúncio pra trazer o lead, e ele morre na fila do WhatsApp. É dinheiro no lixo, cara.
-
-A solução não é contratar mais gente. É colocar um sistema que responde em segundos, qualifica, e só passa pra tua equipe o que precisa de gente de verdade.
-
-Tua secretária cuida de quem tá NA clínica. A IA cuida de quem quer ENTRAR na clínica.
+Resumindo: no turbinar você compra like. No gerenciador você compra paciente.
 
 ---
 
-## 5. "Tenho medo de pagar e não ter retorno. Como funciona esse negócio de sem contrato?"
+## 4. "Quanto preciso investir por dia pra ver resultado de verdade?"
 
-Cara, esse medo é super justo. Todo mundo já se queimou com promessa de agência, né?
+Olha, a resposta honesta é: depende do teu ticket. Mas eu te dou um número prático.
 
-Por isso eu faço o que quase ninguém tem coragem de fazer: sem contrato, sem fidelidade, sem multa. Não gostou do resultado? Cancela. Na hora, sem choro, sem burocracia.
+Cinquenta reais por dia. Esse é o piso. E não é chute, não — abaixo disso o Meta não tem volume pra aprender quem é o teu paciente. Ele fica cego, entendeu?
 
-E deixa eu te explicar por que eu posso fazer isso: eu não vivo de prender cliente em contrato. Eu vivo de resultado. Se eu não encher a tua agenda, é justo você ir embora — e eu não quero teu dinheiro se eu não te der retorno.
+Faz a conta comigo: cinquenta por dia dá mil e quinhentos no mês. Em estética, um lead qualificado sai entre quinze e trinta reais. Então você tá falando de uns cinquenta, sessenta leads no mês.
 
-Quando o risco é todo meu, quem tem que entregar sou eu. Simples assim.
+Se você fecha só dez por cento disso, são cinco, seis pacientes novos. Com ticket de dois mil reais, é dez, doze mil no caixa.
 
-Se quiser entender como funciona pra tua clínica, me chama que eu te mostro.
+E ó, um aviso importante: não começa com trezentos por dia achando que vai três vezes mais rápido. Começa pequeno, acha o criativo que funciona, e AÍ escala. Escalar criativo ruim é só queimar dinheiro mais rápido.
 
 ---
 
-## 6. "IA no WhatsApp não fica robótico? O paciente não percebe?"
+## 5. "Vivo de indicação. Preciso mesmo de anúncio?"
+
+Indicação é maravilhosa, cara. É o lead mais barato e que mais fecha. Não tô aqui pra falar mal disso, de jeito nenhum.
+
+Mas deixa eu te fazer uma pergunta: você consegue prever quantas indicações vão chegar mês que vem?
+
+Não consegue, né? E é aí que mora o problema. Mês bom, mês ruim, e você não sabe por quê. Isso não é negócio, cara, isso é sorte. E sorte não paga folha, não paga aluguel.
+
+Anúncio não vem pra substituir indicação. Ele vem pra preencher o buraco. Nos meses em que a indicação some, o tráfego segura a tua agenda.
+
+E tem uma coisa que quase ninguém fala: indicação tem teto. Ela depende de quantos pacientes você já tem. Se você quer crescer de verdade, uma hora precisa entrar gente nova.
+
+Previsibilidade. É disso que a gente tá falando.
+
+---
+
+## 7. "Tenho vergonha de gravar vídeo. Dá pra captar paciente sem aparecer?"
+
+Primeiro: você não tá sozinho nessa. Todo mundo trava, principalmente quem passou a vida sendo técnico, estudando pra ser bom no procedimento, não pra aparecer.
+
+E dá pra rodar sem você aparecer, sim. Dá pra fazer criativo com o procedimento acontecendo, com antes e depois, com depoimento de paciente. Funciona.
+
+Mas eu vou ser honesto contigo: converte menos. Porque em estética o paciente não tá comprando o procedimento — ele tá comprando confiança em QUEM vai fazer nele. Ele quer ver tua cara, ouvir tua voz.
+
+Agora ó, o que eu vejo na prática: o problema quase nunca é vergonha. É não saber o que falar. A pessoa liga a câmera, dá branco, se enrola, se acha péssima e desiste.
+
+Por isso a gente manda o roteiro pronto. Você não pensa em nada, só lê e grava. A edição é com a gente.
+
+E o primeiro vídeo é ruim pra todo mundo, viu? O décimo já tá bom. Tá tudo do outro lado da vergonha.
+
+---
+
+## 10. "IA no WhatsApp não fica robótico? O paciente não percebe?"
 
 Olha, se for aquele robozinho de menu — digite 1, digite 2 — percebe na hora e odeia. Eu também odeio, pô.
 
@@ -90,10 +106,121 @@ A real é essa: o paciente não quer saber se é IA ou humano. Ele quer ser bem 
 
 ---
 
+## 11. "E se a IA falar besteira pro meu paciente?"
+
+Medo justo, cara. Ninguém quer robô inventando coisa e queimando teu nome.
+
+Mas ó, a nossa não é ChatGPT solto. Ela é um agente treinado com o material da TUA clínica: teus procedimentos, teus valores, tua forma de falar. Ela não inventa preço que você não cadastrou, não promete resultado que você não oferece.
+
+E tem trava: quando ela não sabe alguma coisa, ela não chuta. Ela te passa o paciente na hora.
+
+Antes de entrar no ar, você testa. A gente treina junto, você conversa com ela, ajusta o que não gostou. Ela só vai pro ar quando VOCÊ aprovar.
+
+E isso aqui é importante: todas as conversas ficam no teu sistema. Você vê tudo, e pode assumir a conversa a qualquer momento. Se quiser, dá pra deixar ela só na triagem — ela coleta as informações e te entrega, sem falar de preço nem de procedimento.
+
+O controle é todo teu, cara. Ela trabalha do jeito que você mandar.
+
+---
+
+## 12. "Paciente marca avaliação e não aparece. Como diminuir esse furo?"
+
+Falta de paciente marcado é sangria silenciosa, cara. Mas tem solução, viu? Te dou três coisas práticas.
+
+Primeira: confirmação de verdade. Não é só mandar lembrete. É pedir resposta ativa. "Confirma pra mim que você vem?" Quando a pessoa responde SIM, ela assumiu um compromisso. Isso muda muito.
+
+Segunda: distância. Quanto mais longe o agendamento, mais gente falta. Marcou pra daqui duas semanas? Metade some. Tenta encaixar em até três, quatro dias.
+
+Terceira, e essa quase ninguém faz: qualificar antes. Se a pessoa nem sabe direito o que vai fazer, nem tem noção de valor, ela marca só pra dar uma olhada — e falta. Quem entendeu o valor antes, aparece.
+
+E a parte chata disso é a operação, né? Alguém tem que lembrar de confirmar, de fazer o follow-up. É exatamente isso que a IA faz sozinha: confirma vinte e quatro horas antes, lembra no dia, e se o cara não responde, ela insiste.
+
+Só arrumando isso dá pra derrubar o no-show pela metade.
+
+---
+
+## 14. "Tenho medo de assumir um contrato e não ter retorno."
+
+Cara, esse medo é super justo. Todo mundo já se queimou com promessa de agência, né? Assina doze meses, três meses depois quer sair e não consegue.
+
+Por isso eu faço o que quase ninguém tem coragem: sem contrato, sem fidelidade, sem multa. Não gostou do resultado? Cancela. Na hora, sem choro, sem burocracia.
+
+E deixa eu te explicar por que eu posso fazer isso: eu não vivo de prender cliente em papel. Eu vivo de resultado. Se eu não encher a tua agenda, é justo você ir embora — e eu não quero teu dinheiro se eu não te der retorno.
+
+Quando o risco é todo meu, adivinha quem tem que entregar todo mês? Eu.
+
+Então na real você não tá assumindo contrato nenhum. Você tá me dando um mês pra provar. Se eu não provar, você sai.
+
+---
+
+## 19. "Como você começou nesse mercado?"
+
+Cara, começou bem longe da saúde, viu?
+
+Dois mil e dezoito. Eu vendia óculos pela internet. Criei minha própria marca do zero — e já naquela época eu tava negociando margem com fornecedor chinês e prazo de entrega com cliente. Sem investidor, sem mentor, sem manual.
+
+E aí eu bati no problema que muda tudo: não adianta ter produto bom se ninguém vê.
+
+Fui obrigado a aprender anúncio, funil, venda. Na marra, errando com o meu próprio dinheiro. E o que começou como necessidade virou profissão.
+
+Quase uma década depois, rodando tráfego pra um monte de área, caiu a ficha: dono de clínica não precisa de mais um gestor de tráfego. Precisa de paciente na agenda e de tempo pra fazer o que ele estudou pra fazer.
+
+Foi assim que nasceu a NEXUS.
+
+---
+
+## 20. "Qual o maior erro que você vê dono de clínica cometendo?"
+
+O maior erro? Achar que o problema é falta de lead.
+
+Na esmagadora maioria das clínicas em que eu entro, tem lead. Tem gente chamando no direct, no WhatsApp, pedindo informação. O que não tem é processo pra transformar isso em paciente.
+
+O lead chega e demora duas horas pra ser respondido. Ou recebe uma tabela de preço seca. Ou pergunta, some, e ninguém faz follow-up.
+
+Aí o dono pensa: "preciso de mais anúncio". E aumenta a verba. Só que colocar mais lead num processo furado é encher balde com buraco no fundo, cara.
+
+E tem um segundo erro que anda junto com esse: ligar e desligar o anúncio. Agenda encheu, desliga. Esvaziou, liga de novo. Isso destrói o aprendizado da campanha e você recomeça do zero toda santa vez.
+
+Arruma o atendimento primeiro. Depois liga o tráfego. E deixa rodando.
+
+---
+
+## 21. "Um caso de cliente que te surpreendeu?"
+
+Tenho um que eu gosto de contar, porque os números são bem claros.
+
+Uma cliente minha, harmonização glútea. A gente investiu mil, quinhentos e cinquenta e cinco reais em anúncio. Isso é o que muita gente gasta num fim de semana, né?
+
+Em trinta dias, isso virou noventa e um mil, trezentos e oitenta e oito reais em procedimento fechado. Vinte e seis consultas.
+
+E sabe o que me surpreendeu? Não foi nem o número. Foi ela me falar que o que mudou mesmo foi parar de perder lead. Porque antes ela já recebia gente — só que sumia no WhatsApp.
+
+Não teve mágica: criativo certo, público certo, e ninguém ficou sem resposta.
+
+É por isso que eu bato tanto nessa tecla: tráfego sem atendimento é dinheiro no lixo.
+
+---
+
+## 22. "O que você faria HOJE se tivesse uma clínica do zero?"
+
+Boa pergunta. E eu faria bem diferente do que a maioria faz.
+
+Primeira coisa: eu escolheria UM procedimento carro-chefe. Um só. A galera erra querendo vender tudo pra todo mundo, e aí não vira referência em nada. Eu quero ser O cara de uma coisa.
+
+Segunda: eu arrumaria o WhatsApp ANTES de gastar um real em anúncio. Resposta rápida, qualificação, agendamento redondo. Porque não adianta trazer gente pra uma casa que não tá pronta pra receber.
+
+Terceira: aí sim, tráfego. Começando pequeno, cinquenta reais por dia, testando criativo até achar o que funciona.
+
+E o que eu NÃO faria: site bonito, logo caro, cartão de visita — essas coisas que dão sensação de progresso mas não trazem paciente. Isso vem depois, quando já tem caixa entrando.
+
+Resumindo: um procedimento, atendimento redondo, e tráfego. O resto é enfeite.
+
+---
+
 ## Dicas de leitura (teleprompter)
 
 - Lê UMA vez em voz alta antes de gravar; onde tropeçar, troca a palavra na hora
 - Fala com UMA pessoa, não com "audiência"
-- Nas viradas ("E olha", "Ó, presta atenção") — pausa meio segundo antes
-- Errou no meio? Continua. Corte de jump cut deixa até mais dinâmico
+- Nas viradas ("E olha", "Ó, presta atenção", "Agora ó") — pausa meio segundo antes
+- Errou no meio? Continua. Jump cut deixa até mais dinâmico
 - Energia de conversa de café, não de palestra
+- Fecho opcional pra qualquer uma: "manda a tua pergunta aqui na caixinha que eu respondo"

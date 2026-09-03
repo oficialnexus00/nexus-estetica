@@ -38,6 +38,17 @@
 - **simples assim** — fecha um ponto sem enrolar
 - **calma** — quando vai desarmar uma objeção ("Calma, velho")
 - **tomem cuidado** — imperativo no plural quando alerta sobre o mercado
+- **está bom?** — variação do "tá?" pra fechar a resposta inteira
+- **sem sombra de dúvidas** — reforça afirmação
+- **vamos supor que** — abre hipótese antes da pergunta retórica
+- **e vice-versa** — mostra que o raciocínio vale nos dois sentidos
+
+## Imagens/metáforas dele (usar, são autorais)
+- **"operação oxigenando"** — entrar gente nova sempre, não sufocar na base atual
+- **"preencher o buraco"** — o que o tráfego faz nos meses fracos
+- **"encher balde com buraco no fundo"** — mais lead num processo furado
+- **"dinheiro no lixo"** — tráfego sem atendimento
+- **"o Meta fica cego"** — sem volume a plataforma não aprende
 
 ## Postura editorial (o que ele defende publicamente)
 - **Anti-guru.** Detesta promessa de milagre. Chama de "essa galera da internet".

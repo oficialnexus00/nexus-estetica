@@ -83,17 +83,22 @@ Tráfego é conta, é teste e é paciência. Quem te promete atalho tá vendendo
 
 ## 5. "Vivo de indicação. Preciso mesmo de anúncio?"
 
-Indicação é maravilhosa, cara. É o lead mais barato e o que mais fecha. Não tô aqui pra falar mal disso, de jeito nenhum.
+> ✅ Calibrada com o áudio do Kaian. Ele acrescentou: a ressalva do PROGRAMA de
+> indicação estruturado, os outros canais (orgânico, e-mail) e o fecho "oxigenando".
 
-Mas deixa eu te fazer uma pergunta: tu consegue prever quantas indicações vão chegar mês que vem?
+Cara, indicação é maravilhosa, tá? Se tu tiver um programa de indicação bem definido dentro da tua operação, com um benefício, bem estruturado, é maravilhoso, entendeu?
 
-Não consegue, né? E é aí que mora o problema. Mês bom, mês ruim, e tu não sabe por quê. Isso não é negócio, cara, isso é sorte. E sorte não paga folha, não paga aluguel, tá?
+É o lead mais barato que tu vai fechar, sem sombra de dúvidas. E o mais rápido também. Então não tô aqui pra falar mal disso, de jeito nenhum.
 
-O que que acontece? Anúncio não vem pra substituir indicação. Ele vem pra preencher o buraco. Nos meses que a indicação some, o tráfego segura a tua agenda.
+Mas deixa eu te fazer uma pergunta. Vamos supor que tu não tem esse programa bem estruturado: tu consegue prever quantas indicações vão chegar mês que vem?
 
-E tem uma coisa que quase ninguém fala: indicação tem teto. Ela depende de quantos pacientes tu já tem. Se tu quer crescer de verdade, uma hora precisa entrar gente nova, entendeu?
+Não consegue, né? E é aí que mora o problema. Mês bom, mês ruim, e tu não sabe por quê. Isso não é negócio, cara, isso daí é sorte. E contar com a sorte não paga folha, não paga aluguel. Tu não tem previsibilidade nenhuma. Fica bem ruim, tá?
 
-Previsibilidade, cara. É disso que a gente tá falando.
+Agora ó: o anúncio ele não vem pra substituir a indicação. Ele vem pra preencher o buraco. Nos meses que a indicação some, o tráfego segura a tua agenda. E vice-versa. E isso vale pro orgânico, pro e-mail marketing, enfim — tudo que tu puder estar rodando junto.
+
+E tem uma coisa que quase ninguém fala: indicação tem teto, tá? Ela depende de quantos pacientes tu já tem. Se tu quer crescer de verdade, uma hora precisa entrar gente nova.
+
+Então tu tem que estar com a tua operação oxigenando toda hora. Não dá pra ficar dependendo só de indicação, está bom?
 
 ---
 

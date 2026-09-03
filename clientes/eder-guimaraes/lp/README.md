@@ -53,17 +53,57 @@ melhor** que o laboratório grande:
 E transforma a agenda vazia de recém-formado em benefício: *"a agenda é curta de
 propósito, cada exame tem o tempo que precisa ter"*.
 
-## O que trocar (marcado com ✎ no HTML)
+## Como preencher (bloco CONFIG)
 
-- Nome do serviço/clínica e cidade
-- **WhatsApp** — 5 ocorrências, buscar `5500000000000`
-- **Telefone** — 4 ocorrências, buscar `+550000000000`
-- Lista de exames — deixar só o que ele faz de verdade
-- CRM, ano de formação e título em ultrassonografia
-- Endereço e horário
-- Convênios aceitos e valores
-- CNPJ e responsável técnico
-- Foto do Eder no lugar do círculo com as iniciais
+Tudo que varia está num **único bloco no topo do `<script>`**, no fim do arquivo.
+Não precisa caçar texto no meio do HTML.
+
+```js
+var CONFIG = {
+  clinica:  "Dr. Eder Guimarães",
+  eyebrow:  "Ultrassonografia · Blumenau/SC",
+  whatsapp: "5547999999999",          // só números, com o 55
+  telefone: "554733333333",
+  ...
+  exames: ["Abdome total","Tireoide","Transvaginal"]
+};
+```
+
+**Campo em branco mantém o que já está na página.** Dá pra preencher aos poucos:
+hoje só o WhatsApp e a cidade, semana que vem os exames e o endereço — a página
+nunca quebra no meio.
+
+Os 6 links de WhatsApp e os 4 de telefone são reescritos sozinhos a partir de
+`whatsapp` e `telefone`. O texto pré-preenchido de cada botão é preservado
+(o do hero já vem com "vou mandar a foto do pedido").
+
+`exames: []` mantém a lista atual. Preenchendo o array, substitui a lista inteira.
+
+### Campos
+
+| Campo | O que é |
+|---|---|
+| `clinica` | Nome no topo da página |
+| `eyebrow` | "Ultrassonografia · Cidade/UF" |
+| `medico` / `crm` / `iniciais` | Bloco do profissional |
+| `whatsapp` / `telefone` / `telefoneTexto` | Contato (números só com dígitos) |
+| `endereco` / `horarioCurto` / `horarioCompleto` | Local e horário (aceita `<br>`) |
+| `laudoTitulo` | **Trocar se "mesmo dia" não for real** |
+| `convenios` | Texto do card de convênio |
+| `responsavel` | Linha do rodapé: responsável técnico + CNPJ |
+| `exames` | Lista de exames que ele faz |
+
+O texto que está hoje no HTML é o **fallback** — serve de exemplo e mantém a
+página apresentável enquanto o CONFIG estiver vazio.
+
+## O que trocar (também marcado com ✎ no HTML)
+
+Fora do CONFIG, só sobram três coisas, e todas exigem decisão humana:
+
+- **Foto do Eder** no lugar do círculo com as iniciais
+- **Valores particulares** — se ele quiser mostrar preço na página
+  (checar antes a regra do CRM do estado dele sobre divulgação de preço)
+- **Os textos de preparo** — são clínicos, ele valida e assina
 
 ## Antes de publicar
 

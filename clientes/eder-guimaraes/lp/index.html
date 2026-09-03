@@ -272,9 +272,9 @@
   <div class="wrap">
     <div class="bar">
       <!-- ✎ nome do serviço/clínica -->
-      <div class="brand"><i></i>Dr. Eder Guimarães</div>
+      <div class="brand"><i></i><span data-f="clinica">Dr. Eder Guimarães</span></div>
       <!-- ✎ telefone -->
-      <a class="tel" href="tel:+550000000000">(00) 0000-0000</a>
+      <a class="tel" href="tel:+550000000000" data-f="telefoneTexto">(00) 0000-0000</a>
     </div>
   </div>
 </header>
@@ -293,7 +293,7 @@
     </svg>
     <div class="wrap">
       <!-- ✎ cidade -->
-      <p class="eyebrow">Ultrassonografia · Cidade/UF</p>
+      <p class="eyebrow" data-f="eyebrow">Ultrassonografia · Cidade/UF</p>
       <h1>Você tem o pedido. A gente resolve <em>hoje.</em></h1>
       <p class="lede">
         Manda a foto do pedido no WhatsApp. A gente te diz o preço, o preparo
@@ -308,11 +308,11 @@
         <a class="btn btn-tel" href="tel:+550000000000" data-cta="hero-tel">Ligar agora</a>
       </div>
       <!-- ✎ horário -->
-      <p class="cta-note">Segunda a sexta, 8h às 18h · Sábado até 12h</p>
+      <p class="cta-note" data-f="horarioCurto">Segunda a sexta, 8h às 18h · Sábado até 12h</p>
 
       <div class="facts">
         <!-- ✎ conferir se o prazo do laudo é real antes de publicar -->
-        <div class="fact"><b>Laudo no mesmo dia</b><small>Você sai daqui com o resultado em mãos</small></div>
+        <div class="fact"><b data-f="laudoTitulo">Laudo no mesmo dia</b><small>Você sai daqui com o resultado em mãos</small></div>
         <div class="fact"><b>Sem fila de espera</b><small>Agenda curta, hora marcada de verdade</small></div>
         <div class="fact"><b>Feito pelo médico</b><small>Quem examina é quem assina o laudo</small></div>
       </div>
@@ -327,7 +327,7 @@
         <p class="sub">Se o seu não estiver na lista, manda a foto mesmo assim — a gente confirma na hora.</p>
       </div>
       <!-- ✎ ajustar para os exames que ele REALMENTE faz -->
-      <div class="exams">
+      <div class="exams" data-list="exames">
         <div class="exam">Abdome total</div>
         <div class="exam">Abdome superior</div>
         <div class="exam">Rins e vias urinárias</div>
@@ -423,10 +423,10 @@
     <div class="wrap">
       <div class="head"><p class="eyebrow">Quem faz o seu exame</p></div>
       <div class="doc">
-        <div class="ph">EG</div>
-        <h2>Dr. Eder Guimarães</h2>
+        <div class="ph" data-f="iniciais">EG</div>
+        <h2 data-f="medico">Dr. Eder Guimarães</h2>
         <!-- ✎ CRM, ano de formação e título/curso de ultrassonografia -->
-        <p class="crm">CRM 00000/UF · Ultrassonografia</p>
+        <p class="crm" data-f="crm">CRM 00000/UF · Ultrassonografia</p>
         <p>
           Em laboratório grande, muitas vezes um técnico faz as imagens e outro
           profissional escreve o laudo depois, sem ter visto você. Aqui não funciona assim:
@@ -460,7 +460,7 @@
         <div class="card">
           <h3>Convênio</h3>
           <!-- ✎ listar convênios aceitos -->
-          <p>Atendemos os principais convênios. Confirma o seu no WhatsApp — leva um minuto
+          <p data-f="convenios">Atendemos os principais convênios. Confirma o seu no WhatsApp — leva um minuto
           e evita surpresa na recepção.</p>
         </div>
       </div>
@@ -514,17 +514,17 @@
           <div>
             <!-- ✎ endereço -->
             <dt>Endereço</dt>
-            <dd>Rua Exemplo, 000 — Sala 00<br>Bairro · Cidade/UF</dd>
+            <dd data-f="endereco">Rua Exemplo, 000 — Sala 00<br>Bairro · Cidade/UF</dd>
           </div>
           <div>
             <!-- ✎ horário -->
             <dt>Atendimento</dt>
-            <dd>Segunda a sexta, 8h às 18h<br>Sábado, 8h às 12h</dd>
+            <dd data-f="horarioCompleto">Segunda a sexta, 8h às 18h<br>Sábado, 8h às 12h</dd>
           </div>
           <div>
             <dt>Contato</dt>
             <dd>
-              <a class="tel" href="tel:+550000000000">(00) 0000-0000</a> ·
+              <a class="tel" href="tel:+550000000000" data-f="telefoneTexto">(00) 0000-0000</a> ·
               <a class="tel" href="https://wa.me/5500000000000" data-cta="local">WhatsApp</a>
             </dd>
           </div>
@@ -549,7 +549,7 @@
 <footer>
   <div class="wrap">
     <!-- ✎ responsável técnico e CNPJ -->
-    <p>Responsável técnico: Dr. Eder Guimarães — CRM 00000/UF. CNPJ 00.000.000/0001-00.</p>
+    <p data-f="responsavel">Responsável técnico: Dr. Eder Guimarães — CRM 00000/UF. CNPJ 00.000.000/0001-00.</p>
     <p>Esta página tem caráter informativo e não substitui consulta médica. O ultrassom é
     exame complementar, realizado mediante solicitação médica, e não fornece diagnóstico
     isoladamente.</p>
@@ -565,6 +565,75 @@
     <a class="btn btn-tel" href="tel:+550000000000" data-cta="dock-tel">Ligar</a>
   </div>
 </div>
+
+<script>
+  /* ═══════════════════════════════════════════════════════════════════
+     CONFIG — o único lugar que você precisa editar.
+     Campo em branco ("") mantém o texto que já está no HTML.
+     Preencha só o que já souber; o resto vai entrando com o tempo.
+     ═══════════════════════════════════════════════════════════════════ */
+  var CONFIG = {
+    clinica:         "",   // "Dr. Eder Guimarães" ou o nome da clínica
+    eyebrow:         "",   // "Ultrassonografia · Blumenau/SC"
+    medico:          "",   // "Dr. Eder Guimarães"
+    iniciais:        "",   // "EG" — some quando entrar foto de verdade
+    crm:             "",   // "CRM 12345/SC · Ultrassonografia Geral"
+
+    whatsapp:        "",   // SÓ NÚMEROS com 55: "5547999999999"
+    telefone:        "",   // SÓ NÚMEROS com 55: "554733333333"
+    telefoneTexto:   "",   // como aparece na tela: "(47) 3333-3333"
+
+    endereco:        "",   // usa <br> pra quebrar linha
+    horarioCurto:    "",   // linha embaixo do botão do hero
+    horarioCompleto: "",   // bloco "Onde e quando" — usa <br>
+
+    laudoTitulo:     "",   // "Laudo no mesmo dia" — TROCAR se não for verdade
+    convenios:       "",   // "Unimed, Bradesco Saúde e SulAmérica. Confirme o seu..."
+    responsavel:     "",   // linha do rodapé: responsável técnico + CNPJ
+
+    // Deixe [] pra manter a lista que está no HTML.
+    // Preenchendo, substitui a lista inteira — só o que ele faz de verdade.
+    exames: []
+      // Exemplo:
+      // ["Abdome total","Tireoide","Transvaginal","Obstétrico","Mamas"]
+  };
+
+  (function aplicarConfig(){
+    // textos simples
+    Object.keys(CONFIG).forEach(function (campo) {
+      var valor = CONFIG[campo];
+      if (typeof valor !== 'string' || valor === '') return;
+      document.querySelectorAll('[data-f="' + campo + '"]').forEach(function (el) {
+        el.innerHTML = valor;
+      });
+    });
+
+    // lista de exames
+    if (Array.isArray(CONFIG.exames) && CONFIG.exames.length) {
+      document.querySelectorAll('[data-list="exames"]').forEach(function (grid) {
+        grid.innerHTML = CONFIG.exames.map(function (nome) {
+          var d = document.createElement('div');
+          d.textContent = nome;
+          return '<div class="exam">' + d.innerHTML + '</div>';
+        }).join('');
+      });
+    }
+
+    // links de WhatsApp — preserva o texto pré-preenchido de cada botão
+    if (CONFIG.whatsapp) {
+      document.querySelectorAll('a[href*="wa.me/"]').forEach(function (a) {
+        a.href = a.href.replace(/wa\.me\/\d+/, 'wa.me/' + CONFIG.whatsapp);
+      });
+    }
+
+    // links de telefone
+    if (CONFIG.telefone) {
+      document.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
+        a.href = 'tel:+' + CONFIG.telefone;
+      });
+    }
+  })();
+</script>
 
 <script>
   var rv = document.querySelectorAll('.rv');

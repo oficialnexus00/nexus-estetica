@@ -36,13 +36,21 @@ Curioso vira paciente quando o processo tá certo. Testa isso essa semana e me c
 
 ## 3. "Qual a diferença entre impulsionar no botão 'turbinar' e anunciar pelo gerenciador?"
 
-Cara, essa pergunta é ótima, porque é exatamente aí que a maioria queima dinheiro sem perceber.
+> ✅ Calibrada com o áudio do Kaian (a fala é dele, só limpei as repetições).
 
-O botão turbinar é o caminho fácil que o Instagram te oferece. Só que ele foi feito pra uma coisa: engajamento. Curtida, comentário, visualização. E pô, curtida não paga boleto, né?
+Cara, essa pergunta é ótima, né? Porque é exatamente aí que muita gente perde dinheiro sem perceber.
 
-No gerenciador você escolhe o objetivo de verdade. Eu quero conversa no WhatsApp. Eu quero agendamento. E aí o Meta vai atrás de quem tem histórico de CONVERSAR, não de quem tem histórico de curtir. É outro público, cara. Completamente outro.
+O que que acontece? O botão turbinar é o caminho fácil que o Instagram te oferece. Só que ele foi feito pra uma coisa apenas: engajamento. Então tu vai ganhar curtida, comentário, visualização. E cara, curtida e seguidor não paga boleto, tá?
 
-E tem mais: no gerenciador você testa cinco criativos ao mesmo tempo pra ver qual funciona, exclui quem já é teu paciente, cria público parecido com quem já comprou. No turbinar você não faz nada disso — você só entrega a verba e reza.
+Se tu transformar essa audiência em paciente, em cliente, ok. Mas ali não é o melhor lugar.
+
+No gerenciador de anúncios você escolhe o objetivo de verdade. Por exemplo: eu quero conversa no WhatsApp, eu quero agendamento. E aí o Meta ele vai atrás de quem tem histórico de CONVERSAR, não de quem tem histórico de curtir, entendeu? É outro público, cara. É completamente outro.
+
+E tem mais: no gerenciador você testa cinco criativos ao mesmo tempo pra ver qual funciona. Diferentemente do turbinar, que só vai turbinar um — então tu não tem essa opção de teste, tá?
+
+E tráfego pago é totalmente baseado em teste. Então você tem muito mais opção de testar ângulo, testar abordagem, enfim. E ali você ainda consegue filtrar — hoje você filtra no próprio criativo, tá?
+
+No turbinar você não faz nada disso. Você só entrega a verba e reza pra dar certo.
 
 Resumindo: no turbinar você compra like. No gerenciador você compra paciente.
 
@@ -50,31 +58,33 @@ Resumindo: no turbinar você compra like. No gerenciador você compra paciente.
 
 ## 4. "Quanto preciso investir por dia pra ver resultado de verdade?"
 
-Olha, a resposta honesta é: depende do teu ticket. Mas eu te dou um número prático.
+Olha, a resposta honesta é: depende do teu ticket, né? Mas eu vou te dar um número prático.
 
-Cinquenta reais por dia. Esse é o piso. E não é chute, não — abaixo disso o Meta não tem volume pra aprender quem é o teu paciente. Ele fica cego, entendeu?
+Cinquenta reais por dia. Esse é o piso, tá? E não é chute não — abaixo disso o Meta não tem volume pra aprender quem é o teu paciente. Ele fica cego, entendeu?
 
-Faz a conta comigo: cinquenta por dia dá mil e quinhentos no mês. Em estética, um lead qualificado sai entre quinze e trinta reais. Então você tá falando de uns cinquenta, sessenta leads no mês.
+O que que acontece? Cinquenta por dia dá mil e quinhentos no mês. Em estética, um lead qualificado sai entre quinze e trinta reais. Então tu tá falando aí de uns cinquenta, sessenta leads no mês.
 
-Se você fecha só dez por cento disso, são cinco, seis pacientes novos. Com ticket de dois mil reais, é dez, doze mil no caixa.
+Se tu fecha só dez por cento disso, são cinco, seis pacientes novos. Com ticket de dois mil reais, é dez, doze mil no caixa, cara.
 
-E ó, um aviso importante: não começa com trezentos por dia achando que vai três vezes mais rápido. Começa pequeno, acha o criativo que funciona, e AÍ escala. Escalar criativo ruim é só queimar dinheiro mais rápido.
+E ó, um aviso importante: não começa com trezentos por dia achando que vai três vezes mais rápido, tá? Porque tráfego pago é totalmente baseado em teste. Tu começa pequeno, acha o criativo que funciona, e AÍ escala.
+
+Escalar criativo ruim é só queimar dinheiro mais rápido.
 
 ---
 
 ## 5. "Vivo de indicação. Preciso mesmo de anúncio?"
 
-Indicação é maravilhosa, cara. É o lead mais barato e que mais fecha. Não tô aqui pra falar mal disso, de jeito nenhum.
+Indicação é maravilhosa, cara. É o lead mais barato e o que mais fecha. Não tô aqui pra falar mal disso, de jeito nenhum.
 
-Mas deixa eu te fazer uma pergunta: você consegue prever quantas indicações vão chegar mês que vem?
+Mas deixa eu te fazer uma pergunta: tu consegue prever quantas indicações vão chegar mês que vem?
 
-Não consegue, né? E é aí que mora o problema. Mês bom, mês ruim, e você não sabe por quê. Isso não é negócio, cara, isso é sorte. E sorte não paga folha, não paga aluguel.
+Não consegue, né? E é aí que mora o problema. Mês bom, mês ruim, e tu não sabe por quê. Isso não é negócio, cara, isso é sorte. E sorte não paga folha, não paga aluguel, tá?
 
-Anúncio não vem pra substituir indicação. Ele vem pra preencher o buraco. Nos meses em que a indicação some, o tráfego segura a tua agenda.
+O que que acontece? Anúncio não vem pra substituir indicação. Ele vem pra preencher o buraco. Nos meses que a indicação some, o tráfego segura a tua agenda.
 
-E tem uma coisa que quase ninguém fala: indicação tem teto. Ela depende de quantos pacientes você já tem. Se você quer crescer de verdade, uma hora precisa entrar gente nova.
+E tem uma coisa que quase ninguém fala: indicação tem teto. Ela depende de quantos pacientes tu já tem. Se tu quer crescer de verdade, uma hora precisa entrar gente nova, entendeu?
 
-Previsibilidade. É disso que a gente tá falando.
+Previsibilidade, cara. É disso que a gente tá falando.
 
 ---
 

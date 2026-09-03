@@ -13,15 +13,33 @@
   (o público é dono de clínica, não amigo)
 
 ## Marcadores de fala (usar de propósito nos roteiros)
-- **ó** — pra chamar atenção antes de um ponto ("Ó, presta atenção nisso")
-- **pô** — indignação leve / ênfase ("pô, curtida não paga boleto")
-- **né?** — busca de concordância, fim de frase
+> Confirmados em áudio dele lendo a resposta 3 (turbinar vs gerenciador).
+
+**Os três mais frequentes — polvilhar em TODO roteiro:**
+- **tá?** — fecha frase e confirma entendimento. Altíssima frequência. ("Ele fica cego, tá?")
+- **né?** — quase uma vírgula na fala dele. ("essa pergunta é ótima, né?")
+- **cara** — vocativo padrão. ("É outro público, cara.")
+
+**Viradas e conectores:**
+- **O que que acontece?** — abre a explicação depois do gancho
+- **ó** — chama atenção antes do ponto ("Ó, um aviso importante")
+- **pô** — indignação leve / ênfase
 - **entendeu?** — fecha um raciocínio
-- **tipo assim** — introduz exemplo
+- **por exemplo** — introduz exemplo concreto
+- **enfim** — fecha enumeração sem listar tudo
+- **e tem mais** — emenda argumento
+- **resumindo** — abre o fecho
 - **na real** — introduz a verdade dura
-- **deixa eu te falar / deixa eu te explicar** — abre explicação
-- **presta atenção** — antes do ponto-chave
-- **a real é essa** — antes da conclusão
+- **deixa eu te falar / deixa eu te fazer uma pergunta** — abre bloco
+- **de jeito nenhum** — nega com ênfase
+
+## Traços gramaticais da fala dele (manter, não "corrigir")
+- **Mistura tu e você na mesma fala** — sotaque de Santa Catarina.
+  "tu vai ganhar curtida... no gerenciador você escolhe o objetivo"
+  Não padronizar: a alternância é o que soa natural na boca dele.
+- **Pronome repetido**: "o Meta ELE vai atrás", "tráfego pago ELE é baseado em teste"
+- **Concessão honesta antes de seguir**: "ok, mas ali não é o melhor lugar"
+- **Repete a palavra-chave pra enfatizar**: "É outro público, cara. É completamente outro."
 
 ## Adjetivos e reações (vocabulário real dele)
 - **foda / pra caralho** — muito bom (uso interno, não em conteúdo de clínica)
@@ -37,10 +55,18 @@
 
 ## Bordões / teses recorrentes dele
 - "Tráfego é oitenta por cento criativo"
+- **"Tráfego pago é totalmente baseado em teste"** ← tese dele, usar sempre que falar de verba/escala
 - "Tráfego sem atendimento é dinheiro no lixo"
+- "Curtida e seguidor não paga boleto"
+- "No turbinar você compra like, no gerenciador você compra paciente"
 - "A gente só trabalha com estética"
 - "Eu não vivo de prender cliente em contrato, eu vivo de resultado"
 - "Colocar mais lead num processo furado é encher balde com buraco no fundo"
+
+## Vocabulário técnico que ele usa naturalmente
+- **ângulo** (de criativo), **abordagem**, **teste**, **verba**, **objetivo**
+- **lead qualificado**, **ticket**, **público**
+- Fala "gerenciador de anúncios" por extenso, não "Ads Manager"
 
 ## O que NÃO usar (soa falso na boca dele)
 - Palavra de guru: "mindset", "escalar sua operação", "destravar seu potencial"

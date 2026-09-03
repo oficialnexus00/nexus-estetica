@@ -100,7 +100,11 @@
 - Palavra de guru: "mindset", "escalar sua operação", "destravar seu potencial"
 - Formalidade: "portanto", "todavia", "isto posto", "caro empresário"
 - Tradutês: "no final do dia", "fazer sentido pra você" (em excesso)
-- Frase longa com travessão no meio — ele fala em blocos curtos
+- **TRAVESSÃO (—): proibido em qualquer roteiro dele.** Pedido explícito do Kaian.
+  Atrapalha a leitura no teleprompter e não é do jeito dele falar.
+  No lugar: ponto, vírgula, dois-pontos, ou reescreve a frase.
+  Errado: "não é o procedimento — é a confiança"
+  Certo: "não é o procedimento. É a confiança"
 - Superlativo vazio: "revolucionário", "incrível", "único"
 
 ## Números que ele cita de cabeça (sempre por extenso no teleprompter)
